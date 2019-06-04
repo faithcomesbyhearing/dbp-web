@@ -955,7 +955,7 @@ export function* getCopyrightSaga({ filesetIds }) {
         request,
         `${process.env.BASE_API_ROUTE}/bibles/filesets/${
           videoFileset.id
-        }/copyright?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-vid&type=${
+        }/copyright?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-prod&type=${
           videoFileset.type
         }`,
       );
