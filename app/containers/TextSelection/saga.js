@@ -23,8 +23,17 @@ export function* getCountries() {
   }&v=4&has_filesets=true&include_languages=true`;
 
   try {
-    const response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    const countriesObject = response.data.reduce((acc, country) => {
+    let data = [];
+
+    let response = yield call(cachedFetch, requestUrl, {}, oneDay);
+    data.push(...response.data);
+
+    while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
+      response = yield call(cachedFetch, requestUrl + `&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      data.push(...response.data);
+    }
+
+    const countriesObject = data.reduce((acc, country) => {
       const tempObj = acc;
       if (typeof country.name !== 'string') {
         tempObj[country.name.name] = { ...country, name: country.name.name };
@@ -164,9 +173,15 @@ export function* getLanguages() {
   }&v=4&has_filesets=true`;
 
   try {
-    const response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    // Sometimes the api returns an array and sometimes an object with the data key
-    const languages = response.data || response;
+    let languages = [];
+
+    let response = yield call(cachedFetch, requestUrl, {}, oneDay);
+    languages.push(...response.data);
+
+    while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
+      response = yield call(cachedFetch, requestUrl + `&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      languages.push(...response.data);
+    }
 
     yield put(setLanguages({ languages }));
     yield put({ type: CLEAR_ERROR_GETTING_LANGUAGES });
@@ -194,8 +209,16 @@ export function* getLanguageAltNames() {
     process.env.DBP_API_KEY
   }&v=4&has_filesets=true&include_alt_names=true`;
   try {
-    const response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    const languageData = response.data || response;
+    let languageData = [];
+
+    let response = yield call(cachedFetch, requestUrl, {}, oneDay);
+    languageData.push(...response.data);
+
+    while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
+      response = yield call(cachedFetch, requestUrl + `&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      languageData.push(...response.data);
+    }
+
     const languages = languageData
       .map((l) => {
         if (l.translations) {
