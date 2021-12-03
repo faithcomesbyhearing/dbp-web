@@ -76,6 +76,18 @@ app
       if (languageIso !== 'eng') {
         // Using custom fetch here instead of util so I can set a default in case of a failure
         // console.log('getting new bible: NOT ENGLISH');
+
+        //  BEGIN COMMENT ON INEFFICIENCY
+        //  BWF Dec 3, 2021. This code (lines 82 to 130) is highly inefficient and can be optimized as follows:
+        /*
+        for populating biblesData, instead of /bibles, use bibles?language_code=<languageIso>
+        With the result from that, there is no need to filter based on iso since the results only have the requested iso
+        for preparing for the redirect, the bibleId is already set from the response from the first API call, and can be used directly in the redirect. 
+        There is no need to call the API again. The bibleId can be used directly in the redirect
+        redirectPath = `/bible/${bibleId}/MAT/1`;
+        This is important because the API call /bibles/{bibleId} for non-english ISOs returns over 2MB of data, usually including an embedded font. The only thing
+        that is used from this call is the bibleId, which was already known
+        */
         isoCodesDidNotMatch = true;
         const biblesData = await fetch(
           `${process.env.BASE_API_ROUTE}/bibles?key=${
@@ -125,6 +137,7 @@ app
           // console.log('Setting new bible path');
           redirectPath = `/bible/${bibleRes.data.abbr}/MAT/1`;
           // console.log('Redirect path:', redirectPath);
+        //  END COMMENT ON INEFFICIENCY          
         }
       }
 
