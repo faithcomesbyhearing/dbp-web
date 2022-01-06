@@ -4,7 +4,7 @@ export const isFileSet = (source) => source && source.includes('.m3u8');
 
 export const addFilesetQueryParams = (source) => {
 	const { url, query } = queryString.parseUrl(source);
-	if (url && url.includes('.m3u8')) {
+	if (isFileSet(url)) {
 		return queryString.stringifyUrl({
 			url,
 			query: {
