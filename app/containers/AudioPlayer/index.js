@@ -36,7 +36,7 @@ import getClassNamesForAudioBackground from '../../utils/getClassNamesForAudioBa
 import { setPlaybackRate, setVolume } from './actions';
 import PlaybackRateSvg from '../../components/PlaybackRateSvg';
 import NewChapterArrow from '../../components/NewChapterArrow';
-import { addFilesetQueryParams } from './helper';
+import { addFilesetQueryParams, isFileSet } from './helper';
 /* eslint-disable jsx-a11y/media-has-caption */
 /* disabled the above eslint config options because you can't add tracks to audio elements */
 
@@ -469,11 +469,7 @@ export class AudioPlayer extends React.Component {
 	};
 
 	playAudio(audioSource) {
-		if (
-			navigator &&
-			navigator.userAgent &&
-			/iPhone|iPod|iPad/i.test(navigator.userAgent)
-		) {
+		if (!isFileSet(audioSource)) {
 			this.playAudioOnSafari();
 		} else {
 			this.playAudioOnChrome(audioSource);
