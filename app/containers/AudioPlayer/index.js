@@ -36,6 +36,7 @@ import getClassNamesForAudioBackground from '../../utils/getClassNamesForAudioBa
 import { setPlaybackRate, setVolume } from './actions';
 import PlaybackRateSvg from '../../components/PlaybackRateSvg';
 import NewChapterArrow from '../../components/NewChapterArrow';
+import { addFilesetQueryParams } from './helper';
 /* eslint-disable jsx-a11y/media-has-caption */
 /* disabled the above eslint config options because you can't add tracks to audio elements */
 
@@ -416,7 +417,8 @@ export class AudioPlayer extends React.Component {
 		// bind them together
 		hls.attachMedia(video);
 		hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-			hls.loadSource(`${audioSource}?v=4&key=${process.env.DBP_API_KEY}`);
+			const parsedSource = addFilesetQueryParams(audioSource);
+			hls.loadSource(parsedSource);
 			hls.on(Hls.Events.MANIFEST_PARSED, () => {
 				this.playFile(video);
 			});
@@ -566,7 +568,9 @@ export class AudioPlayer extends React.Component {
 	playIcon = () => (
 		<div
 			id={'play-audio'}
-			onClick={() => this.playAudio(this.props.audioSource)}
+			onClick={() => {
+				this.playAudio(this.props.audioSource);
+			}}
 			className={`icon-wrap ${(this.state.loadingNextChapter ||
 				this.props.changingVersion) &&
 				'audio-player-play-disabled'}`}
@@ -771,7 +775,7 @@ export class AudioPlayer extends React.Component {
 					<video
 						ref={this.handleRef}
 						className="audio-player"
-						src={`${source}?v=4&key=${process.env.DBP_API_KEY}` || '_'}
+						src={`${addFilesetQueryParams(source)}` || '_'}
 					/>
 				</div>
 			</>
