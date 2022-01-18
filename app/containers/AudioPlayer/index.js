@@ -161,6 +161,7 @@ export class AudioPlayer extends React.Component {
 			} else {
 				this.audioRef.addEventListener('canplay', this.autoPlayListener);
 			}
+			this.playAudio(this.props.audioSource);
 		} else if (!nextProps.autoPlay) {
 			if (
 				navigator &&
