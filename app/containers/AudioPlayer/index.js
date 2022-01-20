@@ -46,6 +46,7 @@ export class AudioPlayer extends React.Component {
 		super(props);
 		// need to get next and prev audio tracks if I want to enable continuous playing
 		this.state = {
+			wasPlaying: false,
 			playing: false,
 			loadingNextChapter: false,
 			speedControlState: false,
@@ -161,7 +162,6 @@ export class AudioPlayer extends React.Component {
 			} else {
 				this.audioRef.addEventListener('canplay', this.autoPlayListener);
 			}
-			this.playAudio(this.props.audioSource);
 		} else if (!nextProps.autoPlay) {
 			if (
 				navigator &&
@@ -192,7 +192,7 @@ export class AudioPlayer extends React.Component {
 		}
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		// Ensure that the player volume and state volume stay in sync
 		if (this.audioRef) {
 			if (this.audioRef.volume !== this.props.volume) {
@@ -201,6 +201,12 @@ export class AudioPlayer extends React.Component {
 			// Ensure that the player playback rate and state playback rate stay in sync
 			if (this.audioRef.playbackRate !== this.props.playbackRate) {
 				this.audioRef.playbackRate = this.props.playbackRate;
+			}
+			if (
+				this.state.wasPlaying &&
+				this.props.audioSource !== prevProps.audioSource
+			) {
+				this.playAudio(this.props.audioSource);
 			}
 		}
 	}
@@ -304,7 +310,7 @@ export class AudioPlayer extends React.Component {
 	};
 
 	autoPlayListener = () => {
-		const { loadingNextChapter, clickedPlay } = this.state;
+		const { loadingNextChapter, clickedPlay, wasPlaying } = this.state;
 		const { audioPlayerState, changingVersion } = this.props;
 
 		// can accept event as a parameter
@@ -318,7 +324,8 @@ export class AudioPlayer extends React.Component {
 			!loadingNextChapter &&
 			!changingVersion &&
 			audioPlayerState &&
-			clickedPlay
+			clickedPlay &&
+			wasPlaying
 		) {
 			this.playAudio();
 		}
@@ -416,14 +423,14 @@ export class AudioPlayer extends React.Component {
 		const hls = new Hls();
 		const video = this.audioRef;
 		// bind them together
-		hls.attachMedia(video);
 		hls.on(Hls.Events.MEDIA_ATTACHED, () => {
 			const parsedSource = addFilesetQueryParams(audioSource);
 			hls.loadSource(parsedSource);
-			hls.on(Hls.Events.MANIFEST_PARSED, () => {
-				this.playFile(video);
-			});
 		});
+		hls.on(Hls.Events.MANIFEST_PARSED, () => {
+			this.playFile(video);
+		});
+		hls.attachMedia(video);
 	}
 
 	playAudioOnSafari = () => {
@@ -488,12 +495,12 @@ export class AudioPlayer extends React.Component {
 
 	skipForward = () => {
 		this.setCurrentTime(0);
-		this.pauseAudio();
 		this.setState(
-			{
+			(oldState) => ({
+				wasPlaying: oldState.playing,
 				playing: false,
 				loadingNextChapter: true,
-			},
+			}),
 			() => {
 				Router.push(
 					getNextChapterUrl({
@@ -519,6 +526,43 @@ export class AudioPlayer extends React.Component {
 				);
 			},
 		);
+		this.pauseAudio();
+	};
+
+	skipBack = () => {
+		this.setCurrentTime(0);
+		this.setState(
+			(oldState) => ({
+				wasPlaying: oldState.playing,
+				playing: false,
+				loadingNextChapter: true,
+			}),
+			() => {
+				Router.push(
+					getPreviousChapterUrl({
+						books: this.props.books,
+						chapter: this.props.activeChapter,
+						bookId: this.props.activeBookId.toLowerCase(),
+						textId: this.props.activeTextId.toLowerCase(),
+						verseNumber: this.props.verseNumber,
+						text: this.props.textData.text,
+						audioType: this.props.audioType,
+						isHref: true,
+					}),
+					getPreviousChapterUrl({
+						books: this.props.books,
+						chapter: this.props.activeChapter,
+						bookId: this.props.activeBookId.toLowerCase(),
+						textId: this.props.activeTextId.toLowerCase(),
+						verseNumber: this.props.verseNumber,
+						text: this.props.textData.text,
+						audioType: this.props.audioType,
+						isHref: false,
+					}),
+				);
+			},
+		);
+		this.pauseAudio();
 	};
 
 	toggleAudioPlayer = () => {
@@ -553,7 +597,10 @@ export class AudioPlayer extends React.Component {
 	pauseIcon = (
 		<div
 			id={'pause-audio'}
-			onClick={this.pauseAudio}
+			onClick={() => {
+				this.setState({ wasPlaying: false });
+				this.pauseAudio();
+			}}
 			className={'icon-wrap'}
 			title={messages.pauseTitle.defaultMessage}
 		>
@@ -640,7 +687,7 @@ export class AudioPlayer extends React.Component {
 						}
 					>
 						<NewChapterArrow
-							clickHandler={this.pauseAudio}
+							clickHandler={this.skipBack}
 							getNewUrl={getPreviousChapterUrl}
 							urlProps={{
 								books: this.props.books,
@@ -661,7 +708,7 @@ export class AudioPlayer extends React.Component {
 						/>
 						{this.state.playing ? this.pauseIcon : this.playIcon()}
 						<NewChapterArrow
-							clickHandler={this.pauseAudio}
+							clickHandler={this.skipForward}
 							getNewUrl={getNextChapterUrl}
 							urlProps={{
 								books: this.props.books,
@@ -773,6 +820,7 @@ export class AudioPlayer extends React.Component {
 						ref={this.handleRef}
 						className="audio-player"
 						src={`${addFilesetQueryParams(source)}` || '_'}
+						data-src={`source-${addFilesetQueryParams(source)}-${source}`}
 					/>
 				</div>
 			</>
