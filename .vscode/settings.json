@@ -10,6 +10,5 @@
 	"search.exclude": {
 		"app/styles": false
 	},
-	"search.usePCRE2": true,
-	"editor.tabSize": 2
+	"search.usePCRE2": true
 }
