@@ -46,7 +46,6 @@ export class AudioPlayer extends React.Component {
 		super(props);
 		// need to get next and prev audio tracks if I want to enable continuous playing
 		this.state = {
-			wasPlaying: false,
 			playing: false,
 			loadingNextChapter: false,
 			speedControlState: false,
@@ -192,7 +191,7 @@ export class AudioPlayer extends React.Component {
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate() {
 		// Ensure that the player volume and state volume stay in sync
 		if (this.audioRef) {
 			if (this.audioRef.volume !== this.props.volume) {
@@ -242,9 +241,14 @@ export class AudioPlayer extends React.Component {
 	}
 
 	setCurrentTime = (time) => {
-		this.setState({ currentTime: time }, () => {
-			this.audioRef.currentTime = time;
-		});
+		this.setState(
+			{
+				currentTime: time,
+			},
+			() => {
+				this.audioRef.currentTime = time;
+			},
+		);
 	};
 
 	setAudioPlayerRef = (el) => {
@@ -310,7 +314,7 @@ export class AudioPlayer extends React.Component {
 	};
 
 	autoPlayListener = () => {
-		const { loadingNextChapter, clickedPlay, wasPlaying } = this.state;
+		const { loadingNextChapter, clickedPlay } = this.state;
 		const { audioPlayerState, changingVersion } = this.props;
 
 		// can accept event as a parameter
@@ -324,8 +328,7 @@ export class AudioPlayer extends React.Component {
 			!loadingNextChapter &&
 			!changingVersion &&
 			audioPlayerState &&
-			clickedPlay &&
-			wasPlaying
+			clickedPlay
 		) {
 			this.playAudio();
 		}
