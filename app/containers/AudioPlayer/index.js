@@ -191,7 +191,7 @@ export class AudioPlayer extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // Ensure that the player volume and state volume stay in sync
     if (this.audioRef) {
       if (this.audioRef.volume !== this.props.volume) {
