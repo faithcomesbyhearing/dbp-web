@@ -44,11 +44,6 @@ app
     // TODO: Ask api team for the redirect for oauth be to /oauth instead of just /
     // Then I can move all of the extra logic out of this route which is really gross
     server.get('/', async (req, res) => {
-      // console.log(''.padEnd(90, '!'));
-      // console.log(
-      //   "req.headers['accept-language']",
-      //   req.headers['accept-language'],
-      // );
       let languageIso = 'eng';
       let redirectPath = '/bible/EN1ESV/MAT/1';
 
@@ -60,37 +55,17 @@ app
             const newLang = lang.includes('-')
               ? lang.split(';')[0].split('-')[0]
               : lang.split(';')[0];
-            // If there isn't a match then I want to filter out those results
             return isoOneToThree[newLang];
           })
           .filter((lang) => !!lang);
-        // console.log(
-        //   'set the languages so site should be updated!!!!!!!!!!',
-        //   languageIso,
-        // );
-        // console.log('lang before', languageIso, languageIso.length);
         languageIso = langArray[0];
-        // console.log('lang after', languageIso, languageIso.length);
       }
-      // console.log(languageIso, 'eng');
       if (languageIso !== 'eng') {
-        // Using custom fetch here instead of util so I can set a default in case of a failure
-        // console.log('getting new bible: NOT ENGLISH');
-
-        //  BEGIN COMMENT ON INEFFICIENCY
-        //  BWF Dec 3, 2021. This code (lines 82 to 130) is highly inefficient and can be optimized as follows:
-        /*
-        for populating biblesData, instead of /bibles, use bibles?language_code=<languageIso>
-        With the result from that, there is no need to filter based on iso since the results only have the requested iso
-        for preparing for the redirect, the bibleId is already set from the response from the first API call, and can be used directly in the redirect. 
-        There is no need to call the API again. The bibleId can be used directly in the redirect
-        redirectPath = `/bible/${bibleId}/MAT/1`;
-        This is important because the API call /bibles/{bibleId} for non-english ISOs returns over 2MB of data, usually including an embedded font. The only thing
-        that is used from this call is the bibleId, which was already known
-        */
         isoCodesDidNotMatch = true;
         const biblesData = await fetch(
-          `${process.env.BASE_API_ROUTE}/bibles?key=${
+          `${
+            process.env.BASE_API_ROUTE
+          }/bibles?language_code=${languageIso}&key=${
             process.env.DBP_API_KEY
           }&v=4&asset_id=${process.env.DBP_BUCKET_ID},dbp-vid`,
         )
@@ -107,37 +82,11 @@ app
             return { data: [] };
           });
         // Get list of bibles that match language
-        const biblesInLanguage = biblesData.data.filter(
-          (b) => b.iso === languageIso,
-        );
+        const biblesInLanguage = biblesData.data;
         // Check for first bible
         if (biblesInLanguage[0]) {
           bibleId = biblesInLanguage[0].abbr;
-
-          const requestUrl = `${
-            process.env.BASE_API_ROUTE
-          }/bibles/${bibleId}?key=${process.env.DBP_API_KEY}&v=4&asset_id=${
-            process.env.DBP_BUCKET_ID
-          },dbp-vid`;
-
-          // Get active bible data
-          const bibleRes = await fetch(requestUrl)
-            .then((body) => body.json())
-            .catch((e) => {
-              if (process.env.NODE_ENV === 'development') {
-                /* eslint-disable no-console */
-                console.error(
-                  'Error in get initial props single bible for language: ',
-                  e.message,
-                );
-                /* eslint-enable no-console */
-              }
-              return { data: {} };
-            });
-          // console.log('Setting new bible path');
-          redirectPath = `/bible/${bibleRes.data.abbr}/MAT/1`;
-          // console.log('Redirect path:', redirectPath);
-        //  END COMMENT ON INEFFICIENCY          
+          redirectPath = `/bible/${bibleId}/MAT/1`;
         }
       }
 
@@ -169,9 +118,7 @@ app
       const userString = Buffer.from(req.query.code, 'base64').toString(
         'ascii',
       );
-      // console.log('userString', userString);
       const userArray = userString.split(',');
-      // console.log('user array', userArray);
       res.redirect(
         301,
         `/bible/ENGESV/MAT/1?user_id=${userArray[0]}&user_email=${
@@ -228,7 +175,9 @@ Disallow: /
 
     server.get('/status', async (req, res) => {
       const ok = await fetch(
-        `${process.env.BASE_API_ROUTE}/bibles?v=4&key=${process.env.DBP_API_KEY}&language_code=6414`,
+        `${process.env.BASE_API_ROUTE}/bibles?v=4&key=${
+          process.env.DBP_API_KEY
+        }&language_code=6414`,
       )
         .then((r) => r.status >= 200 && r.status < 300)
         .catch(() => false);

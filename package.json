@@ -253,6 +253,7 @@
     "pm2": "^3.0.4",
     "pm2plugin": "^2.2.1",
     "prop-types": "15.5.10",
+    "query-string": "^7.0.1",
     "rc-slider": "^8.5.0",
     "react": "^16.2.0",
     "react-accessible-accordion": "^2.2.1",

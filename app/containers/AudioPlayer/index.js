@@ -36,6 +36,7 @@ import getClassNamesForAudioBackground from '../../utils/getClassNamesForAudioBa
 import { setPlaybackRate, setVolume } from './actions';
 import PlaybackRateSvg from '../../components/PlaybackRateSvg';
 import NewChapterArrow from '../../components/NewChapterArrow';
+import { addFilesetQueryParams, isFileSet } from './helper';
 /* eslint-disable jsx-a11y/media-has-caption */
 /* disabled the above eslint config options because you can't add tracks to audio elements */
 
@@ -117,17 +118,6 @@ export class AudioPlayer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(
-    //   'next filesets',
-    //   nextProps.activeFilesets.filter((f) => f.type.includes('audio')),
-    //   '\nnext audioType: ',
-    //   nextProps.audioType,
-    //   '\nnext audioSource === props.audioSource',
-    //   nextProps.audioSource === this.props.audioSource,
-    // );
-    // if (nextProps.hasAudio !== this.props.hasAudio) {
-    //   console.log('hasAudio: ', nextProps.hasAudio);
-    // }
     if (nextProps.hasVideo && nextProps.videoPlayerOpen) {
       this.pauseAudio();
     }
@@ -138,7 +128,6 @@ export class AudioPlayer extends React.Component {
       nextProps.audioType !== this.props.audioType ||
       nextProps.verseNumber !== this.props.verseNumber
     ) {
-      // console.log('getting audio');
       this.getAudio(
         nextProps.activeFilesets,
         nextProps.activeBookId,
@@ -202,7 +191,7 @@ export class AudioPlayer extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // Ensure that the player volume and state volume stay in sync
     if (this.audioRef) {
       if (this.audioRef.volume !== this.props.volume) {
@@ -211,6 +200,12 @@ export class AudioPlayer extends React.Component {
       // Ensure that the player playback rate and state playback rate stay in sync
       if (this.audioRef.playbackRate !== this.props.playbackRate) {
         this.audioRef.playbackRate = this.props.playbackRate;
+      }
+      if (
+        this.state.wasPlaying &&
+        this.props.audioSource !== prevProps.audioSource
+      ) {
+        this.playAudio(this.props.audioSource);
       }
     }
   }
@@ -410,7 +405,38 @@ export class AudioPlayer extends React.Component {
     });
   };
 
-  playAudio = () => {
+  playFile(video) {
+    const promise = video.play();
+    if (promise !== undefined) {
+      promise
+        .then(() => {
+          // Autoplay started
+        })
+        .catch(() => {
+          // Autoplay was prevented.
+          video.play();
+        });
+    }
+  }
+
+  playAudioOnChrome(audioSource) {
+    if (!audioSource) {
+      return;
+    }
+    const hls = new Hls();
+    const video = this.audioRef;
+    // bind them together
+    hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+      const parsedSource = addFilesetQueryParams(audioSource);
+      hls.loadSource(parsedSource);
+    });
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      this.playFile(video);
+    });
+    hls.attachMedia(video);
+  }
+
+  playAudioOnSafari = () => {
     const { loadingNextChapter, currentTime } = this.state;
 
     if (loadingNextChapter) {
@@ -453,6 +479,14 @@ export class AudioPlayer extends React.Component {
     }
   };
 
+  playAudio(audioSource) {
+    if (!isFileSet(audioSource)) {
+      this.playAudioOnSafari();
+    } else {
+      this.playAudioOnChrome(audioSource);
+    }
+  }
+
   updatePlayerSpeed = (rate) => {
     if (this.props.playbackRate !== rate) {
       document.cookie = `bible_is_playbackrate=${JSON.stringify(rate)};path=/`;
@@ -464,12 +498,12 @@ export class AudioPlayer extends React.Component {
 
   skipForward = () => {
     this.setCurrentTime(0);
-    this.pauseAudio();
     this.setState(
-      {
+      (oldState) => ({
+        wasPlaying: oldState.playing,
         playing: false,
         loadingNextChapter: true,
-      },
+      }),
       () => {
         Router.push(
           getNextChapterUrl({
@@ -495,6 +529,43 @@ export class AudioPlayer extends React.Component {
         );
       },
     );
+    this.pauseAudio();
+  };
+
+  skipBack = () => {
+    this.setCurrentTime(0);
+    this.setState(
+      (oldState) => ({
+        wasPlaying: oldState.playing,
+        playing: false,
+        loadingNextChapter: true,
+      }),
+      () => {
+        Router.push(
+          getPreviousChapterUrl({
+            books: this.props.books,
+            chapter: this.props.activeChapter,
+            bookId: this.props.activeBookId.toLowerCase(),
+            textId: this.props.activeTextId.toLowerCase(),
+            verseNumber: this.props.verseNumber,
+            text: this.props.textData.text,
+            audioType: this.props.audioType,
+            isHref: true,
+          }),
+          getPreviousChapterUrl({
+            books: this.props.books,
+            chapter: this.props.activeChapter,
+            bookId: this.props.activeBookId.toLowerCase(),
+            textId: this.props.activeTextId.toLowerCase(),
+            verseNumber: this.props.verseNumber,
+            text: this.props.textData.text,
+            audioType: this.props.audioType,
+            isHref: false,
+          }),
+        );
+      },
+    );
+    this.pauseAudio();
   };
 
   toggleAudioPlayer = () => {
@@ -529,7 +600,10 @@ export class AudioPlayer extends React.Component {
   pauseIcon = (
     <div
       id={'pause-audio'}
-      onClick={this.pauseAudio}
+      onClick={() => {
+        this.setState({ wasPlaying: false });
+        this.pauseAudio();
+      }}
       className={'icon-wrap'}
       title={messages.pauseTitle.defaultMessage}
     >
@@ -541,7 +615,9 @@ export class AudioPlayer extends React.Component {
   playIcon = () => (
     <div
       id={'play-audio'}
-      onClick={this.playAudio}
+      onClick={() => {
+        this.playAudio(this.props.audioSource);
+      }}
       className={`icon-wrap ${(this.state.loadingNextChapter ||
         this.props.changingVersion) &&
         'audio-player-play-disabled'}`}
@@ -614,7 +690,7 @@ export class AudioPlayer extends React.Component {
             }
           >
             <NewChapterArrow
-              clickHandler={this.pauseAudio}
+              clickHandler={this.skipBack}
               getNewUrl={getPreviousChapterUrl}
               urlProps={{
                 books: this.props.books,
@@ -635,7 +711,7 @@ export class AudioPlayer extends React.Component {
             />
             {this.state.playing ? this.pauseIcon : this.playIcon()}
             <NewChapterArrow
-              clickHandler={this.pauseAudio}
+              clickHandler={this.skipForward}
               getNewUrl={getNextChapterUrl}
               urlProps={{
                 books: this.props.books,
@@ -743,10 +819,11 @@ export class AudioPlayer extends React.Component {
               />
             </div>
           </div>
-          <audio
+          <video
             ref={this.handleRef}
             className="audio-player"
-            src={source || '_'}
+            src={`${addFilesetQueryParams(source)}` || '_'}
+            data-src={`source-${addFilesetQueryParams(source)}-${source}`}
           />
         </div>
       </>

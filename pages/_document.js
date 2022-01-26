@@ -28,11 +28,11 @@ export default class MyDocument extends Document {
               type="text/javascript"
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
-									{'gtm.start': new Date().getTime(),event:'gtm.js'}
-									);var f=d.getElementsByTagName(s)[0],
-									j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-									'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-									})(window,document,'script','dataLayer','GTM-N48RPTL');`,
+                  {'gtm.start': new Date().getTime(),event:'gtm.js'}
+                  );var f=d.getElementsByTagName(s)[0],
+                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                  })(window,document,'script','dataLayer','GTM-N48RPTL');`,
               }}
             />
           ) : null}
@@ -113,7 +113,6 @@ export default class MyDocument extends Document {
           <meta name="twitter:app:id:iphone" content="" />
           <meta name="twitter:app:id:ipad" content="" />
           <meta name="twitter:app:id:googleplay" content="" />
-
           <meta
             name="google-site-verification"
             content="frHSU18EKPDnEoKj--plFdubfj_GB7hXesy-3N1o57s"
@@ -124,62 +123,63 @@ export default class MyDocument extends Document {
           />
           <meta property="fb:app_id" content="173528326559718" />
           <script src="https://apis.google.com/js/platform.js" async defer />
+          <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" />
           <script
             type="application/javascript"
             dangerouslySetInnerHTML={{
               __html: `(window.onload = function() {
-						var browserObject = {
-						agent: "",
-						majorVersion: "",
-						version: "",
-					};
-						if (/msie\ [0-9]{1}/i.test(navigator.userAgent)) {
-						browserObject.agent = "msie";
-						browserObject.majorVersion = parseInt(/MSIE\ ([0-9]{1})/i.exec(navigator.userAgent)[1]);
-						browserObject.version = /MSIE\ ([0-9.]+)/i.exec(navigator.userAgent)[1];
-					} else if (/Trident\\/[7]{1}/i.test(navigator.userAgent)) {
-						browserObject.agent = "msie";
-						browserObject.majorVersion = 11;
-						browserObject.version = "11";
-					}
+            var browserObject = {
+            agent: "",
+            majorVersion: "",
+            version: "",
+          };
+            if (/msie\ [0-9]{1}/i.test(navigator.userAgent)) {
+            browserObject.agent = "msie";
+            browserObject.majorVersion = parseInt(/MSIE\ ([0-9]{1})/i.exec(navigator.userAgent)[1]);
+            browserObject.version = /MSIE\ ([0-9.]+)/i.exec(navigator.userAgent)[1];
+          } else if (/Trident\\/[7]{1}/i.test(navigator.userAgent)) {
+            browserObject.agent = "msie";
+            browserObject.majorVersion = 11;
+            browserObject.version = "11";
+          }
 
-						if (browserObject.agent === "msie") {
-						var bannerDiv = document.createElement("div");
-						var startMessage = document.createElement("span");
-						var middleMessage = document.createElement("span");
-						var chromeLink = document.createElement("a");
-						var fireFoxLink = document.createElement("a");
-						var closeButton = document.createElement("span");
-						chromeLink.href = 'https://www.google.com/chrome';
-						chromeLink.target = '_blank';
-						chromeLink.textContent = 'Chrome';
-						fireFoxLink.href = 'https://www.mozilla.org/en-US/firefox/';
-						fireFoxLink.target = '_blank';
-						fireFoxLink.textContent = 'FireFox';
-						startMessage.textContent = 'Many of the features on Bible.is are not supported on Internet Explorer. Please use one of the listed browsers instead: ';
-						middleMessage.textContent = ' or ';
-						closeButton.textContent = 'X';
-						closeButton.className = 'close-button';
-						closeButton.onclick = function(e) {
-						e.preventDefault();
+            if (browserObject.agent === "msie") {
+            var bannerDiv = document.createElement("div");
+            var startMessage = document.createElement("span");
+            var middleMessage = document.createElement("span");
+            var chromeLink = document.createElement("a");
+            var fireFoxLink = document.createElement("a");
+            var closeButton = document.createElement("span");
+            chromeLink.href = 'https://www.google.com/chrome';
+            chromeLink.target = '_blank';
+            chromeLink.textContent = 'Chrome';
+            fireFoxLink.href = 'https://www.mozilla.org/en-US/firefox/';
+            fireFoxLink.target = '_blank';
+            fireFoxLink.textContent = 'FireFox';
+            startMessage.textContent = 'Many of the features on Bible.is are not supported on Internet Explorer. Please use one of the listed browsers instead: ';
+            middleMessage.textContent = ' or ';
+            closeButton.textContent = 'X';
+            closeButton.className = 'close-button';
+            closeButton.onclick = function(e) {
+            e.preventDefault();
 
-						var el = document.getElementById("old-browser-banner");
-						var parent = el.parentElement;
-						parent.removeChild(el);
-					}
-						bannerDiv.id = "old-browser-banner";
-						startMessage.id = "start-message-paragraph";
-						bannerDiv.appendChild(closeButton);
-						bannerDiv.appendChild(startMessage);
-						bannerDiv.appendChild(chromeLink);
-						bannerDiv.appendChild(middleMessage);
-						bannerDiv.appendChild(fireFoxLink);
-						var body = document.getElementsByTagName('body')[0];
-						if (body) {
-							body.appendChild(bannerDiv);
-						}
-					}
-					})();`,
+            var el = document.getElementById("old-browser-banner");
+            var parent = el.parentElement;
+            parent.removeChild(el);
+          }
+            bannerDiv.id = "old-browser-banner";
+            startMessage.id = "start-message-paragraph";
+            bannerDiv.appendChild(closeButton);
+            bannerDiv.appendChild(startMessage);
+            bannerDiv.appendChild(chromeLink);
+            bannerDiv.appendChild(middleMessage);
+            bannerDiv.appendChild(fireFoxLink);
+            var body = document.getElementsByTagName('body')[0];
+            if (body) {
+              body.appendChild(bannerDiv);
+            }
+          }
+          })();`,
             }}
           />
         </Head>
