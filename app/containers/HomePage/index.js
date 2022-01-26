@@ -27,7 +27,6 @@ import textSaga from '../TextSelection/saga';
 import profileSaga from '../Profile/saga';
 import profileReducer from '../Profile/reducer';
 import makeSelectProfile from '../Profile/selectors';
-// import getDifferenceObject from '../../utils/deepDifferenceObject';
 import { setActiveIsoCode } from '../TextSelection/actions';
 import { getBookmarksForChapter } from '../Notes/actions';
 import { setHasVideo } from '../VideoPlayer/actions';
@@ -95,6 +94,7 @@ class HomePage extends React.PureComponent {
   };
 
   componentDidMount() {
+    console.log('test homepage component did mount');
     const {
       activeFilesets,
       activeBookId,
@@ -276,7 +276,7 @@ class HomePage extends React.PureComponent {
         .split('&')
         .map((key) => key.split('='))
         .find((key) => key[0] === 'audio_type');
-    const videoFileset = activeFilesets.find((f) => f.type === 'video_stream');
+    // const videoFileset = activeFilesets.find((f) => f.type === 'video_stream');
     if (
       audioParam &&
       (audioParam[1] !== nextProps.homepage.audioType ||
@@ -284,14 +284,14 @@ class HomePage extends React.PureComponent {
     ) {
       this.props.dispatch(setAudioType({ audioType: audioParam[1] }));
     }
-    if (
-      (activeTextId !== activeTextIdProps ||
-        activeBookId !== activeBookIdProps ||
-        activeChapter !== activeChapterProps) &&
-      videoFileset
-    ) {
-      this.checkForVideo(videoFileset.id, activeBookId, activeChapter);
-    }
+    // if (
+    //   (activeTextId !== activeTextIdProps ||
+    //     activeBookId !== activeBookIdProps ||
+    //     activeChapter !== activeChapterProps) &&
+    //   videoFileset
+    // ) {
+    //   // this.checkForVideo(videoFileset.id, activeBookId, activeChapter);
+    // }
     // If there was a change in the params then make sure loading state is set to false
     if (
       prevVerseNumber !== verseNumber ||
