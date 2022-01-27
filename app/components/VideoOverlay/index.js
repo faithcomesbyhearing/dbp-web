@@ -187,7 +187,6 @@ VideoOverlay.propTypes = {
 	nextVideo: PropTypes.object,
 	previousVideo: PropTypes.object,
 	playFunction: PropTypes.func,
-	// closePlayer: PropTypes.func,
 	pauseFunction: PropTypes.func,
 	nextFunction: PropTypes.func,
 	togglePlayState: PropTypes.func,
