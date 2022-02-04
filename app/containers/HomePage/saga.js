@@ -241,11 +241,9 @@ export function* getBibleFromUrl({
   // Bible id
   const bibleId = oldBibleId.toUpperCase();
   const bookId = oldBookId.toUpperCase();
-  const requestUrl = `${
-    process.env.BASE_API_ROUTE
-  }/bibles/${bibleId}?asset_id=${process.env.DBP_BUCKET_ID}&key=${
+  const requestUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${
     process.env.DBP_API_KEY
-  }&v=4`;
+  }&v=4&include_font=false`;
 
   // Probably need to do stuff here to get the audio and text for this new bible
   try {

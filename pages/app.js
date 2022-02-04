@@ -350,7 +350,7 @@ AppContainer.getInitialProps = async (context) => {
 
   const singleBibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${
     process.env.DBP_API_KEY
-  }&v=4&asset_id=${process.env.DBP_BUCKET_ID},dbp-vid`;
+  }&v=4&include_font=false`;
 
   // Get active bible data
   const singleBibleRes = await cachedFetch(singleBibleUrl).catch((e) => {
@@ -496,12 +496,6 @@ AppContainer.getInitialProps = async (context) => {
     const foundBookId = foundBook && foundBook.book_id;
     const foundChapterId =
       foundBook && (foundBook.chapters[0] || foundBook.chapters[0] === 0 || 1);
-    // console.log(
-    //   'Condition One:',
-    //   !foundBook && (!foundChapter && foundChapter !== 0),
-    // );
-    // console.log('Condition Two:', !!foundBook);
-    // console.log('Condition Three:', !foundChapter && foundChapter !== 0);
     /**
      * 1. Visit /bible/bibleId
      */

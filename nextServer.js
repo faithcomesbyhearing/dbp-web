@@ -67,7 +67,7 @@ app
             process.env.BASE_API_ROUTE
           }/bibles?language_code=${languageIso}&key=${
             process.env.DBP_API_KEY
-          }&v=4&asset_id=${process.env.DBP_BUCKET_ID},dbp-vid`,
+          }&v=4&include_font=false`,
         )
           .then((body) => body.json())
           .catch((err) => {
@@ -231,10 +231,6 @@ Disallow: /
       const queryParams = {
         token: req.params.token,
       };
-      // console.log(
-      // 	'Getting reset password token',
-      // 	`${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      // );
 
       app.render(req, res, actualPage, queryParams);
     });
@@ -317,11 +313,6 @@ Disallow: /
     server.get('/bible/:bibleId/:bookId', (req, res, nextP) => {
       const actualPage = '/app';
       const bookId = checkBookId(req.params.bookId);
-      // console.log(req.originalUrl.includes('/static'))
-      // console.log(
-      //   'Getting bible and book for route',
-      //   `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      // );
       // Params may not actually be passed using this method
       const queryParams = {
         bibleId: req.params.bibleId,
@@ -343,11 +334,6 @@ Disallow: /
 
     server.get('/bible/:bibleId', (req, res, nextP) => {
       const actualPage = '/app';
-      // console.log(req.originalUrl.includes('/static'))
-      // console.log(
-      //   'Getting bible and book for route',
-      //   `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      // );
       // Params may not actually be passed using this method
       const queryParams = {
         bibleId: req.params.bibleId,
