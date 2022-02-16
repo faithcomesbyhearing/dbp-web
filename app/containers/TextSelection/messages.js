@@ -12,7 +12,7 @@ export default defineMessages({
 	},
 	language: {
 		id: 'app.containers.TextSelection.language',
-		defaultMessage: 'Bible',
+		defaultMessage: 'Language',
 	},
 	version: {
 		id: 'app.containers.TextSelection.version',
