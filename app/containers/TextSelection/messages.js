@@ -16,7 +16,7 @@ export default defineMessages({
 	},
 	version: {
 		id: 'app.containers.TextSelection.version',
-		defaultMessage: 'Version',
+		defaultMessage: 'Bibles',
 	},
 	countryMessage: {
 		id: 'app.containers.TextSelection.search',
@@ -28,6 +28,6 @@ export default defineMessages({
 	},
 	versionMessage: {
 		id: 'app.containers.TextSelection.search',
-		defaultMessage: 'Search Version',
+		defaultMessage: 'Search Bible',
 	},
 });
