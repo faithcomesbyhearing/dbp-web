@@ -59,7 +59,7 @@ describe('Get audio async call utility function test', () => {
     expect(result).toHaveProperty('audioPaths');
     expect(Array.isArray(result.audioPaths)).toEqual(true);
     expect(result.audioPaths.length).toBeTruthy();
-    expect(result.audioPaths[0].includes(types.otDrama)).not.toBeTruthy();
+    expect(result.audioPaths[0].includes(types.otDrama)).toBeTruthy();
   });
   it('should return expected audio object with valid parameters', async () => {
     const result = await getAudioAsyncCall(engesv, 'GEN', 1);
@@ -68,7 +68,7 @@ describe('Get audio async call utility function test', () => {
     expect(result).toHaveProperty('audioPaths');
     expect(Array.isArray(result.audioPaths)).toEqual(true);
     expect(result.audioPaths.length).toBeTruthy();
-    expect(result.audioPaths[0].includes(types.otDrama)).not.toBeTruthy();
+    expect(result.audioPaths[0].includes(types.otDrama)).toBeTruthy();
   });
   it('should return expected audio object with valid parameters', async () => {
     const result = await getAudioAsyncCall(engesv, 'MAT', 1);
