@@ -569,6 +569,7 @@ class HomePage extends React.PureComponent {
 			changingVersion,
 			videoPlayerOpen,
 			hasVideo,
+			videoChapterState,
 			audioType,
 			textDirection,
 		} = this.props.homepage;
@@ -603,18 +604,19 @@ class HomePage extends React.PureComponent {
 							: 'content-container'
 					}
 				>
-					{
-						<VideoPlayer
-							fileset={
-								activeFilesets.filter((f) => f.type === 'video_stream')[0]
-							}
-							bookId={activeBookId}
-							chapter={activeChapter}
-							books={books}
-							text={updatedText}
-							textId={activeTextId}
-						/>
-					}
+					{hasVideo &&
+						videoChapterState && (
+							<VideoPlayer
+								fileset={
+									activeFilesets.filter((f) => f.type === 'video_stream')[0]
+								}
+								bookId={activeBookId}
+								chapter={activeChapter}
+								books={books}
+								text={updatedText}
+								textId={activeTextId}
+							/>
+						)}
 					<Text
 						books={books}
 						text={updatedText}
