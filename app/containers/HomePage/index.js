@@ -569,7 +569,6 @@ class HomePage extends React.PureComponent {
 			changingVersion,
 			videoPlayerOpen,
 			hasVideo,
-			videoChapterState,
 			audioType,
 			textDirection,
 		} = this.props.homepage;
