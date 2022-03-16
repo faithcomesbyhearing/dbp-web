@@ -7,6 +7,9 @@ const selectHomepageDomain = (state) => state.get('homepage');
 const selectPlayerOpenState = () =>
 	createSelector(selectHomepageDomain, (home) => home.get('videoPlayerOpen'));
 
+const selectAudioPlayerStateState = () =>
+	createSelector(selectHomepageDomain, (home) => home.get('audioPlayerState'));
+
 const selectVideoList = () =>
 	createSelector(selectVideoDomain, (videoState) =>
 		videoState
@@ -33,4 +36,9 @@ const makeSelectVideo = () =>
 
 export default makeSelectVideo;
 
-export { selectVideoList, selectHasVideo, selectPlayerOpenState };
+export {
+	selectVideoList,
+	selectHasVideo,
+	selectPlayerOpenState,
+	selectAudioPlayerStateState,
+};
