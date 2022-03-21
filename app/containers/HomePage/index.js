@@ -569,7 +569,6 @@ class HomePage extends React.PureComponent {
       changingVersion,
       videoPlayerOpen,
       hasVideo,
-      videoChapterState,
       audioType,
       textDirection,
     } = this.props.homepage;
@@ -604,8 +603,7 @@ class HomePage extends React.PureComponent {
               : 'content-container'
           }
         >
-          {hasVideo &&
-            videoChapterState && (
+          {(
               <VideoPlayer
                 fileset={
                   activeFilesets.filter((f) => f.type === 'video_stream')[0]
