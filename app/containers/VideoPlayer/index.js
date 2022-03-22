@@ -32,11 +32,13 @@ class VideoPlayer extends React.PureComponent {
 
   componentDidMount() {
     this.getHls();
-    this.videoRef.addEventListener(
-      'webkitendfullscreen',
-      this.webkitendfullscreen,
-      false,
-    );
+    if (this.videoRef) {
+      this.videoRef.addEventListener(
+        'webkitendfullscreen',
+        this.webkitendfullscreen,
+        false,
+      );
+    }
     Router.router.events.on('routeChangeStart', this.handleRouteChange);
   }
 
