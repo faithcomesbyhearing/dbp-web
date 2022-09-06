@@ -82,7 +82,9 @@ export const isStartOfBible = (books, activeBookId, activeChapter) => {
 		return false;
 	}
 	// Get book that is the last in bible
-	const book = books.slice().sort((a, b) => a.book_order - b.book_order)[0];
+	const book = books
+		.slice()
+		.sort((a, b) => (a.book_order > b.book_order ? 1 : -1))[0];
 
 	if (!book) {
 		return false;
@@ -98,7 +100,9 @@ export const isEndOfBible = (books, activeBookId, activeChapter) => {
 		return false;
 	}
 	// Get book that is the last in bible
-	const book = books.slice().sort((a, b) => b.book_order - a.book_order)[0];
+	const book = books
+		.slice()
+		.sort((a, b) => (b.book_order > a.book_order ? 1 : -1))[0];
 
 	if (!book) {
 		return false;
