@@ -150,11 +150,11 @@ export class BooksTable extends React.PureComponent {
 							activeChapter={activeChapter}
 						/>
 					)}
-					{!!books.get('AP') && (
+					{!!(books.get('AP') || !!books.get('DC')) && (
 						<BooksTestament
-							books={books.get('AP')}
-							testamentPrefix={'ap'}
-							testamentTitle={'Apocrypha'}
+							books={books.get('AP') || books.get('DC')}
+							testamentPrefix={'dc'}
+							testamentTitle={'Deuterocanon'}
 							selectedBookName={selectedBookName}
 							handleRef={this.handleRef}
 							handleBookClick={this.handleBookClick}
