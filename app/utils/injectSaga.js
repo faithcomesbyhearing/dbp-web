@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useStore } from 'react-redux';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 import getInjectors from './sagaInjectors';
@@ -15,36 +15,35 @@ import getInjectors from './sagaInjectors';
  *   - constants.ONCE_TILL_UNMOUNT—behaves like 'RESTART_ON_REMOUNT' but never runs it again.
  *
  */
-export default ({ key, saga, mode }) => (WrappedComponent) => {
-	class InjectSaga extends React.Component {
-		static WrappedComponent = WrappedComponent;
+const InjectSaga = ({ keySaga, saga, mode, children }) => {
+	const store = useStore();
+	const injectors = getInjectors(store);
 
-		static contextTypes = {
-			store: PropTypes.object.isRequired,
+	React.useEffect(() => {
+		const { injectSaga } = injectors;
+		if (injectSaga) {
+			injectSaga(keySaga, { saga, mode }, { store });
+		}
+
+		return () => {
+			const { ejectSaga } = injectors;
+			ejectSaga(keySaga);
 		};
+	}, [keySaga, injectors, saga, mode, store]);
 
-		static displayName = `withSaga(${WrappedComponent.displayName ||
-			WrappedComponent.name ||
-			'Component'})`;
+	return children;
+};
 
-		componentWillMount() {
-			const { injectSaga } = this.injectors;
+export default ({ key, saga, mode }) => (WrappedComponent) => {
+	const WithSaga = (props) => (
+		<InjectSaga keySaga={key} saga={saga} mode={mode}>
+			<WrappedComponent {...props} />
+		</InjectSaga>
+	);
 
-			injectSaga(key, { saga, mode }, this.props);
-		}
+	WithSaga.displayName = `withSaga(${WrappedComponent.displayName ||
+	WrappedComponent.name ||
+	'Component'})`;
 
-		componentWillUnmount() {
-			const { ejectSaga } = this.injectors;
-
-			ejectSaga(key);
-		}
-
-		injectors = getInjectors(this.context.store);
-
-		render() {
-			return <WrappedComponent {...this.props} />;
-		}
-	}
-
-	return hoistNonReactStatics(InjectSaga, WrappedComponent);
+	return hoistNonReactStatics(WithSaga, WrappedComponent);
 };

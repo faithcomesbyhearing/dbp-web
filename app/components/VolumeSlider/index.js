@@ -12,6 +12,11 @@ import Colors from '../../../theme_config/javascriptColors';
 
 // rc-slider Slider component doesn't accept classes for styles other than classname
 class VolumeSlider extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.timer = null;
+	}
+
 	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
@@ -22,19 +27,22 @@ class VolumeSlider extends React.PureComponent {
 		this.closeMenuController.onMenuMount();
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		if (
 			this.ref &&
-			nextProps.active &&
+			this.props.active &&
 			nextProps.active !== this.props.active
 		) {
 			this.closeMenuController.onMenuUnmount();
-			this.closeMenuController.onMenuMount();
+			this.timer = setTimeout(() => {
+				this.closeMenuController.onMenuMount();
+			}, 100);
 		}
 	}
 
 	componentWillUnmount() {
 		this.closeMenuController.onMenuUnmount();
+		clearTimeout(this.timer);
 	}
 
 	setRef = (el) => (this.ref = el);

@@ -47,7 +47,7 @@ const selectActiveNote = () =>
 
 const selectNotePassage = () =>
   createSelector([selectHomepageDomain, selectNotesDomain], (home, notes) => {
-    if (notes.get('chapterForNote').size) {
+    if (notes?.get('chapterForNote').size) {
       return notes
         .get('chapterForNote')
         .reduce(
@@ -105,7 +105,7 @@ const vernacularBookNameObject = () =>
  */
 
 const makeSelectNotes = () =>
-  createSelector(selectNotesDomain, (substate) => substate.toJS());
+  createSelector(selectNotesDomain, (substate) => substate?.toJS());
 
 export default makeSelectNotes;
 export {

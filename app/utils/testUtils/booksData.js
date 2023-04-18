@@ -1729,4 +1729,4 @@ export const books = [
 		book_id_osis: 'Mark',
 		book_id_usfx: 'MK',
 	},
-]
+];

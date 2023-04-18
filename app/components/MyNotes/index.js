@@ -14,11 +14,14 @@ import MyHighlights from '../MyHighlights';
 import MyBookmarks from '../MyBookmarks';
 import ColorPicker from '../ColorPicker';
 class MyNotes extends React.PureComponent {
-	state = {
-		// Need to reset this once user goes from notes to bookmarks
-		filterText: '',
-		colorPickerState: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			// Need to reset this once user goes from notes to bookmarks
+			filterText: '',
+			colorPickerState: false,
+		};
+	}
 
 	// Need this for when a user has edited a note and come back here
 	componentDidMount() {
@@ -36,51 +39,51 @@ class MyNotes extends React.PureComponent {
 		});
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		if (
-			nextProps.sectionType === 'notes' &&
+			this.props.sectionType === 'notes' &&
 			(this.props.pageSize !== nextProps.pageSize ||
 				this.props.activePage !== nextProps.activePage)
 		) {
 			this.props.getNotes({
-				limit: nextProps.pageSize,
-				page: nextProps.activePage,
+				limit: this.props.pageSize,
+				page: this.props.activePage,
 			});
 		} else if (
-			nextProps.sectionType === 'bookmarks' &&
+			this.props.sectionType === 'bookmarks' &&
 			(this.props.pageSizeBookmark !== nextProps.pageSizeBookmark ||
 				this.props.activePageBookmark !== nextProps.activePageBookmark)
 		) {
 			this.props.getBookmarks({
-				limit: nextProps.pageSizeBookmark,
-				page: nextProps.activePageBookmark,
+				limit: this.props.pageSizeBookmark,
+				page: this.props.activePageBookmark,
 			});
 		} else if (
-			nextProps.sectionType === 'highlights' &&
+			this.props.sectionType === 'highlights' &&
 			(this.props.pageSizeHighlight !== nextProps.pageSizeHighlight ||
 				this.props.activePageHighlight !== nextProps.activePageHighlight)
 		) {
 			this.props.getHighlights({
-				limit: nextProps.pageSizeHighlight,
-				page: nextProps.activePageHighlight,
+				limit: this.props.pageSizeHighlight,
+				page: this.props.activePageHighlight,
 			});
 		}
 
 		if (nextProps.sectionType !== this.props.sectionType) {
-			if (nextProps.sectionType === 'notes') {
+			if (this.props.sectionType === 'notes') {
 				this.props.getNotes({
-					limit: nextProps.pageSize,
-					page: nextProps.activePage,
+					limit: this.props.pageSize,
+					page: this.props.activePage,
 				});
-			} else if (nextProps.sectionType === 'bookmarks') {
-				nextProps.getBookmarks({
-					limit: nextProps.pageSizeBookmark,
-					page: nextProps.activePageBookmark,
+			} else if (this.props.sectionType === 'bookmarks') {
+				this.props.getBookmarks({
+					limit: this.props.pageSizeBookmark,
+					page: this.props.activePageBookmark,
 				});
-			} else if (nextProps.sectionType === 'highlights') {
-				nextProps.getHighlights({
-					limit: nextProps.pageSizeHighlight,
-					page: nextProps.activePageHighlight,
+			} else if (this.props.sectionType === 'highlights') {
+				this.props.getHighlights({
+					limit: this.props.pageSizeHighlight,
+					page: this.props.activePageHighlight,
 				});
 			}
 		}

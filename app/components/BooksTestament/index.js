@@ -40,8 +40,7 @@ const BooksTestament = ({
 				book.get('book_id'),
 			)}
 			onClick={(e) =>
-				handleBookClick(e, book.get('name') || book.get('name_short'))
-			}
+				handleBookClick(e, book.get('name') || book.get('name_short'))}
 		>
 			<h4
 				className={

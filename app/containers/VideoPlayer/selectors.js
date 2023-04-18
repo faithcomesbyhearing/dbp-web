@@ -29,7 +29,7 @@ const selectHasVideo = () =>
 	);
 
 const makeSelectVideo = () =>
-	createSelector(selectNotesDomain, (substate) => substate.toJS());
+	createSelector(selectNotesDomain, (substate) => substate?.toJS());
 
 export default makeSelectVideo;
 

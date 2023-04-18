@@ -40,14 +40,14 @@ const selectUserId = () =>
 	createSelector(selectProfilePageDomain, (profile) => profile.get('userId'));
 const selectUserAuthenticated = () =>
 	createSelector(selectProfilePageDomain, (profile) =>
-		profile.get('userAuthenticated'),
+		profile?.get('userAuthenticated'),
 	);
 /**
  * Default selector used by Verses
  */
 
 const makeSelectVerses = () =>
-	createSelector(selectVersesDomain, (substate) => substate.toJS());
+	createSelector(selectVersesDomain, (substate) => substate?.toJS());
 
 export default makeSelectVerses;
 export {

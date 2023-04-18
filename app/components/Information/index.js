@@ -17,10 +17,13 @@ import messages from './messages';
 import SvgWrapper from '../SvgWrapper';
 
 export class Information extends React.PureComponent {
-	state = {
-		opened: false,
-		height: 0,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			opened: false,
+			height: 0,
+		};
+	}
 
 	// eslint-disable-line react/prefer-stateless-function
 	setRef = (node) => {

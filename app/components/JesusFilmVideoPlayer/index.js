@@ -13,14 +13,17 @@ import VideoProgressBar from '../VideoProgressBar';
 import VideoOverlay from '../VideoOverlay';
 
 class JesusFilmVideoPlayer extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		paused: true,
-		volume: 1,
-		currentTime: 0,
-		bufferLength: 0,
-		hlsSupported: true,
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			paused: true,
+			volume: 1,
+			currentTime: 0,
+			bufferLength: 0,
+			hlsSupported: true,
+		};
+	}
 
 	componentDidMount() {
 		if (this.videoRef) {

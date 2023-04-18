@@ -5,9 +5,12 @@ import VolumeSlider from '../VolumeSlider';
 import Colors from '../../../theme_config/javascriptColors';
 
 class VideoControls extends React.PureComponent {
-	state = {
-		volumeSliderState: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			volumeSliderState: false,
+		};
+	}
 
 	getVolumeSvg(volume) {
 		if (volume <= 0.25) {

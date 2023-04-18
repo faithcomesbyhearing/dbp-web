@@ -69,19 +69,22 @@ import { selectUserNotes, selectFormattedSource } from '../HomePage/selectors';
 import FormattedText from '../../components/FormattedText';
 
 export class Verses extends React.PureComponent {
-	state = {
-		contextMenuState: false,
-		footnoteState: false,
-		coords: {},
-		selectedText: '',
-		userSelectedText: '',
-		firstVerse: 0,
-		lastVerse: 0,
-		activeVerseInfo: { verse: 0 },
-		wholeVerseIsSelected: false,
-		domMethodsAvailable: false,
-		footnotes: {},
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			contextMenuState: false,
+			footnoteState: false,
+			coords: {},
+			selectedText: '',
+			userSelectedText: '',
+			firstVerse: 0,
+			lastVerse: 0,
+			activeVerseInfo: { verse: 0 },
+			wholeVerseIsSelected: false,
+			domMethodsAvailable: false,
+			footnotes: {},
+		};
+	}
 
 	componentDidMount() {
 		// May not need this anymore
@@ -89,7 +92,7 @@ export class Verses extends React.PureComponent {
 		this.setState({ domMethodsAvailable: true });
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		// If there is new formatted text or new plain text then the menus need to be disabled
 		// Change the loading state to be set and controlled within the API call and promise
 		if (

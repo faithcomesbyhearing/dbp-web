@@ -22,8 +22,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: 'none',
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.none} />
@@ -38,8 +37,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightYellow,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.yellow} />
@@ -54,8 +52,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightGreen,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.green} />
@@ -70,8 +67,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightPink,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.pink} />
@@ -86,8 +82,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightPurple,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.purple} />
@@ -102,8 +97,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightBlue,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.blue} />

@@ -31,20 +31,27 @@ import Ieerror from '../../components/Ieerror';
 
 // add icon for settings close button
 export class Settings extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.timer = null;
+	}
+
 	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
 			this.ref,
 			this.props.toggleSettingsModal,
 		);
-		this.closeMenuController.onMenuMount();
+		this.timer = setTimeout(() => {
+			this.closeMenuController.onMenuMount();
+		}, 100);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const activeTheme = nextProps.userSettings.get('activeTheme');
-		const activeFontFamily = nextProps.userSettings.get('activeFontType');
-		const activeFontSize = nextProps.userSettings.get('activeFontSize');
-		const redLetter = nextProps.userSettings.getIn([
+	componentDidUpdate(nextProps) {
+		const activeTheme = this.props.userSettings.get('activeTheme');
+		const activeFontFamily = this.props.userSettings.get('activeFontType');
+		const activeFontSize = this.props.userSettings.get('activeFontSize');
+		const redLetter = this.props.userSettings.getIn([
 			'toggleOptions',
 			'redLetter',
 			'active',
@@ -52,26 +59,27 @@ export class Settings extends React.PureComponent {
 
 		if (
 			redLetter !==
-			this.props.userSettings.getIn(['toggleOptions', 'redLetter', 'active'])
+			nextProps.userSettings.getIn(['toggleOptions', 'redLetter', 'active'])
 		) {
 			toggleWordsOfJesus(redLetter);
 		}
 
-		if (activeTheme !== this.props.userSettings.get('activeTheme')) {
+		if (activeTheme !== nextProps.userSettings.get('activeTheme')) {
 			applyTheme(activeTheme);
 		}
 
-		if (activeFontFamily !== this.props.userSettings.get('activeFontType')) {
+		if (activeFontFamily !== nextProps.userSettings.get('activeFontType')) {
 			applyFontFamily(activeFontFamily);
 		}
 
-		if (activeFontSize !== this.props.userSettings.get('activeFontSize')) {
+		if (activeFontSize !== nextProps.userSettings.get('activeFontSize')) {
 			applyFontSize(activeFontSize);
 		}
 	}
 
 	componentWillUnmount() {
 		this.closeMenuController.onMenuUnmount();
+		clearTimeout(this.timer);
 	}
 
 	setRef = (node) => {

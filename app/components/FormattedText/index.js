@@ -17,11 +17,13 @@ import setEventHandlersForFormattedVerses from '../../utils/requiresDom/setEvent
 import setEventHandlersForFootnotes from '../../utils/requiresDom/setEventHandlersForFootnotes';
 
 class FormattedText extends React.PureComponent {
-	state = {
-		// footnoteState: false,
-		footnotes: {},
-		domMethodsAvailable: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			footnotes: {},
+			domMethodsAvailable: false,
+		};
+	}
 
 	componentDidMount() {
 		const {

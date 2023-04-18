@@ -470,6 +470,8 @@ export function* getChapterFromUrl({
         );
       }
 
+      console.log('filesetId loadnewchapter RRR =====>', filesetId);
+
       if (Array.isArray(filesetId) && filesetId.length > 1) {
         // Discuss the issues with having multiple filesets for text
         // Will probably need to build out a list of checks like for the audio

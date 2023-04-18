@@ -30,11 +30,14 @@ import Ieerror from '../Ieerror';
 // change to pure component and handle outside clicks instead of click handler
 // on each item
 export class ContextPortal extends React.PureComponent {
-	state = {
-		highlightOpen: false,
-		openPopup: false,
-		popupCoords: { x: 0, y: 0 },
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			highlightOpen: false,
+			openPopup: false,
+			popupCoords: { x: 0, y: 0 },
+		};
+	}
 
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(

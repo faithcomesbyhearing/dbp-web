@@ -9,6 +9,11 @@ import PropTypes from 'prop-types';
 import CloseMenuFunctions from '../../utils/closeMenuFunctions';
 
 class SpeedControl extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.timer = null;
+	}
+
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
 			this.ref,
@@ -18,19 +23,22 @@ class SpeedControl extends React.PureComponent {
 		this.closeMenuController.onMenuMount();
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		if (
 			this.ref &&
-			nextProps.active &&
+			this.props.active &&
 			nextProps.active !== this.props.active
 		) {
 			this.closeMenuController.onMenuUnmount();
-			this.closeMenuController.onMenuMount();
+			this.timer = setTimeout(() => {
+				this.closeMenuController.onMenuMount();
+			}, 100);
 		}
 	}
 
 	componentWillUnmount() {
 		this.closeMenuController.onMenuUnmount();
+		clearTimeout(this.timer);
 	}
 
 	setRef = (el) => (this.ref = el);

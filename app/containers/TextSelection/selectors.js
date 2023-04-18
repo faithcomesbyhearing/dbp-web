@@ -20,20 +20,20 @@ const selectHomepageData = () =>
 
 const selectCountries = () =>
 	createSelector(selectTextSelectionDomain, (substate) =>
-		substate.get('countries'),
+		substate?.get('countries'),
 	);
 
 const selectTexts = () =>
 	createSelector(selectTextSelectionDomain, (substate) =>
-		substate.get('texts'),
+		substate?.get('texts'),
 	);
 
 const selectLanguages = () =>
 	createSelector(selectTextSelectionDomain, (substate) => {
-		const countryMap = substate.get('countries');
-		const languages = substate.get('languages');
-		const activeCountry = substate.get('activeCountryName');
-		const activeCountryLanguages = countryMap.getIn([
+		const countryMap = substate?.get('countries');
+		const languages = substate?.get('languages');
+		const activeCountry = substate?.get('activeCountryName');
+		const activeCountryLanguages = countryMap?.getIn([
 			activeCountry,
 			'languages',
 		]);
@@ -61,7 +61,7 @@ const selectLanguages = () =>
 				.toJS();
 		}
 		// If any language then keep default sort order
-		return languages.toJS();
+		return languages?.toJS();
 	});
 
 /**
@@ -69,7 +69,7 @@ const selectLanguages = () =>
  */
 
 const makeSelectTextSelection = () =>
-	createSelector(selectTextSelectionDomain, (substate) => substate.toJS());
+	createSelector(selectTextSelectionDomain, (substate) => substate?.toJS());
 
 export default makeSelectTextSelection;
 export {

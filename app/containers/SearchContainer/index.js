@@ -30,11 +30,15 @@ import saga from './saga';
 import Ieerror from '../../components/Ieerror';
 
 export class SearchContainer extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		filterText: '',
-		firstSearch: true,
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			filterText: '',
+			firstSearch: true,
+		};
+		this.timer = null;
+	}
 
 	componentDidMount() {
 		this.props.dispatch(stopLoading());
@@ -43,13 +47,16 @@ export class SearchContainer extends React.PureComponent {
 			this.ref,
 			this.props.toggleSearchModal,
 		);
-		this.closeMenuController.onMenuMount();
+		this.timer = setTimeout(() => {
+			this.closeMenuController.onMenuMount();
+		}, 100);
 	}
 
 	componentWillUnmount() {
 		this.closeMenuController.onMenuUnmount();
 		this.props.dispatch(viewError());
 		this.props.dispatch(stopLoading());
+		clearTimeout(this.timer);
 	}
 
 	setRef = (node) => {

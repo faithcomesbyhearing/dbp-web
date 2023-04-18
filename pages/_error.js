@@ -16,7 +16,6 @@ import LanguageProvider from '../app/containers/LanguageProvider';
 import { translationMessages } from '../app/i18n';
 import SvgWrapper from '../app/components/SvgWrapper';
 import messages from '../app/containers/NotFoundPage/messages';
-import '../static/app.scss';
 import configureStore from '../app/configureStore';
 import bugsnagClient from '../app/utils/bugsnagClient';
 

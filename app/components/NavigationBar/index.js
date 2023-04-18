@@ -46,14 +46,14 @@ class NavigationBar extends React.PureComponent {
 								<svg className={'svg'}>
 									<use
 										xlinkHref={
-											'/static/light_theme_logo.svg#bible.is_logo_light'
+											'/light_theme_logo.svg#bible.is_logo_light'
 										}
 									/>
 								</svg>
 							)}
 						{(theme !== 'paper' || userAgent === 'ms') && (
 							<svg className={'svg'} fill={userAgent === 'ms' ? '#fff' : ''}>
-								<use xlinkHref={'/static/dark_theme_logo.svg#bible.is_logo'} />
+								<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
 							</svg>
 						)}
 					</a>

@@ -13,18 +13,13 @@ import PopupMessage from '../../components/PopupMessage';
 import { createUserWithSocialAccount } from '../HomePage/actions';
 
 export class GoogleAuthentication extends React.PureComponent {
-	static displayName = 'Google Authentication';
-
-	state = { popupOpen: false, popupCoords: { x: 0, y: 0 } };
+	constructor(props) {
+		super(props);
+		this.state = { popupOpen: false, popupCoords: { x: 0, y: 0 } };
+	}
 
 	handleSocialLogin = () => {
 		this.props.dispatch(createUserWithSocialAccount({ provider: 'google' }));
-	};
-
-	openPopup = (e) => {
-		const coords = { x: e.clientX, y: e.clientY };
-		this.setState({ popupOpen: true, popupCoords: coords });
-		setTimeout(() => this.setState({ popupOpen: false }), 1250);
 	};
 
 	render() {
@@ -55,6 +50,8 @@ export class GoogleAuthentication extends React.PureComponent {
 		);
 	}
 }
+
+GoogleAuthentication.displayName = 'Google Authentication';
 
 GoogleAuthentication.propTypes = {
 	dispatch: PropTypes.func,

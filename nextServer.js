@@ -18,7 +18,7 @@ const fetch = require('isomorphic-fetch');
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV === 'development';
 const bugsnag = require('./app/utils/bugsnagServer');
-const manifestJson = require('./static/manifest');
+const manifestJson = require('./public/manifest.json');
 const checkBookId = require('./app/utils/checkBookName');
 const isoOneToThree = require('./app/utils/isoOneToThree.json');
 const app = next({ dev });
@@ -128,7 +128,7 @@ app
     });
 
     const sitemapOptions = {
-      root: `${__dirname}/static/sitemaps/`,
+      root: `${__dirname}/public/sitemaps/`,
       headers: {
         'Content-Type': 'text/xml;charset=UTF-8',
       },
@@ -198,7 +198,7 @@ Disallow: /
     );
 
     const faviconOptions = {
-      root: `${__dirname}/static/`,
+      root: `${__dirname}/public/`,
     };
     server.get('/favicon.ico', (req, res) =>
       res.status(200).sendFile('favicon.ico', faviconOptions),
@@ -213,7 +213,7 @@ Disallow: /
       const actualPage = '/jesusFilm';
       const iso = req.params.iso;
 
-      if (iso !== 'style.css' && !req.originalUrl.includes('/static')) {
+      if (iso !== 'style.css' && !req.originalUrl.includes('/public')) {
         renderAndCache(req, res, actualPage, { iso });
       } else {
         nextP();
@@ -266,7 +266,7 @@ Disallow: /
 
       if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static') &&
+        !req.originalUrl.includes('/public') &&
         !queryParams.verse
       ) {
         renderAndCache(req, res, actualPage, { ...queryParams, ...userParams });
@@ -302,7 +302,7 @@ Disallow: /
         );
       } else if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static')
+        !req.originalUrl.includes('/public')
       ) {
         renderAndCache(req, res, actualPage, queryParams);
       } else {
@@ -324,7 +324,7 @@ Disallow: /
         res.redirect(301, `/bible/${req.params.bibleId}/${bookId}/1`);
       } else if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static')
+        !req.originalUrl.includes('/public')
       ) {
         renderAndCache(req, res, actualPage, queryParams);
       } else {
@@ -341,7 +341,7 @@ Disallow: /
 
       if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static')
+        !req.originalUrl.includes('/public')
       ) {
         renderAndCache(req, res, actualPage, queryParams);
       } else {
