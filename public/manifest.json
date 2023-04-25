@@ -8,55 +8,55 @@
   "start_url": "/bible/ENGESV/MAT/1",
   "icons": [
     {
-      "src": "/static/icon-72x72.png",
+      "src": "/public/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "/static/icon-96x96.png",
+      "src": "/public/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "/static/icon-120x120.png",
+      "src": "/public/icon-120x120.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "/static/icon-144x144.png",
+      "src": "/public/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "/static/icon-152x152.png",
+      "src": "/public/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png"
     },
     {
-      "src": "/static/icon-192x192.png",
+      "src": "/public/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/static/icon-72x72.png",
+      "src": "/public/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
       "density": "1.5"
     },
     {
-      "src": "/static/icon-96x96.png",
+      "src": "/public/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "density": "2.0"
     },
     {
-      "src": "/static/icon-144x144.png",
+      "src": "/public/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
       "density": "3.0"
     },
     {
-      "src": "/static/icon-192x192.png",
+      "src": "/public/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "density": "4.0"

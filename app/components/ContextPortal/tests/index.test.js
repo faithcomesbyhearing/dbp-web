@@ -2,7 +2,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
 import { ContextPortal } from '..';
-import PopupMessage from '../../PopupMessage';
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({

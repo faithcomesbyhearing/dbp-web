@@ -22,13 +22,16 @@ import {
 } from '../VersionList/selectors';
 
 export class LanguageList extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-  state = {
-    startY: 0,
-    distance: 0,
-    endY: 0,
-    pulling: false,
-  };
+  constructor(props) {
+    super(props);
+    // eslint-disable-line react/prefer-stateless-function
+    this.state = {
+      startY: 0,
+      distance: 0,
+      endY: 0,
+      pulling: false,
+    };
+  }
 
   // Try to reduce the number of times language list is iterated over
   getFilteredLanguages(width, height) {
@@ -203,17 +206,6 @@ export class LanguageList extends React.PureComponent {
       ? document.getElementById('list-element').scrollTop
       : 0;
 
-  filterFunction = (language, filterText) => {
-    const lowerCaseText = filterText.toLowerCase();
-
-    if (language.iso.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (language.name.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    }
-    return false;
-  };
-
   handleLanguageClick = async (e, language) => {
     if ('stopPropagation' in e && typeof e.stopPropagation === 'function') {
       e.stopPropagation();
@@ -314,8 +306,7 @@ export class LanguageList extends React.PureComponent {
             {!loadingLanguages && !loadingLanguageVersion ? (
               <AutoSizer>
                 {({ width, height }) =>
-                  this.getFilteredLanguages(width, height)
-                }
+                  this.getFilteredLanguages(width, height)}
               </AutoSizer>
             ) : (
               <LoadingSpinner />

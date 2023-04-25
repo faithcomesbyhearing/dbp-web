@@ -22,6 +22,11 @@ import reducer from './reducer';
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 export class ChapterSelection extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.timer = null;
+	}
+
 	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		// Need to only register this handler if the menu is in its active state
@@ -30,11 +35,13 @@ export class ChapterSelection extends React.PureComponent {
 				this.aside,
 				this.toggleChapterSelection,
 			);
-			this.closeMenuController.onMenuMount();
+			this.timer = setTimeout(() => {
+				this.closeMenuController.onMenuMount();
+			}, 100);
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		if (nextProps.active && !this.props.active) {
 			this.closeMenuController = new CloseMenuFunctions(
 				this.aside,
@@ -47,6 +54,7 @@ export class ChapterSelection extends React.PureComponent {
 	}
 
 	componentWillUnmount() {
+		clearTimeout(this.timer);
 		if (this.closeMenuController) {
 			this.closeMenuController.onMenuUnmount();
 		}

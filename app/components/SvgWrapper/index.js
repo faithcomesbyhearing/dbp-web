@@ -12,7 +12,8 @@ function SvgWrapper({ svgid, ...props }) {
 		<svg {...props}>
 			<use
 				xmlnsXlink="http://www.w3.org/1999/xlink"
-				xlinkHref={`/static/svglist.svg#${svgid}`}
+				// xlinkHref={`/public/svglist.svg#${svgid}`}
+				xlinkHref={`/svglist.svg#${svgid}`}
 			/>
 		</svg>
 	);

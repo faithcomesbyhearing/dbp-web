@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 /* eslint-disable */
 const isServer = typeof window === 'undefined';
@@ -17,35 +18,34 @@ function getOrCreateStore(initialState) {
 	return window[__NEXT_REDUX_STORE__];
 }
 
-export default (App) => {
-	return class AppWithRedux extends React.Component {
-		static async getInitialProps(appContext) {
-			// Get or Create the store with `undefined` as initialState
-			// This allows you to set a custom default initialState
-			const reduxStore = getOrCreateStore();
+export const withRedux = (WrappedComponent) => {
+	const WithRedux = ({ initialReduxState, ...props }) => {
+		const reduxStore = getOrCreateStore(initialReduxState);
 
-			// Provide the store to getInitialProps of pages
-			appContext.ctx.reduxStore = reduxStore;
-
-			let appProps = {};
-			if (typeof App.getInitialProps === 'function') {
-				appProps = await App.getInitialProps.call(App, appContext);
-			}
-
-			return {
-				...appProps,
-				initialReduxState: reduxStore.getState(),
-			};
-		}
-
-		constructor(props) {
-			super(props);
-			this.reduxStore = getOrCreateStore(props.initialReduxState);
-		}
-
-		render() {
-			return <App {...this.props} reduxStore={this.reduxStore} />;
-		}
+		return (	
+			<Provider store={reduxStore}>
+				<WrappedComponent {...props} />
+			</Provider>
+		);
 	};
+
+	WithRedux.getInitialProps = async (appContext) => {
+		const { ctx } = appContext;
+		const reduxStore = getOrCreateStore();
+
+		ctx.reduxStore = reduxStore;
+
+		let appProps = {};
+		if (typeof WrappedComponent.getInitialProps === 'function') {
+			appProps = await WrappedComponent.getInitialProps(appContext);
+		}
+
+		return {
+			...appProps,
+			initialReduxState: reduxStore.getState(),
+		};
+	};
+
+	return WithRedux;
 };
 /* eslint-enable */

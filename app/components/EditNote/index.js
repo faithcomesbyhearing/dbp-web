@@ -41,8 +41,9 @@ class EditNote extends React.PureComponent {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.state.savingNote && nextProps.savedTheNote) {
+	// componentDidUpdate(nextProps) {
+	componentDidUpdate() {
+		if (this.state.savingNote && this.props.savedTheNote) {
 			this.setState({ savingNote: false });
 		}
 	}

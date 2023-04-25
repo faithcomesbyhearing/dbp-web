@@ -29,7 +29,7 @@ const selectAvailableAudioTypes = () =>
 	);
 const selectNotes = (state) => state.get('notes');
 const selectActiveNotesView = () =>
-	createSelector(selectNotes, (notes) => notes.get('activeChild'));
+	createSelector(selectNotes, (notes) => notes?.get('activeChild'));
 const selectUserNotes = () =>
 	createDeepEqualSelector(
 		[selectNotes, selectHomePageDomain, selectProfilePageDomain],
@@ -43,25 +43,28 @@ const selectUserNotes = () =>
 			// TODO: Fix this once the api is functioning properly
 			// Should not need to filter because I am requesting only the notes/bookmarks for this chapter
 			const filteredNotes = notes
-				.get('userNotes')
-				.filter(
-					(note) =>
-						note.get('book_id') === bookId &&
-						note.get('chapter') === chapter &&
-						note.get('bible_id') === activeTextId,
-				);
+				? notes.get('userNotes')
+					.filter(
+						(note) =>
+							note.get('book_id') === bookId &&
+							note.get('chapter') === chapter &&
+							note.get('bible_id') === activeTextId,
+					)
+				: null;
+
 			const filteredBookmarks = notes
-				.get('chapterBookmarks')
-				.filter(
-					(note) =>
-						note.get('book_id') === bookId &&
-						note.get('chapter') === chapter &&
-						note.get('bible_id') === activeTextId,
-				);
-			const bookmarks = filteredBookmarks.toJS
+				? notes.get('chapterBookmarks')
+					.filter(
+						(note) =>
+							note.get('book_id') === bookId &&
+							note.get('chapter') === chapter &&
+							note.get('bible_id') === activeTextId,
+					)
+				: null;
+			const bookmarks = filteredBookmarks?.toJS
 				? filteredBookmarks.toJS()
 				: filteredBookmarks;
-			const userNotes = filteredNotes.toJS
+			const userNotes = filteredNotes?.toJS
 				? filteredNotes.toJS()
 				: filteredNotes;
 
@@ -83,7 +86,7 @@ const selectUserNotes = () =>
 			let newText = [];
 			const versesWithNotes = {};
 
-			filteredNotes.forEach((n, ni) => {
+			filteredNotes?.forEach((n, ni) => {
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
 					if (parseInt(t.get('verse_start'), 10) === n.get('verse_start')) {
@@ -105,7 +108,7 @@ const selectUserNotes = () =>
 					}
 				}
 			});
-			filteredBookmarks.forEach((n, ni) => {
+			filteredBookmarks?.forEach((n, ni) => {
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
 					if (parseInt(t.get('verse_start'), 10) === n.get('verse')) {
@@ -220,7 +223,7 @@ const selectChapterText = () =>
  */
 
 const makeSelectHomePage = () =>
-	createDeepEqualSelector(selectHomePageDomain, (substate) => substate.toJS());
+	createDeepEqualSelector(selectHomePageDomain, (substate) => substate?.toJS());
 
 export default makeSelectHomePage;
 export {

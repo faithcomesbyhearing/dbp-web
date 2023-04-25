@@ -41,28 +41,35 @@ import reducer from './reducer';
 import Ieerror from '../../components/Ieerror';
 
 export class Profile extends React.PureComponent {
-	state = {
-		popupOpen: false,
-		clearAccessToken: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			popupOpen: false,
+			clearAccessToken: false,
+		};
+		this.timer = null;
+	}
 
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
 			this.ref,
 			this.props.toggleProfile,
 		);
-		this.closeMenuController.onMenuMount();
+
+		this.timer = setTimeout(() => {
+			this.closeMenuController.onMenuMount();
+		}, 100);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.profile.activeOption !== nextProps.profile.activeOption) {
-			this.props.dispatch(clearErrorMessage());
+	componentDidUpdate(prevProps) {
+		if (this.props.profile.activeOption !== prevProps.profile.activeOption) {
+			prevProps.dispatch(clearErrorMessage());
 		}
 		if (
-			!this.props.profile.userAuthenticated &&
-			nextProps.profile.userAuthenticated &&
-			this.props.userAccessToken &&
-			nextProps.userAccessToken
+			!prevProps.profile.userAuthenticated &&
+			this.props.profile.userAuthenticated &&
+			prevProps.userAccessToken &&
+			this.props.userAccessToken
 		) {
 			this.setState({ clearAccessToken: true });
 		}
@@ -71,6 +78,7 @@ export class Profile extends React.PureComponent {
 	componentWillUnmount() {
 		this.closeMenuController.onMenuUnmount();
 		this.props.dispatch(clearErrorMessage());
+		clearTimeout(this.timer);
 	}
 
 	setRef = (node) => {

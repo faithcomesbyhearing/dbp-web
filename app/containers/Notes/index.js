@@ -51,6 +51,8 @@ import messages from './messages';
 import Ieerror from '../../components/Ieerror';
 
 export class Notes extends React.PureComponent {
+  timer = null;
+
   constructor(props) {
     super(props);
     if (props.openView) {
@@ -63,7 +65,9 @@ export class Notes extends React.PureComponent {
       this.ref,
       this.props.toggleNotesModal,
     );
-    this.closeMenuController.onMenuMount();
+    this.timer = setTimeout(() => {
+      this.closeMenuController.onMenuMount();
+    }, 100);
     // Only fetch chapter text if there is a selected note
     if (
       this.props.note &&
@@ -78,6 +82,7 @@ export class Notes extends React.PureComponent {
 
   componentWillUnmount() {
     this.closeMenuController.onMenuUnmount();
+    clearTimeout(this.timer);
   }
 
   setRef = (node) => {

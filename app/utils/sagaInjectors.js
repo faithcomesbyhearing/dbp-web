@@ -36,14 +36,15 @@ export function injectSagaFactory(store, isValid) {
 			mode: descriptor.mode || RESTART_ON_REMOUNT,
 		};
 		const { saga, mode } = newDescriptor;
+		// console.log("injectSagaFactory injectSaga 7777 ======> store key ", store, key)
 
 		checkKey(key);
 		checkDescriptor(newDescriptor);
 
-		let hasSaga = Reflect.has(store.injectedSagas, key);
+		let hasSaga = store ? Reflect.has(store.injectedSagas, key) : false;
 
 		if (process.env.NODE_ENV !== 'production') {
-			const oldDescriptor = store.injectedSagas[key];
+			const oldDescriptor = store?.injectedSagas[key];
 			// enable hot reloading of daemon and once-till-unmount sagas
 			if (hasSaga && oldDescriptor.saga !== saga) {
 				oldDescriptor.task.cancel();
@@ -71,7 +72,7 @@ export function ejectSagaFactory(store, isValid) {
 
 		checkKey(key);
 
-		if (Reflect.has(store.injectedSagas, key)) {
+		if (store && Reflect.has(store.injectedSagas, key)) {
 			const descriptor = store.injectedSagas[key];
 			if (descriptor.mode !== DAEMON) {
 				descriptor.task.cancel();

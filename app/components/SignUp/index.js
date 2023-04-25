@@ -14,19 +14,22 @@ import checkEmail from '../../utils/checkEmailForValidity';
 import messages from '../PasswordResetVerified/messages';
 
 class SignUp extends React.PureComponent {
-  state = {
-    password: '',
-    confirmPassword: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    passwordErrorType: '',
-    validPassword: true,
-    validEmail: true,
-    wasSignupSent: false,
-    showSignupError: false,
-    wantsUpdates: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      password: '',
+      confirmPassword: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      passwordErrorType: '',
+      validPassword: true,
+      validEmail: true,
+      wasSignupSent: false,
+      showSignupError: false,
+      wantsUpdates: false,
+    };
+  }
 
   componentWillUnmount() {
     this.props.viewErrorMessage();

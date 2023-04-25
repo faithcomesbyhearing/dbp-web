@@ -23,13 +23,13 @@ export function* getCountries() {
   }&v=4&has_filesets=true&include_languages=true`;
 
   try {
-    let data = [];
+    const data = [];
 
     let response = yield call(cachedFetch, requestUrl, {}, oneDay);
     data.push(...response.data);
 
     while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      response = yield call(cachedFetch, requestUrl + `&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      response = yield call(cachedFetch, `${requestUrl}&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
       data.push(...response.data);
     }
 
@@ -162,13 +162,13 @@ export function* getLanguages() {
   }&v=4&has_filesets=true`;
 
   try {
-    let languages = [];
+    const languages = [];
 
     let response = yield call(cachedFetch, requestUrl, {}, oneDay);
     languages.push(...response.data);
 
     while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      response = yield call(cachedFetch, requestUrl + `&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      response = yield call(cachedFetch, `${requestUrl}&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
       languages.push(...response.data);
     }
 
@@ -198,13 +198,13 @@ export function* getLanguageAltNames() {
     process.env.DBP_API_KEY
   }&v=4&has_filesets=true&include_alt_names=true`;
   try {
-    let languageData = [];
+    const languageData = [];
 
     let response = yield call(cachedFetch, requestUrl, {}, oneDay);
     languageData.push(...response.data);
 
     while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      response = yield call(cachedFetch, requestUrl + `&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      response = yield call(cachedFetch, `${requestUrl}&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
       languageData.push(...response.data);
     }
 

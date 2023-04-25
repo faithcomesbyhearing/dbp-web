@@ -13,13 +13,16 @@ import messages from './messages';
 // import DonateButton from '../DonateButton';
 
 class AccountSettings extends React.PureComponent {
-	state = {
-		email: this.props.profile.email,
-		nickname: this.props.profile.nickname,
-		name: this.props.profile.name,
-		avatar: this.props.profile.avatar,
-		popupOpen: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: this.props.profile.email,
+			nickname: this.props.profile.nickname,
+			name: this.props.profile.name,
+			avatar: this.props.profile.avatar,
+			popupOpen: false,
+		};
+	}
 
 	handleEmailChange = (e) => {
 		this.setState({ email: e.target.value });

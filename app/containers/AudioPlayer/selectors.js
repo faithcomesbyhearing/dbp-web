@@ -39,7 +39,7 @@ const selectVolume = () =>
  */
 
 const makeSelectAudioPlayer = () =>
-	createSelector(selectDefaultDomain, (substate) => substate.toJS());
+	createSelector(selectDefaultDomain, (substate) => substate?.toJS());
 
 export default makeSelectAudioPlayer;
 export {

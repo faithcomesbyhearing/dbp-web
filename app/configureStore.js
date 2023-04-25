@@ -57,5 +57,7 @@ export default function configureStore(initialState = {}, history) {
 		});
 	}
 
+	// console.log("configureStore XXXX =======>", store);
+
 	return store;
 }

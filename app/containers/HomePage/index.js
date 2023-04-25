@@ -89,9 +89,12 @@ const Notes = dynamic(import('../Notes'), {
 });
 
 class HomePage extends React.PureComponent {
-  state = {
-    isScrollingDown: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isScrollingDown: false,
+    };
+  }
 
   componentDidMount() {
     const {
@@ -237,7 +240,7 @@ class HomePage extends React.PureComponent {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     // Based on nextProps so that requests have the latest chapter information
     const {
       activeTextId,
@@ -246,14 +249,14 @@ class HomePage extends React.PureComponent {
       addBookmarkSuccess,
       audioSource,
       activeFilesets,
-    } = nextProps.homepage;
-    const { userSettings, formattedSource, textData } = nextProps;
+    } = this.props.homepage;
+    const { userSettings, formattedSource, textData } = this.props;
     const {
       userSettings: prevSettings,
       formattedSource: prevFormattedSource,
       textData: prevTextData,
-    } = this.props;
-    const { userId, userAuthenticated } = nextProps.profile;
+    } = nextProps;
+    const { userId, userAuthenticated } = this.props.profile;
     const {
       addBookmarkSuccess: addBookmarkSuccessProps,
       activeTextId: activeTextIdProps,
@@ -265,8 +268,8 @@ class HomePage extends React.PureComponent {
       userId: userIdProps,
       userAuthenticated: userAuthenticatedProps,
     } = this.props.profile;
-    const prevVerseNumber = this.props.homepage.match.params.verse;
-    const verseNumber = nextProps.homepage.match.params.verse;
+    const prevVerseNumber = nextProps.homepage.match.params.verse;
+    const verseNumber = this.props.homepage.match.params.verse;
     const audioParam =
       location &&
       location.search &&
@@ -280,7 +283,7 @@ class HomePage extends React.PureComponent {
       (audioParam[1] !== nextProps.homepage.audioType ||
         audioParam[1] !== this.props.homepage.audioType)
     ) {
-      this.props.dispatch(setAudioType({ audioType: audioParam[1] }));
+      nextProps.dispatch(setAudioType({ audioType: audioParam[1] }));
     }
     // If there was a change in the params then make sure loading state is set to false
     if (

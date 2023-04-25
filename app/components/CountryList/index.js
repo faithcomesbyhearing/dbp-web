@@ -10,13 +10,16 @@ import { List, AutoSizer } from 'react-virtualized';
 import LoadingSpinner from '../LoadingSpinner';
 
 class CountryList extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		startY: 0,
-		distance: 0,
-		endY: 0,
-		pulling: false,
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			startY: 0,
+			distance: 0,
+			endY: 0,
+			pulling: false,
+		};
+	}
 
 	getFilteredCountries(width, height) {
 		const {
@@ -68,7 +71,7 @@ class CountryList extends React.PureComponent {
 					<svg className="icon" height="25px" width="25px">
 						<use
 							xmlnsXlink="http://www.w3.org/1999/xlink"
-							xlinkHref={`/static/flags.svg#${country.getIn([
+							xlinkHref={`/public/flags.svg#${country.getIn([
 								'codes',
 								'iso_a2',
 							])}`}
@@ -267,8 +270,7 @@ class CountryList extends React.PureComponent {
 						) : (
 							<AutoSizer>
 								{({ width, height }) =>
-									this.getFilteredCountries(width, height)
-								}
+									this.getFilteredCountries(width, height)}
 							</AutoSizer>
 						)}
 					</div>

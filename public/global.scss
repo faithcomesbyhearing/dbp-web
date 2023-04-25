@@ -20,7 +20,7 @@ button {
 body,
 html {
 	height: 100%;
-	min-height: calc(100% - 0);
+	min-height: calc(100% - 0%);
 	width: 100%;
 }
 body {
@@ -360,7 +360,7 @@ span:focus {
 // font sizes
 h2 {
 	@include css4 {
-		font-size: calc(var(--application-menu-font-size) * 1.4);
+		// font-size: calc(var(--application-menu-font-size) * 1.4);
 	}
 }
 

@@ -14,11 +14,12 @@
 * todo: Remove the script for providing feedback
 * */
 // Needed for redux-saga es6 generator support
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
-import Router from 'next/router';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
@@ -34,110 +35,12 @@ import reconcilePersistedState from '../app/utils/reconcilePersistedState';
 import REDUX_PERSIST from '../app/utils/reduxPersist';
 import getBookMetaData from '../app/utils/getBookMetaData';
 
-class AppContainer extends React.Component {
-  static displayName = 'Main app';
-
-  // eslint-disable-line no-undef
-  componentDidMount() {
-    if (
-      localStorage.getItem('reducerVersion') !== REDUX_PERSIST.reducerVersion
-    ) {
-      reconcilePersistedState(
-        ['settings', 'searchContainer', 'profile'],
-        REDUX_PERSIST.reducerKey,
-      );
-      localStorage.setItem('reducerVersion', REDUX_PERSIST.reducerVersion);
-    }
-    // If the page was served from the server then I need to cache the data for this route
-    if (this.props.isFromServer) {
-      this.props.fetchedUrls.forEach((url) => {
-        if (url.data.error || url.data.errors) {
-          overrideCache(url.href, {}, 1);
-        } else {
-          overrideCache(url.href, url.data);
-        }
-      });
-    }
-    // If undefined gets stored in local storage it cannot be parsed so I have to compare strings
-    if (this.props.userProfile.userId) {
-      this.props.dispatch({
-        type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
-        profile: {
-          userId: this.props.userProfile.userId,
-          userAuthenticated: !!this.props.userProfile.userId,
-          userProfile: {
-            email:
-              this.props.userProfile.email ||
-              this.props.userProfile.email ||
-              '',
-            name:
-              this.props.userProfile.name || this.props.userProfile.name || '',
-            nickname:
-              this.props.userProfile.name || this.props.userProfile.name || '',
-          },
-        },
-      });
-    }
-    const redLetter =
-      !!this.props.formattedText &&
-      !!(
-        this.props.formattedText.includes('class="wj"') ||
-        this.props.formattedText.includes("class='wj'")
-      );
-    this.props.dispatch({
-      type: 'GET_INITIAL_ROUTE_STATE_SETTINGS',
-      redLetter,
-      crossReferences:
-        !!this.props.formattedText &&
-        !!(
-          this.props.formattedText.includes('class="ft"') ||
-          this.props.formattedText.includes('class="xt"')
-        ),
-    });
-    this.props.dispatch(setChapterTextLoadingState({ state: false }));
-
-    // Intercept all route changes to ensure that the loading spinner starts
-    Router.router.events.on('routeChangeStart', this.handleRouteChange);
-
-    if (this.props.isIe) {
-      this.props.dispatch(setUA());
-      if (
-        typeof svg4everybody === 'function' &&
-        typeof window !== 'undefined'
-      ) {
-        svg4everybody();
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.formattedText !== this.props.formattedText) {
-      const redLetter =
-        !!nextProps.formattedText &&
-        !!(
-          nextProps.formattedText.includes('class="wj"') ||
-          nextProps.formattedText.includes("class='wj'")
-        );
-
-      this.props.dispatch({
-        type: 'GET_INITIAL_ROUTE_STATE_SETTINGS',
-        redLetter,
-        crossReferences:
-          !!nextProps.formattedText &&
-          !!(
-            nextProps.formattedText.includes('class="ft"') ||
-            nextProps.formattedText.includes('class="xt"')
-          ),
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    Router.router.events.off('routeChangeStart', this.handleRouteChange);
-  }
+const AppContainer = (props) => {
+  const router = useRouter();
+  const [prevFormattedText, setPrevFormattedText] = useState('');
 
   /* eslint-disable no-undef */
-  handleRouteChange = (url) => {
+  const handleRouteChange = (url) => {
     /* eslint-enable no-undef */
     // Pause audio
     // Start loading spinner for text
@@ -157,25 +60,125 @@ class AppContainer extends React.Component {
         console.error('Google tag manager did not capture pageview: ', err); // eslint-disable-line no-console
       }
     }
-    this.props.dispatch(setChapterTextLoadingState({ state: true }));
+    props.dispatch(setChapterTextLoadingState({ state: true }));
   };
 
-  routerWasUpdated = false; // eslint-disable-line no-undef
+  // eslint-disable-line no-undef
+  useEffect(() => {
+    if (
+      localStorage.getItem('reducerVersion') !== REDUX_PERSIST.reducerVersion
+    ) {
+      reconcilePersistedState(
+        ['settings', 'searchContainer', 'profile'],
+        REDUX_PERSIST.reducerKey,
+      );
+      localStorage.setItem('reducerVersion', REDUX_PERSIST.reducerVersion);
+    }
+    // If the page was served from the server then I need to cache the data for this route
+    if (props.isFromServer) {
+      props.fetchedUrls.forEach((url) => {
+        if (url.data.error || url.data.errors) {
+          overrideCache(url.href, {}, 1);
+        } else {
+          overrideCache(url.href, url.data);
+        }
+      });
+    }
+    // If undefined gets stored in local storage it cannot be parsed so I have to compare strings
+    if (props?.userProfile?.userId) {
+      props.dispatch({
+        type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
+        profile: {
+          userId: props.userProfile.userId,
+          userAuthenticated: !!props.userProfile.userId,
+          userProfile: {
+            email:
+              props.userProfile.email ||
+              props.userProfile.email ||
+              '',
+            name:
+              props.userProfile.name || props.userProfile.name || '',
+            nickname:
+              props.userProfile.name || props.userProfile.name || '',
+          },
+        },
+      });
+    }
+    const redLetter =
+      !!props.formattedText &&
+      !!(
+        props.formattedText.includes('class="wj"') ||
+        props.formattedText.includes("class='wj'")
+      );
+    props.dispatch({
+      type: 'GET_INITIAL_ROUTE_STATE_SETTINGS',
+      redLetter,
+      crossReferences:
+        !!props.formattedText &&
+        !!(
+          props.formattedText.includes('class="ft"') ||
+          props.formattedText.includes('class="xt"')
+        ),
+    });
+    props.dispatch(setChapterTextLoadingState({ state: false }));
 
-  render() {
-    const {
-      activeChapter,
-      chapterText,
-      activeBookName,
-      routeLocation,
-      initialPlaybackRate,
-      initialVolume,
-      isIe,
-    } = this.props;
-    // Defaulting description text to an empty string since no metadata is better than inaccurate metadata
-    const descriptionText =
-      chapterText && chapterText[0] ? `${chapterText[0].verse_text}...` : '';
+    // Intercept all route changes to ensure that the loading spinner starts
+    router.events.on('routeChangeStart', handleRouteChange);
 
+    if (props.isIe) {
+      props.dispatch(setUA());
+      if (
+        typeof svg4everybody === 'function' &&
+        typeof window !== 'undefined'
+      ) {
+        svg4everybody();
+      }
+    }
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (props.formattedText !== prevFormattedText) {
+      const redLetter =
+        !!prevFormattedText &&
+        !!(
+          prevFormattedText.includes('class="wj"') ||
+          prevFormattedText.includes("class='wj'")
+        );
+
+      props.dispatch({
+        type: 'GET_INITIAL_ROUTE_STATE_SETTINGS',
+        redLetter,
+        crossReferences:
+          !!prevFormattedText &&
+          !!(
+            prevFormattedText.includes('class="ft"') ||
+            prevFormattedText.includes('class="xt"')
+          ),
+      });
+      setPrevFormattedText(props.formattedText);
+    }
+  }, [props.formattedText]);
+  const {
+    activeChapter,
+    chapterText,
+    activeBookName,
+    routeLocation,
+    initialPlaybackRate,
+    initialVolume,
+    isIe,
+  } = props;
+  // Defaulting description text to an empty string since no metadata is better than inaccurate metadata
+  const descriptionText =
+    chapterText && chapterText[0] ? `${chapterText[0].verse_text}...` : '';
+
+  const headTitle = `${activeBookName} ${activeChapter}${props.match?.params?.verse
+      ? `:${props.match.params.verse}`
+      : ''
+    } ${'| Bible.is'}`;
     return (
       <div>
         <Head>
@@ -183,14 +186,14 @@ class AppContainer extends React.Component {
           <meta
             property={'og:title'}
             content={`${activeBookName} ${activeChapter}${
-              this.props.match.params.verse
-                ? `:${this.props.match.params.verse}`
+              props.match?.params?.verse
+                ? `:${props.match.params.verse}`
                 : ''
             } | Bible.is`}
           />
           <meta
             property={'og:image'}
-            content={`${process.env.BASE_SITE_URL}/static/icon-310x310.png`}
+            content={`${process.env.BASE_SITE_URL}/public/icon-310x310.png`}
           />
           <meta property={'og:image:width'} content={310} />
           <meta property={'og:image:height'} content={310} />
@@ -205,12 +208,7 @@ class AppContainer extends React.Component {
           />
           <meta name={'twitter:description'} content={descriptionText} />
           <title>
-            {`${activeBookName} ${activeChapter}${
-              this.props.match.params.verse
-                ? `:${this.props.match.params.verse}`
-                : ''
-            }`}{' '}
-            | Bible.is
+            {headTitle}
           </title>
         </Head>
         <HomePage
@@ -220,8 +218,9 @@ class AppContainer extends React.Component {
         />
       </div>
     );
-  }
-}
+};
+
+AppContainer.displayName = 'Main app';
 
 AppContainer.getInitialProps = async (context) => {
   const { req, res: serverRes } = context;
@@ -237,7 +236,7 @@ AppContainer.getInitialProps = async (context) => {
     userName = '',
   } = context.query;
   const userProfile = {
-    userId,
+    userId: reqUserId,
     email: userEmail,
     name: userName,
     nickname: userName,
@@ -609,6 +608,8 @@ AppContainer.getInitialProps = async (context) => {
     ? bookData.reduce((a, c) => ({ ...a, [c.book_id]: c.testament }), {})
     : [];
   if (context.reduxStore) {
+    // console.log("APP context.reduxStore =====================> 1");
+    // console.log("APP context.reduxStore =====================> 2");
     if (userProfile.userId && userProfile.email) {
       context.reduxStore.dispatch({
         type: 'GET_INITIAL_ROUTE_STATE_PROFILE',

@@ -18,7 +18,7 @@ const selectActiveTheme = () =>
  */
 
 const makeSelectSettings = () =>
-	createSelector(selectSettingsDomain, (substate) => substate.toJS());
+	createSelector(selectSettingsDomain, (substate) => substate?.toJS());
 
 export default makeSelectSettings;
 export { selectSettingsDomain, selectActiveTheme };

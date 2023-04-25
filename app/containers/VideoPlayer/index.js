@@ -16,19 +16,22 @@ import { selectHasVideo, selectPlayerOpenState } from './selectors';
 import checkForVideoAsync from '../../utils/checkForVideoAsync';
 
 class VideoPlayer extends React.PureComponent {
-  state = {
-    paused: true,
-    elipsisOpen: false,
-    volume: 1,
-    currentTime: 0,
-    bufferLength: 0,
-    playlist: [],
-    videos: [],
-    currentVideo: {},
-    poster: '',
-    hlsSupported: true,
-    preload: 'metadata',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      paused: true,
+      elipsisOpen: false,
+      volume: 1,
+      currentTime: 0,
+      bufferLength: 0,
+      playlist: [],
+      videos: [],
+      currentVideo: {},
+      poster: '',
+      hlsSupported: true,
+      preload: 'metadata',
+    };
+  }
 
   componentDidMount() {
     this.getHls();
@@ -42,36 +45,29 @@ class VideoPlayer extends React.PureComponent {
     Router.router.events.on('routeChangeStart', this.handleRouteChange);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { fileset } = nextProps;
-
-    if (
-      nextProps.bookId !== this.props.bookId ||
-      nextProps.chapter !== this.props.chapter ||
-      (nextProps.fileset &&
-        this.props.fileset &&
-        !isEqual(nextProps.fileset, this.props.fileset))
-    ) {
-      if (nextProps.hasVideo) {
-        this.getVideos({
-          filesetId: fileset ? fileset.id : '',
-          bookId: nextProps.bookId || '',
-          chapter: nextProps.chapter,
-        });
-      }
-    } else if (
-      nextProps.hasVideo !== this.props.hasVideo &&
-      nextProps.hasVideo
-    ) {
+  fetchVideosIfNeeded(fileset, bookId, chapter, hasVideo) {
+    if (hasVideo) {
       this.getVideos({
         filesetId: fileset ? fileset.id : '',
-        bookId: nextProps.bookId || '',
-        chapter: nextProps.chapter,
+        bookId: bookId || '',
+        chapter,
       });
-    } else if (
-      nextProps.hasVideo !== this.props.hasVideo &&
-      !nextProps.hasVideo
-    ) {
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { fileset, bookId, chapter, hasVideo } = this.props;
+
+    const contentChanged =
+      prevProps.bookId !== bookId ||
+      prevProps.chapter !== chapter ||
+      (prevProps.fileset && fileset && !isEqual(prevProps.fileset, fileset));
+
+    const videoStatusChanged = prevProps.hasVideo !== hasVideo;
+
+    if (contentChanged || (videoStatusChanged && hasVideo)) {
+      this.fetchVideosIfNeeded(fileset, bookId, chapter, hasVideo);
+    } else if (videoStatusChanged && !hasVideo) {
       this.props.dispatch(closeVideoPlayer());
     }
   }

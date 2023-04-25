@@ -117,9 +117,9 @@ export class AudioPlayer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.hasVideo && nextProps.videoPlayerOpen) {
-      this.pauseAudio();
+  componentDidUpdate(nextProps) {
+    if (this.props.hasVideo && this.props.videoPlayerOpen) {
+      // this.pauseAudio();
     }
     if (
       nextProps.activeTextId !== this.props.activeTextId ||
@@ -129,21 +129,21 @@ export class AudioPlayer extends React.Component {
       nextProps.verseNumber !== this.props.verseNumber
     ) {
       this.getAudio(
-        nextProps.activeFilesets,
-        nextProps.activeBookId,
-        nextProps.activeChapter,
-        nextProps.audioType,
+        this.props.activeFilesets,
+        this.props.activeBookId,
+        this.props.activeChapter,
+        this.props.audioType,
       );
     }
     if (nextProps.audioSource !== this.props.audioSource) {
-      if (nextProps.audioSource && !this.props.audioSource) {
+      if (this.props.audioSource && !nextProps.audioSource) {
         this.setAudioPlayerState(true);
       }
-      if (nextProps.audioSource) {
+      if (this.props.audioSource) {
         this.setState({ playing: false, loadingNextChapter: false });
       } else if (
-        this.props.audioPlayerState &&
-        (!nextProps.audioSource || !nextProps.hasAudio)
+        nextProps.audioPlayerState &&
+        (!this.props.audioSource || !this.props.hasAudio)
       ) {
         this.setState({ playing: false }, () =>
           this.setAudioPlayerState(false),
@@ -151,7 +151,7 @@ export class AudioPlayer extends React.Component {
       }
     }
 
-    if (nextProps.autoPlay) {
+    if (this.props.autoPlay) {
       if (
         navigator &&
         navigator.userAgent &&
@@ -161,7 +161,7 @@ export class AudioPlayer extends React.Component {
       } else {
         this.audioRef.addEventListener('canplay', this.autoPlayListener);
       }
-    } else if (!nextProps.autoPlay) {
+    } else if (!this.props.autoPlay) {
       if (
         navigator &&
         navigator.userAgent &&
@@ -178,34 +178,32 @@ export class AudioPlayer extends React.Component {
 
     if (
       !isEqual(nextProps.audioPaths, this.props.audioPaths) &&
-      nextProps.audioPaths.length
+      this.props.audioPaths.length
     ) {
-      nextProps.audioPaths.forEach((path) => this.preLoadPath(path));
+      this.props.audioPaths.forEach((path) => this.preLoadPath(path));
       this.setState({
         nextTrack: {
           index: 0,
-          path: nextProps.audioPaths[0],
-          last: nextProps.audioPaths.length === 0,
+          path: this.props.audioPaths[0],
+          last: this.props.audioPaths.length === 0,
         },
       });
     }
-  }
 
-  componentDidUpdate(prevProps) {
     // Ensure that the player volume and state volume stay in sync
     if (this.audioRef) {
-      if (this.audioRef.volume !== this.props.volume) {
-        this.audioRef.volume = this.props.volume;
+      if (this.audioRef.volume !== nextProps.volume) {
+        this.audioRef.volume = nextProps.volume;
       }
       // Ensure that the player playback rate and state playback rate stay in sync
-      if (this.audioRef.playbackRate !== this.props.playbackRate) {
-        this.audioRef.playbackRate = this.props.playbackRate;
+      if (this.audioRef.playbackRate !== nextProps.playbackRate) {
+        this.audioRef.playbackRate = nextProps.playbackRate;
       }
       if (
         this.state.wasPlaying &&
-        this.props.audioSource !== prevProps.audioSource
+        this.props.audioSource !== nextProps.audioSource
       ) {
-        this.playAudio(this.props.audioSource);
+        this.playAudio(nextProps.audioSource);
       }
     }
   }

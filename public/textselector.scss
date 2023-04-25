@@ -301,14 +301,14 @@
       padding-bottom: 15px;
       // text-transform: uppercase;
 
-      & .accordion__title[aria-selected='true'] {
+      & .accordion__button[aria-expanded='true'] {
         padding-bottom: 15px;
         @include css4 {
           color: var(--active-color-primary);
         }
       }
 
-      & .accordion__title {
+      & .accordion__button {
         cursor: pointer;
 
         h4,

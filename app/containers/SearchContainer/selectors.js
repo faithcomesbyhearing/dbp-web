@@ -32,7 +32,7 @@ const selectSearchResults = () =>
  */
 
 const makeSelectSearchContainer = () =>
-	createSelector(selectSearchContainerDomain, (substate) => substate.toJS());
+	createSelector(selectSearchContainerDomain, (substate) => substate?.toJS());
 
 export default makeSelectSearchContainer;
 export { selectSearchContainerDomain, selectSearchResults };

@@ -36,12 +36,12 @@ const Logo = ({ theme, isIe }) => (
 		{theme === 'paper' &&
 			!isIe && (
 				<svg className={'svg'}>
-					<use xlinkHref={'/static/light_theme_logo.svg#bible.is_logo_light'} />
+				<use xlinkHref={'/light_theme_logo.svg#bible.is_logo_light'} />
 				</svg>
 			)}
 		{(theme !== 'paper' || isIe) && (
 			<svg className={'svg'} fill={isIe ? '#fff' : ''}>
-				<use xlinkHref={'/static/dark_theme_logo.svg#bible.is_logo'} />
+				<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
 			</svg>
 		)}
 	</a>
@@ -72,7 +72,7 @@ const JesusFilm = ({
 				<meta property={'og:title'} content={titleText} />
 				<meta
 					property={'og:image'}
-					content={`${process.env.BASE_SITE_URL}/static/icon-310x310.png`}
+					content={`${process.env.BASE_SITE_URL}/public/icon-310x310.png`}
 				/>
 				<meta property={'og:image:width'} content={310} />
 				<meta property={'og:image:height'} content={310} />

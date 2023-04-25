@@ -9,8 +9,9 @@ import PropTypes from 'prop-types';
 import {
 	Accordion,
 	AccordionItem,
-	AccordionItemBody,
-	AccordionItemTitle,
+	AccordionItemPanel,
+	AccordionItemHeading,
+	AccordionItemButton,
 } from 'react-accessible-accordion';
 
 class VersionListSection extends React.PureComponent {
@@ -23,14 +24,16 @@ class VersionListSection extends React.PureComponent {
 					if (item.types.audio && item.types.audio_drama) {
 						return (
 							<AccordionItem className={'accordion-title-style'} key={item.key}>
-								<AccordionItemTitle>
-									<h4 title={item.title} className={item.className}>
-										{item.altText
-											? `${item.text} ( ${item.altText} )`
-											: item.text}
-									</h4>
-								</AccordionItemTitle>
-								<AccordionItemBody className={'accordion-body-style'}>
+								<AccordionItemHeading>
+									<AccordionItemButton>
+										<h4 title={item.title} className={item.className}>
+											{item.altText
+												? `${item.text} ( ${item.altText} )`
+												: item.text}
+										</h4>
+									</AccordionItemButton>
+								</AccordionItemHeading>
+								<AccordionItemPanel className={'accordion-body-style'}>
 									<a
 										key={`${item.key}_drama`}
 										role={'button'}
@@ -49,27 +52,29 @@ class VersionListSection extends React.PureComponent {
 									>
 										Non-Dramatized Version
 									</a>
-								</AccordionItemBody>
+								</AccordionItemPanel>
 							</AccordionItem>
 						);
 					}
 					return (
 						<AccordionItem className={'accordion-title-style'} key={item.key}>
-							<AccordionItemTitle>
-								<a
-									key={item.key}
-									role={'button'}
-									tabIndex={0}
-									title={item.title}
-									className={`${item.className} top-level-title`}
-									onClick={() => item.clickHandler('')}
-								>
-									{item.altText
-										? `${item.text} ( ${item.altText} )`
-										: item.text}
-								</a>
-							</AccordionItemTitle>
-							<AccordionItemBody />
+							<AccordionItemHeading>
+								<AccordionItemButton>
+									<a
+										key={item.key}
+										role={'button'}
+										tabIndex={0}
+										title={item.title}
+										className={`${item.className} top-level-title`}
+										onClick={() => item.clickHandler('')}
+									>
+										{item.altText
+											? `${item.text} ( ${item.altText} )`
+											: item.text}
+									</a>
+        </AccordionItemButton>
+       </AccordionItemHeading>
+							<AccordionItemPanel />
 						</AccordionItem>
 					);
 				})}

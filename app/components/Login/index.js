@@ -9,22 +9,24 @@ import PropTypes from 'prop-types';
 import SvgWrapper from '../SvgWrapper';
 import FacebookAuthentication from '../../containers/FacebookAuthentication';
 import GoogleAuthentication from '../../containers/GoogleAuthentication';
-// import DonateButton from '../DonateButton';
 
 class Login extends React.PureComponent {
-	state = {
-		password: '',
-		email: '',
-		signInActive: false,
-		staySignedIn: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			password: '',
+			email: '',
+			signInActive: false,
+			staySignedIn: false,
+		};
+	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		if (
-			nextProps.socialLoginLink &&
+			this.props.socialLoginLink &&
 			nextProps.socialLoginLink !== this.props.socialLoginLink
 		) {
-			window.open(nextProps.socialLoginLink, '_self');
+			window.open(this.props.socialLoginLink, '_self');
 		}
 	}
 
