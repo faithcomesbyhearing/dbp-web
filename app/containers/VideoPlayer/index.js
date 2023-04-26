@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import isEqual from 'lodash/isEqual';
 import Router from 'next/router';
+import Hls from 'hls.js';
 import cachedFetch, { overrideCache } from '../../utils/cachedFetch';
 import { openVideoPlayer, closeVideoPlayer, setHasVideo } from './actions';
 import SvgWrapper from '../../components/SvgWrapper';
@@ -106,10 +107,10 @@ class VideoPlayer extends React.PureComponent {
   };
 
   getHls = async () => {
-    const hls = await import('hls.js');
     const { fileset } = this.props;
-    this.Hls = hls.default;
-    this.isSupported = hls.isSupported;
+    this.Hls = Hls;
+    this.isSupported = Hls.isSupported;
+
     if (this.videoRef) {
       this.getVideos({
         filesetId: fileset ? fileset.id : '',

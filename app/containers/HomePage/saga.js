@@ -10,7 +10,7 @@ import {
   getBookmarksForChapter,
   getUserHighlights,
 } from '../Notes/saga';
-import { getCountries, getLanguages, getTexts } from '../TextSelection/saga';
+import { getCountries, getLanguageAltNames, getTexts } from '../TextSelection/saga';
 import { ADD_BOOKMARK } from '../Notes/constants';
 import {
   ADD_HIGHLIGHTS,
@@ -57,7 +57,7 @@ export function* deleteHighlights({
 
 export function* getCountriesAndLanguages() {
   yield fork(getCountries);
-  yield fork(getLanguages);
+  yield fork(getLanguageAltNames);
 }
 
 export function* initApplication(props) {
@@ -71,9 +71,11 @@ export function* initApplication(props) {
     setTimeout(runTimeout, timeoutDuration);
   }, timeoutDuration);
   // Forking each of these sagas here on the init of the application so that they all run in parallel
-  yield fork(getCountries);
-  yield fork(getLanguages);
-  yield fork(getTexts, { languageIso, languageCode });
+   yield all([
+    fork(getCountries),
+    fork(getLanguageAltNames),
+    fork(getTexts, { languageIso, languageCode }),
+  ]);
 }
 
 export function* addBookmark(props) {
@@ -469,8 +471,6 @@ export function* getChapterFromUrl({
           '',
         );
       }
-
-      console.log('filesetId loadnewchapter RRR =====>', filesetId);
 
       if (Array.isArray(filesetId) && filesetId.length > 1) {
         // Discuss the issues with having multiple filesets for text
@@ -1140,15 +1140,17 @@ export function* createSocialUser({ provider }) {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-  yield takeLatest(INIT_APPLICATION, initApplication);
-  yield takeLatest('getchapter', getChapterFromUrl);
-  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
-  yield takeLatest(ADD_HIGHLIGHTS, addHighlight);
-  yield takeLatest('getbible', getBibleFromUrl);
-  yield takeLatest('getaudio', getChapterAudio);
-  yield takeLatest(ADD_BOOKMARK, addBookmark);
-  yield takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter);
-  yield takeLatest(GET_COPYRIGHTS, getCopyrightSaga);
-  yield takeLatest(DELETE_HIGHLIGHTS, deleteHighlights);
-  yield takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser);
+  yield all([
+    takeLatest(INIT_APPLICATION, initApplication),
+    takeLatest('getchapter', getChapterFromUrl),
+    takeLatest(GET_HIGHLIGHTS, getHighlights),
+    takeLatest(ADD_HIGHLIGHTS, addHighlight),
+    takeLatest('getbible', getBibleFromUrl),
+    takeLatest('getaudio', getChapterAudio),
+    takeLatest(ADD_BOOKMARK, addBookmark),
+    takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter),
+    takeLatest(GET_COPYRIGHTS, getCopyrightSaga),
+    takeLatest(DELETE_HIGHLIGHTS, deleteHighlights),
+    takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser),
+  ]);
 }

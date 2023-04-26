@@ -94,62 +94,22 @@ class HomePage extends React.PureComponent {
     this.state = {
       isScrollingDown: false,
     };
+    this.timer = null;
   }
 
   componentDidMount() {
     const {
       activeFilesets,
-      activeBookId,
-      activeChapter,
-      activeTextId,
     } = this.props.homepage;
-    const { userAuthenticated, userId } = this.props.profile;
     const { userSettings } = this.props;
 
     toggleWordsOfJesus(
       userSettings.getIn(['toggleOptions', 'redLetter', 'active']),
     );
 
-    this.getCopyrights({ filesetIds: activeFilesets });
-    if (userId && userAuthenticated) {
-      this.props.dispatch(
-        getHighlights({
-          bible: activeTextId,
-          book: activeBookId,
-          chapter: activeChapter,
-          userAuthenticated,
-          userId,
-        }),
-      );
-      this.props.dispatch(
-        getNotes({
-          userId,
-          params: {
-            bible_id: activeTextId,
-            book_id: activeBookId,
-            chapter: activeChapter,
-            limit: 150,
-            page: 1,
-          },
-        }),
-      );
-      this.props.dispatch(
-        getBookmarksForChapter({
-          userId,
-          params: {
-            bible_id: activeTextId,
-            book_id: activeBookId,
-            chapter: activeChapter,
-            limit: 150,
-            page: 1,
-          },
-        }),
-      );
-    }
-
-    if (this.props.homepage.changingVersion) {
-      this.props.dispatch(changeVersion({ state: false }));
-    }
+    this.timer = setTimeout(() => {
+      this.getCopyrights({ filesetIds: activeFilesets });
+    }, 100);
 
     if (this.props.homepage.match.params.token) {
       // Open Profile
@@ -158,23 +118,6 @@ class HomePage extends React.PureComponent {
       // Open Password Reset Verified because there is a token - done in Profile/index
     }
 
-    /* eslint-disable no-undef */
-    if (this.props.homepage.firstLoad) {
-      this.props.dispatch(
-        setActiveIsoCode({
-          iso: this.props.homepage.initialIsoCode,
-          languageCode: this.props.homepage.defaultLanguageCode,
-          name: this.props.homepage.initialLanguageName,
-        }),
-      );
-      this.props.dispatch(
-        initApplication({
-          languageIso: this.props.homepage.defaultLanguageIso,
-          languageCode: this.props.homepage.defaultLanguageCode,
-        }),
-      );
-      this.toggleFirstLoadForTextSelection();
-    }
     if (process.env.FB_APP_ID) {
       try {
         ((d, s, id) => {
@@ -240,7 +183,7 @@ class HomePage extends React.PureComponent {
     );
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
     // Based on nextProps so that requests have the latest chapter information
     const {
       activeTextId,
@@ -255,7 +198,7 @@ class HomePage extends React.PureComponent {
       userSettings: prevSettings,
       formattedSource: prevFormattedSource,
       textData: prevTextData,
-    } = nextProps;
+    } = prevProps;
     const { userId, userAuthenticated } = this.props.profile;
     const {
       addBookmarkSuccess: addBookmarkSuccessProps,
@@ -263,12 +206,12 @@ class HomePage extends React.PureComponent {
       activeBookId: activeBookIdProps,
       activeChapter: activeChapterProps,
       audioSource: prevAudioSource,
-    } = this.props.homepage;
+    } = prevProps.homepage;
     const {
       userId: userIdProps,
       userAuthenticated: userAuthenticatedProps,
-    } = this.props.profile;
-    const prevVerseNumber = nextProps.homepage.match.params.verse;
+    } = prevProps.profile;
+    const prevVerseNumber = prevProps.homepage.match.params.verse;
     const verseNumber = this.props.homepage.match.params.verse;
     const audioParam =
       location &&
@@ -280,11 +223,16 @@ class HomePage extends React.PureComponent {
         .find((key) => key[0] === 'audio_type');
     if (
       audioParam &&
-      (audioParam[1] !== nextProps.homepage.audioType ||
+      (audioParam[1] !== prevProps.homepage.audioType ||
         audioParam[1] !== this.props.homepage.audioType)
     ) {
-      nextProps.dispatch(setAudioType({ audioType: audioParam[1] }));
+      prevProps.dispatch(setAudioType({ audioType: audioParam[1] }));
     }
+
+    if (this.props.homepage.changingVersion) {
+      this.props.dispatch(changeVersion({ state: false }));
+    }
+
     // If there was a change in the params then make sure loading state is set to false
     if (
       prevVerseNumber !== verseNumber ||
@@ -384,6 +332,31 @@ class HomePage extends React.PureComponent {
       );
       this.props.dispatch(resetBookmarkState());
     }
+
+    if (this.props.homepage.firstLoad) {
+      this.toggleFirstLoadForTextSelection();
+    }
+
+    if (!this.props.homepage.firstLoad && prevProps.homepage.firstLoad) {
+      // this.props.dispatch(
+      //   setActiveIsoCode({
+      //     iso: this.props.homepage.initialIsoCode,
+      //     languageCode: this.props.homepage.defaultLanguageCode,
+      //     name: this.props.homepage.initialLanguageName,
+      //   }),
+      // );
+
+      this.props.dispatch(
+        initApplication({
+          languageIso: this.props.homepage.defaultLanguageIso,
+          languageCode: this.props.homepage.defaultLanguageCode,
+        }),
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   getBooks = (props) => this.props.dispatch(getBooks(props));

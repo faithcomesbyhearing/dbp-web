@@ -45,8 +45,6 @@ class CloseMenuFunctions {
 			) {
 				this.closeFunction(this.onCloseOptions);
 				document.removeEventListener('touchend', this.handleTouchend);
-				console.log("reference out", this.ref);
-				console.log("event.target out", event.target);
 			}
 		}
 	};
