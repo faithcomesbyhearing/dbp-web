@@ -36,7 +36,6 @@ export function injectSagaFactory(store, isValid) {
 			mode: descriptor.mode || RESTART_ON_REMOUNT,
 		};
 		const { saga, mode } = newDescriptor;
-		// console.log("injectSagaFactory injectSaga 7777 ======> store key ", store, key)
 
 		checkKey(key);
 		checkDescriptor(newDescriptor);

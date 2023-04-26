@@ -16,7 +16,7 @@ export default function checkStore(store) {
 		injectedReducers: isObject,
 		injectedSagas: isObject,
 	};
-	// console.log("store and shape: =====>", store, shape);
+
 	if (store) {
 		invariant(
 			conformsTo(store, shape),

@@ -71,7 +71,7 @@ class CountryList extends React.PureComponent {
 					<svg className="icon" height="25px" width="25px">
 						<use
 							xmlnsXlink="http://www.w3.org/1999/xlink"
-							xlinkHref={`/public/flags.svg#${country.getIn([
+							xlinkHref={`/flags.svg#${country.getIn([
 								'codes',
 								'iso_a2',
 							])}`}

@@ -6,7 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import matchSorter from 'match-sorter';
+import { matchSorter } from 'match-sorter';
 import SvgWrapper from '../SvgWrapper';
 import Pagination from '../Pagination';
 import PageSizeSelector from '../PageSizeSelector';

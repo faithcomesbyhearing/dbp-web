@@ -1,4 +1,4 @@
-import { takeLatest, call, fork, put } from 'redux-saga/effects';
+import { all, takeLatest, call, fork, put } from 'redux-saga/effects';
 import { fromJS } from 'immutable';
 import cachedFetch from '../../utils/cachedFetch';
 import territoryCodes from '../../utils/territoryCodes.json';
@@ -29,7 +29,8 @@ export function* getCountries() {
     data.push(...response.data);
 
     while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      response = yield call(cachedFetch, `${requestUrl}&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      const nextRequestUrl = `${requestUrl}&page=${response.meta.pagination.current_page + 1}`;
+      response = yield call(cachedFetch, nextRequestUrl, {}, oneDay);
       data.push(...response.data);
     }
 
@@ -141,7 +142,7 @@ export function* getTexts({ languageCode, languageIso }) {
         resource.filesets['dbp-vid'] && resource.filesets['dbp-vid'].length
       ),
       filesets: Object.values(resource.filesets)
-        .reduce((all, current) => [...all, ...current])
+        .reduce((allFilesets, current) => [...allFilesets, ...current])
         .filter((value) => types[value.type]),
     }));
 
@@ -168,7 +169,8 @@ export function* getLanguages() {
     languages.push(...response.data);
 
     while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      response = yield call(cachedFetch, `${requestUrl}&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
+      const nextRequestUrl = `${requestUrl}&page=${response.meta.pagination.current_page + 1}`;
+      response = yield call(cachedFetch, nextRequestUrl, {}, oneDay);
       languages.push(...response.data);
     }
 
@@ -240,7 +242,9 @@ export function* getLanguageAltNames() {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-  yield takeLatest(GET_DPB_TEXTS, getTexts);
-  yield takeLatest(GET_LANGUAGES, getLanguages);
-  yield takeLatest(GET_COUNTRIES, getCountries);
+  yield all([
+    takeLatest(GET_DPB_TEXTS, getTexts),
+    takeLatest(GET_LANGUAGES, getLanguageAltNames),
+    takeLatest(GET_COUNTRIES, getCountries),
+  ]);
 }

@@ -51,7 +51,7 @@ export default async ({
       })
       .catch((e) => {
         if (process.env.NODE_ENV === 'development') {
-          console.error('Error in request for plain fileset: ', e.message); // eslint-disable-line no-console
+          console.error('Error in request for plain fileset: ', e.message, 'url', url); // eslint-disable-line no-console
         }
         return { data: [] };
       });

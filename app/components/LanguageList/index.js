@@ -10,7 +10,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { List, AutoSizer } from 'react-virtualized';
-import matchSorter from 'match-sorter';
+import { matchSorter } from 'match-sorter';
 import Router from 'next/router';
 import { loadVersionForLanguage } from '../../containers/TextSelection/actions';
 import { changeVersion } from '../../containers/HomePage/actions';
@@ -42,6 +42,7 @@ export class LanguageList extends React.PureComponent {
           keys: [
             'name',
             'iso',
+            'autonym',
             {
               maxRanking: matchSorter.rankings.STARTS_WITH,
               key: 'alt_names',

@@ -360,7 +360,7 @@ span:focus {
 // font sizes
 h2 {
 	@include css4 {
-		// font-size: calc(var(--application-menu-font-size) * 1.4);
+		font-size: unquote("calc(var(--application-menu-font-size) * 1.4)");
 	}
 }
 

@@ -462,7 +462,6 @@ AppContainer.getInitialProps = async (context) => {
       audioParam = '';
     }
   }
-  // console.log('bible id', bibleId, 'book id', bookId, 'chapter', chapter);
 
   // Redirect to the new url if conditions are met
   if (bookMetaData && bookMetaData.length) {
@@ -475,7 +474,6 @@ AppContainer.getInitialProps = async (context) => {
     // Default book/chapter to matthew 1 to keep it from breaking if there is an error encountered in getFirstChapterReference
     let bookChapterRoute = 'MAT/1';
     // Handles getting the book/chapter that follows Jon Stearley's methodology
-    // console.log('book meta', bookMetaResponse);
     try {
       bookChapterRoute = getFirstChapterReference(
         filesets,
@@ -549,6 +547,7 @@ AppContainer.getInitialProps = async (context) => {
   };
   try {
     /* eslint-disable no-console */
+
     initData = await getinitialChapterData({
       filesets,
       bookId,
@@ -608,8 +607,6 @@ AppContainer.getInitialProps = async (context) => {
     ? bookData.reduce((a, c) => ({ ...a, [c.book_id]: c.testament }), {})
     : [];
   if (context.reduxStore) {
-    // console.log("APP context.reduxStore =====================> 1");
-    // console.log("APP context.reduxStore =====================> 2");
     if (userProfile.userId && userProfile.email) {
       context.reduxStore.dispatch({
         type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
