@@ -14,6 +14,7 @@ function ReadFullChapter({ activeTextId, activeBookId, activeChapter }) {
 	return (
 		<div className={'read-chapter-container'}>
 			<Link
+				legacyBehavior
 				href={`/app?bibleId=${activeTextId.toLowerCase()}&bookId=${activeBookId.toLowerCase()}&chapter=${activeChapter}`}
 				as={`/bible/${activeTextId.toLowerCase()}/${activeBookId.toLowerCase()}/${activeChapter}`}
 			>

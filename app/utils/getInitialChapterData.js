@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import request from './request';
 
 export default async ({
@@ -24,11 +24,13 @@ export default async ({
     const path = res && res.data && res.data[0] && res.data[0].path;
     let text = '';
     if (path) {
-      text = await fetch(path)
-        .then((textRes) => textRes.text())
+      text = await axios.get(path)
+        .then((textRes) => {
+          return textRes.data;
+        })
         .catch((e) => {
           if (process.env.NODE_ENV === 'development') {
-            console.log('Error fetching formatted text: ', e.message); // eslint-disable-line no-console
+            console.log('Error fetching formatted text: ', e.message, ' path: ', path); // eslint-disable-line no-console
           }
         });
     }
@@ -46,7 +48,7 @@ export default async ({
     }&v=4`;
     const res = await request(url)
       .then((json) => {
-        plainTextJson = JSON.stringify(json);
+        plainTextJson = JSON.stringify(json.data);
         return json;
       })
       .catch((e) => {

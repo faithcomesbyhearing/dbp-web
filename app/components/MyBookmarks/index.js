@@ -22,6 +22,7 @@ class MyBookmarks extends React.PureComponent {
 		return bookmarks.map((listItem) => (
 			<div key={listItem.id} id={listItem.id} className={'highlight-item'}>
 				<Link
+					legacyBehavior
 					as={`/bible/${listItem.bible_id}/${listItem.book_id}/${
 						listItem.chapter
 					}`}

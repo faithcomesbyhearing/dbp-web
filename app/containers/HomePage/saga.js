@@ -1,5 +1,5 @@
-import fetch from 'isomorphic-fetch';
-import { takeLatest, call, all, put, fork } from 'redux-saga/effects';
+import axios from 'axios';
+import { takeLatest, cancelled, call, all, put, fork } from 'redux-saga/effects';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
@@ -156,14 +156,23 @@ export function* getHighlights({ bible, book, chapter, userId }) {
 
   try {
     const response = yield call(request, requestUrl);
+
     if (response.data) {
       highlights = response.data;
     }
-
+    
     yield put({ type: LOAD_HIGHLIGHTS, highlights });
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       console.error('Caught in highlights request', error); // eslint-disable-line no-console
+    }
+  } finally {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('getHighlights generator function has completed execution');
+
+      if (yield cancelled()) {
+        console.log('Saga was cancelled');
+      }
     }
   }
 }
@@ -444,7 +453,7 @@ export function* getChapterFromUrl({
           const formattedChapterObject = yield call(request, reqUrl);
           const path = get(formattedChapterObject.data, [0, 'path']);
           formattedText = yield path
-            ? fetch(path).then((res) => res.text())
+            ? axios.get(path).then((res) => res.data)
             : '';
 
           formattedTextFilesetId = filesetId;
@@ -1140,17 +1149,15 @@ export function* createSocialUser({ provider }) {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-  yield all([
-    takeLatest(INIT_APPLICATION, initApplication),
-    takeLatest('getchapter', getChapterFromUrl),
-    takeLatest(GET_HIGHLIGHTS, getHighlights),
-    takeLatest(ADD_HIGHLIGHTS, addHighlight),
-    takeLatest('getbible', getBibleFromUrl),
-    takeLatest('getaudio', getChapterAudio),
-    takeLatest(ADD_BOOKMARK, addBookmark),
-    takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter),
-    takeLatest(GET_COPYRIGHTS, getCopyrightSaga),
-    takeLatest(DELETE_HIGHLIGHTS, deleteHighlights),
-    takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser),
-  ]);
+  yield takeLatest(INIT_APPLICATION, initApplication);
+  yield takeLatest('getchapter', getChapterFromUrl);
+  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
+  yield takeLatest(ADD_HIGHLIGHTS, addHighlight);
+  yield takeLatest('getbible', getBibleFromUrl);
+  yield takeLatest('getaudio', getChapterAudio);
+  yield takeLatest(ADD_BOOKMARK, addBookmark);
+  yield takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter);
+  yield takeLatest(GET_COPYRIGHTS, getCopyrightSaga);
+  yield takeLatest(DELETE_HIGHLIGHTS, deleteHighlights);
+  yield takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser);
 }

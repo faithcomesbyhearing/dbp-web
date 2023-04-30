@@ -6,15 +6,15 @@ if (
 ) {
   require('newrelic'); // eslint-disable-line
 }
-require('@babel/polyfill');
+require('core-js');
+require('regenerator-runtime');
 require('dotenv').config();
 const cp = require('child_process');
 const express = require('express');
 const next = require('next');
 const compression = require('compression');
-const LRUCache = require('lru-cache');
-const fetch = require('isomorphic-fetch');
-// const crypto = require('crypto');p
+const { LRUCache } = require('lru-cache');
+const fetch = require('axios');
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV === 'development';
 const bugsnag = require('./app/utils/bugsnagServer');
@@ -62,14 +62,14 @@ app
       }
       if (languageIso !== 'eng') {
         isoCodesDidNotMatch = true;
-        const biblesData = await fetch(
+        const biblesData = await fetch.get(
           `${
             process.env.BASE_API_ROUTE
           }/bibles?language_code=${languageIso}&key=${
             process.env.DBP_API_KEY
           }&v=4&include_font=false`,
         )
-          .then((body) => body.json())
+          .then((body) => body.data)
           .catch((err) => {
             if (process.env.NODE_ENV === 'development') {
               /* eslint-disable no-console */
@@ -174,7 +174,7 @@ Disallow: /
     });
 
     server.get('/status', async (req, res) => {
-      const ok = await fetch(
+      const ok = await fetch.get(
         `${process.env.BASE_API_ROUTE}/bibles?v=4&key=${
           process.env.DBP_API_KEY
         }&language_code=6414`,

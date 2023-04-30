@@ -14,13 +14,13 @@ export const themes = {
 	red,
 };
 
-const fonts = {
+export const fonts = {
 	sans: customFonts.sans,
 	serif: customFonts.serif,
 	slab: customFonts.slab,
 };
 
-const sizes = {
+export const sizes = {
 	0: customFontSizes.smallest,
 	18: customFontSizes.small,
 	42: customFontSizes.medium,

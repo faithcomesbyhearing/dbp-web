@@ -54,7 +54,7 @@ module.exports = (options) => ({
 				use: [
 					'file-loader',
 					{
-						loader: 'image-webpack-loader',
+						loader: 'image-minimizer-webpack-plugin',
 						options: {
 							progressive: true,
 							optimizationLevel: 7,

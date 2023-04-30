@@ -31,6 +31,7 @@ const NewChapterArrow = ({
 
   return (
     <Link
+      legacyBehavior
       as={getNewUrl({
         ...urlProps,
         isHref: false,

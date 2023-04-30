@@ -2,26 +2,22 @@
  * Create the store with dynamic reducers
  */
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
-import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
-import {
-	persistStore,
-	autoRehydrate,
-} from 'jh108-redux-persist-immutable-plugin';
-import REDUX_PERSIST from './utils/reduxPersist';
+import { persistStore } from 'redux-persist';
 import createReducer from './reducers';
+import REDUX_PERSIST from '../app/utils/reduxPersist';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState = {}) {
 	// Create the store with two middlewares
 	// 1. sagaMiddleware: Makes redux-sagas work
 	// 2. routerMiddleware: Syncs the location/URL path to the state
-	const middlewares = [sagaMiddleware, routerMiddleware(history)];
+	const middlewares = [sagaMiddleware];
 
-	const enhancers = [applyMiddleware(...middlewares), autoRehydrate()];
+	const enhancers = [applyMiddleware(...middlewares)];
 
 	/* eslint-disable no-underscore-dangle */
 	const composeEnhancers =
@@ -42,7 +38,9 @@ export default function configureStore(initialState = {}, history) {
 	);
 
 	if (typeof self === 'object') {
-		persistStore(store, REDUX_PERSIST.storeConfig);
+		persistStore(store, {
+			stateReconciler: REDUX_PERSIST.storeConfig.stateReconciler
+		});
 	}
 
 	// Extensions

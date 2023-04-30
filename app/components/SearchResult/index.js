@@ -18,6 +18,7 @@ function SearchResult({ result: r, bibleId }) {
 		>
 			<h4>
 				<Link
+					legacyBehavior
 					as={`/bible/${bibleId}/${r.get('book_id')}/${r.get(
 						'chapter',
 					)}/${r.get('verse_start')}`}

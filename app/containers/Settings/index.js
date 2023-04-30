@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import Slider from 'rc-slider/lib/Slider';
+import Slider from 'rc-slider';
 import injectReducer from '../../utils/injectReducer';
 import SettingsToggle from '../../components/SettingsToggle/index';
 import SvgWrapper from '../../components/SvgWrapper';
@@ -354,11 +354,11 @@ export class Settings extends React.PureComponent {
 							}}
 							step={null}
 							marks={{
-								0: '',
-								18: '',
-								42: '',
-								69: '',
-								100: '',
+								0: <span></span>,
+								18: <span></span>,
+								42: <span></span>,
+								69: <span></span>,
+								100: <span></span>,
 							}}
 							min={0}
 							max={100}

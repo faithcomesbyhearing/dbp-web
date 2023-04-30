@@ -4,11 +4,8 @@
 
 import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
-import { LOCATION_CHANGE } from 'react-router-redux';
-
 import languageProviderReducer from './containers/LanguageProvider/reducer';
 import profileReducer from './containers/Profile/reducer';
-// import textSelectionReducer from './containers/TextSelection/reducer';
 import homepageReducer from './containers/HomePage/reducer';
 import videoPlayerReducer from './containers/VideoPlayer/reducer';
 import settingsReducer from './containers/Settings/reducer';
@@ -33,7 +30,11 @@ const routeInitialState = fromJS({
 function routeReducer(state = routeInitialState, action) {
 	switch (action.type) {
 		/* istanbul ignore next */
-		case LOCATION_CHANGE:
+		// case LOCATION_CHANGE:
+		// 	return state.merge({
+		// 		location: action.payload,
+		// 	});
+		case "persist/PERSIST":
 			return state.merge({
 				location: action.payload,
 			});

@@ -24,7 +24,7 @@ const selectVideoList = () =>
 
 const selectHasVideo = () =>
 	createSelector(
-		(state) => state.get('homepage'),
+		(state) => state?.get('homepage'),
 		(home) => home.get('hasVideo'),
 	);
 
