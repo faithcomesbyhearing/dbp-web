@@ -2,8 +2,8 @@
  * Combine all reducers in this file and export the combined reducers.
  */
 
-// import { combineReducers } from 'redux-immutable';
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
+// import { combineReducers } from 'redux';
 import { fromJS } from 'immutable';
 // import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -48,14 +48,14 @@ function routeReducer(state = routeInitialState, action) {
  */
 export default function createReducer(injectedReducers) {
 	return combineReducers({
-		// route: routeReducer,
-		// profile: profileReducer,
-		// language: languageProviderReducer,
+		route: routeReducer,
+		profile: profileReducer,
+		language: languageProviderReducer,
 		homepage: homepageReducer,
-		// videoPlayer: videoPlayerReducer,
+		videoPlayer: videoPlayerReducer,
 		settings: settingsReducer,
-		// searchContainer: searchContainerReducer,
+		searchContainer: searchContainerReducer,
 		...injectedReducers,
-	// });
-	}, { deep: true });
+	});
+	// }, { deep: true });
 }

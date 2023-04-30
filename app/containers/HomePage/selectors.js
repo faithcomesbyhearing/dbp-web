@@ -7,21 +7,12 @@ import { fromJS, is, isImmutable } from 'immutable';
 // TODO: If there seems to be some state missing check to make sure the equality check isn't failing
 // create a "selector creator" that uses lodash.isEqual instead of ===
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, is);
-// const selectHomePageDomain = (state) => state.get('homepage');
-const selectHomePageDomain = (state) => {
-	console.log("selectHomePageDomain =======>", state);
-	// return state.get('homepage');
-	return null;
-};
+const selectHomePageDomain = (state) => state.get('homepage');
 const selectSettingsDomain = (state) => state.get('settings');
 const selectHomepageText = (state) => state.getIn(['homepage', 'chapterText']);
 const selectProfilePageDomain = (state) => state.get('profile');
-// const selectFormattedTextSource = (state) =>
-// 	state.getIn(['homepage', 'formattedSource']);
-const selectFormattedTextSource = (state) => {
-	console.log("selectFormattedTextSource state ===================>", state);
-	return state.getIn(['homepage', 'formattedSource']);
-}
+const selectFormattedTextSource = (state) =>
+	state.getIn(['homepage', 'formattedSource']);
 const selectCrossReferenceState = (state) =>
 	state.getIn([
 		'settings',

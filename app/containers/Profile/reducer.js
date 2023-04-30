@@ -135,12 +135,12 @@ function profileReducer(state = initialState, action) {
 			// TODO: Ask for Sam's input on this to see if I can get around it
 			console.log("action persist/REHYDRATE =====>", action?.payload?.profile?.toJS())
 
-			// if (state.get('userId')) {
-			// 	return action.payload.profile
-			// 		.set('userProfile', state.get('userProfile'))
-			// 		.set('userAuthenticated', state.get('userAuthenticated'))
-			// 		.set('userId', state.get('userId'));
-			// }
+			if (state.get('userId')) {
+				return action.payload.profile
+					.set('userProfile', state.get('userProfile'))
+					.set('userAuthenticated', state.get('userAuthenticated'))
+					.set('userId', state.get('userId'));
+			}
 			return state;
 		default:
 			return state;
