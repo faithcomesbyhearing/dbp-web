@@ -105,6 +105,8 @@ export async function getTexts({ languageCode }) {
 			(video) => video.abbr && video.language && video.language_id && video.iso,
 		);
 
+		console.log("response =====>", response);
+
 		const texts = response.data.filter(
 			(text) =>
 				text.iso &&

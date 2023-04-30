@@ -138,10 +138,17 @@ export const getAudio = ({ filesetId, list }) => ({
 	list,
 });
 
-export const getHighlights = (props) => ({
-	type: GET_HIGHLIGHTS,
-	...props,
-});
+// export const getHighlights = (props) => ({
+// 	type: GET_HIGHLIGHTS,
+// 	...props,
+// });
+export const getHighlights = (props) => {
+	console.log("getHighlights ACTION ===============>", props)
+	return {
+		type: GET_HIGHLIGHTS,
+		...props,
+	};
+};
 
 export const getCopyrights = (props) => ({
 	type: GET_COPYRIGHTS,

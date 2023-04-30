@@ -63,6 +63,8 @@ export class AudioPlayer extends React.Component {
   }
 
   componentDidMount() {
+    // console.log("componentDidMount ========> AudioPlayer");
+
     if (this.props.audioPaths.length) {
       this.props.audioPaths.forEach((path) => this.preLoadPath(path));
     }

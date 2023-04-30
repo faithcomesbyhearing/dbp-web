@@ -1,5 +1,6 @@
-import { takeLatest, call, take, cancel, put } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
+// import { takeLatest, call, take, cancel, put } from 'redux-saga/effects';
+import { takeLatest, call, all, put } from 'redux-saga/effects';
+// import { LOCATION_CHANGE } from 'react-router-redux';
 import request from '../../utils/request';
 import {
 	CHANGE_PICTURE,
@@ -74,6 +75,7 @@ export function* sendSignUpForm({
 }
 
 export function* sendLoginForm({ password, email, stay }) {
+	console.log("sendLoginForm ========> BEFORE");
 	const requestUrl = `${process.env.BASE_API_ROUTE}/login?key=${
 		process.env.DBP_API_KEY
 	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
@@ -88,7 +90,9 @@ export function* sendLoginForm({ password, email, stay }) {
 	};
 
 	try {
+		console.log("sendLoginForm ========> BEFORE 2");
 		const response = yield call(request, requestUrl, options);
+		console.log("sendLoginForm ========> AFTER", response);
 		if (response.error) {
 			yield put({ type: LOGIN_ERROR, message: response.error.message });
 		} else {
@@ -357,33 +361,45 @@ export function* socialMediaLogin({ driver }) {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-	const sendSignUpFormSaga = yield takeLatest(SEND_SIGNUP_FORM, sendSignUpForm);
-	const sendLoginFormSaga = yield takeLatest(SEND_LOGIN_FORM, sendLoginForm);
-	const sendResetPasswordSaga = yield takeLatest(
-		SEND_PASSWORD_RESET,
-		sendResetPassword,
-	);
-	const resetPasswordSaga = yield takeLatest(RESET_PASSWORD, resetPassword);
-	const deleteUserSaga = yield takeLatest(DELETE_USER, deleteUser);
-	const updateUserInformationSaga = yield takeLatest(
-		UPDATE_USER_INFORMATION,
-		updateUserInformation,
-	);
-	const updateEmailSaga = yield takeLatest(UPDATE_EMAIL, updateEmail);
-	const socialMediaLoginSaga = yield takeLatest(
-		SOCIAL_MEDIA_LOGIN,
-		socialMediaLogin,
-	);
-	const changePictureSaga = yield takeLatest(CHANGE_PICTURE, changePicture);
+	// const sendSignUpFormSaga = yield takeLatest(SEND_SIGNUP_FORM, sendSignUpForm);
+	// const sendLoginFormSaga = yield takeLatest(SEND_LOGIN_FORM, sendLoginForm);
+	// const sendResetPasswordSaga = yield takeLatest(
+	// 	SEND_PASSWORD_RESET,
+	// 	sendResetPassword,
+	// );
+	// const resetPasswordSaga = yield takeLatest(RESET_PASSWORD, resetPassword);
+	// const deleteUserSaga = yield takeLatest(DELETE_USER, deleteUser);
+	// const updateUserInformationSaga = yield takeLatest(
+	// 	UPDATE_USER_INFORMATION,
+	// 	updateUserInformation,
+	// );
+	// const updateEmailSaga = yield takeLatest(UPDATE_EMAIL, updateEmail);
+	// const socialMediaLoginSaga = yield takeLatest(
+	// 	SOCIAL_MEDIA_LOGIN,
+	// 	socialMediaLogin,
+	// );
+	// const changePictureSaga = yield takeLatest(CHANGE_PICTURE, changePicture);
 
-	yield take(LOCATION_CHANGE);
-	yield cancel(changePictureSaga);
-	yield cancel(sendSignUpFormSaga);
-	yield cancel(sendLoginFormSaga);
-	yield cancel(sendResetPasswordSaga);
-	yield cancel(resetPasswordSaga);
-	yield cancel(deleteUserSaga);
-	yield cancel(updateUserInformationSaga);
-	yield cancel(updateEmailSaga);
-	yield cancel(socialMediaLoginSaga);
+	// yield take(LOCATION_CHANGE);
+	// yield cancel(changePictureSaga);
+	// yield cancel(sendSignUpFormSaga);
+	// yield cancel(sendLoginFormSaga);
+	// yield cancel(sendResetPasswordSaga);
+	// yield cancel(resetPasswordSaga);
+	// yield cancel(deleteUserSaga);
+	// yield cancel(updateUserInformationSaga);
+	// yield cancel(updateEmailSaga);
+	// yield cancel(socialMediaLoginSaga);
+
+	yield all([
+		takeLatest(SEND_SIGNUP_FORM, sendSignUpForm),
+		takeLatest(SEND_LOGIN_FORM, sendLoginForm),
+		takeLatest(SEND_PASSWORD_RESET, sendResetPassword),
+		takeLatest(RESET_PASSWORD, resetPassword),
+		takeLatest(DELETE_USER, deleteUser),
+		takeLatest(UPDATE_USER_INFORMATION, updateUserInformation),
+		takeLatest(UPDATE_EMAIL, updateEmail),
+		takeLatest(SOCIAL_MEDIA_LOGIN, socialMediaLogin),
+		takeLatest(CHANGE_PICTURE, changePicture),
+	]);
 }

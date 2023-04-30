@@ -34,6 +34,8 @@ class Text extends React.PureComponent {
 	}
 
 	componentDidMount() {
+		// console.log("componentDidMount ========> Text");
+
 		// Doing all these assignments because nextjs was erroring because they try to use the dom
 		if (this.mainWrapper) {
 			this.mainWrapper.focus();

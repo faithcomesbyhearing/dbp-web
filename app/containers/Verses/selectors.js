@@ -13,7 +13,7 @@ const selectProfilePageDomain = (state) => state.get('profile');
  */
 // Homepage State
 const selectHighlights = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('highlights').toJS());
+	createSelector(selectHomePageDomain, (home) => home.get('highlights')?.toJS ? home.get('highlights').toJS() : home.get('highlights'));
 const selectActiveTextId = () =>
 	createSelector(selectHomePageDomain, (home) => home.get('activeTextId'));
 const selectActiveBookId = () =>

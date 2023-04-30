@@ -1,7 +1,8 @@
-require('@babel/polyfill');
+// require('@babel/polyfill');
 // const withCss = require('@zeit/next-css');
 // const withSass = require('@zeit/next-sass');
-const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+// const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const withBundleAnalyzer = require('@next/bundle-analyzer');
 // const isProd =
 	// process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging';
 // const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');

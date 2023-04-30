@@ -1,4 +1,5 @@
-import fetch from 'isomorphic-fetch';
+// import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import request from './request';
 
 export default async ({
@@ -7,6 +8,7 @@ export default async ({
   bookId: lowerCaseBookId,
   chapter,
 }) => {
+  // console.log("formattedFilesetIds =====================>", formattedFilesetIds);
   // Gather all initial data
   const bookId = lowerCaseBookId.toUpperCase();
   // start promise for formatted text
@@ -24,11 +26,16 @@ export default async ({
     const path = res && res.data && res.data[0] && res.data[0].path;
     let text = '';
     if (path) {
-      text = await fetch(path)
-        .then((textRes) => textRes.text())
+      // text = await fetch(path)
+      text = await axios.get(path)
+        // .then((textRes) => textRes.text())
+        .then((textRes) => {
+          // console.log("TEXT from ========>", path, textRes.data);
+          return textRes.data;
+        })
         .catch((e) => {
           if (process.env.NODE_ENV === 'development') {
-            console.log('Error fetching formatted text: ', e.message); // eslint-disable-line no-console
+            console.log('Error fetching formatted text: ', e.message, ' path: ', path); // eslint-disable-line no-console
           }
         });
     }
@@ -36,6 +43,7 @@ export default async ({
     return text || '';
   });
 
+  // console.log("Get Initial Chapter DATA ===================>")
   let plainTextJson = JSON.stringify({});
   // start promise for plain text
   const plainPromises = plainFilesetIds.map(async (id) => {
@@ -46,7 +54,9 @@ export default async ({
     }&v=4`;
     const res = await request(url)
       .then((json) => {
-        plainTextJson = JSON.stringify(json);
+        // console.log("JSON from ========>", url, json.data);
+        // plainTextJson = JSON.stringify(json);
+        plainTextJson = JSON.stringify(json.data);
         return json;
       })
       .catch((e) => {

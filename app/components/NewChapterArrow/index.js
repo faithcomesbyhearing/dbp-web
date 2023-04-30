@@ -29,8 +29,11 @@ const NewChapterArrow = ({
     );
   }
 
+  // console.log("urlProps NewChapterArrow =======>", urlProps);
+
   return (
     <Link
+      legacyBehavior
       as={getNewUrl({
         ...urlProps,
         isHref: false,

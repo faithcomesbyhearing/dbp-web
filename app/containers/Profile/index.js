@@ -62,6 +62,8 @@ export class Profile extends React.PureComponent {
 	}
 
 	componentDidUpdate(prevProps) {
+		console.log("Profile ===============>", this.props.userAccessToken);
+
 		if (this.props.profile.activeOption !== prevProps.profile.activeOption) {
 			prevProps.dispatch(clearErrorMessage());
 		}
@@ -126,7 +128,12 @@ export class Profile extends React.PureComponent {
 
 	readOauthError = (props) => this.props.dispatch(readOauthError(props));
 
-	sendLoginForm = (props) => this.props.dispatch(sendLoginForm(props));
+	// sendLoginForm = (props) => this.props.dispatch(sendLoginForm(props));
+	sendLoginForm = (props) => {
+		console.log("dispatch sendLoginForm ====>", props, this.props.dispatch);
+
+		return this.props.dispatch(sendLoginForm(props));
+	};
 
 	selectAccountOption = (option) =>
 		this.props.dispatch(selectAccountOption(option));

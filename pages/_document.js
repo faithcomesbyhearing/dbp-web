@@ -1,7 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import parseCookie from '../app/utils/parseCookie';
 /* eslint-disable no-unused-vars */
-import { paper, dark, red, themes } from '../app/containers/Settings/themes';
+// import { paper, dark, red, themes } from '../app/containers/Settings/themes';
+import { themes } from '../app/containers/Settings/themes';
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable */
@@ -21,7 +22,7 @@ export default class MyDocument extends Document {
   };
   render() {
     return (
-      <Html>
+      <Html style={this.props.theme ? themes[this.props.theme] : {}}>
         <Head></ Head>
         <body>
           <noscript>

@@ -12,11 +12,13 @@ export default async (filesetId, bookId, chapter) => {
 	try {
 		const res = await request(reqUrl);
 
+		// console.log("checkForVideo ==================>", filesetId, res.data);
 		if (res.data) {
 			const hasVideo = !!res.data.filter(
 				(stream) =>
 					stream.book_id === bookId && stream.chapters.includes(chapter),
 			).length;
+			// console.log("hasVideo ==================>", hasVideo);
 
 			return hasVideo;
 		}

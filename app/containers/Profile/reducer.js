@@ -133,12 +133,14 @@ function profileReducer(state = initialState, action) {
 			return state.merge(action.profile);
 		case 'persist/REHYDRATE':
 			// TODO: Ask for Sam's input on this to see if I can get around it
-			if (state.get('userId')) {
-				return action.payload.profile
-					.set('userProfile', state.get('userProfile'))
-					.set('userAuthenticated', state.get('userAuthenticated'))
-					.set('userId', state.get('userId'));
-			}
+			console.log("action persist/REHYDRATE =====>", action?.payload?.profile?.toJS())
+
+			// if (state.get('userId')) {
+			// 	return action.payload.profile
+			// 		.set('userProfile', state.get('userProfile'))
+			// 		.set('userAuthenticated', state.get('userAuthenticated'))
+			// 		.set('userId', state.get('userId'));
+			// }
 			return state;
 		default:
 			return state;

@@ -1,5 +1,6 @@
-import fetch from 'isomorphic-fetch';
-import { takeLatest, call, all, put, fork } from 'redux-saga/effects';
+// import fetch from 'isomorphic-fetch';
+import axios from 'axios';
+import { takeLatest, cancelled, call, all, put, fork, takeEvery } from 'redux-saga/effects';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
@@ -148,6 +149,11 @@ export function* getBookMetadata({ bibleId }) {
 }
 
 export function* getHighlights({ bible, book, chapter, userId }) {
+
+  // const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId ||
+  //   'no_user_id'}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
+  //   process.env.NOTES_PROJECT_ID
+  // }&bible_id=${bible}&book_id=${book}&chapter=${chapter}&limit=1000`;
   const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId ||
     'no_user_id'}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
     process.env.NOTES_PROJECT_ID
@@ -155,15 +161,37 @@ export function* getHighlights({ bible, book, chapter, userId }) {
   let highlights = [];
 
   try {
+    console.log("GET FROM HOMEPAGE getHighlights ===============>");
     const response = yield call(request, requestUrl);
+
+ 
+    // const response = yield new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve({data: []});
+    //   }, 200); // 5 seconds
+    // });
+
+    // const response = yield axios.get(requestUrl).then((res) => res.data);
+    // const response = yield call(axios.get, requestUrl);
+    console.log("GET FROM HOMEPAGE getHighlights AFTER ===============>");
     if (response.data) {
       highlights = response.data;
+      // highlights = response.data.data;
     }
 
+    console.log("PUT getHighlights LOAD_HIGHLIGHTS ===============>", highlights);
+    
     yield put({ type: LOAD_HIGHLIGHTS, highlights });
+    console.log("PUT getHighlights LOAD_HIGHLIGHTS AFTER ===============>", highlights);
   } catch (error) {
+    console.log("getHighlights ERROR ===============>", highlights);
     if (process.env.NODE_ENV === 'development') {
       console.error('Caught in highlights request', error); // eslint-disable-line no-console
+    }
+  } finally {
+    console.log('getHighlights generator function has completed execution');
+    if (yield cancelled()) {
+      console.log('Saga was cancelled');
     }
   }
 }
@@ -235,6 +263,7 @@ export function* getBibleFromUrl({
   userId,
   verse,
 }) {
+  console.log("getBibleFromUrl ==================> bibleId", oldBibleId);
   // This function needs to return the data listed below
   // Books
   // Active or first chapter text
@@ -377,6 +406,8 @@ export function* getChapterFromUrl({
   userId,
   verse,
 }) {
+  console.log("getChapterFromUrl ========> ");
+
   const bibleId = oldBibleId.toUpperCase();
   const bookId = oldBookId.toUpperCase();
   const hasFormattedText = some(filesets, (f) => f.type === 'text_format');
@@ -386,6 +417,7 @@ export function* getChapterFromUrl({
     (f) => f.type === 'audio' || f.type === 'audio_drama',
   );
 
+  console.log("authenticated ========> ", authenticated);
   try {
     let formattedText = '';
     let formattedTextFilesetId = '';
@@ -443,8 +475,10 @@ export function* getChapterFromUrl({
           }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`; // hard coded since this only ever needs to get formatted text
           const formattedChapterObject = yield call(request, reqUrl);
           const path = get(formattedChapterObject.data, [0, 'path']);
+          console.log("formattedChapterObject =====================>", path);
           formattedText = yield path
-            ? fetch(path).then((res) => res.text())
+            // ? fetch(path).then((res) => res.text())
+            ? axios.get(path).then((res) => res.data)
             : '';
 
           formattedTextFilesetId = filesetId;
@@ -544,6 +578,7 @@ export function* getChapterFromUrl({
 function* tryNext({ urls, index, bookId, chapter }) {
   let plainText = [];
   let plainTextFilesetId = '';
+  console.log("tryNext ===================> 23");
   try {
     const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${
       urls[index]
@@ -1140,17 +1175,32 @@ export function* createSocialUser({ provider }) {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-  yield all([
-    takeLatest(INIT_APPLICATION, initApplication),
-    takeLatest('getchapter', getChapterFromUrl),
-    takeLatest(GET_HIGHLIGHTS, getHighlights),
-    takeLatest(ADD_HIGHLIGHTS, addHighlight),
-    takeLatest('getbible', getBibleFromUrl),
-    takeLatest('getaudio', getChapterAudio),
-    takeLatest(ADD_BOOKMARK, addBookmark),
-    takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter),
-    takeLatest(GET_COPYRIGHTS, getCopyrightSaga),
-    takeLatest(DELETE_HIGHLIGHTS, deleteHighlights),
-    takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser),
-  ]);
+  // yield all([
+  //   takeLatest(INIT_APPLICATION, initApplication),
+  //   takeLatest('getchapter', getChapterFromUrl),
+  //   takeLatest(GET_HIGHLIGHTS, getHighlights),
+  //   takeLatest(ADD_HIGHLIGHTS, addHighlight),
+  //   takeLatest('getbible', getBibleFromUrl),
+  //   takeLatest('getaudio', getChapterAudio),
+  //   takeLatest(ADD_BOOKMARK, addBookmark),
+  //   takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter),
+  //   takeLatest(GET_COPYRIGHTS, getCopyrightSaga),
+  //   takeLatest(DELETE_HIGHLIGHTS, deleteHighlights),
+  //   takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser),
+  // ]);
+  
+  yield takeLatest(INIT_APPLICATION, initApplication);
+  yield takeLatest('getchapter', getChapterFromUrl);
+  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
+  // yield takeEvery(GET_HIGHLIGHTS, getHighlights);
+  yield takeLatest(ADD_HIGHLIGHTS, addHighlight);
+  yield takeLatest('getbible', getBibleFromUrl);
+  yield takeLatest('getaudio', getChapterAudio);
+  yield takeLatest(ADD_BOOKMARK, addBookmark);
+  yield takeLatest(GET_NOTES_HOMEPAGE, getNotesForChapter);
+  yield takeLatest(GET_COPYRIGHTS, getCopyrightSaga);
+  yield takeLatest(DELETE_HIGHLIGHTS, deleteHighlights);
+  yield takeLatest(CREATE_USER_WITH_SOCIAL_ACCOUNT, createSocialUser);
+
+  // yield cancel(getHighlights);
 }

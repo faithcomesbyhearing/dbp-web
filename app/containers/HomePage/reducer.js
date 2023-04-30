@@ -6,7 +6,7 @@
  * options a user has available within their settings.
  */
 
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { SET_AUDIO_TYPE } from '../AudioPlayer/constants';
 import { USER_LOGGED_IN, LOG_OUT } from '../Profile/constants';
 import {
@@ -45,6 +45,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
+// const initialState = Map({
 	books: [],
 	chapterText: [],
 	audioObjects: [],
@@ -229,6 +230,7 @@ function homePageReducer(state = initialState, action) {
 			}
 			return state.set('audioPlayerState', action.state);
 		case LOAD_HIGHLIGHTS:
+			// console.log("LOAD_HIGHLIGHTS ================>", action.highlights);
 			return state.set('highlights', fromJS(action.highlights));
 		case SET_ACTIVE_NOTES_VIEW:
 			return state.set('activeNotesView', action.view);
@@ -237,6 +239,7 @@ function homePageReducer(state = initialState, action) {
 		case SET_SELECTED_BOOK_NAME:
 			return state.set('selectedBookName', action.book);
 		case 'loadbible':
+			// console.log("action loadbible ==============>", action);
 			return state
 				.set('activeTextId', fromJS(action.bibleId))
 				.set('activeBookId', fromJS(action.activeBookId))
@@ -305,6 +308,8 @@ function homePageReducer(state = initialState, action) {
 				.set('loadingCopyright', false)
 				.set('copyrights', action.copyrights);
 		case 'GET_INITIAL_ROUTE_STATE_HOMEPAGE':
+			// console.log("GET_INITIAL_ROUTE_STATE_HOMEPAGE ACTION =======================>", action.homepage);
+
 			return state.merge(action.homepage);
 		case SET_CHAPTER_TEXT_LOADING_STATE:
 			return state.set('chapterTextLoadingState', action.state);

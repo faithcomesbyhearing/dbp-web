@@ -18,8 +18,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { useRouter } from 'next/router';
+// import { BrowserRouter as Router } from 'react-router-dom';
+// import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
@@ -104,6 +105,7 @@ const AppContainer = (props) => {
         },
       });
     }
+    // console.log("props.formattedText ========================>", props.formattedText);
     const redLetter =
       !!props.formattedText &&
       !!(
@@ -225,6 +227,7 @@ AppContainer.displayName = 'Main app';
 AppContainer.getInitialProps = async (context) => {
   const { req, res: serverRes } = context;
   const routeLocation = context.asPath;
+  // console.log("context.query ======>", context.query);
   const {
     bookId = '',
     chapter: chapterParam,
@@ -268,6 +271,7 @@ AppContainer.getInitialProps = async (context) => {
   if (req && req.headers.cookie) {
     // Get all cookies that the page needs
     const cookieData = parseCookie(req.headers.cookie);
+    console.log("req.headers ==============>", cookieData);
 
     if (cookieData.bible_is_audio_type) {
       audioType = cookieData.bible_is_audio_type;
@@ -308,7 +312,8 @@ AppContainer.getInitialProps = async (context) => {
         }/callback?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${
           process.env.DBP_API_KEY
         }&alt_url=true&code=${cookieData.bible_is_cb_code}`,
-      ).then((body) => body.json());
+      // ).then((body) => body.json());
+      ).then((body) => body.data);
     }
 
     isFromServer = false;
@@ -339,6 +344,8 @@ AppContainer.getInitialProps = async (context) => {
       userProfile.userId = userId;
       // Avatar is a placeholder for when we actually build the rest of that functionality
       userProfile.avatar = '';
+      console.log("userId localStorage ================>", userId);
+      console.log("userProfile.email localStorage ================>", userProfile.email);
     }
 
     // Audio Player
@@ -359,6 +366,8 @@ AppContainer.getInitialProps = async (context) => {
     return { data: {} };
   });
   const singleBibleJson = singleBibleRes; // Not sure why I did this, probably should remove
+  // const bible = singleBibleJson.data || {};
+  // const bible = singleBibleJson.data.data || {};
   const bible = singleBibleJson.data || {};
 
   // Acceptable fileset types that the site is capable of ingesting and displaying
@@ -463,6 +472,8 @@ AppContainer.getInitialProps = async (context) => {
     }
   }
 
+  // console.log("bookMetaData XXXXXXXXXXXX ============>", bibleId);
+
   // Redirect to the new url if conditions are met
   if (bookMetaData && bookMetaData.length) {
     const foundBook = bookMetaData.find(
@@ -548,6 +559,10 @@ AppContainer.getInitialProps = async (context) => {
   try {
     /* eslint-disable no-console */
 
+    // console.log("=========================================================>");
+    // console.log("getinitialChapterData ============>");
+    // console.log("=========================================================>");
+    // console.log("");
     initData = await getinitialChapterData({
       filesets,
       bookId,
@@ -602,11 +617,14 @@ AppContainer.getInitialProps = async (context) => {
   if (filesets.some((set) => set.type === 'audio')) {
     availableAudioTypes.push('audio');
   }
+  // console.log("chapterText 1 =======================>", chapterText);
   const activeBookName = activeBook ? activeBook.name : '';
   const testaments = bookData
     ? bookData.reduce((a, c) => ({ ...a, [c.book_id]: c.testament }), {})
     : [];
   if (context.reduxStore) {
+    // console.log("GET_INITIAL_ROUTE_STATE_HOMEPAGE 1 =======================>", userProfile);
+    // console.log("initData.formattedText 1 =======================>", initData.formattedText);
     if (userProfile.userId && userProfile.email) {
       context.reduxStore.dispatch({
         type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
@@ -621,6 +639,8 @@ AppContainer.getInitialProps = async (context) => {
         },
       });
     }
+    console.log("GET_INITIAL_ROUTE_STATE_HOMEPAGE 2 =======================>", userProfile);
+
     context.reduxStore.dispatch({
       type: 'GET_INITIAL_ROUTE_STATE_HOMEPAGE',
       homepage: {
@@ -672,6 +692,7 @@ AppContainer.getInitialProps = async (context) => {
     document.cookie = `bible_is_ref_chapter=${chapter}`;
     document.cookie = `bible_is_ref_verse=${verse}`;
   }
+  // console.log("END INIT DATA =======================>");
   return {
     initialVolume,
     initialPlaybackRate,

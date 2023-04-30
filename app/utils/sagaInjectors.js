@@ -74,6 +74,7 @@ export function ejectSagaFactory(store, isValid) {
 		if (store && Reflect.has(store.injectedSagas, key)) {
 			const descriptor = store.injectedSagas[key];
 			if (descriptor.mode !== DAEMON) {
+				console.log("CANCEL Saga task ==============>", key);
 				descriptor.task.cancel();
 				// Clean up in production; in development we need `descriptor.saga` for hot reloading
 				if (

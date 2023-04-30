@@ -1,5 +1,6 @@
-import { take, cancel, takeLatest, call, fork, put } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
+// import { take, cancel, all, takeLatest, call, fork, put } from 'redux-saga/effects';
+import { all, takeLatest, call, fork, put, cancelled } from 'redux-saga/effects';
+// import { LOCATION_CHANGE } from 'react-router-redux';
 import request from '../../utils/request';
 import { getHighlights } from '../HomePage/saga';
 import {
@@ -46,6 +47,7 @@ export function* getChapterForNote({ note }) {
 
     if (hasText) {
       if (plain) {
+        console.log("getChapterForNote ========================>");
         const res = yield call(
           request,
           `${process.env.BASE_API_ROUTE}/bibles/filesets/${
@@ -110,6 +112,7 @@ export function* updateHighlight({
 }
 
 export function* getUserHighlights({ userId, params }) {
+  console.log("GET FROM NOTES getHighlights ===============>");
   const requestUrl = `${
     process.env.BASE_API_ROUTE
   }/users/${userId}/highlights?key=${
@@ -285,6 +288,8 @@ export function* getNotesForChapter({ userId, params = {} }) {
   try {
     const response = yield call(request, urlWithParams);
 
+    console.log("NOTES by USER ===============>", response.data);
+
     yield put({
       type: LOAD_USER_NOTES,
       listData: response.data || [],
@@ -292,6 +297,11 @@ export function* getNotesForChapter({ userId, params = {} }) {
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       console.error('Error getting the notes', err); // eslint-disable-line no-console
+    }
+  } finally {
+    console.log('getHighlights generator function has completed execution');
+    if (yield cancelled()) {
+      console.log('Saga was cancelled');
     }
   }
 }
@@ -372,6 +382,7 @@ export function* addNote({ userId, data }) {
 }
 
 export function* getBookmarksForChapter({ userId, params = {} }) {
+  console.log('getBookmarksForChapter RUN');
   const requestUrl = `${
     process.env.BASE_API_ROUTE
   }/users/${userId}/bookmarks?key=${
@@ -384,6 +395,7 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
 
   try {
     const response = yield call(request, urlWithParams);
+    console.log('getBookmarksForChapter AFTER', response.data);
 
     if (response.data) {
       yield put({
@@ -394,6 +406,11 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       console.error('Error getting the notes', err); // eslint-disable-line no-console
+    }
+  } finally {
+    console.log('getBookmarksForChapter generator function has completed execution');
+    if (yield cancelled()) {
+      console.log('Saga was cancelled');
     }
   }
 }
@@ -430,44 +447,69 @@ export function* getUserBookmarks({ userId, params = {} }) {
 
 // Individual exports for testing
 export default function* notesSaga() {
-  const addNoteSaga = yield takeLatest(ADD_NOTE, addNote);
-  const getNotesSaga = yield takeLatest(GET_USER_NOTES, getNotesForChapter);
-  const updateNoteSaga = yield takeLatest(UPDATE_NOTE, updateNote);
-  const updateHighlightSaga = yield takeLatest(
-    UPDATE_HIGHLIGHT,
-    updateHighlight,
-  );
-  const deleteNoteSaga = yield takeLatest(DELETE_NOTE, deleteNote);
-  const getChapterSaga = yield takeLatest(
-    GET_CHAPTER_FOR_NOTE,
-    getChapterForNote,
-  );
-  const getNotebookSaga = yield takeLatest(
-    GET_USER_NOTEBOOK_DATA,
-    getNotesForNotebook,
-  );
-  const getUserHighlightsSaga = yield takeLatest(
-    GET_USER_HIGHLIGHTS,
-    getUserHighlights,
-  );
-  const getBookmarksForChapterSaga = yield takeLatest(
-    GET_BOOKMARKS_FOR_CHAPTER,
-    getBookmarksForChapter,
-  );
-  const getUserBookmarksSaga = yield takeLatest(
-    GET_USER_BOOKMARK_DATA,
-    getUserBookmarks,
-  );
+  // const addNoteSaga = yield takeLatest(ADD_NOTE, addNote);
+  // const getNotesSaga = yield takeLatest(GET_USER_NOTES, getNotesForChapter);
+  // const updateNoteSaga = yield takeLatest(UPDATE_NOTE, updateNote);
+  // const updateHighlightSaga = yield takeLatest(
+  //   UPDATE_HIGHLIGHT,
+  //   updateHighlight,
+  // );
+  // const deleteNoteSaga = yield takeLatest(DELETE_NOTE, deleteNote);
+  // const getChapterSaga = yield takeLatest(
+  //   GET_CHAPTER_FOR_NOTE,
+  //   getChapterForNote,
+  // );
+  // const getNotebookSaga = yield takeLatest(
+  //   GET_USER_NOTEBOOK_DATA,
+  //   getNotesForNotebook,
+  // );
+  // const getUserHighlightsSaga = yield takeLatest(
+  //   GET_USER_HIGHLIGHTS,
+  //   getUserHighlights,
+  // );
+  // const getBookmarksForChapterSaga = yield takeLatest(
+  //   GET_BOOKMARKS_FOR_CHAPTER,
+  //   getBookmarksForChapter,
+  // );
+  // const getUserBookmarksSaga = yield takeLatest(
+  //   GET_USER_BOOKMARK_DATA,
+  //   getUserBookmarks,
+  // );
 
-  yield take(LOCATION_CHANGE);
-  yield cancel(addNoteSaga);
-  yield cancel(getNotesSaga);
-  yield cancel(getChapterSaga);
-  yield cancel(updateNoteSaga);
-  yield cancel(deleteNoteSaga);
-  yield cancel(getNotebookSaga);
-  yield cancel(updateHighlightSaga);
-  yield cancel(getUserBookmarksSaga);
-  yield cancel(getBookmarksForChapterSaga);
-  yield cancel(getUserHighlightsSaga);
+  // yield all([
+  //   takeLatest(ADD_NOTE, addNote),
+  //   takeLatest(GET_USER_NOTES, getNotesForChapter),
+  //   takeLatest(UPDATE_NOTE, updateNote),
+  //   takeLatest(UPDATE_HIGHLIGHT, updateHighlight),
+  //   takeLatest(DELETE_NOTE, deleteNote),
+  //   takeLatest(GET_CHAPTER_FOR_NOTE, getChapterForNote),
+  //   takeLatest(GET_USER_NOTEBOOK_DATA, getNotesForNotebook),
+  //   takeLatest(GET_USER_HIGHLIGHTS, getUserHighlights),
+  //   takeLatest(GET_BOOKMARKS_FOR_CHAPTER, getBookmarksForChapter),
+  //   takeLatest(GET_USER_BOOKMARK_DATA, getUserBookmarks),
+  // ]);
+  
+  yield takeLatest(ADD_NOTE, addNote);
+  yield takeLatest(GET_USER_NOTES, getNotesForChapter);
+  yield takeLatest(UPDATE_NOTE, updateNote);
+  yield takeLatest(UPDATE_HIGHLIGHT, updateHighlight);
+  yield takeLatest(DELETE_NOTE, deleteNote);
+  yield takeLatest(GET_CHAPTER_FOR_NOTE, getChapterForNote);
+  yield takeLatest(GET_USER_NOTEBOOK_DATA, getNotesForNotebook);
+  yield takeLatest(GET_USER_HIGHLIGHTS, getUserHighlights);
+  yield takeLatest(GET_BOOKMARKS_FOR_CHAPTER, getBookmarksForChapter);
+  yield takeLatest(GET_USER_BOOKMARK_DATA, getUserBookmarks);
+
+
+  // yield take(LOCATION_CHANGE);
+  // yield cancel(addNoteSaga);
+  // yield cancel(getNotesSaga);
+  // yield cancel(getChapterSaga);
+  // yield cancel(updateNoteSaga);
+  // yield cancel(deleteNoteSaga);
+  // yield cancel(getNotebookSaga);
+  // yield cancel(updateHighlightSaga);
+  // yield cancel(getUserBookmarksSaga);
+  // yield cancel(getBookmarksForChapterSaga);
+  // yield cancel(getUserHighlightsSaga);
 }

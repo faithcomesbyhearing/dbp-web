@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { fromJS } from 'immutable';
 
 /**
  * Direct selector to the notes state domain
@@ -34,7 +35,7 @@ const selectHighlightedText = () =>
 
 const selectBooks = () =>
   createSelector(selectHomepageDomain, (substate) =>
-    substate.get('books').toJS(),
+    substate.get('books').toJS ? substate.get('books').toJS() : substate.get('books'),
   );
 
 const selectActiveTextId = () =>
@@ -55,7 +56,9 @@ const selectNotePassage = () =>
           '',
         );
     }
-    const text = home.get('chapterText');
+    // const text = home.get('chapterText');
+    let text = home.get('chapterText');
+    text = text.toJS ? text : fromJS(text);
     const note = home.get('note');
     const chapterNumber = note.get('chapter');
     const verseStart = note.get('verse_start');
