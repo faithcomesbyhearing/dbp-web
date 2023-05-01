@@ -8,7 +8,6 @@ const selectBooks = () =>
 	createSelector(selectHomepageDomain, (substate) => {
 		const splitBooks = {};
 		const books = substate.get('books');
-		console.log("selectBooks =======>", books);
 		const testamentMap = substate.get('testaments').toJS
 			? substate.get('testaments').toJS()
 			: substate.get('testaments');

@@ -1,8 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import parseCookie from '../app/utils/parseCookie';
 /* eslint-disable no-unused-vars */
-// import { paper, dark, red, themes } from '../app/containers/Settings/themes';
-import { themes } from '../app/containers/Settings/themes';
+import { themes, fonts, sizes } from '../app/containers/Settings/themes';
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable */
@@ -18,11 +17,32 @@ export default class MyDocument extends Document {
       cookie = document.cookie ? parseCookie(document.cookie) : {};
     }
 
-    return { theme: cookie.bible_is_theme, ...page };
+    return { 
+      theme: cookie.bible_is_theme,
+      fontFamily: cookie.bible_is_font_family,
+      fontSize: cookie.bible_is_font_size,
+      ...page
+    };
   };
+
+  getHtmlStyle() {
+    const { theme, fontFamily, fontSize } = this.props;
+    const styleHtml = theme ? themes[theme] : {};
+
+    if (fontFamily) {
+      styleHtml['--application-font-family'] = fonts[fontFamily];
+    }
+
+    if (fontSize) {
+      styleHtml['--application-base-font-size'] = sizes[fontSize];
+    }
+
+    return styleHtml;
+  }
+
   render() {
     return (
-      <Html style={this.props.theme ? themes[this.props.theme] : {}}>
+      <Html style={this.getHtmlStyle()}>
         <Head></ Head>
         <body>
           <noscript>

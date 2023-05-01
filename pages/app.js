@@ -104,8 +104,20 @@ const AppContainer = (props) => {
           },
         },
       });
+    } else if (sessionStorage?.getItem('bible_is_user_id')) {
+      props.dispatch({
+        type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
+        profile: {
+          userId: sessionStorage.getItem('bible_is_user_id'),
+          userAuthenticated: !!sessionStorage.getItem('bible_is_user_id'),
+          userProfile: {
+            email: sessionStorage.getItem('bible_is_user_email') || '',
+            name: sessionStorage.getItem('bible_is_user_name') || '',
+            nickname: sessionStorage.getItem('bible_is_user_nickname') || '',
+          },
+        },
+      });
     }
-    // console.log("props.formattedText ========================>", props.formattedText);
     const redLetter =
       !!props.formattedText &&
       !!(
@@ -124,9 +136,6 @@ const AppContainer = (props) => {
     });
     props.dispatch(setChapterTextLoadingState({ state: false }));
 
-    // Intercept all route changes to ensure that the loading spinner starts
-    router.events.on('routeChangeStart', handleRouteChange);
-
     if (props.isIe) {
       props.dispatch(setUA());
       if (
@@ -136,11 +145,16 @@ const AppContainer = (props) => {
         svg4everybody();
       }
     }
+  }, []);
+
+  useEffect(() => {
+    // Intercept all route changes to ensure that the loading spinner starts
+    router.events.on('routeChangeStart', handleRouteChange);
 
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (props.formattedText !== prevFormattedText) {
@@ -227,7 +241,6 @@ AppContainer.displayName = 'Main app';
 AppContainer.getInitialProps = async (context) => {
   const { req, res: serverRes } = context;
   const routeLocation = context.asPath;
-  // console.log("context.query ======>", context.query);
   const {
     bookId = '',
     chapter: chapterParam,
@@ -268,10 +281,12 @@ AppContainer.getInitialProps = async (context) => {
     isIe = isUserAgentInternetExplorer(req.headers['user-agent']);
   }
 
+  let cookieData = null;
+
   if (req && req.headers.cookie) {
     // Get all cookies that the page needs
-    const cookieData = parseCookie(req.headers.cookie);
-    console.log("req.headers ==============>", cookieData);
+    // const cookieData = parseCookie(req.headers.cookie);
+    cookieData = parseCookie(req.headers.cookie);
 
     if (cookieData.bible_is_audio_type) {
       audioType = cookieData.bible_is_audio_type;
@@ -318,7 +333,8 @@ AppContainer.getInitialProps = async (context) => {
 
     isFromServer = false;
   } else if (typeof document !== 'undefined' && document.cookie) {
-    const cookieData = parseCookie(document.cookie);
+    // const cookieData = parseCookie(document.cookie);
+    cookieData = parseCookie(document.cookie);
     if (cookieData.bible_is_audio_type) {
       audioType = cookieData.bible_is_audio_type;
     }
@@ -344,8 +360,6 @@ AppContainer.getInitialProps = async (context) => {
       userProfile.userId = userId;
       // Avatar is a placeholder for when we actually build the rest of that functionality
       userProfile.avatar = '';
-      console.log("userId localStorage ================>", userId);
-      console.log("userProfile.email localStorage ================>", userProfile.email);
     }
 
     // Audio Player
@@ -472,8 +486,6 @@ AppContainer.getInitialProps = async (context) => {
     }
   }
 
-  // console.log("bookMetaData XXXXXXXXXXXX ============>", bibleId);
-
   // Redirect to the new url if conditions are met
   if (bookMetaData && bookMetaData.length) {
     const foundBook = bookMetaData.find(
@@ -558,11 +570,6 @@ AppContainer.getInitialProps = async (context) => {
   };
   try {
     /* eslint-disable no-console */
-
-    // console.log("=========================================================>");
-    // console.log("getinitialChapterData ============>");
-    // console.log("=========================================================>");
-    // console.log("");
     initData = await getinitialChapterData({
       filesets,
       bookId,
@@ -617,14 +624,11 @@ AppContainer.getInitialProps = async (context) => {
   if (filesets.some((set) => set.type === 'audio')) {
     availableAudioTypes.push('audio');
   }
-  // console.log("chapterText 1 =======================>", chapterText);
   const activeBookName = activeBook ? activeBook.name : '';
   const testaments = bookData
     ? bookData.reduce((a, c) => ({ ...a, [c.book_id]: c.testament }), {})
     : [];
   if (context.reduxStore) {
-    // console.log("GET_INITIAL_ROUTE_STATE_HOMEPAGE 1 =======================>", userProfile);
-    // console.log("initData.formattedText 1 =======================>", initData.formattedText);
     if (userProfile.userId && userProfile.email) {
       context.reduxStore.dispatch({
         type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
@@ -639,7 +643,20 @@ AppContainer.getInitialProps = async (context) => {
         },
       });
     }
-    console.log("GET_INITIAL_ROUTE_STATE_HOMEPAGE 2 =======================>", userProfile);
+
+    context.reduxStore.dispatch({
+      type: 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP',
+      settings: {
+        activeTheme: cookieData.bible_is_theme,
+        activeFontType: cookieData.bible_is_font_family,
+        activeFontSize: cookieData.bible_is_font_size,
+        readersMode: cookieData.bible_is_userSettings_toggleOptions_readersMode_active,
+        justifiedText: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
+        redLetter: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
+        crossReferences: cookieData.bible_is_userSettings_toggleOptions_crossReferences_active,
+        oneVersePerLine: cookieData.bible_is_userSettings_toggleOptions_readersMode_active,
+      }
+    });
 
     context.reduxStore.dispatch({
       type: 'GET_INITIAL_ROUTE_STATE_HOMEPAGE',
@@ -684,6 +701,7 @@ AppContainer.getInitialProps = async (context) => {
         },
       },
     });
+
   }
 
   if (typeof document !== 'undefined') {
@@ -692,7 +710,6 @@ AppContainer.getInitialProps = async (context) => {
     document.cookie = `bible_is_ref_chapter=${chapter}`;
     document.cookie = `bible_is_ref_verse=${verse}`;
   }
-  // console.log("END INIT DATA =======================>");
   return {
     initialVolume,
     initialPlaybackRate,

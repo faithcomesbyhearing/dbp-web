@@ -99,14 +99,6 @@ class HomePage extends React.PureComponent {
 
   componentDidMount() {
     const {
-      activeTextId,
-      activeBookId,
-      activeChapter,
-    } = this.props.homepage;
-
-    const { userId, userAuthenticated } = this.props.profile;
-
-    const {
       activeFilesets,
     } = this.props.homepage;
     const { userSettings } = this.props;
@@ -116,7 +108,7 @@ class HomePage extends React.PureComponent {
     );
 
     this.timer = setTimeout(() => {
-      // this.getCopyrights({ filesetIds: activeFilesets });
+      this.getCopyrights({ filesetIds: activeFilesets });
     }, 100);
 
     if (this.props.homepage.match.params.token) {
@@ -189,8 +181,6 @@ class HomePage extends React.PureComponent {
       this.props.homepage.activeBookId,
       this.props.homepage.activeChapter,
     );
-
-    // console.log("HomePage mount =======>");
   }
 
   componentDidUpdate(prevProps) {
@@ -253,8 +243,6 @@ class HomePage extends React.PureComponent {
       this.setTextLoadingState({ state: false });
       this.getCopyrights({ filesetIds: activeFilesets });
     }
-    console.log("HomePage componentDidUpdate settins NEW =======>", userSettings.toJS());
-    console.log("HomePage componentDidUpdate settins OLD =======>", prevSettings.toJS());
 
     // Only apply the them if one of them changed - use the newest one always since that will be what the user clicked
     if (typeof document !== 'undefined') {
@@ -292,7 +280,6 @@ class HomePage extends React.PureComponent {
         activeBookId !== activeBookIdProps ||
         activeChapter !== activeChapterProps)
     ) {
-      // console.log("GET ALL NOTES ==============> ", userId, activeTextId, activeBookId, activeChapter, userAuthenticated);
       // Should move all of these into the same call to reduce the number of renders in the text component
       this.props.dispatch(
         getHighlights({
@@ -349,8 +336,6 @@ class HomePage extends React.PureComponent {
     if (this.props.homepage.firstLoad) {
       this.toggleFirstLoadForTextSelection();
     }
-
-    // console.log("textData  ============>>>", textData);
 
     if (!this.props.homepage.firstLoad && prevProps.homepage.firstLoad) {
       // this.props.dispatch(

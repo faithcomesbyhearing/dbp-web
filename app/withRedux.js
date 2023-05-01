@@ -37,7 +37,6 @@ export const withRedux = (WrappedComponent) => {
 
 		let appProps = {};
 		if (typeof WrappedComponent.getInitialProps === 'function') {
-			// console.log("FIRE ===============> getInitialProps");
 			appProps = await WrappedComponent.getInitialProps(appContext);
 		}
 

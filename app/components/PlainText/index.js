@@ -11,8 +11,6 @@ import PlainTextVerses from '../PlainTextVerses';
 
 class PlainText extends React.PureComponent {
 	setHighlights = (highlights, userAuthenticated, text, activeChapter) => {
-		// console.log("highlights PLAIN TEXT ===============>", highlights, userAuthenticated, activeChapter);
-
 		if (
 			highlights &&
 			highlights.length &&

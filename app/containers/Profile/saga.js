@@ -75,7 +75,6 @@ export function* sendSignUpForm({
 }
 
 export function* sendLoginForm({ password, email, stay }) {
-	console.log("sendLoginForm ========> BEFORE");
 	const requestUrl = `${process.env.BASE_API_ROUTE}/login?key=${
 		process.env.DBP_API_KEY
 	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
@@ -90,9 +89,7 @@ export function* sendLoginForm({ password, email, stay }) {
 	};
 
 	try {
-		console.log("sendLoginForm ========> BEFORE 2");
 		const response = yield call(request, requestUrl, options);
-		console.log("sendLoginForm ========> AFTER", response);
 		if (response.error) {
 			yield put({ type: LOGIN_ERROR, message: response.error.message });
 		} else {

@@ -16,9 +16,6 @@ export default async ({ idsForBookMetadata }) => {
 		}&fileset_type=${filesetTuple[0]}`;
 		const res = await cachedFetch(url);
 		if (hasVideo && res.data) {
-			// res.data.forEach((book) => {
-			// console.log("res.data.data ====================>", res.data.data);
-			// res.data.data.forEach((book) => {
 			res.data.forEach((book) => {
 				booksWithVideo[book.book_id] = true;
 			});

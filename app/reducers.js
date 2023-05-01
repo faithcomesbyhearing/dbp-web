@@ -3,13 +3,9 @@
  */
 
 import { combineReducers } from 'redux-immutable';
-// import { combineReducers } from 'redux';
 import { fromJS } from 'immutable';
-// import { LOCATION_CHANGE } from 'react-router-redux';
-
 import languageProviderReducer from './containers/LanguageProvider/reducer';
 import profileReducer from './containers/Profile/reducer';
-// import textSelectionReducer from './containers/TextSelection/reducer';
 import homepageReducer from './containers/HomePage/reducer';
 import videoPlayerReducer from './containers/VideoPlayer/reducer';
 import settingsReducer from './containers/Settings/reducer';
@@ -38,6 +34,10 @@ function routeReducer(state = routeInitialState, action) {
 		// 	return state.merge({
 		// 		location: action.payload,
 		// 	});
+		case "persist/PERSIST":
+			return state.merge({
+				location: action.payload,
+			});
 		default:
 			return state;
 	}
@@ -57,5 +57,4 @@ export default function createReducer(injectedReducers) {
 		searchContainer: searchContainerReducer,
 		...injectedReducers,
 	});
-	// }, { deep: true });
 }

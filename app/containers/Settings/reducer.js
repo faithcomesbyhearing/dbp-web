@@ -17,7 +17,6 @@ import { ACTIVE_TEXT_ID } from '../HomePage/constants';
 import { SET_VOLUME, SET_PLAYBACK_RATE } from '../AudioPlayer/constants';
 
 const initialState = fromJS({
-// const initialState = Map({
 	userSettings: {
 		activeTheme: 'red',
 		activeFontType: 'sans',
@@ -123,6 +122,31 @@ function settingsReducer(state = initialState, action) {
 				.setIn(
 					['userSettings', 'toggleOptions', 'crossReferences', 'available'],
 					action.crossReferences,
+				);
+		case 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP':
+			return state
+				.setIn(['userSettings', 'activeTheme'], action.settings.activeTheme)
+				.setIn(['userSettings', 'activeFontType'], action.settings.activeFontType)
+				.setIn(['userSettings', 'activeFontSize'], action.settings.activeFontSize)
+				.setIn(
+					['userSettings', 'toggleOptions', 'readersMode', 'available'],
+					action.readersMode,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'justifiedText', 'available'],
+					action.settings.justifiedText,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'redLetter', 'available'],
+					action.settings.redLetter,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'crossReferences', 'available'],
+					action.settings.crossReferences,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'oneVersePerLine', 'available'],
+					action.settings.oneVersePerLine,
 				);
 		case 'persist/REHYDRATE':
 			if (

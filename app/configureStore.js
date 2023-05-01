@@ -5,11 +5,9 @@
 import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
-// import { persistStore, persistReducer } from 'redux-persist';
 import { persistStore } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage';
 import createReducer from './reducers';
-// import REDUX_PERSIST from '../app/utils/reduxPersist';
+import REDUX_PERSIST from '../app/utils/reduxPersist';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,8 +17,6 @@ export default function configureStore(initialState = {}) {
 	// 2. routerMiddleware: Syncs the location/URL path to the state
 	const middlewares = [sagaMiddleware];
 
-	// const enhancers = [applyMiddleware(...middlewares), autoRehydrate()];
-	// const enhancers = [applyMiddleware(...middlewares), autoRehydrate];
 	const enhancers = [applyMiddleware(...middlewares)];
 
 	/* eslint-disable no-underscore-dangle */
@@ -42,7 +38,9 @@ export default function configureStore(initialState = {}) {
 	);
 
 	if (typeof self === 'object') {
-		persistStore(store);
+		persistStore(store, {
+			stateReconciler: REDUX_PERSIST.storeConfig.stateReconciler
+		});
 	}
 
 	// Extensions

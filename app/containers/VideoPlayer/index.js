@@ -69,8 +69,7 @@ class VideoPlayer extends React.PureComponent {
     if (contentChanged || (videoStatusChanged && hasVideo)) {
       this.fetchVideosIfNeeded(fileset, bookId, chapter, hasVideo);
     } else if (videoStatusChanged && !hasVideo) {
-      console.log("closeVideoPlayer ================< hasVideo", hasVideo, videoStatusChanged, contentChanged);
-      // this.props.dispatch(closeVideoPlayer());
+      this.props.dispatch(closeVideoPlayer());
     }
   }
 
@@ -135,7 +134,6 @@ class VideoPlayer extends React.PureComponent {
       // TODO: Profile to see how much time the caching actually saves here
       const response = await cachedFetch(requestUrl);
 
-      // console.log("getVideos response.data ============>", response.data);
       if (response.data) {
         overrideCache(requestUrl, response);
 
@@ -614,7 +612,6 @@ class VideoPlayer extends React.PureComponent {
       text,
     } = this.props;
     // Don't render anything if there is no video for the chapter
-    // console.log("video status", hasVideo, fileset, currentVideo);
     if (!hasVideo || !fileset || !currentVideo) {
       return null;
     }

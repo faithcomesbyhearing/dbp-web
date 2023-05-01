@@ -19,8 +19,6 @@ const InjectSaga = ({ keySaga, saga, mode, children }) => {
 	const store = useStore();
 	const injectors = getInjectors(store);
 
-	// console.log("MOUNT saga ======>", keySaga);
-
 	React.useEffect(() => {
 		const { injectSaga } = injectors;
 		if (injectSaga) {
@@ -28,11 +26,9 @@ const InjectSaga = ({ keySaga, saga, mode, children }) => {
 		}
 
 		return () => {
-			// console.log("unmount saga ======>", keySaga);
 			const { ejectSaga } = injectors;
 			ejectSaga(keySaga);
 		};
-	// }, [keySaga, injectors, saga, mode, store]);
 	}, []);
 
 	return children;

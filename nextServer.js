@@ -6,7 +6,6 @@ if (
 ) {
   require('newrelic'); // eslint-disable-line
 }
-// require('@babel/polyfill');
 require('core-js');
 require('regenerator-runtime');
 require('dotenv').config();
@@ -15,9 +14,7 @@ const express = require('express');
 const next = require('next');
 const compression = require('compression');
 const { LRUCache } = require('lru-cache');
-// const fetch = require('isomorphic-fetch');
 const fetch = require('axios');
-// const crypto = require('crypto');p
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV === 'development';
 const bugsnag = require('./app/utils/bugsnagServer');
@@ -240,7 +237,6 @@ Disallow: /
     });
 
     server.get('/bible/:bibleId/:bookId/:chapter', (req, res, nextP) => {
-      console.log("router ============>", req.params);
       const actualPage = '/app';
       const bookId = checkBookId(req.params.bookId);
       const chapter =

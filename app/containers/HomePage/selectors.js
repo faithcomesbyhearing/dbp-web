@@ -83,11 +83,8 @@ const selectUserNotes = () =>
 			}
 			// If the user isn't authorized then there will not be any notes or bookmarks and I can just end the function here
 			if (!profAuth && !profUser) {
-				// console.log("text ==============>", text);
 				return {
-					// text: Array.isArray(text) ? text : text.toJS(),
 					text: Array.isArray(text) ? text : text.toJS(),
-					// text: fromJS(text).toJS(),
 					userNotes,
 					bookmarks,
 				};

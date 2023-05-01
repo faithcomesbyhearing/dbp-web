@@ -25,8 +25,6 @@ class MyNotes extends React.PureComponent {
 
 	// Need this for when a user has edited a note and come back here
 	componentDidMount() {
-		console.log("MyNotes componentDidMount NOTES =============>");
-
 		this.props.getNotes({
 			limit: this.props.pageSize,
 			page: this.props.activePage,
@@ -42,8 +40,6 @@ class MyNotes extends React.PureComponent {
 	}
 
 	componentDidUpdate(nextProps) {
-		console.log("MyNotes componentDidUpdate NOTES =============>");
-
 		if (
 			this.props.sectionType === 'notes' &&
 			(this.props.pageSize !== nextProps.pageSize ||

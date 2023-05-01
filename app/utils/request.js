@@ -1,8 +1,5 @@
-// import fetch from 'isomorphic-fetch';
 import axios from 'axios';
 
-
-// const parseJSON = (res) => res.json();
 const parseJSON = (res) => res.data;
 
 const checkStatus = (res) => {
@@ -31,14 +28,7 @@ const checkStatus = (res) => {
 	throw error;
 };
 
-// const request = (url, options = {}) =>
-// 	// fetch(url, options)
-// 	axios.get(url, options)
-// 		.then(checkStatus)
-// 		.then(parseJSON);
 const request = (url, options = { method: 'GET', body: {}, config: {} }) => {
-	// console.log("Request URL ===============>", url);
-
 	let invoke = null;
 	switch (options.method) {
 		case 'GET':

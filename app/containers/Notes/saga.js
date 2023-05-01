@@ -47,7 +47,6 @@ export function* getChapterForNote({ note }) {
 
     if (hasText) {
       if (plain) {
-        console.log("getChapterForNote ========================>");
         const res = yield call(
           request,
           `${process.env.BASE_API_ROUTE}/bibles/filesets/${
@@ -112,7 +111,6 @@ export function* updateHighlight({
 }
 
 export function* getUserHighlights({ userId, params }) {
-  console.log("GET FROM NOTES getHighlights ===============>");
   const requestUrl = `${
     process.env.BASE_API_ROUTE
   }/users/${userId}/highlights?key=${
@@ -288,8 +286,6 @@ export function* getNotesForChapter({ userId, params = {} }) {
   try {
     const response = yield call(request, urlWithParams);
 
-    console.log("NOTES by USER ===============>", response.data);
-
     yield put({
       type: LOAD_USER_NOTES,
       listData: response.data || [],
@@ -299,9 +295,12 @@ export function* getNotesForChapter({ userId, params = {} }) {
       console.error('Error getting the notes', err); // eslint-disable-line no-console
     }
   } finally {
-    console.log('getHighlights generator function has completed execution');
-    if (yield cancelled()) {
-      console.log('Saga was cancelled');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('getHighlights generator function has completed execution');
+
+      if (yield cancelled()) {
+        console.log('Saga was cancelled');
+      }
     }
   }
 }
@@ -382,7 +381,6 @@ export function* addNote({ userId, data }) {
 }
 
 export function* getBookmarksForChapter({ userId, params = {} }) {
-  console.log('getBookmarksForChapter RUN');
   const requestUrl = `${
     process.env.BASE_API_ROUTE
   }/users/${userId}/bookmarks?key=${
@@ -395,7 +393,6 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
 
   try {
     const response = yield call(request, urlWithParams);
-    console.log('getBookmarksForChapter AFTER', response.data);
 
     if (response.data) {
       yield put({
@@ -408,9 +405,12 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
       console.error('Error getting the notes', err); // eslint-disable-line no-console
     }
   } finally {
-    console.log('getBookmarksForChapter generator function has completed execution');
-    if (yield cancelled()) {
-      console.log('Saga was cancelled');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('getBookmarksForChapter generator function has completed execution');
+
+      if (yield cancelled()) {
+        console.log('Saga was cancelled');
+      }
     }
   }
 }
