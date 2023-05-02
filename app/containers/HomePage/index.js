@@ -27,13 +27,10 @@ import textSaga from '../TextSelection/saga';
 import profileSaga from '../Profile/saga';
 import profileReducer from '../Profile/reducer';
 import makeSelectProfile from '../Profile/selectors';
-import { setActiveIsoCode } from '../TextSelection/actions';
+// import { setActiveIsoCode } from '../TextSelection/actions';
 import { getBookmarksForChapter } from '../Notes/actions';
 import { setHasVideo } from '../VideoPlayer/actions';
 import {
-  addHighlight,
-  deleteHighlights,
-  getBooks,
   getNotes,
   getHighlights,
   getCopyrights,
@@ -44,10 +41,6 @@ import {
   toggleChapterSelection,
   toggleVersionSelection,
   toggleFirstLoadForTextSelection,
-  setActiveNote,
-  setActiveTextId,
-  setActiveChapter,
-  setActiveBookName,
   setChapterTextLoadingState,
   resetBookmarkState,
   initApplication,
@@ -359,43 +352,10 @@ class HomePage extends React.PureComponent {
     clearTimeout(this.timer);
   }
 
-  getBooks = (props) => this.props.dispatch(getBooks(props));
-
   getCopyrights = (props) => this.props.dispatch(getCopyrights(props));
-
-  setActiveBookName = ({ book, id }) =>
-    this.props.dispatch(setActiveBookName({ book, id }));
-
-  setActiveChapter = (chapter) =>
-    this.props.dispatch(setActiveChapter(chapter));
 
   setTextLoadingState = (props) =>
     this.props.dispatch(setChapterTextLoadingState(props));
-
-  setActiveTextId = (props) => this.props.dispatch(setActiveTextId(props));
-
-  setActiveNote = ({ note }) => this.props.dispatch(setActiveNote({ note }));
-
-  handleMenuTimer = (menu) => {
-    if (menu === 'profile') {
-      this.props.dispatch(toggleProfile());
-    }
-    if (menu === 'notes') {
-      this.props.dispatch(toggleNotesModal());
-    }
-    if (menu === 'settings') {
-      this.props.dispatch(toggleSettingsModal());
-    }
-    if (menu === 'search') {
-      this.props.dispatch(toggleSearchModal());
-    }
-    if (menu === 'chapter') {
-      this.props.dispatch(toggleChapterSelection());
-    }
-    if (menu === 'version') {
-      this.props.dispatch(toggleVersionSelection());
-    }
-  };
 
   checkForVideo = async (filesetId, bookId, chapter) => {
     if (!filesetId) {
@@ -419,60 +379,24 @@ class HomePage extends React.PureComponent {
     );
   };
 
-  addHighlight = (props) =>
-    this.props.dispatch(
-      addHighlight({
-        ...props,
-        bible: this.props.homepage.activeTextId,
-        userId: this.props.userId,
-      }),
-    );
-
-  deleteHighlights = (props) =>
-    this.props.dispatch(
-      deleteHighlights({
-        ...props,
-        bible: this.props.homepage.activeTextId,
-        userId: this.props.userId,
-        book: this.props.homepage.activeBookId,
-        chapter: this.props.homepage.activeChapter,
-      }),
-    );
-
   toggleFirstLoadForTextSelection = () =>
     this.props.homepage.firstLoad &&
     this.props.dispatch(toggleFirstLoadForTextSelection());
 
   toggleProfile = () => {
-    if (this.isMenuOpen('profile')) {
-      this.props.dispatch(toggleProfile());
-    } else {
-      this.props.dispatch(toggleProfile());
-    }
+    this.props.dispatch(toggleProfile());
   };
 
   toggleNotesModal = () => {
-    if (this.isMenuOpen('notes')) {
-      this.props.dispatch(toggleNotesModal());
-    } else {
-      this.props.dispatch(toggleNotesModal());
-    }
+    this.props.dispatch(toggleNotesModal());
   };
 
   toggleSettingsModal = () => {
-    if (this.isMenuOpen('settings')) {
-      this.props.dispatch(toggleSettingsModal());
-    } else {
-      this.props.dispatch(toggleSettingsModal());
-    }
+    this.props.dispatch(toggleSettingsModal());
   };
 
   toggleSearchModal = () => {
-    if (this.isMenuOpen('search')) {
-      this.props.dispatch(toggleSearchModal());
-    } else {
-      this.props.dispatch(toggleSearchModal());
-    }
+    this.props.dispatch(toggleSearchModal());
   };
 
   toggleChapterSelection = () => {
@@ -481,44 +405,6 @@ class HomePage extends React.PureComponent {
 
   toggleVersionSelection = () => {
     this.props.dispatch(toggleVersionSelection());
-  };
-
-  // Checks if a menu other than the one given is open, otherwise returns whether any menus are open
-  isMenuOpen = (menuName) => {
-    const {
-      isChapterSelectionActive,
-      isProfileActive,
-      isSettingsModalActive,
-      isSearchModalActive,
-      isNotesModalActive,
-      isVersionSelectionActive,
-    } = this.props.homepage;
-
-    const openMap = {
-      profile: isProfileActive,
-      notes: isNotesModalActive,
-      settings: isSettingsModalActive,
-      search: isSearchModalActive,
-      chapter: isChapterSelectionActive,
-      version: isVersionSelectionActive,
-    };
-
-    if (menuName) {
-      return Object.entries(openMap)
-        .filter((ent) => ent[0] !== menuName)
-        .some((ent) => ent[1]);
-    } else if (
-      isChapterSelectionActive ||
-      isProfileActive ||
-      isSearchModalActive ||
-      isSettingsModalActive ||
-      isNotesModalActive ||
-      isVersionSelectionActive
-    ) {
-      return true;
-    }
-
-    return false;
   };
 
   render() {

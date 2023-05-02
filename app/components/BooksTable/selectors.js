@@ -12,10 +12,10 @@ const selectBooks = () =>
 			? substate.get('testaments').toJS()
 			: substate.get('testaments');
 		books.forEach((book) => {
-			if (splitBooks[testamentMap[book.get ? book.get('book_id') : book['book_id']]]) {
-				splitBooks[testamentMap[book.get ? book.get('book_id') : book['book_id']]].push(book);
+			if (splitBooks[testamentMap[book.get ? book.get('book_id') : book.book_id]]) {
+				splitBooks[testamentMap[book.get ? book.get('book_id') : book.book_id]].push(book);
 			} else {
-				splitBooks[testamentMap[book.get ? book.get('book_id') : book['book_id']]] = [book];
+				splitBooks[testamentMap[book.get ? book.get('book_id') : book.book_id]] = [book];
 			}
 		});
 

@@ -8,11 +8,12 @@ jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-jest.mock('../../PopupMessage', () => ({ styles, message, x, y }) => (
-	<div
+jest.mock('../../PopupMessage', () => function ({ styles, message, x, y }) {
+  return (
+<div
 		style={{ top: y - 50, left: x - 87.5, ...styles }}
 		className={'custom-popup'}
-	>
+>
 		{message ? (
 			<p>{message}</p>
 		) : (
@@ -30,8 +31,9 @@ jest.mock('../../PopupMessage', () => ({ styles, message, x, y }) => (
 				.
 			</p>
 		)}
-	</div>
-));
+</div>
+);
+});
 /* eslint-enable react/prop-types */
 
 const props = {

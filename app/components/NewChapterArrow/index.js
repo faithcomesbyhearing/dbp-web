@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 import SvgWrapper from '../SvgWrapper';
 
-const NewChapterArrow = ({
+function NewChapterArrow({
   clickHandler,
   getNewUrl,
   disabled,
@@ -22,7 +22,7 @@ const NewChapterArrow = ({
   title,
   id,
   textProps,
-}) => {
+}) {
   if (disabled) {
     return (
       <div className={disabledContainerClasses || 'arrow-wrapper disabled'} />
@@ -52,7 +52,7 @@ const NewChapterArrow = ({
       </div>
     </Link>
   );
-};
+}
 
 NewChapterArrow.propTypes = {
   getNewUrl: PropTypes.func,

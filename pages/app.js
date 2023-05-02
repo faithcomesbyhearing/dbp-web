@@ -30,11 +30,12 @@ import svg4everybody from '../app/utils/svgPolyfill';
 import parseCookie from '../app/utils/parseCookie';
 import getFirstChapterReference from '../app/utils/getFirstChapterReference';
 import isUserAgentInternetExplorer from '../app/utils/isUserAgentInternetExplorer';
+import checkAvailableSettingsDataInCookies from '../app/utils/checkAvailableSettingsDataInCookies';
 import reconcilePersistedState from '../app/utils/reconcilePersistedState';
 import REDUX_PERSIST from '../app/utils/reduxPersist';
 import getBookMetaData from '../app/utils/getBookMetaData';
 
-const AppContainer = (props) => {
+function AppContainer(props) {
   const router = useRouter();
   const [prevFormattedText, setPrevFormattedText] = useState('');
 
@@ -232,7 +233,7 @@ const AppContainer = (props) => {
         />
       </div>
     );
-};
+}
 
 AppContainer.displayName = 'Main app';
 
@@ -637,19 +638,21 @@ AppContainer.getInitialProps = async (context) => {
       });
     }
 
-    context.reduxStore.dispatch({
-      type: 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP',
-      settings: {
-        activeTheme: cookieData.bible_is_theme,
-        activeFontType: cookieData.bible_is_font_family,
-        activeFontSize: cookieData.bible_is_font_size,
-        readersMode: cookieData.bible_is_userSettings_toggleOptions_readersMode_active,
-        justifiedText: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
-        redLetter: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
-        crossReferences: cookieData.bible_is_userSettings_toggleOptions_crossReferences_active,
-        oneVersePerLine: cookieData.bible_is_userSettings_toggleOptions_oneVersePerLine_active,
-      }
-    });
+    if (cookieData && checkAvailableSettingsDataInCookies(cookieData)) {
+      context.reduxStore.dispatch({
+        type: 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP',
+        settings: {
+          activeTheme: cookieData.bible_is_theme,
+          activeFontType: cookieData.bible_is_font_family,
+          activeFontSize: cookieData.bible_is_font_size,
+          readersMode: cookieData.bible_is_userSettings_toggleOptions_readersMode_active,
+          justifiedText: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
+          redLetter: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
+          crossReferences: cookieData.bible_is_userSettings_toggleOptions_crossReferences_active,
+          oneVersePerLine: cookieData.bible_is_userSettings_toggleOptions_oneVersePerLine_active,
+        },
+      });
+    }
 
     context.reduxStore.dispatch({
       type: 'GET_INITIAL_ROUTE_STATE_HOMEPAGE',
@@ -694,7 +697,6 @@ AppContainer.getInitialProps = async (context) => {
         },
       },
     });
-
   }
 
   if (typeof document !== 'undefined') {

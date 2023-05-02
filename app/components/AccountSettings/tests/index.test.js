@@ -8,9 +8,9 @@ jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-jest.mock('../../PopupMessage', () => ({ message }) => (
-	<span id={'popup-message'}>{message}</span>
-));
+jest.mock('../../PopupMessage', () => function ({ message }) {
+  return <span id={'popup-message'}>{message}</span>;
+});
 /* eslint-enable react/prop-types */
 
 const logout = jest.fn(() => 'Logging out');

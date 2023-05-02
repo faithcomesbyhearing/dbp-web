@@ -91,8 +91,8 @@ const selectUserNotes = () =>
 			filteredNotes?.forEach((n, ni) => {
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
-					const textVerseStart = t.get ? t.get('verse_start') : t['verse_start'];
-					const noteVerseStart = n.get ? n.get('verse_start') : n['verse_start'];
+					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
+					const noteVerseStart = n.get ? n.get('verse_start') : n.verse_start;
 
 					if (parseInt(textVerseStart, 10) === noteVerseStart) {
 						iToSet = i;
@@ -102,7 +102,7 @@ const selectUserNotes = () =>
 				if (verse) {
 					// Need to change this since the notes will be allowed to be null
 					// Eventually there will be two separate calls so I can have two piece of state
-					const verseTextStart = isImmutable(verse) ? verse.get('verse_start') : verse['verse_start'];
+					const verseTextStart = isImmutable(verse) ? verse.get('verse_start') : verse.verse_start;
 					if (n.get('notes') && !versesWithNotes[verseTextStart]) {
 						newText = newText.size
 							? newText.setIn([iToSet, 'hasNote'], true)
@@ -117,8 +117,8 @@ const selectUserNotes = () =>
 			filteredBookmarks?.forEach((bookmark, ni) => {
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
-					const textVerseStart = t.get ? t.get('verse_start') : t['verse_start'];
-					const bookmarkVerseStart = bookmark.get ? bookmark.get('verse') : n['verse'];
+					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
+					const bookmarkVerseStart = bookmark.get ? bookmark.get('verse') : n.verse;
 
 					if (parseInt(textVerseStart, 10) === bookmarkVerseStart) {
 						iToSet = i;

@@ -22,7 +22,6 @@ import {
 	sendLoginForm,
 	sendSignUpForm,
 	socialMediaLogin,
-	getUserData,
 	resetPassword,
 	updateEmail,
 	updatePassword,
@@ -84,8 +83,6 @@ export class Profile extends React.PureComponent {
 	setRef = (node) => {
 		this.ref = node;
 	};
-
-	getUserData = (userId) => this.props.dispatch(getUserData(userId));
 
 	changePicture = (props) =>
 		this.props.dispatch(

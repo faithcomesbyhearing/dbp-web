@@ -48,7 +48,6 @@ const request = (url, options = { method: 'GET', body: {}, config: {} }) => {
 			break;
 	}
 	return invoke.then(checkStatus).then(parseJSON);
-}
-
+};
 
 export default request;

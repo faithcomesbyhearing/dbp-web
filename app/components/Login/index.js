@@ -68,8 +68,7 @@ class Login extends React.PureComponent {
 		} = this.props;
 
 		return (
-			<>
-				<form onSubmit={this.handleSendingLogin}>
+			<form onSubmit={this.handleSendingLogin}>
 					<span className={'sign-in-input'}>
 						<SvgWrapper
 							className="icon"
@@ -143,8 +142,7 @@ class Login extends React.PureComponent {
 							Reset your password.
 						</span>
 					</section>
-				</form>
-			</>
+   </form>
 		);
 	}
 

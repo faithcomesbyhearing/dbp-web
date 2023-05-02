@@ -8,15 +8,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import customStyle from '../../utils/customVerseStyle';
 
-const ReadersModeVerse = ({
+function ReadersModeVerse({
 	onMouseUp,
 	onMouseDown,
 	onHighlightClick,
 	verse,
 	activeVerse,
 	verseIsActive,
-}) => (
-	<>
+}) {
+  return (
+<>
 		<span
 			onMouseUp={onMouseUp}
 			onMouseDown={onMouseDown}
@@ -36,8 +37,9 @@ const ReadersModeVerse = ({
 		<span key={`${verse.verse_end}spaces`} className={'readers-spaces'}>
 			&nbsp;
 		</span>
-	</>
+</>
 );
+}
 
 ReadersModeVerse.propTypes = {
 	onMouseUp: PropTypes.func,

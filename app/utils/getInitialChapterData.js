@@ -25,9 +25,7 @@ export default async ({
     let text = '';
     if (path) {
       text = await axios.get(path)
-        .then((textRes) => {
-          return textRes.data;
-        })
+        .then((textRes) => textRes.data)
         .catch((e) => {
           if (process.env.NODE_ENV === 'development') {
             console.log('Error fetching formatted text: ', e.message, ' path: ', path); // eslint-disable-line no-console

@@ -10,7 +10,7 @@ import range from 'lodash/range';
 // import styled from 'styled-components';
 // Doing the number of total pages + 1 because I do not want the list to be 0 indexed
 // I only want the 4 pages before the active page and the 5 after the active page
-const Pagination = ({ totalPages, activePage, onChangePage }) => {
+function Pagination({ totalPages, activePage, onChangePage }) {
 	const pageRange = range(1, totalPages + 1);
 	const rangeLength = pageRange.length;
 	const maxPage = activePage + 4 > rangeLength ? rangeLength : activePage + 4;
@@ -54,7 +54,7 @@ const Pagination = ({ totalPages, activePage, onChangePage }) => {
 			))}
 		</div>
 	);
-};
+}
 
 Pagination.propTypes = {
 	onChangePage: PropTypes.func.isRequired,

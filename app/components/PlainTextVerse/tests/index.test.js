@@ -3,7 +3,9 @@ import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import PlainTextVerse from '../index';
 
-jest.mock('../../IconsInText', () => () => <div id="mockIcons">mockIcons</div>);
+jest.mock('../../IconsInText', () => function () {
+  return <div id="mockIcons">mockIcons</div>;
+});
 
 const onMouseUp = jest.fn();
 const onMouseDown = jest.fn();

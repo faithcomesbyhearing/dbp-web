@@ -508,8 +508,6 @@ export class Verses extends React.PureComponent {
 		shareHighlightToFacebook(verseRange, this.closeContextMenu);
 	};
 
-	domMethodsAvailable = () => this.setState({ domMethodsAvailable: true });
-
 	render() {
 		const {
 			activeChapter,

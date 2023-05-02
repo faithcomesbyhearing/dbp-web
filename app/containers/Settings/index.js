@@ -193,6 +193,7 @@ export class Settings extends React.PureComponent {
 				<div className={'settings-wrapper'}>
 					<div className={'settings-content'}>
 						<section className="color-schemes">
+							{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 							{activeTheme === 'paper' ? (
 								<SvgWrapper
 									style={{ width: '55px', height: '55px' }}
