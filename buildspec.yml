@@ -2,6 +2,8 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 18
     commands:
       - npm install
   build:
@@ -21,4 +23,3 @@ artifacts:
     - appspec.yml
     - env-config.js
     - .babelrc.js
-
