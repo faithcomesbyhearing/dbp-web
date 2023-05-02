@@ -14,7 +14,6 @@ import VideoList from '../../components/VideoList';
 import VideoProgressBar from '../../components/VideoProgressBar';
 import VideoOverlay from '../../components/VideoOverlay';
 import { selectHasVideo, selectPlayerOpenState } from './selectors';
-import checkForVideoAsync from '../../utils/checkForVideoAsync';
 
 class VideoPlayer extends React.PureComponent {
   constructor(props) {
@@ -183,20 +182,6 @@ class VideoPlayer extends React.PureComponent {
     }
   };
 
-  get playButton() {
-    const { paused } = this.state;
-
-    return (
-      <SvgWrapper
-        onClick={this.playVideo}
-        className={paused ? 'play-video show-play' : 'play-video hide-play'}
-        fill={'#fff'}
-        svgid={'play_video'}
-        viewBox={'0 0 90 40'}
-      />
-    );
-  }
-
   get previousVideo() {
     const { playlist, currentVideo } = this.state;
     let previousVideo;
@@ -299,55 +284,6 @@ class VideoPlayer extends React.PureComponent {
       this.setState({
         hlsSupported: false,
       });
-    }
-  };
-
-  // Checks to see if we have video content for the selected chapter
-  // This seems somewhat repetitive and unnecessary
-  checkForBooks = async ({ filesetId, bookId, chapter }) => {
-    if (!filesetId) {
-      this.props.dispatch(
-        setHasVideo({
-          videoPlayerOpen: false,
-          state: false,
-          videoChapterState: false,
-        }),
-      );
-      return;
-    }
-
-    try {
-      // TODO: Profile to see if caching helps here
-      const hasVideo = await checkForVideoAsync(filesetId, bookId, chapter);
-
-      if (hasVideo) {
-        this.props.dispatch(
-          setHasVideo({
-            videoPlayerOpen: hasVideo,
-            state: hasVideo,
-            videoChapterState: hasVideo,
-          }),
-        );
-      } else {
-        this.props.dispatch(
-          setHasVideo({
-            videoPlayerOpen: false,
-            state: false,
-            videoChapterState: false,
-          }),
-        );
-      }
-    } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error checking for video context', err); // eslint-disable-line no-console
-      }
-      this.props.dispatch(
-        setHasVideo({
-          videoPlayerOpen: false,
-          state: false,
-          videoChapterState: false,
-        }),
-      );
     }
   };
 

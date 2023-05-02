@@ -160,7 +160,7 @@ export function* getHighlights({ bible, book, chapter, userId }) {
     if (response.data) {
       highlights = response.data;
     }
-    
+
     yield put({ type: LOAD_HIGHLIGHTS, highlights });
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {

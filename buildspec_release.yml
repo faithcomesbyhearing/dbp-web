@@ -12,7 +12,7 @@ phases:
 artifacts:
   files:
     - .next/**/*
-    - static/**/*
+    - public/**/*
     - node_modules/**/*
     - scripts/**/*
     - nextServer.js

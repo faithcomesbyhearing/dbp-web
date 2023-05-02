@@ -1,7 +1,6 @@
 import lscache from 'lscache';
 import axios from 'axios';
 
-
 // Set a default expiry for 5 minutes in development 24 hours in production
 const TTL_MINUTES =
 	process.env.IS_DEV || process.env.NODE_ENV === 'development'

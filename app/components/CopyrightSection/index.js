@@ -11,8 +11,9 @@ const copyrightMessage = (message) =>
 			<br key={`${m}_cplinebreak`} />,
 		]);
 
-const CopyrightSection = ({ prefix, copyrights }) => (
-	<div className={prefix === 'old' ? 'ot-copyright' : 'nt-copyright'}>
+function CopyrightSection({ prefix, copyrights }) {
+  return (
+<div className={prefix === 'old' ? 'ot-copyright' : 'nt-copyright'}>
 		{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ||
 		get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
 			<div className={'cp-section'}>
@@ -76,8 +77,9 @@ const CopyrightSection = ({ prefix, copyrights }) => (
 				) : null}
 			</div>
 		) : null}
-	</div>
+</div>
 );
+}
 
 CopyrightSection.propTypes = {
 	prefix: PropTypes.string,

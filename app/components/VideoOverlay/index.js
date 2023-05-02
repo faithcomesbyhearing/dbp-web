@@ -5,14 +5,16 @@ import SvgWrapper from '../SvgWrapper';
 import getPreviousChapterUrl from '../../utils/getPreviousChapterUrl';
 import getNextChapterUrl from '../../utils/getNextChapterUrl';
 
-const SvgButton = ({ id, clickHandler, videoObject }) => (
-	<div onClick={clickHandler} className={'control-button-container'}>
+function SvgButton({ id, clickHandler, videoObject }) {
+  return (
+<div onClick={clickHandler} className={'control-button-container'}>
 		<span className={'play-video-title'}>
 			{videoObject.reference || 'Loading'}
 		</span>
 		<SvgWrapper className={'play-video'} fill={'#fff'} svgid={id} />
-	</div>
+</div>
 );
+}
 
 SvgButton.propTypes = {
 	id: PropTypes.string,
@@ -35,20 +37,6 @@ class VideoOverlay extends React.PureComponent {
 		});
 	}
 
-	get nextChapterHref() {
-		const { books, bookId, chapter, textId, text } = this.props;
-
-		return getNextChapterUrl({
-			books,
-			bookId: bookId.toLowerCase(),
-			chapter,
-			textId,
-			text,
-			isHref: true,
-			vid: true,
-		});
-	}
-
 	get previousChapterAs() {
 		const { books, bookId, chapter, textId, text } = this.props;
 
@@ -59,20 +47,6 @@ class VideoOverlay extends React.PureComponent {
 			textId,
 			text,
 			isHref: false,
-			vid: true,
-		});
-	}
-
-	get previousChapterHref() {
-		const { books, bookId, chapter, textId, text } = this.props;
-
-		return getPreviousChapterUrl({
-			books,
-			bookId: bookId.toLowerCase(),
-			chapter,
-			textId,
-			text,
-			isHref: true,
 			vid: true,
 		});
 	}

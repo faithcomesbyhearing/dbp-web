@@ -24,11 +24,13 @@ const ReducerInjector = ({ keyReducer, reducer, children }) => {
 };
 
 export default ({ key, reducer }) => (WrappedComponent) => {
-	const WithReducer = (props) => (
-		<ReducerInjector keyReducer={key} reducer={reducer}>
+	function WithReducer(props) {
+  return (
+<ReducerInjector keyReducer={key} reducer={reducer}>
 			<WrappedComponent {...props} />
-		</ReducerInjector>
-	);
+</ReducerInjector>
+);
+}
 
 	WithReducer.displayName = `withReducer(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 

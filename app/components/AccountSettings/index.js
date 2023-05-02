@@ -10,7 +10,6 @@ import { FormattedMessage } from 'react-intl';
 import SvgWrapper from '../SvgWrapper';
 import PopupMessage from '../PopupMessage';
 import messages from './messages';
-// import DonateButton from '../DonateButton';
 
 class AccountSettings extends React.PureComponent {
 	constructor(props) {
@@ -26,20 +25,6 @@ class AccountSettings extends React.PureComponent {
 
 	handleEmailChange = (e) => {
 		this.setState({ email: e.target.value });
-	};
-
-	handleFileInputChange = (e) => {
-		if (e.target.files[0]) {
-			this.props.changePicture({ avatar: e.target.files[0] });
-		} else {
-			this.setState({ popupOpen: true });
-			if (this.timer) {
-				clearTimeout(this.timer);
-			}
-			setTimeout(() => {
-				this.setState({ popupOpen: false });
-			}, 2500);
-		}
 	};
 
 	render() {

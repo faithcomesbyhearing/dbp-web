@@ -35,7 +35,7 @@ import makeSelectTextSelection, {
 } from './selectors';
 import messages from './messages';
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-const TextSelection = (props) => {
+function TextSelection(props) {
 	const [filterText, setFilterText] = useState('');
 	const [fromCountry, setFromCountry] = useState(false);
 	const [prevTextselection, setPrevTextselection] = useState('');
@@ -236,7 +236,7 @@ const TextSelection = (props) => {
 			/>
 		</aside>
 	);
-};
+}
 
 TextSelection.propTypes = {
 	dispatch: PropTypes.func.isRequired,

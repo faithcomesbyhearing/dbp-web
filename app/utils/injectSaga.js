@@ -35,11 +35,13 @@ const InjectSaga = ({ keySaga, saga, mode, children }) => {
 };
 
 export default ({ key, saga, mode }) => (WrappedComponent) => {
-	const WithSaga = (props) => (
-		<InjectSaga keySaga={key} saga={saga} mode={mode}>
+	function WithSaga(props) {
+  return (
+<InjectSaga keySaga={key} saga={saga} mode={mode}>
 			<WrappedComponent {...props} />
-		</InjectSaga>
-	);
+</InjectSaga>
+);
+}
 
 	WithSaga.displayName = `withSaga(${WrappedComponent.displayName ||
 	WrappedComponent.name ||

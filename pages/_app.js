@@ -5,9 +5,9 @@ import LanguageProvider from '../app/containers/LanguageProvider';
 import { translationMessages } from '../app/i18n';
 import '../public/app.scss';
 import Error from './_error';
-import bugsnagClient from '../app/utils/bugsnagClient';
+import Bugsnag from '../app/utils/bugsnagClient';
 
-const ErrorBounary = bugsnagClient.getPlugin('react');
+const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
 
 class CustomApp extends App {
 	render() {
@@ -17,11 +17,11 @@ class CustomApp extends App {
 			process.env.NODE_ENV === 'staging'
 		) {
 			return (
-				<ErrorBounary FallbackComponent={Error}>
+				<ErrorBoundary FallbackComponent={Error}>
 					<LanguageProvider messages={translationMessages}>
 						<Component {...pageProps} />
 					</LanguageProvider>
-				</ErrorBounary>
+				</ErrorBoundary>
 			);
 		}
 

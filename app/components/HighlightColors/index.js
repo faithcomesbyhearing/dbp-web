@@ -14,6 +14,7 @@ function HighlightColors({ addHighlight }) {
 	return (
 		<>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={0}
@@ -29,6 +30,7 @@ function HighlightColors({ addHighlight }) {
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-1}
@@ -44,6 +46,7 @@ function HighlightColors({ addHighlight }) {
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-2}
@@ -59,6 +62,7 @@ function HighlightColors({ addHighlight }) {
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-3}
@@ -74,6 +78,7 @@ function HighlightColors({ addHighlight }) {
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-4}
@@ -89,6 +94,7 @@ function HighlightColors({ addHighlight }) {
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-5}

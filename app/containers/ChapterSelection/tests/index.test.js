@@ -3,7 +3,9 @@ import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
 import { ChapterSelection } from '..';
 
-jest.mock('../../../components/BooksTable', () => () => <div />);
+jest.mock('../../../components/BooksTable', () => function () {
+  return <div />;
+});
 
 const dispatch = jest.fn();
 

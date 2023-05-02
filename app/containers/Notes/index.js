@@ -27,7 +27,6 @@ import {
   addNote,
   getNotesForNotebook,
   getChapterForNote,
-  addHighlight,
   updateNote,
   deleteNote,
   getUserBookmarkData,
@@ -127,14 +126,6 @@ export class Notes extends React.PureComponent {
 
   togglePageSelector = () => this.props.dispatch(togglePageSelector());
 
-  addHighlight = (data) =>
-    this.props.dispatch(
-      addHighlight({
-        userId: this.props.userId,
-        data: { ...data, user_id: this.props.userId },
-      }),
-    );
-
   updateHighlight = (props) =>
     this.props.dispatch(
       updateHighlight({
@@ -207,13 +198,6 @@ export class Notes extends React.PureComponent {
   readSavedMessage = (props) => this.props.dispatch(readSavedMessage(props));
 
   clearNoteErrorMessage = () => this.props.dispatch(clearNoteErrorMessage());
-
-  titleOptions = {
-    edit: 'Edit Note',
-    notes: 'My Notes',
-    bookmarks: 'My Bookmarks',
-    highlights: 'My Highlights',
-  };
 
   render() {
     const {

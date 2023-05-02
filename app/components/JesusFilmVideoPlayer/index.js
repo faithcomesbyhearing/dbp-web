@@ -7,7 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
-import SvgWrapper from '../SvgWrapper';
 import VideoControls from '../VideoControls';
 import VideoProgressBar from '../VideoProgressBar';
 import VideoOverlay from '../VideoOverlay';
@@ -82,20 +81,6 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 			this.initVideoStream();
 		}
 	};
-
-	get playButton() {
-		const { paused } = this.state;
-
-		return (
-			<SvgWrapper
-				onClick={this.playVideo}
-				className={paused ? 'play-video show-play' : 'play-video hide-play'}
-				fill={'#fff'}
-				svgid={'play_video'}
-				viewBox={'0 0 90 40'}
-			/>
-		);
-	}
 
 	setVideoRef = (el) => {
 		this.videoRef = el;

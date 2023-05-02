@@ -12,27 +12,30 @@ const goBack = () => {
 	history.back();
 };
 
-const BackButton = ({ isIe }) => (
-	<button className={'back-button'} type={'button'} onClick={goBack}>
+function BackButton({ isIe }) {
+  return (
+<button className={'back-button'} type={'button'} onClick={goBack}>
 		<SvgWrapper
 			className={'svg'}
 			fill={isIe ? '#fff' : ''}
 			svgid={'arrow_left'}
 		/>
-	</button>
+</button>
 );
+}
 
 BackButton.propTypes = {
 	isIe: PropTypes.bool,
 };
 
-const Logo = ({ theme, isIe }) => (
-	<a
+function Logo({ theme, isIe }) {
+  return (
+<a
 		className={'logo'}
 		href={'http://www.bible.is'}
 		title={'http://www.bible.is'}
 		rel={'noopener'}
-	>
+>
 		{theme === 'paper' &&
 			!isIe && (
 				<svg className={'svg'}>
@@ -44,8 +47,9 @@ const Logo = ({ theme, isIe }) => (
 				<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
 			</svg>
 		)}
-	</a>
+</a>
 );
+}
 
 Logo.propTypes = {
 	theme: PropTypes.string,
@@ -55,14 +59,14 @@ Logo.propTypes = {
 // Basic nav
 // Basic footer
 // Video Player with adjusted styles
-const JesusFilm = ({
+function JesusFilm({
 	iso,
 	routeLocation,
 	hlsStream,
 	theme,
 	isIe,
 	duration,
-}) => {
+}) {
 	const titleText = `Jesus Film | ${iso} | Bible.is`;
 
 	return (
@@ -99,7 +103,7 @@ const JesusFilm = ({
 			<div className={'footer-background'} />
 		</div>
 	);
-};
+}
 
 JesusFilm.getInitialProps = async (context) => {
 	const { req } = context;

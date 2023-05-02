@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import PlainTextVerse from '../PlainTextVerse';
 import ReadersModeVerse from '../ReadersModeVerse';
 
-const PlainTextVerses = ({
+function PlainTextVerses({
 	textComponents,
 	onMouseUp,
 	onMouseDown,
@@ -19,7 +19,7 @@ const PlainTextVerses = ({
 	oneVersePerLine,
 	verseIsActive,
 	activeVerse,
-}) => {
+}) {
 	if (readersMode) {
 		return textComponents.map((verse) => (
 			<ReadersModeVerse
@@ -46,7 +46,7 @@ const PlainTextVerses = ({
 			oneVerse={oneVersePerLine}
 		/>
 	));
-};
+}
 
 PlainTextVerses.propTypes = {
 	textComponents: PropTypes.array,

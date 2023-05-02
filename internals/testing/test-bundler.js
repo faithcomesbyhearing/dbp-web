@@ -37,7 +37,9 @@ copyProps(window, global);
 // lazy imports (require.resolveWeak) which conflicts with the Node module system.
 // Need to use require instead of import here and pass through all the props given.
 jest.mock('next/dynamic', () => () => {
-	const DynamicComponent = () => null;
+	function DynamicComponent() {
+  return null;
+}
 	DynamicComponent.displayName = 'LoadableComponent';
 	DynamicComponent.preload = jest.fn();
 	return DynamicComponent;

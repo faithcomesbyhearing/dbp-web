@@ -34,7 +34,7 @@ function routeReducer(state = routeInitialState, action) {
 		// 	return state.merge({
 		// 		location: action.payload,
 		// 	});
-		case "persist/PERSIST":
+		case 'persist/PERSIST':
 			return state.merge({
 				location: action.payload,
 			});

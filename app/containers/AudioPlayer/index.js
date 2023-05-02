@@ -100,21 +100,12 @@ export class AudioPlayer extends React.Component {
       this.setAudioPlayerState(false);
     }
 
-    if (typeof window !== 'undefined') {
-      this.getAudio(
-        this.props.activeFilesets,
-        this.props.activeBookId,
-        this.props.activeChapter,
-        this.props.audioType,
-      );
-    } else {
-      this.getAudio(
-        this.props.activeFilesets,
-        this.props.activeBookId,
-        this.props.activeChapter,
-        this.props.audioType,
-      );
-    }
+    this.getAudio(
+      this.props.activeFilesets,
+      this.props.activeBookId,
+      this.props.activeChapter,
+      this.props.audioType,
+    );
   }
 
   componentDidUpdate(nextProps) {

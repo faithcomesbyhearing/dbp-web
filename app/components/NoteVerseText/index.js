@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LoadingSpinner from '../LoadingSpinner';
 
-const NoteVerseText = ({ loading, notePassage }) => {
+function NoteVerseText({ loading, notePassage }) {
   if (loading) {
     return (
       <div className="verse-text">
@@ -23,7 +23,7 @@ const NoteVerseText = ({ loading, notePassage }) => {
       &nbsp;&quot;
     </div>
   );
-};
+}
 
 NoteVerseText.propTypes = {
   notePassage: PropTypes.string.isRequired,

@@ -1,4 +1,4 @@
-const replaceCharsRegex = new RegExp(/[\r\n※†*✝]/g);
+const replaceCharsRegex = /[\r\n※†*✝]/g;
 
 const preorderTraverse = (node, array) => {
   if (!node) {
