@@ -18,8 +18,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
@@ -103,6 +102,19 @@ const AppContainer = (props) => {
           },
         },
       });
+    } else if (sessionStorage?.getItem('bible_is_user_id')) {
+      props.dispatch({
+        type: 'GET_INITIAL_ROUTE_STATE_PROFILE',
+        profile: {
+          userId: sessionStorage.getItem('bible_is_user_id'),
+          userAuthenticated: !!sessionStorage.getItem('bible_is_user_id'),
+          userProfile: {
+            email: sessionStorage.getItem('bible_is_user_email') || '',
+            name: sessionStorage.getItem('bible_is_user_name') || '',
+            nickname: sessionStorage.getItem('bible_is_user_nickname') || '',
+          },
+        },
+      });
     }
     const redLetter =
       !!props.formattedText &&
@@ -122,9 +134,6 @@ const AppContainer = (props) => {
     });
     props.dispatch(setChapterTextLoadingState({ state: false }));
 
-    // Intercept all route changes to ensure that the loading spinner starts
-    router.events.on('routeChangeStart', handleRouteChange);
-
     if (props.isIe) {
       props.dispatch(setUA());
       if (
@@ -134,11 +143,16 @@ const AppContainer = (props) => {
         svg4everybody();
       }
     }
+  }, []);
+
+  useEffect(() => {
+    // Intercept all route changes to ensure that the loading spinner starts
+    router.events.on('routeChangeStart', handleRouteChange);
 
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (props.formattedText !== prevFormattedText) {
@@ -265,9 +279,11 @@ AppContainer.getInitialProps = async (context) => {
     isIe = isUserAgentInternetExplorer(req.headers['user-agent']);
   }
 
+  let cookieData = null;
+
   if (req && req.headers.cookie) {
     // Get all cookies that the page needs
-    const cookieData = parseCookie(req.headers.cookie);
+    cookieData = parseCookie(req.headers.cookie);
 
     if (cookieData.bible_is_audio_type) {
       audioType = cookieData.bible_is_audio_type;
@@ -308,12 +324,12 @@ AppContainer.getInitialProps = async (context) => {
         }/callback?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${
           process.env.DBP_API_KEY
         }&alt_url=true&code=${cookieData.bible_is_cb_code}`,
-      ).then((body) => body.json());
+      ).then((body) => body.data);
     }
 
     isFromServer = false;
   } else if (typeof document !== 'undefined' && document.cookie) {
-    const cookieData = parseCookie(document.cookie);
+    cookieData = parseCookie(document.cookie);
     if (cookieData.bible_is_audio_type) {
       audioType = cookieData.bible_is_audio_type;
     }
@@ -547,7 +563,6 @@ AppContainer.getInitialProps = async (context) => {
   };
   try {
     /* eslint-disable no-console */
-
     initData = await getinitialChapterData({
       filesets,
       bookId,
@@ -621,6 +636,21 @@ AppContainer.getInitialProps = async (context) => {
         },
       });
     }
+
+    context.reduxStore.dispatch({
+      type: 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP',
+      settings: {
+        activeTheme: cookieData.bible_is_theme,
+        activeFontType: cookieData.bible_is_font_family,
+        activeFontSize: cookieData.bible_is_font_size,
+        readersMode: cookieData.bible_is_userSettings_toggleOptions_readersMode_active,
+        justifiedText: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
+        redLetter: cookieData.bible_is_userSettings_toggleOptions_justifiedText_active,
+        crossReferences: cookieData.bible_is_userSettings_toggleOptions_crossReferences_active,
+        oneVersePerLine: cookieData.bible_is_userSettings_toggleOptions_oneVersePerLine_active,
+      }
+    });
+
     context.reduxStore.dispatch({
       type: 'GET_INITIAL_ROUTE_STATE_HOMEPAGE',
       homepage: {
@@ -664,6 +694,7 @@ AppContainer.getInitialProps = async (context) => {
         },
       },
     });
+
   }
 
   if (typeof document !== 'undefined') {

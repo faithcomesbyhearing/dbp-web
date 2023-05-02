@@ -89,7 +89,7 @@ export class Information extends React.PureComponent {
 						&nbsp;
 					</div>
 					<div className={'ministry-terms-support'}>
-						<Link href={'/terms'}>
+						<Link legacyBehavior href={'/terms'}>
 							<a id={'terms-of-service'}>
 								<FormattedMessage {...messages.terms} />
 							</a>

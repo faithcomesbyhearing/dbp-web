@@ -111,8 +111,6 @@ function settingsReducer(state = initialState, action) {
 			return state.setIn(action.path, !state.getIn(action.path));
 		case TOGGLE_SETTINGS_OPTION_AVAILABILITY:
 			return state.setIn(action.path, !state.getIn(action.path));
-		// case 'GET_INITIAL_ROUTE_STATE_HOMEPAGE':
-		// 	return state.merge(action.homepage);
 		case 'GET_INITIAL_ROUTE_STATE_SETTINGS':
 			return state
 				.setIn(
@@ -122,6 +120,31 @@ function settingsReducer(state = initialState, action) {
 				.setIn(
 					['userSettings', 'toggleOptions', 'crossReferences', 'available'],
 					action.crossReferences,
+				);
+		case 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP':
+			return state
+				.setIn(['userSettings', 'activeTheme'], action.settings.activeTheme)
+				.setIn(['userSettings', 'activeFontType'], action.settings.activeFontType)
+				.setIn(['userSettings', 'activeFontSize'], action.settings.activeFontSize)
+				.setIn(
+					['userSettings', 'toggleOptions', 'readersMode', 'active'],
+					action.settings.readersMode,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'justifiedText', 'active'],
+					action.settings.justifiedText,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'redLetter', 'active'],
+					action.settings.redLetter,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'crossReferences', 'active'],
+					action.settings.crossReferences,
+				)
+				.setIn(
+					['userSettings', 'toggleOptions', 'oneVersePerLine', 'active'],
+					action.settings.oneVersePerLine,
 				);
 		case 'persist/REHYDRATE':
 			if (

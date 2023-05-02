@@ -41,6 +41,7 @@ class MyHighlights extends React.PureComponent {
 				className={'highlight-item'}
 			>
 				<Link
+					legacyBehavior
 					as={`/bible/${highlight.bible_id}/${highlight.book_id}/${
 						highlight.chapter
 					}`}

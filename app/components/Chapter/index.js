@@ -17,7 +17,7 @@ const Chapter = ({ as, active, chapter, clickHandler, href }) => {
 		);
 	}
 	return (
-		<Link href={href} as={as}>
+		<Link legacyBehavior href={href} as={as}>
 			<a className={'chapter-box'} onClick={clickHandler}>
 				<span>{chapter}</span>
 			</a>

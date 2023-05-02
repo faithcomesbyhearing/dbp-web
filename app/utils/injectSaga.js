@@ -29,7 +29,7 @@ const InjectSaga = ({ keySaga, saga, mode, children }) => {
 			const { ejectSaga } = injectors;
 			ejectSaga(keySaga);
 		};
-	}, [keySaga, injectors, saga, mode, store]);
+	}, []);
 
 	return children;
 };
