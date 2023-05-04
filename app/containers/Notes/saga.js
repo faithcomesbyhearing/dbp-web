@@ -31,9 +31,7 @@ export function* getChapterForNote({ note }) {
   const bookId =
     typeof note.get === 'function' ? note.get('book_id') : note.book_id;
   // TODO: The bibleId here is undefined a lot of the time, find where it gets passed in and fix the issue
-  const bibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?asset_id=${
-    process.env.DBP_BUCKET_ID
-  }&key=${process.env.DBP_API_KEY}&v=4`;
+  const bibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${process.env.DBP_API_KEY}&v=4`;
   // Need to get the bible filesets
   try {
     const response = yield call(request, bibleUrl);
@@ -50,9 +48,7 @@ export function* getChapterForNote({ note }) {
           request,
           `${process.env.BASE_API_ROUTE}/bibles/filesets/${
             plain.id
-          }/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&asset_id=${
-            process.env.DBP_BUCKET_ID
-          }&v=4&book_id=${bookId}&chapter_id=${chapter}`,
+          }/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}`,
         );
 
         text = res.data;

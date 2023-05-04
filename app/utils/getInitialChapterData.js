@@ -11,9 +11,7 @@ export default async ({
   const bookId = lowerCaseBookId.toUpperCase();
   // start promise for formatted text
   const formattedPromises = formattedFilesetIds.map(async (id) => {
-    const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?asset_id=${
-      process.env.DBP_BUCKET_ID
-    }&key=${
+    const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
       process.env.DBP_API_KEY
     }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`;
     const res = await request(url).catch((e) => {

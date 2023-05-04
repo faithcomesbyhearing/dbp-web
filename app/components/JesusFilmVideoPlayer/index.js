@@ -170,10 +170,10 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 		) {
 			this.videoRef.src = `${hlsStream}?key=${
 				process.env.DBP_API_KEY
-			}&v=4&asset_id=dbp-vid`;
+			}&v=4`;
 			// console.log('initVideo: new source', `${hlsStream}?key=${
 			// 	process.env.DBP_API_KEY
-			// }&v=4&asset_id=dbp-vid`);
+			// }&v=4`);
 			this.videoRef.addEventListener(
 				'timeupdate',
 				this.timeUpdateEventListener,
@@ -192,7 +192,7 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 						this.hls.loadSource(
 							`${hlsStream}?key=${
 								process.env.DBP_API_KEY
-							}&v=4&asset_id=dbp-vid`,
+							}&v=4`,
 						);
 						this.hls.media.addEventListener(
 							'timeupdate',
@@ -262,7 +262,7 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 		) {
 			if (
 				this.videoRef.src ===
-				`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-vid`
+				`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4`
 			) {
 				const playPromise = this.videoRef.play();
 				if (playPromise) {
@@ -291,7 +291,7 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 					if (
 						this.hls.media &&
 						this.hls.url ===
-							`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-vid`
+							`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4`
 					) {
 						const playPromise = this.hls.media.play();
 						if (playPromise) {

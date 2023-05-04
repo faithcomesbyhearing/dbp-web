@@ -11,9 +11,7 @@ export default async ({ idsForBookMetadata }) => {
 		const hasVideo = filesetTuple[0] === 'video_stream';
 		const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${
 			filesetTuple[1]
-		}/books?v=4&key=${process.env.DBP_API_KEY}&asset_id=${
-			hasVideo ? 'dbp-vid' : process.env.DBP_BUCKET_ID
-		}&fileset_type=${filesetTuple[0]}`;
+		}/books?v=4&key=${process.env.DBP_API_KEY}&fileset_type=${filesetTuple[0]}`;
 		const res = await cachedFetch(url);
 		if (hasVideo && res.data) {
 			res.data.forEach((book) => {

@@ -8,9 +8,7 @@ export const getVersionForLanguage = async ({
   activeBookId,
   activeChapter,
 }) => {
-  const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?asset_id=${
-    process.env.DBP_BUCKET_ID
-  },dbp-vid&key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
+  const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
 
   try {
     const response = await request(requestUrl);

@@ -83,12 +83,10 @@ export function filterFunction(bible) {
 }
 
 export async function getTexts({ languageCode }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?asset_id=${
-		process.env.DBP_BUCKET_ID
-	}&key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
+	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
 	const videoRequestUrl = `${
 		process.env.BASE_API_ROUTE
-	}/bibles?asset_id=dbp-vid&key=${
+	}/bibles?key=${
 		process.env.DBP_API_KEY
 	}&language_code=${languageCode}&v=4`;
 	// Put logic here for determining what url to direct to when user chooses new version

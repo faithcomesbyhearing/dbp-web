@@ -242,6 +242,7 @@ export class LanguageList extends React.PureComponent {
         activeChapter,
       });
 
+      // FIXME: see comment below. we no longer provide asset_id to api; what can we adjust here to remove "temporary failsafe"
       // Temporary failsafe for until the api supports multiple values in asset_id param
       if (!versionHref || !versionAs) {
         // If no version then use default behavior
