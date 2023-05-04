@@ -7,14 +7,14 @@ class GooglePlusShare extends React.PureComponent {
 		/* eslint-disable no-undef */
 		if (
 			typeof gapi !== 'undefined' &&
-			process.env.GOOGLE_APP_ID_PROD &&
-			process.env.GOOGLE_SECRET_PROD
+			process.env.GOOGLE_APP_ID &&
+			process.env.GOOGLE_SECRET
 		) {
 			const options = {
 				contenturl: window.location.href,
 				contentdeeplinkid: '/bible',
-				clientid: process.env.GOOGLE_APP_ID_PROD,
-				clientsecret: process.env.GOOGLE_SECRET_PROD,
+				clientid: process.env.GOOGLE_APP_ID,
+				clientsecret: process.env.GOOGLE_SECRET,
 				cookiepolicy: 'single_host_origin',
 				prefilltext: `"${this.props.quote}" - ${document.title}`,
 				calltoactionlabel: 'VISIT',
@@ -28,7 +28,7 @@ class GooglePlusShare extends React.PureComponent {
 	}
 
 	render() {
-		if (process.env.GOOGLE_APP_ID_PROD && process.env.GOOGLE_SECRET_PROD) {
+		if (process.env.GOOGLE_APP_ID && process.env.GOOGLE_SECRET) {
 			return (
 				<div
 					id="sharePost"

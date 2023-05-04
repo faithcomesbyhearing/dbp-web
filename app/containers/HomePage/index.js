@@ -143,14 +143,14 @@ class HomePage extends React.PureComponent {
       }
     }
 
-    if (process.env.GOOGLE_APP_ID_PROD) {
+    if (process.env.GOOGLE_APP_ID) {
       try {
         // May need to create a script and append it to the dom then wait for it to finish loading
         if (!this.props.userId && typeof gapi !== 'undefined') {
           gapi.load('auth2', () => {
             try {
               window.auth2 = gapi.auth2.init({
-                client_id: process.env.GOOGLE_APP_ID_PROD || 'no_client',
+                client_id: process.env.GOOGLE_APP_ID || 'no_client',
                 scope: 'profile',
               });
             } catch (err) {
