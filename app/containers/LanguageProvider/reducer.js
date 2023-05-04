@@ -12,7 +12,7 @@ const initialState = fromJS({
 	locale: DEFAULT_LOCALE,
 });
 
-function languageProviderReducer(state = initialState, action) {
+function languageProviderReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case CHANGE_LOCALE:
 			return state.set('locale', action.locale);

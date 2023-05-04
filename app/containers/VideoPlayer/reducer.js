@@ -5,7 +5,7 @@ const initialState = fromJS({
 	videoList: [],
 });
 
-export default (state = initialState, action) => {
+export default (state = initialState, action = { type: null }) => {
 	switch (action.type) {
 		case LOAD_VIDEO_LIST:
 			return state.set('videoList', fromJS(action.videoList));

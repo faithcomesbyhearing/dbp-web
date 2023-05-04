@@ -26,7 +26,7 @@ describe('check for video utility function', () => {
     jest.mock(
       '../request',
       () =>
-        new Promise((res, rej) => rej(new Error('Mocked error for testing!'))),
+        Promise.reject(new Error('Mocked error for testing!')),
     );
     expect(result).toEqual(false);
   });

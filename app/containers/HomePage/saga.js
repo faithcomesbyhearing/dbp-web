@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { takeLatest, cancelled, call, all, put, fork } from 'redux-saga/effects';
+import { takeLatest, call, all, put, fork } from 'redux-saga/effects';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
@@ -9,13 +9,12 @@ import {
   getNotesForChapter,
   getBookmarksForChapter,
   getUserHighlights,
+  getHighlights,
 } from '../Notes/saga';
 import { getCountries, getLanguageAltNames, getTexts } from '../TextSelection/saga';
 import { ADD_BOOKMARK } from '../Notes/constants';
 import {
   ADD_HIGHLIGHTS,
-  LOAD_HIGHLIGHTS,
-  GET_HIGHLIGHTS,
   GET_NOTES_HOMEPAGE,
   GET_COPYRIGHTS,
   INIT_APPLICATION,
@@ -143,36 +142,6 @@ export function* getBookMetadata({ bibleId }) {
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       console.error('Caught in get book metadata request', error); // eslint-disable-line no-console
-    }
-  }
-}
-
-export function* getHighlights({ bible, book, chapter, userId }) {
-  const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId ||
-    'no_user_id'}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
-    process.env.NOTES_PROJECT_ID
-  }&bible_id=${bible}&book_id=${book}&chapter=${chapter}&limit=1000`;
-  let highlights = [];
-
-  try {
-    const response = yield call(request, requestUrl);
-
-    if (response.data) {
-      highlights = response.data;
-    }
-
-    yield put({ type: LOAD_HIGHLIGHTS, highlights });
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Caught in highlights request', error); // eslint-disable-line no-console
-    }
-  } finally {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('getHighlights generator function has completed execution');
-
-      if (yield cancelled()) {
-        console.log('Saga was cancelled');
-      }
     }
   }
 }
@@ -1151,7 +1120,6 @@ export function* createSocialUser({ provider }) {
 export default function* defaultSaga() {
   yield takeLatest(INIT_APPLICATION, initApplication);
   yield takeLatest('getchapter', getChapterFromUrl);
-  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
   yield takeLatest(ADD_HIGHLIGHTS, addHighlight);
   yield takeLatest('getbible', getBibleFromUrl);
   yield takeLatest('getaudio', getChapterAudio);

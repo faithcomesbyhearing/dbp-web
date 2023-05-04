@@ -60,7 +60,7 @@ const initialState = fromJS({
 	},
 });
 
-function settingsReducer(state = initialState, action) {
+function settingsReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case SET_VOLUME:
 			return state.setIn(['userSettings', 'volume'], action.value);

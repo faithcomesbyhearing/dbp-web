@@ -12,7 +12,6 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { FormattedMessage } from 'react-intl';
 import isEqual from 'lodash/isEqual';
-// import dynamic from 'next/dynamic';
 import injectReducer from '../../utils/injectReducer';
 import SvgWrapper from '../../components/SvgWrapper';
 import SpeedControl from '../../components/SpeedControl';
@@ -241,6 +240,7 @@ export class AudioPlayer extends React.Component {
   };
 
   setAudioPlayerRef = (el) => {
+    // eslint-disable-next-line react/no-unused-class-component-methods
     this.audioPlayerContainer = el;
   };
 

@@ -127,7 +127,7 @@ const initialState = fromJS({
 	textDirection: 'ltr',
 });
 
-function homePageReducer(state = initialState, action) {
+function homePageReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		// Audio play actions
 		case SET_AUDIO_TYPE:

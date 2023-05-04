@@ -5,14 +5,11 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
 
 const initialState = fromJS({});
 
-function versesReducer(state = initialState, action) {
+function versesReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
-		case DEFAULT_ACTION:
-			return state;
 		default:
 			return state;
 	}

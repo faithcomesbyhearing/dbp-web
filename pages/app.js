@@ -501,6 +501,7 @@ AppContainer.getInitialProps = async (context) => {
       );
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
         console.error('Error getting initial book', err); // eslint-disble-line no-console
       }
     }
