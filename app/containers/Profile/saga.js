@@ -203,18 +203,11 @@ export function* changePicture({ userId, avatar }) {
 export function* sendResetPassword({ password, userAccessToken, email }) {
 	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/reset?key=${
 		process.env.DBP_API_KEY
-	}&v=4&project_id=${
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID
-	}`;
+	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append(
-		'project_id',
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID,
+		'project_id', process.env.NOTES_PROJECT_ID,
 	);
 	formData.append('new_password', password);
 	formData.append('new_password_confirmation', password);
@@ -251,11 +244,7 @@ export function* sendResetPassword({ password, userAccessToken, email }) {
 export function* resetPassword({ email }) {
 	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/email?key=${
 		process.env.DBP_API_KEY
-	}&v=4&project_id=${
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID
-	}`;
+	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const resetPath = `${window.location.href ||
 		`${window.location.protocol}//${window.location.hostname}${
 			window.location.pathname
@@ -267,10 +256,7 @@ export function* resetPassword({ email }) {
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append(
-		'project_id',
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID,
+		'project_id', process.env.NOTES_PROJECT_ID
 	);
 	formData.append('iso', browserLanguage);
 	formData.append('reset_path', resetPath);

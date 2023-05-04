@@ -8,18 +8,8 @@ require('dotenv').config();
 /* eslint-disable no-nested-ternary */
 let appName;
 
-switch (process.env.NODE_ENV) {
-	case 'staging':
-	  appName = process.env.NEWRELIC_STAGE_ID;
-	  break;
-	case 'production':
-	  appName = process.env.IS_DEV ? process.env.NEWRELIC_DEV_ID : process.env.NEWRELIC_PROD_ID;
-	  break;
-	default:
-	  // For other environments use a default app name
-	  appName = 'BibleIs-Development';
-	  break;
-  }
+  appName = process.env.NEWRELIC_ID ? process.env.NEWRELIC_ID : 'Bible.is Web Development';
+
 /* eslint-enable no-nested-ternary */
 exports.config = {
 	/**

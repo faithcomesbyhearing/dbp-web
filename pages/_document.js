@@ -47,7 +47,7 @@ export default class MyDocument extends Document {
         <Head></ Head>
         <body>
           <noscript>
-            {process.env.NODE_ENV === 'production' && !process.env.IS_DEV ? (
+            {process.env.NODE_ENV === 'production' ? (
               <iframe
                 src="https://www.googletagmanager.com/ns.html?id=GTM-N48RPTL"
                 height="0"
