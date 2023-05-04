@@ -51,7 +51,7 @@ const initialState = fromJS({
   errorSavingNote: false,
 });
 
-function notesReducer(state = initialState, action) {
+function notesReducer(state = initialState, action = { type: null }) {
   switch (action.type) {
     case GET_CHAPTER_FOR_NOTE:
       return state.set('loadingChapterForNote', true);

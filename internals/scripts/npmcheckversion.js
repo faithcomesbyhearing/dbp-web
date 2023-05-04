@@ -1,8 +1,17 @@
-const exec = require('child_process').exec;
-exec('npm -v', function(err, stdout, stderr) {
-	if (err) throw err;
-	if (parseFloat(stdout) < 3) {
-		throw new Error('[ERROR: Bible.Is] You need npm version @>=3');
-		process.exit(1);
-	}
+const { exec } = require('child_process');
+
+exec('npm -v', (error, stdout) => {
+  if (error) {
+    console.error(`npm -v command failed: ${error.message}`);
+    process.exit(1);
+  }
+
+  const npmVersion = parseFloat(stdout.trim());
+
+  if (npmVersion < 9) {
+    console.error('[ERROR: Bible.Is] You need npm version @>=9');
+    process.exit(1);
+  }
+
+  console.log(`npm version: ${npmVersion}`);
 });

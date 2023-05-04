@@ -1,6 +1,7 @@
 import { takeLatest, call, fork, put, cancelled } from 'redux-saga/effects';
 import request from '../../utils/request';
-import { getHighlights } from '../HomePage/saga';
+// import { getHighlights } from '../HomePage/saga';
+import { GET_HIGHLIGHTS, LOAD_HIGHLIGHTS } from '../HomePage/constants';
 import {
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
@@ -294,9 +295,11 @@ export function* getNotesForChapter({ userId, params = {} }) {
     }
   } finally {
     if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
       console.log('getHighlights generator function has completed execution');
 
       if (yield cancelled()) {
+        // eslint-disable-next-line no-console
         console.log('Saga was cancelled');
       }
     }
@@ -404,9 +407,11 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
     }
   } finally {
     if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
       console.log('getBookmarksForChapter generator function has completed execution');
 
       if (yield cancelled()) {
+        // eslint-disable-next-line no-console
         console.log('Saga was cancelled');
       }
     }
@@ -443,6 +448,38 @@ export function* getUserBookmarks({ userId, params = {} }) {
   }
 }
 
+export function* getHighlights({ bible, book, chapter, userId }) {
+  const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId ||
+    'no_user_id'}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
+    process.env.NOTES_PROJECT_ID
+  }&bible_id=${bible}&book_id=${book}&chapter=${chapter}&limit=1000`;
+  let highlights = [];
+
+  try {
+    const response = yield call(request, requestUrl);
+
+    if (response.data) {
+      highlights = response.data;
+    }
+
+    yield put({ type: LOAD_HIGHLIGHTS, highlights });
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Caught in highlights request', error); // eslint-disable-line no-console
+    }
+  } finally {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log('getHighlights generator function has completed execution');
+
+      if (yield cancelled()) {
+        // eslint-disable-next-line no-console
+        console.log('Saga was cancelled');
+      }
+    }
+  }
+}
+
 // Individual exports for testing
 export default function* notesSaga() {
   yield takeLatest(ADD_NOTE, addNote);
@@ -455,4 +492,5 @@ export default function* notesSaga() {
   yield takeLatest(GET_USER_HIGHLIGHTS, getUserHighlights);
   yield takeLatest(GET_BOOKMARKS_FOR_CHAPTER, getBookmarksForChapter);
   yield takeLatest(GET_USER_BOOKMARK_DATA, getUserBookmarks);
+  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
 }
