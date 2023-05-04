@@ -48,3 +48,7 @@ app/utils/parsedCountries.json
 .next/static/commons/main.js.map
 .next/static/commons/manifest.js
 .next/static/commons/manifest.js.map
+
+# Test codeBuild scripts locally
+codebuild_build.sh
+artifacts

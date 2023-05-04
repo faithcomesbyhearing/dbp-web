@@ -6,14 +6,17 @@ phases:
       nodejs: 18
     commands:
       - npm install
+  pre_build:
+    commands:
+      - npm run lint
   build:
     commands:
-      - BUILD_ID=$(git rev-parse HEAD) NODE_ENV=production npm run build
+      - npm run build
 artifacts:
   files:
     - .next/**/*
     - public/**/*
-    - node_modules/**/*
+    - internals/scripts/**/*
     - scripts/**/*
     - nextServer.js
     - ecosystem.config.js
@@ -23,3 +26,12 @@ artifacts:
     - appspec.yml
     - env-config.js
     - .babelrc.js
+    - .gitignore
+    - node_modules/**
+    - app/utils/checkBookName.js
+    - app/utils/bugsnagServer.js
+    - app/utils/isoOneToThree.json
+    - app/utils/bookNameToId.json
+    - app/utils/osisIdMap.json
+  discard-paths: no
+  name: 'BibleIsWebsite-$CODEBUILD_BUILD_NUMBER'

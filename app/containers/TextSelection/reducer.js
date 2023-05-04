@@ -44,7 +44,7 @@ const initialState = fromJS({
 	finishedLoadingCountries: false,
 });
 
-function textSelectionReducer(state = initialState, action) {
+function textSelectionReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case LOAD_VERSION_FOR_LANGUAGE:
 			return state.set('loadingLanguageVersion', action.state);

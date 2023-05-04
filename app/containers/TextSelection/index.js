@@ -151,6 +151,7 @@ function TextSelection(props) {
 	const { bibles, active, languages, countries, homepageData: { activeTextId } } = props;
 
 	return (
+		// eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
 		<aside
 			style={{ display: active ? 'flex' : 'none' }}
 			ref={ref}

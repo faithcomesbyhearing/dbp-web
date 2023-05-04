@@ -14,37 +14,31 @@ const mockData = {
 };
 jest.mock('isomorphic-fetch', () => (url, options) => {
 	if (url === '/valid-call') {
-		return new Promise((res) =>
-			res({
+		return Promise.resolve({
 				status: 200,
 				json: () => mockData['/valid-call'],
-			}),
-		);
+			});
 	} else if (
 		'/valid-call-with-options' &&
 		options.header &&
 		options.header.Authorization === 'somekey'
 	) {
-		return new Promise((res) =>
-			res({
+		return Promise.resolve({
 				...options,
 				status: 200,
 				json: () => mockData['/valid-call-with-options'],
-			}),
-		);
+			});
 	} else if (url === '/reset-password') {
-		return new Promise((res) => res({ status: 428 }));
+		return Promise.resolve({ status: 428 });
 	} else if (url === '/invalid-credentials') {
-		return new Promise((res) => res({ status: 401 }));
+		return Promise.resolve({ status: 401 });
 	} else if (url === '/redirect') {
-		return new Promise((res) =>
-			res({
+		return Promise.resolve({
 				status: 300,
 				json: () => mockData['/redirect'],
-			}),
-		);
+			});
 	}
-	return new Promise((res) => res(mockData.errorResponse));
+	return Promise.resolve(mockData.errorResponse);
 });
 
 describe('request utility function', () => {

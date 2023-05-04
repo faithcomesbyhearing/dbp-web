@@ -6,12 +6,20 @@ require('dotenv').config();
  * description of configuration variables and their potential values.
  */
 /* eslint-disable no-nested-ternary */
-const appName =
-	process.env.NODE_ENV === 'staging'
-		? process.env.NEWRELIC_STAGE_ID
-		: process.env.NODE_ENV === 'production' && process.env.IS_DEV
-			? process.env.NEWRELIC_DEV_ID
-			: process.env.NEWRELIC_PROD_ID;
+let appName;
+
+switch (process.env.NODE_ENV) {
+	case 'staging':
+	  appName = process.env.NEWRELIC_STAGE_ID;
+	  break;
+	case 'production':
+	  appName = process.env.IS_DEV ? process.env.NEWRELIC_DEV_ID : process.env.NEWRELIC_PROD_ID;
+	  break;
+	default:
+	  // For other environments use a default app name
+	  appName = 'BibleIs-Development';
+	  break;
+  }
 /* eslint-enable no-nested-ternary */
 exports.config = {
 	/**

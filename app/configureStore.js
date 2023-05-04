@@ -1,8 +1,14 @@
+/* eslint-disable import/no-import-module-exports */
 import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
+/* eslint-disable import/no-import-module-exports */
 import { fromJS } from 'immutable';
+/* eslint-disable import/no-import-module-exports */
 import createSagaMiddleware from 'redux-saga';
+/* eslint-disable import/no-import-module-exports */
 import { persistStore } from 'redux-persist';
+/* eslint-disable import/no-import-module-exports */
 import createReducer from './reducers';
+/* eslint-disable import/no-import-module-exports */
 import REDUX_PERSIST from './utils/reduxPersist';
 
 const sagaMiddleware = createSagaMiddleware();

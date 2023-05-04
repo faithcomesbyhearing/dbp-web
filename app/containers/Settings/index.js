@@ -200,6 +200,7 @@ export class Settings extends React.PureComponent {
 									svgid={'light'}
 								/>
 							) : (
+								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'paper-theme-button'}
 									role="button"
@@ -214,6 +215,7 @@ export class Settings extends React.PureComponent {
 									svgid={'dark'}
 								/>
 							) : (
+								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'dark-theme-button'}
 									role="button"
@@ -228,6 +230,7 @@ export class Settings extends React.PureComponent {
 									svgid={'red'}
 								/>
 							) : (
+								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'red-theme-button'}
 									role="button"
