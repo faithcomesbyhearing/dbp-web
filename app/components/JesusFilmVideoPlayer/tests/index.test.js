@@ -4,8 +4,7 @@ import renderer from 'react-test-renderer';
 import JesusFilmVideoPlayer from '..';
 
 const props = {
-  hlsStream:
-    'https://api-dev.dbp4.org/arclight/jesus-film?key=${process.env.DBP_API_KEY}&v=4&arclight_id=23156',
+  hlsStream: `https://api-dev.dbp4.org/arclight/jesus-film?key=${process.env.DBP_API_KEY}&v=4&arclight_id=23156`,
   duration: 5789,
   hasVideo: true,
 };
