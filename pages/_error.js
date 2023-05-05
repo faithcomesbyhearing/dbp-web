@@ -1,5 +1,5 @@
 /**
- * NotFoundPage
+ * ErrorPage
  *
  * This is the page we show when the user visits a url that doesn't have a route
  *
@@ -21,12 +21,13 @@ import bugsnagClient from '../app/utils/bugsnagClient';
 
 export default class Error extends React.Component {
   static async getInitialProps({ res, err }) {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : null; // eslint-disable-line
+    const statusCode = res?.statusCode ?? err?.statusCode ?? null;
+
     if (
       err &&
       (process.env.NODE_ENV === 'production' ||
         process.env.NODE_ENV === 'staging') &&
-      process.env.BUGSNAG_API_KEY 
+      process.env.BUGSNAG_API_KEY
     ) {
       bugsnagClient.notify(err);
     }
