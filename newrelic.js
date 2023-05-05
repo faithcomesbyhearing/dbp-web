@@ -6,9 +6,7 @@ require('dotenv').config();
  * description of configuration variables and their potential values.
  */
 /* eslint-disable no-nested-ternary */
-let appName;
-
-  appName = process.env.NEWRELIC_ID ? process.env.NEWRELIC_ID : 'Bible.is Web Development';
+const appName = process.env.NEWRELIC_ID ? process.env.NEWRELIC_ID : 'Bible.is Web Development';
 
 /* eslint-enable no-nested-ternary */
 exports.config = {

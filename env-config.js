@@ -17,8 +17,8 @@ module.exports = {
 		GOOGLE_SECRET: process.env.GOOGLE_SECRET,
 		NEWRELIC_ID: process.env.NEWRELIC_ID,
 		NEWRELIC_LICENSE_KEY: process.env.NEWRELIC_LICENSE_KEY,
-		NODE_ENV: process.env.NODE_ENV, 
+		NODE_ENV: process.env.NODE_ENV,
 		NOTES_PROJECT_ID: process.env.NOTES_PROJECT_ID,
-		
+
 	},
 };

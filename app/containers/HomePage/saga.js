@@ -1075,7 +1075,7 @@ export function* getCopyrightSaga({ filesetIds }) {
 export function* createSocialUser({ provider }) {
   const reqUrl = `${
     process.env.BASE_API_ROUTE
-  }/login/${provider}?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${process.env.DBP_API_KEY}${process.env.IS_DEV ? '&alt_url=true' : ''}`;
+  }/login/${provider}?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${process.env.DBP_API_KEY}${process.env.NODE_ENV === 'development' ? '&alt_url=true' : ''}`;
 
   try {
     const response = yield call(request, reqUrl);
