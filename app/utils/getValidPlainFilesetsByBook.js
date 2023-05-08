@@ -23,15 +23,15 @@ const getValidPlainFilesetsByBook = (
 		}
 	});
 
-	return plainFilesetIds.filter((filesetId) => {
+	return plainFilesetIds.filter((filesetId) =>
 		// 1. If the Fileset testament is NTP, it will only be considered valid if the testament of the book is also NT.
 		// 2. A Fileset with a testament code of C is considered valid because it includes both the Old and New Testaments.
 		//    This is because the C size code denotes a fileset that includes content from both testaments.
-		return (
-			idsForBookMetadataIndexed[filesetId]?.testament == 'C' ||
+		 (
+			idsForBookMetadataIndexed[filesetId]?.testament === 'C' ||
 			idsForBookMetadataIndexed[filesetId]?.testament.includes(book.testament)
-		);
-	});
+		)
+	);
 };
 
 export default getValidPlainFilesetsByBook;
