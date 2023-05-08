@@ -11,7 +11,7 @@ const bugsnagClient =
         }),
       }
 		: Bugsnag.createClient({
-			apiKey: process.env.BUGSNAG_SERVER_API_KEY,
+			apiKey: process.env.BUGSNAG_API_KEY,
 			plugins: [new BugsnagPluginReact()],
 		});
 
