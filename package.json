@@ -53,7 +53,8 @@
     "reload:pm2": "pm2 reload ecosystem.config.js --update-env --env production --only bible.is.prod;",
     "fetch-latest-site": "git checkout .; rm package-lock.json; git pull origin master; npm install; npm run npmpostinstall; npm run build:prod; pm2 restart ecosystem.config.js --update-env --env production --only bible.is.production;",
     "update-staging": "git checkout .; rm package-lock.json; git pull origin staging; npm install; npm run npmpostinstall; npm run build:staging; pm2 restart ecosystem.config.js --only bible.is.staging;",
-    "fetch-latest-dev": "git checkout .; rm package-lock.json; git pull origin development; npm install; npm run build; npm run npmpostinstall; pm2 restart ecosystem.config.js --update-env --env production --only bible.is.development;"
+    "fetch-latest-dev": "git checkout .; rm package-lock.json; git pull origin development; npm install; npm run build; npm run npmpostinstall; pm2 restart ecosystem.config.js --update-env --env production --only bible.is.development;",
+    "prettier": "prettier --single-quote=true --arrow-parens=always --use-tabs --write --single-quote --trailing-comma=all"
   },
   "lint-staged": {
     "*.{js,json,scss,md}": [
