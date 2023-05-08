@@ -34,7 +34,7 @@
     "build:stage": "BUILD_ID=$(git rev-parse HEAD) NODE_ENV=staging next build",
     "build:production": "BUILD_ID=$(git rev-parse HEAD) NODE_ENV=production next build",
     "build:prod": "BUILD_ID=$(git rev-parse HEAD) NODE_ENV=production next build",
-    "start": "env NODE_ENV=development node nextServer",
+    "start": "env NODE_ENV=production node nextServer",
     "setup": "node ./internals/scripts/setup.js",
     "postsetup": "npm run build:dll",
     "generate": "plop --plopfile internals/generators/index.js",
