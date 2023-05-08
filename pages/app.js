@@ -22,6 +22,7 @@ import Router, { useRouter } from 'next/router';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
+import getValidPlainFilesetsByBook from '../app/utils/getValidPlainFilesetsByBook';
 import {
   setChapterTextLoadingState,
   setUA,
@@ -457,8 +458,8 @@ AppContainer.getInitialProps = async (context) => {
     } else if (set.type === 'text_plain') {
       plainFilesetIds.push(set.id);
     }
-    // Gets one id for each fileset type
-    idsForBookMetadata.push([set.type, set.id]);
+    // Gets one id for each fileset type and size
+    idsForBookMetadata.push([set.type, set.id, set.size]);
   });
 
   const [bookMetaData, bookMetaResponse] = await getBookMetaData({
@@ -480,9 +481,10 @@ AppContainer.getInitialProps = async (context) => {
     }
   }
 
+  let foundBook = null;
   // Redirect to the new url if conditions are met
   if (bookMetaData && bookMetaData.length) {
-    const foundBook = bookMetaData.find(
+    foundBook = bookMetaData.find(
       (book) => bookId && book.book_id === bookId.toUpperCase(),
     );
     const foundChapter =
@@ -564,12 +566,14 @@ AppContainer.getInitialProps = async (context) => {
     audioPaths: [''],
   };
   try {
+    const plainFilesetFilteredByBookTest = getValidPlainFilesetsByBook(foundBook, idsForBookMetadata, plainFilesetIds);
+
     /* eslint-disable no-console */
     initData = await getinitialChapterData({
       filesets,
       bookId,
       chapter,
-      plainFilesetIds,
+      plainFilesetIds: plainFilesetFilteredByBookTest,
       formattedFilesetIds,
       audioType,
     }).catch((err) => {
