@@ -27,7 +27,7 @@ artifacts:
     - env-config.js
     - .babelrc.js
     - .gitignore
-    - node_modules/**
+    - node_modules/**/*
     - app/utils/checkBookName.js
     - app/utils/bugsnagServer.js
     - app/utils/isoOneToThree.json
