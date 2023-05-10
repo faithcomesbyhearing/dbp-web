@@ -437,6 +437,7 @@ AppContainer.getInitialProps = async (context) => {
         bible.filesets[process.env.DBP_BUCKET_ID].length === 1,
     );
   } else if (bible && bible.filesets && bible.filesets['dbp-vid']) {
+    hasVideo = true;
     filesets = bible.filesets['dbp-vid'].filter(
       (file) =>
         (!file.id.includes('GID') &&

@@ -231,7 +231,8 @@ class HomePage extends React.PureComponent {
       prevVerseNumber !== verseNumber ||
       formattedSource.main !== prevFormattedSource.main ||
       !isEqual(prevTextData.text, textData.text) ||
-      audioSource !== prevAudioSource
+      audioSource !== prevAudioSource ||
+      activeChapter !== activeChapterProps
     ) {
       this.setTextLoadingState({ state: false });
       this.getCopyrights({ filesetIds: activeFilesets });

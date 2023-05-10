@@ -1,12 +1,13 @@
 import bugsnagServer from '../bugsnagServer';
 
-jest.mock('@bugsnag/js', () =>
-  jest.fn(() => ({
+jest.mock('@bugsnag/js', () => ({
+  createClient: () => ({
     use: jest.fn(),
     notify: jest.fn(),
     getPlugin: jest.fn(),
-  })),
-);
+  }),
+}));
+
 jest.mock('@bugsnag/plugin-react', () => jest.fn());
 
 describe('bugsnag server utility function', () => {
