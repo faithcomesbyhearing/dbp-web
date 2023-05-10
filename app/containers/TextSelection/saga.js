@@ -23,18 +23,28 @@ export function* getCountries() {
   }&v=4&has_filesets=true&include_languages=true`;
 
   try {
-    const data = [];
+    const countriesData = [];
 
-    let response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    data.push(...response.data);
+    const response = yield call(cachedFetch, requestUrl, {}, oneDay);
+    countriesData.push(...response.data);
 
-    while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      const nextRequestUrl = `${requestUrl}&page=${response.meta.pagination.current_page + 1}`;
-      response = yield call(cachedFetch, nextRequestUrl, {}, oneDay);
-      data.push(...response.data);
+    let currentPage = response.meta.pagination.current_page;
+    const countryRequestList = [];
+
+    while (currentPage < response.meta.pagination.total_pages) {
+      currentPage += 1;
+      countryRequestList.push(`${requestUrl}&page=${currentPage}`);
     }
 
-    const countriesObject = data.reduce((acc, country) => {
+    const countryResponses = yield all(
+      countryRequestList.map((countryRequest) => call(cachedFetch, countryRequest, {}, oneDay))
+    );
+
+    countryResponses.forEach((countryResponse) => {
+      countriesData.push(...countryResponse.data);
+    });
+
+    const countriesObject = countriesData.reduce((acc, country) => {
       const tempObj = acc;
       if (typeof country.name !== 'string') {
         tempObj[country.name.name] = { ...country, name: country.name.name };
@@ -202,13 +212,24 @@ export function* getLanguageAltNames() {
   try {
     const languageData = [];
 
-    let response = yield call(cachedFetch, requestUrl, {}, oneDay);
+    const response = yield call(cachedFetch, requestUrl, {}, oneDay);
     languageData.push(...response.data);
 
-    while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
-      response = yield call(cachedFetch, `${requestUrl}&page=${response.meta.pagination.current_page + 1}`, {}, oneDay);
-      languageData.push(...response.data);
+    let currentPage = response.meta.pagination.current_page;
+    const languageRequestList = [];
+
+    while (currentPage < response.meta.pagination.total_pages) {
+      currentPage += 1;
+      languageRequestList.push(`${requestUrl}&page=${currentPage}`);
     }
+
+    const languageResponses = yield all(
+      languageRequestList.map((languageRequest) => call(cachedFetch, languageRequest, {}, oneDay))
+    );
+
+    languageResponses.forEach((languageResponse) => {
+      languageData.push(...languageResponse.data);
+    });
 
     const languages = languageData
       .map((l) => {
