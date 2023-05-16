@@ -20,6 +20,13 @@ import {
   FILESET_TYPE_AUDIO_DRAMA,
   FILESET_TYPE_AUDIO,
   FILESET_TYPE_VIDEO_STREAM,
+  FILESET_SIZE_COMPLETE,
+  FILESET_SIZE_NEW_TESTAMENT,
+  FILESET_SIZE_NEW_TESTAMENT_PORTION,
+  FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION,
+  FILESET_SIZE_OLD_TESTAMENT,
+  FILESET_SIZE_OLD_TESTAMENT_PORTION,
+  FILESET_SIZE_PORTION,
 } from '../../constants/bibleFileset';
 import {
   ADD_HIGHLIGHTS,
@@ -245,7 +252,7 @@ export function* getBibleFromUrl({
       const textDirection =
         response.data.alphabet && response.data.alphabet.direction;
       let hasMatt = false;
-      let activeBook = books.find((b) => {
+      const activeBook = books.find((b) => {
         if (b.book_id === 'MAT') {
           hasMatt = true;
         }
@@ -275,17 +282,16 @@ export function* getBibleFromUrl({
       // Nesting a ternary here because it keeps me from needing more variables and an if statement
       // If there wasn't an activeBook for the bookId given then check for if the resource has Matthew
       // If it has Matthew then use the bookId for that, otherwise just use the first bookId available
+      const defaultBook = hasMatt
+        ? 'MAT'
+        : get(books, [0, 'book_id'], '');
       const activeBookId = activeBook // eslint-disable-line no-nested-ternary
         ? activeBook.book_id
-        : hasMatt
-          ? 'MAT'
-          : get(books, [0, 'book_id'], '');
+        : defaultBook;
       const activeBookName = activeBook
         ? activeBook.name_short
         : get(books, [0, 'name_short'], '');
-      if (!activeBook) {
-        activeBook = books.find((b) => b.book_id === activeBookId);
-      }
+
       const bibleFilesets = response.data && response.data.filesets ? geFilesetsForBible(response.data.filesets) : [];
       const filesets = bibleFilesets.filter(
         (f) =>
@@ -293,8 +299,7 @@ export function* getBibleFromUrl({
             f.type === FILESET_TYPE_AUDIO_DRAMA ||
             f.type === FILESET_TYPE_TEXT_PLAIN ||
             f.type === FILESET_TYPE_TEXT_FORMAT ||
-            f.type === FILESET_TYPE_VIDEO_STREAM) &&
-          f.id.slice(-4) !== 'DA16',
+            f.type === FILESET_TYPE_VIDEO_STREAM),
       );
 
       yield fork(getCopyrightSaga, { filesetIds: filesets });
@@ -567,10 +572,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
   const filteredFilesets = filesets.reduce((a, file) => {
     const newFile = { ...a };
 
-    if (
-      (file.type === FILESET_TYPE_AUDIO || file.type === FILESET_TYPE_AUDIO_DRAMA) &&
-      file.id.slice(-4) !== 'DA16'
-    ) {
+    if (file.type === FILESET_TYPE_AUDIO || file.type === FILESET_TYPE_AUDIO_DRAMA) {
       newFile[file.id] = file;
     }
 
@@ -597,17 +599,17 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       return 0;
     })
     .forEach((fileset) => {
-      if (fileset[1].size === 'C') {
+      if (fileset[1].size === FILESET_SIZE_COMPLETE) {
         completeAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NT') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT) {
         ntAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'OT') {
+      } else if (fileset[1].size === FILESET_SIZE_OLD_TESTAMENT) {
         otAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'OTP') {
+      } else if (fileset[1].size === FILESET_SIZE_OLD_TESTAMENT_PORTION) {
         partialOtAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NTP') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT_PORTION) {
         partialNtAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NTPOTP') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION) {
         partialNtOtAudio.push({ id: fileset[0], data: fileset[1] });
       }
     });
@@ -970,7 +972,7 @@ export function* getCopyrightSaga({ filesetIds }) {
 
     const cText = copyrights.filter(
       (c) =>
-        c.testament === 'C' &&
+        c.testament === FILESET_SIZE_COMPLETE &&
         (c.type === FILESET_TYPE_TEXT_PLAIN || c.type === FILESET_TYPE_TEXT_FORMAT),
     )[0];
     const ntText = !cText
@@ -989,13 +991,13 @@ export function* getCopyrightSaga({ filesetIds }) {
       : {};
     const partialText = copyrights.filter(
       (c) =>
-        c.testament === 'P' &&
+        c.testament === FILESET_SIZE_PORTION &&
         (c.type === FILESET_TYPE_TEXT_PLAIN || c.type === FILESET_TYPE_TEXT_FORMAT),
     )[0];
 
     const cAudio = copyrights.filter(
       (c) =>
-        c.testament === 'C' && (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
+        c.testament === FILESET_SIZE_COMPLETE && (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
     )[0];
     const ntAudio = !cAudio
       ? copyrights.filter(
@@ -1013,11 +1015,11 @@ export function* getCopyrightSaga({ filesetIds }) {
       : {};
     const partialAudio = copyrights.filter(
       (c) =>
-        c.testament === 'P' && (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
+        c.testament === FILESET_SIZE_PORTION && (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
     )[0];
 
     const cVideo = videoCopyright.filter(
-      (c) => c.testament === 'C' && c.type === FILESET_TYPE_VIDEO_STREAM,
+      (c) => c.testament === FILESET_SIZE_COMPLETE && c.type === FILESET_TYPE_VIDEO_STREAM,
     )[0];
     const ntVideo = !cVideo
       ? videoCopyright.filter(
@@ -1030,7 +1032,7 @@ export function* getCopyrightSaga({ filesetIds }) {
         )[0]
       : {};
     const partialVideo = videoCopyright.filter(
-      (c) => c.testament === 'P' && c.type === FILESET_TYPE_VIDEO_STREAM,
+      (c) => c.testament === FILESET_SIZE_PORTION && c.type === FILESET_TYPE_VIDEO_STREAM,
     )[0];
     const copyrightObject = {
       newTestament: {

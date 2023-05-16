@@ -1,3 +1,7 @@
+import {
+	FILESET_SIZE_COMPLETE,
+} from '../constants/bibleFileset';
+
 /**
  * Filter the list of plain Fileset Ids to include only those that belong to the same testament as the given book.
  *
@@ -28,7 +32,7 @@ const getValidPlainFilesetsByBook = (
 		// 2. A Fileset with a testament code of C is considered valid because it includes both the Old and New Testaments.
 		//    This is because the C size code denotes a fileset that includes content from both testaments.
 		 (
-			idsForBookMetadataIndexed[filesetId]?.testament === 'C' ||
+			idsForBookMetadataIndexed[filesetId]?.testament === FILESET_SIZE_COMPLETE ||
 			idsForBookMetadataIndexed[filesetId]?.testament.includes(book.testament)
 		)
 	);

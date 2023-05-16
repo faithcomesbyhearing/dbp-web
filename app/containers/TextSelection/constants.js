@@ -4,7 +4,7 @@
  *
  */
 
-export const GET_DPB_TEXTS = 'app/TextSelection/GET_DPB_TEXTS';
+export const GET_DBP_TEXTS = 'app/TextSelection/GET_DBP_TEXTS';
 export const GET_COUNTRY = 'app/TextSelection/GET_COUNTRY';
 export const GET_LANGUAGES = 'app/TextSelection/GET_LANGUAGES';
 export const SET_LANGUAGES = 'app/TextSelection/SET_LANGUAGES';

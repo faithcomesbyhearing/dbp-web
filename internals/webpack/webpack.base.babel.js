@@ -4,8 +4,11 @@
 
 const path = require('path');
 const webpack = require('webpack');
-require('dotenv').config();
-// const SitemapPlugin = require('sitemap-webpack-plugin').default;
+
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,

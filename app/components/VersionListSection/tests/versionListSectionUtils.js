@@ -90,7 +90,7 @@ export async function getTexts({ languageCode }) {
 		const response = await request(requestUrl);
 		const videoRes = await request(videoRequestUrl);
 
-		let videoRecords = [];
+		const videoRecords = [];
 
 		videoRes.data.forEach((video) => {
 			const newVideo = { ...video };
@@ -98,7 +98,7 @@ export async function getTexts({ languageCode }) {
 				newVideo.filesets = geFilesetsForBible(newVideo.filesets);
 			}
 			videoRecords.push(newVideo);
-		})
+		});
 
 		// Some texts may have plain text in the database but no filesets
 		// This filters out all texts that don't have a fileset
@@ -106,7 +106,7 @@ export async function getTexts({ languageCode }) {
 			(video) => video.abbr && video.language && video.language_id && video.iso,
 		);
 
-		let textsRecords = [];
+		const textsRecords = [];
 
 		response.data.forEach((text) => {
 			const newText = { ...text };
@@ -114,7 +114,7 @@ export async function getTexts({ languageCode }) {
 				newText.filesets = geFilesetsForBible(newText.filesets);
 			}
 			textsRecords.push(newText);
-		})
+		});
 
 		const texts = textsRecords.filter(
 			(text) =>

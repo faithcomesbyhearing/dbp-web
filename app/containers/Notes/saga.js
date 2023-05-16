@@ -2,7 +2,9 @@ import { takeLatest, call, fork, put, cancelled } from 'redux-saga/effects';
 import { GET_HIGHLIGHTS, LOAD_HIGHLIGHTS } from '../HomePage/constants';
 import request from '../../utils/request';
 import geFilesetsForBible from '../../utils/geFilesetsForBible';
-
+import {
+  FILESET_TYPE_TEXT_PLAIN,
+} from '../../constants/bibleFileset';
 import {
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
@@ -38,10 +40,10 @@ export function* getChapterForNote({ note }) {
     const response = yield call(request, bibleUrl);
     const bibleFilesets = response.data.filesets ? geFilesetsForBible(response.data.filesets) : [];
     const filesets = bibleFilesets.filter(
-      (fileset) => fileset.type === 'text_plain',
+      (fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN,
     );
     const hasText = !!filesets.length;
-    const plain = filesets.find((fileset) => fileset.type === 'text_plain');
+    const plain = filesets.find((fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN);
     let text = [];
 
     if (hasText) {

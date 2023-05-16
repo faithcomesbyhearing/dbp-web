@@ -1,25 +1,31 @@
 import get from 'lodash/get';
 import request from './request';
+import {
+  FILESET_TYPE_AUDIO_DRAMA,
+  FILESET_TYPE_AUDIO,
+  FILESET_SIZE_NEW_TESTAMENT,
+  FILESET_SIZE_NEW_TESTAMENT_PORTION,
+  FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION,
+  FILESET_SIZE_OLD_TESTAMENT,
+  FILESET_SIZE_OLD_TESTAMENT_PORTION,
+  FILESET_FILE_CODEC_OPUS,
+} from '../constants/bibleFileset';
+
 // TODO: Rewrite handling of audio calls to intelligently determine whether
 // the resource is NT or OT and reduce number of calls
 export default async (filesets, bookId, chapter, audioType) => {
   const audioReturnObject = { type: 'loadaudio', audioPaths: [''] };
 
-  const filteredFilesets = filesets.reduce((a, file) => {
-    const newFile = { ...a };
-
-    if (audioType && file.type === audioType && file.id.slice(-4) !== 'DA16') {
-      newFile[file.id] = file;
-    } else if (
-      !audioType &&
-      (file.type === 'audio' || file.type === 'audio_drama') &&
-      file.id.slice(-4) !== 'DA16'
-    ) {
-      newFile[file.id] = file;
+  const filteredFilesets = filesets.reduce((newFile, file) => {
+    const { id: fileId } = file;
+    if ((audioType && file.type === audioType) ||
+        (!audioType && [FILESET_TYPE_AUDIO, FILESET_TYPE_AUDIO_DRAMA].includes(file.type))) {
+      return { ...newFile, [fileId]: file };
     }
 
     return newFile;
   }, {});
+
   // If there isn't any audio then I want to just load an empty string and stop the function
   if (!Object.keys(filteredFilesets).length) {
     return { type: 'loadaudio', audioPaths: [''] };
@@ -34,12 +40,12 @@ export default async (filesets, bookId, chapter, audioType) => {
 
   Object.entries(filteredFilesets)
     .sort((a, b) => {
-      if (a[1].codec === 'opus') return 1;
-      if (b[1].codec === 'opus') return -1;
+      if (a[1].codec === FILESET_FILE_CODEC_OPUS) return 1;
+      if (b[1].codec === FILESET_FILE_CODEC_OPUS) return -1;
       if (a[1].type === audioType) return -1;
       if (b[1].type === audioType) return 1;
-      if (a[1].type === 'audio_drama') return -1;
-      if (b[1].type === 'audio_drama') return 1;
+      if (a[1].type === FILESET_TYPE_AUDIO_DRAMA) return -1;
+      if (b[1].type === FILESET_TYPE_AUDIO_DRAMA) return 1;
       if (a[1].type > b[1].type) return -1;
       if (a[1].type < b[1].type) return 1;
       return 0;
@@ -47,15 +53,15 @@ export default async (filesets, bookId, chapter, audioType) => {
     .forEach((fileset) => {
       if (fileset[1].size === 'C') {
         completeAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NT') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT) {
         ntAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'OT') {
+      } else if (fileset[1].size === FILESET_SIZE_OLD_TESTAMENT) {
         otAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'OTP') {
+      } else if (fileset[1].size === FILESET_SIZE_OLD_TESTAMENT_PORTION) {
         partialOtAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NTP') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT_PORTION) {
         partialNtAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NTPOTP') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION) {
         partialNtOtAudio.push({ id: fileset[0], data: fileset[1] });
       }
     });

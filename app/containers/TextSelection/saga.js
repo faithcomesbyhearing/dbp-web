@@ -7,7 +7,7 @@ import geFilesetsForBible from '../../utils/geFilesetsForBible';
 
 import {
   GET_COUNTRIES,
-  GET_DPB_TEXTS,
+  GET_DBP_TEXTS,
   GET_LANGUAGES,
   ERROR_GETTING_LANGUAGES,
   ERROR_GETTING_VERSIONS,
@@ -264,7 +264,7 @@ export function* getLanguageAltNames() {
 // Individual exports for testing
 export default function* defaultSaga() {
   yield all([
-    takeLatest(GET_DPB_TEXTS, getTexts),
+    takeLatest(GET_DBP_TEXTS, getTexts),
     takeLatest(GET_LANGUAGES, getLanguageAltNames),
     takeLatest(GET_COUNTRIES, getCountries),
   ]);
