@@ -3,6 +3,8 @@ import { fromJS } from 'immutable';
 import cachedFetch from '../../utils/cachedFetch';
 import territoryCodes from '../../utils/territoryCodes.json';
 import request from '../../utils/request';
+import geFilesetsForBible from '../../utils/geFilesetsForBible';
+
 import {
   GET_COUNTRIES,
   GET_DPB_TEXTS,
@@ -109,16 +111,15 @@ export function* getTexts({ languageCode, languageIso }) {
         iso: languageIso,
         language_id: languageCode,
         jesusFilm: true,
-        filesets: {
-          'dbp-vid': [
-            {
-              id: jesusResponse[languageIso],
-              jesusFilm: true,
-              type: 'video_stream',
-              size: 'NTP',
-            },
-          ],
-        },
+        hasVideo: true,
+        filesets: [
+          {
+            id: jesusResponse[languageIso],
+            jesusFilm: true,
+            type: 'video_stream',
+            size: 'NTP',
+          },
+        ],
       };
     }
     // 'https://api-dev.dbp4.org/arclight/jesus-film/languages?v=4&key=2024ce0fdb44517f53a2c255b3cd66f8' find arclight_id based on iso
@@ -131,8 +132,11 @@ export function* getTexts({ languageCode, languageIso }) {
 
   try {
     const response = yield call(request, requestUrl);
-
-    const texts = response.data;
+    const texts = response.data ? response.data.map((resource) => ({
+        ...resource,
+        filesets: geFilesetsForBible(resource.filesets),
+      })
+    ) : [];
 
     // Create map of videos for constant time lookup when iterating through the texts
     const types = {
@@ -148,12 +152,8 @@ export function* getTexts({ languageCode, languageIso }) {
       : [...texts];
     const mappedTexts = combinedTexts.map((resource) => ({
       ...resource,
-      hasVideo: !!(
-        resource.filesets['dbp-vid'] && resource.filesets['dbp-vid'].length
-      ),
-      filesets: Object.values(resource.filesets)
-        .reduce((allFilesets, current) => [...allFilesets, ...current])
-        .filter((value) => types[value.type]),
+      hasVideo: resource.hasVideo || resource.filesets.some((fileset) => fileset.type.includes('video')),
+      filesets: resource.filesets.filter((value) => types[value.type]),
     }));
 
     yield put({ type: CLEAR_ERROR_GETTING_VERSIONS });

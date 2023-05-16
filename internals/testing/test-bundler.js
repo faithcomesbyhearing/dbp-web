@@ -1,9 +1,12 @@
 // needed for regenerator-runtime
 // (ES7 generator support is required by redux-saga)
-// import '@babel/polyfill';
-// import { XMLSerializer } from 'xmldom';
 import { XMLSerializer } from '@xmldom/xmldom';
+import { TextDecoder, TextEncoder } from 'util';
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 const jsdom = require('jsdom');
+
 const documentHTML = `
 	<!doctype html>
 		<html>

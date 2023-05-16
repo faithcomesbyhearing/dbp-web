@@ -109,7 +109,6 @@ module.exports = (options) => ({
 				FB_APP_ID: JSON.stringify(process.env.FB_APP_ID),
 				FB_ACCESS: JSON.stringify(process.env.FB_ACCESS),
 				NOTES_PROJECT_ID: JSON.stringify(process.env.NOTES_PROJECT_ID),
-				DBP_BUCKET_ID: JSON.stringify(process.env.DBP_BUCKET_ID),
 				GOOGLE_APP_ID: JSON.stringify(process.env.GOOGLE_APP_ID),
 			},
 		}),

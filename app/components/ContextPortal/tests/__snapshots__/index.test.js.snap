@@ -4,7 +4,7 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
 <div
   className="context-menu shadow"
   style={
-    Object {
+    {
       "left": "150px",
       "position": "absolute",
       "top": "150px",
@@ -26,7 +26,7 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#notes"
+          xlinkHref="/svglist.svg#notes"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -48,7 +48,7 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#highlight"
+          xlinkHref="/svglist.svg#highlight"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -176,7 +176,7 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#bookmark"
+          xlinkHref="/svglist.svg#bookmark"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -186,19 +186,27 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
         Bookmark
       </span>
     </span>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--email menu-item normal email-share"
+    <button
+      aria-label="email"
+      className="react-share__ShareButton menu-item normal email-share"
+      id="email-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={
+        {
+          "backgroundColor": "transparent",
+          "border": "none",
+          "color": "inherit",
+          "cursor": "pointer",
+          "font": "inherit",
+          "padding": 0,
+        }
+      }
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -207,28 +215,27 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
       >
         E-mail
       </span>
-    </div>
+    </button>
   </div>
   <div
     className="menu-row"
   >
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--facebook menu-item social facebook fb-share-button"
+    <button
+      aria-label="facebook"
+      className="react-share__ShareButton menu-item social facebook fb-share-button"
+      id="facebook-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#facebook"
+          xlinkHref="/svglist.svg#facebook"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="SocialMediaShareButton SocialMediaShareButton--googlePlus menu-item social google"
       id="sharePost"
@@ -237,28 +244,27 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#google"
+          xlinkHref="/svglist.svg#google"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
     </div>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--twitter menu-item social twitter"
+    <button
+      aria-label="twitter"
+      className="react-share__ShareButton menu-item social twitter"
+      id="twitter-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#twitter"
+          xlinkHref="/svglist.svg#twitter"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="menu-item social like-button"
       id="like-facebook"
@@ -268,12 +274,9 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
       title="Like on Facebook"
     >
       <span
-        className="share-count"
-      >
-        <div
-          className="SocialMediaShareCount"
-        />
-      </span>
+        className="react-share__ShareCount"
+        url="http://localhost/"
+      />
       <span
         className="like-thumb"
       >
@@ -282,7 +285,7 @@ exports[`ContextPortal Component Should match previous snapshot 1`] = `
           width="24px"
         >
           <use
-            xlinkHref="/static/svglist.svg#like_one-color"
+            xlinkHref="/svglist.svg#like_one-color"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -321,7 +324,7 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
 <div
   className="context-menu shadow"
   style={
-    Object {
+    {
       "left": "150px",
       "position": "absolute",
       "top": "150px",
@@ -343,7 +346,7 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#notes"
+          xlinkHref="/svglist.svg#notes"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -365,7 +368,7 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#highlight"
+          xlinkHref="/svglist.svg#highlight"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -493,7 +496,7 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#bookmark"
+          xlinkHref="/svglist.svg#bookmark"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -503,19 +506,27 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
         Bookmark
       </span>
     </span>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--email menu-item normal email-share"
+    <button
+      aria-label="email"
+      className="react-share__ShareButton menu-item normal email-share"
+      id="email-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={
+        {
+          "backgroundColor": "transparent",
+          "border": "none",
+          "color": "inherit",
+          "cursor": "pointer",
+          "font": "inherit",
+          "padding": 0,
+        }
+      }
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -524,28 +535,27 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
       >
         E-mail
       </span>
-    </div>
+    </button>
   </div>
   <div
     className="menu-row"
   >
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--facebook menu-item social facebook fb-share-button"
+    <button
+      aria-label="facebook"
+      className="react-share__ShareButton menu-item social facebook fb-share-button"
+      id="facebook-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#facebook"
+          xlinkHref="/svglist.svg#facebook"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="SocialMediaShareButton SocialMediaShareButton--googlePlus menu-item social google"
       id="sharePost"
@@ -554,28 +564,27 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#google"
+          xlinkHref="/svglist.svg#google"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
     </div>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--twitter menu-item social twitter"
+    <button
+      aria-label="twitter"
+      className="react-share__ShareButton menu-item social twitter"
+      id="twitter-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#twitter"
+          xlinkHref="/svglist.svg#twitter"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="menu-item social like-button"
       id="like-facebook"
@@ -585,12 +594,9 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
       title="Like on Facebook"
     >
       <span
-        className="share-count"
-      >
-        <div
-          className="SocialMediaShareCount"
-        />
-      </span>
+        className="react-share__ShareCount"
+        url="http://localhost/"
+      />
       <span
         className="like-thumb"
       >
@@ -599,7 +605,7 @@ exports[`ContextPortal Component Should match previous snapshot if highlight men
           width="24px"
         >
           <use
-            xlinkHref="/static/svglist.svg#like_one-color"
+            xlinkHref="/svglist.svg#like_one-color"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -638,7 +644,7 @@ exports[`ContextPortal Component Should match previous snapshot if ie is active 
 <div
   className="context-menu shadow"
   style={
-    Object {
+    {
       "left": "150px",
       "position": "absolute",
       "top": "150px",
@@ -681,7 +687,7 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
 <div
   className="context-menu shadow"
   style={
-    Object {
+    {
       "left": "150px",
       "position": "absolute",
       "top": "150px",
@@ -703,7 +709,7 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#notes"
+          xlinkHref="/svglist.svg#notes"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -725,7 +731,7 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#highlight"
+          xlinkHref="/svglist.svg#highlight"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -853,7 +859,7 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#bookmark"
+          xlinkHref="/svglist.svg#bookmark"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -863,19 +869,27 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
         Bookmark
       </span>
     </span>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--email menu-item normal email-share"
+    <button
+      aria-label="email"
+      className="react-share__ShareButton menu-item normal email-share"
+      id="email-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={
+        {
+          "backgroundColor": "transparent",
+          "border": "none",
+          "color": "inherit",
+          "cursor": "pointer",
+          "font": "inherit",
+          "padding": 0,
+        }
+      }
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -884,28 +898,27 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
       >
         E-mail
       </span>
-    </div>
+    </button>
   </div>
   <div
     className="menu-row"
   >
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--facebook menu-item social facebook fb-share-button"
+    <button
+      aria-label="facebook"
+      className="react-share__ShareButton menu-item social facebook fb-share-button"
+      id="facebook-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#facebook"
+          xlinkHref="/svglist.svg#facebook"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="SocialMediaShareButton SocialMediaShareButton--googlePlus menu-item social google"
       id="sharePost"
@@ -914,28 +927,27 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#google"
+          xlinkHref="/svglist.svg#google"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
     </div>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--twitter menu-item social twitter"
+    <button
+      aria-label="twitter"
+      className="react-share__ShareButton menu-item social twitter"
+      id="twitter-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#twitter"
+          xlinkHref="/svglist.svg#twitter"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="menu-item social like-button"
       id="like-facebook"
@@ -945,12 +957,9 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
       title="Like on Facebook"
     >
       <span
-        className="share-count"
-      >
-        <div
-          className="SocialMediaShareCount"
-        />
-      </span>
+        className="react-share__ShareCount"
+        url="http://localhost/"
+      />
       <span
         className="like-thumb"
       >
@@ -959,7 +968,7 @@ exports[`ContextPortal Component Should match previous snapshot if notes menu is
           width="24px"
         >
           <use
-            xlinkHref="/static/svglist.svg#like_one-color"
+            xlinkHref="/svglist.svg#like_one-color"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -998,7 +1007,7 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
 <div
   className="context-menu shadow"
   style={
-    Object {
+    {
       "left": "150px",
       "position": "absolute",
       "top": "150px",
@@ -1020,7 +1029,7 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#notes"
+          xlinkHref="/svglist.svg#notes"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1042,7 +1051,7 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#highlight"
+          xlinkHref="/svglist.svg#highlight"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1170,7 +1179,7 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#bookmark"
+          xlinkHref="/svglist.svg#bookmark"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1180,19 +1189,27 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
         Bookmark
       </span>
     </span>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--email menu-item normal email-share"
+    <button
+      aria-label="email"
+      className="react-share__ShareButton menu-item normal email-share"
+      id="email-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={
+        {
+          "backgroundColor": "transparent",
+          "border": "none",
+          "color": "inherit",
+          "cursor": "pointer",
+          "font": "inherit",
+          "padding": 0,
+        }
+      }
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1201,28 +1218,27 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
       >
         E-mail
       </span>
-    </div>
+    </button>
   </div>
   <div
     className="menu-row"
   >
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--facebook menu-item social facebook fb-share-button"
+    <button
+      aria-label="facebook"
+      className="react-share__ShareButton menu-item social facebook fb-share-button"
+      id="facebook-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#facebook"
+          xlinkHref="/svglist.svg#facebook"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="SocialMediaShareButton SocialMediaShareButton--googlePlus menu-item social google"
       id="sharePost"
@@ -1231,28 +1247,27 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#google"
+          xlinkHref="/svglist.svg#google"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
     </div>
-    <div
-      className="SocialMediaShareButton SocialMediaShareButton--twitter menu-item social twitter"
+    <button
+      aria-label="twitter"
+      className="react-share__ShareButton menu-item social twitter"
+      id="twitter-share-button"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      style={Object {}}
-      tabIndex="0"
+      style={{}}
     >
       <svg
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#twitter"
+          xlinkHref="/svglist.svg#twitter"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-    </div>
+    </button>
     <div
       className="menu-item social like-button"
       id="like-facebook"
@@ -1262,12 +1277,9 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
       title="Like on Facebook"
     >
       <span
-        className="share-count"
-      >
-        <div
-          className="SocialMediaShareCount"
-        />
-      </span>
+        className="react-share__ShareCount"
+        url="http://localhost/"
+      />
       <span
         className="like-thumb"
       >
@@ -1276,7 +1288,7 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
           width="24px"
         >
           <use
-            xlinkHref="/static/svglist.svg#like_one-color"
+            xlinkHref="/svglist.svg#like_one-color"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -1311,7 +1323,7 @@ exports[`ContextPortal Component Should match previous snapshot if popup menu is
   <div
     className="custom-popup"
     style={
-      Object {
+      {
         "left": -72.5,
         "top": -35,
       }

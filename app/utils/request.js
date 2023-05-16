@@ -1,4 +1,5 @@
 import axios from 'axios';
+import isEmpty from 'lodash/isEmpty';
 
 const parseJSON = (res) => res.data;
 
@@ -11,13 +12,13 @@ const checkStatus = (res) => {
 	}
 	if (res.status === 428) {
 		return {
-			json: () => ({
+			data: ({
 				error: { message: 'You need to reset your password.', code: 428 },
 			}),
 		};
 	} else if (res.status === 401) {
 		return {
-			json: () => ({
+			data: ({
 				error: { message: 'Invalid credentials, please try again', code: 401 },
 			}),
 		};
@@ -28,12 +29,9 @@ const checkStatus = (res) => {
 	throw error;
 };
 
-const request = (url, options = { method: 'GET', body: {}, config: {} }) => {
+const request = async (url, options = { method: 'GET', body: {}, config: {}, header: {} }) => {
 	let invoke = null;
 	switch (options.method) {
-		case 'GET':
-			invoke = axios.get(url);
-			break;
 		case 'POST':
 			invoke = axios.post(url, options.body);
 			break;
@@ -43,11 +41,14 @@ const request = (url, options = { method: 'GET', body: {}, config: {} }) => {
 		case 'DELETE':
 			invoke = axios.delete(url, options.config);
 			break;
+		case 'GET':
 		default:
-			invoke = axios.get(url);
+			invoke = isEmpty(options.header) ? axios.get(url) : axios.get(url, { headers: options.header });
 			break;
 	}
-	return invoke.then(checkStatus).then(parseJSON);
+	const res = await invoke;
+	const resStatus = await checkStatus(res);
+	return parseJSON(resStatus);
 };
 
 export default request;

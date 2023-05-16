@@ -21,7 +21,7 @@ exports[`Name of the group should match the old snapshot with a full profile 1`]
       className="avatar-placeholder"
     >
       <use
-        xlinkHref="/static/svglist.svg#avatar_placeholder"
+        xlinkHref="/svglist.svg#avatar_placeholder"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -53,7 +53,7 @@ exports[`Name of the group should match the old snapshot with a full profile 1`]
         width="26px"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -88,7 +88,7 @@ exports[`Name of the group should match the old snapshot with the popup open 1`]
       className="avatar-placeholder"
     >
       <use
-        xlinkHref="/static/svglist.svg#avatar_placeholder"
+        xlinkHref="/svglist.svg#avatar_placeholder"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -120,7 +120,7 @@ exports[`Name of the group should match the old snapshot with the popup open 1`]
         width="26px"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -155,7 +155,7 @@ exports[`Name of the group should match the old snapshot without a full profile 
       className="avatar-placeholder"
     >
       <use
-        xlinkHref="/static/svglist.svg#avatar_placeholder"
+        xlinkHref="/svglist.svg#avatar_placeholder"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -177,7 +177,7 @@ exports[`Name of the group should match the old snapshot without a full profile 
         width="26px"
       >
         <use
-          xlinkHref="/static/svglist.svg#e-mail"
+          xlinkHref="/svglist.svg#e-mail"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>

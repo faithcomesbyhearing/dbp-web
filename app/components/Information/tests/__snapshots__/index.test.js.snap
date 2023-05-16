@@ -24,28 +24,28 @@ exports[`<Information /> component tests should match default snapshot 1`] = `
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_down"
+        xlinkHref="/svglist.svg#arrow_down"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
   </button>
   <div
     aria-hidden={true}
-    className="rah-static rah-static--height-zero"
+    className="rah-static rah-static--height-zero "
     style={
-      Object {
+      {
         "height": 0,
         "overflow": "hidden",
       }
     }
   >
     <div
-      style={Object {}}
+      style={{}}
     >
       <div
         className="copyrights-section"
         style={
-          Object {
+          {
             "maxHeight": 0,
           }
         }
@@ -260,6 +260,8 @@ exports[`<Information /> component tests should match default snapshot 1`] = `
         href="/terms"
         id="terms-of-service"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           Terms and Conditions
@@ -305,28 +307,28 @@ exports[`<Information /> component tests should match snapshot with copyrights m
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_down"
+        xlinkHref="/svglist.svg#arrow_down"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
   </button>
   <div
     aria-hidden={true}
-    className="rah-static rah-static--height-zero"
+    className="rah-static rah-static--height-zero "
     style={
-      Object {
+      {
         "height": 0,
         "overflow": "hidden",
       }
     }
   >
     <div
-      style={Object {}}
+      style={{}}
     >
       <div
         className="copyrights-section"
         style={
-          Object {
+          {
             "maxHeight": 0,
           }
         }
@@ -451,6 +453,8 @@ exports[`<Information /> component tests should match snapshot with copyrights m
         href="/terms"
         id="terms-of-service"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           Terms and Conditions
@@ -496,28 +500,28 @@ exports[`<Information /> component tests should match snapshot with copyrights m
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_down"
+        xlinkHref="/svglist.svg#arrow_down"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
   </button>
   <div
     aria-hidden={true}
-    className="rah-static rah-static--height-zero"
+    className="rah-static rah-static--height-zero "
     style={
-      Object {
+      {
         "height": 0,
         "overflow": "hidden",
       }
     }
   >
     <div
-      style={Object {}}
+      style={{}}
     >
       <div
         className="copyrights-section"
         style={
-          Object {
+          {
             "maxHeight": 0,
           }
         }
@@ -710,6 +714,8 @@ exports[`<Information /> component tests should match snapshot with copyrights m
         href="/terms"
         id="terms-of-service"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           Terms and Conditions

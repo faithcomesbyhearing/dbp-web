@@ -14,7 +14,7 @@ exports[`EditNote component should match snapshot of edit note when it was saved
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -45,7 +45,7 @@ exports[`EditNote component should match snapshot of edit note when it was saved
       onClick={[MockFunction]}
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -86,7 +86,7 @@ exports[`EditNote component should match snapshot of edit note when it was saved
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#delete"
+          xlinkHref="/svglist.svg#delete"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -118,7 +118,7 @@ exports[`EditNote component should match snapshot of edit note when there was an
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -149,7 +149,7 @@ exports[`EditNote component should match snapshot of edit note when there was an
       onClick={[MockFunction]}
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -190,7 +190,7 @@ exports[`EditNote component should match snapshot of edit note when there was an
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#delete"
+          xlinkHref="/svglist.svg#delete"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -222,7 +222,7 @@ exports[`EditNote component should match snapshot of edit note when verse text i
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -253,7 +253,7 @@ exports[`EditNote component should match snapshot of edit note when verse text i
       onClick={[MockFunction]}
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -287,7 +287,7 @@ exports[`EditNote component should match snapshot of edit note when verse text i
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#delete"
+          xlinkHref="/svglist.svg#delete"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -319,7 +319,7 @@ exports[`EditNote component should match snapshot of edit note with default prop
       className="icon"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -350,7 +350,7 @@ exports[`EditNote component should match snapshot of edit note with default prop
       onClick={[MockFunction]}
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -391,7 +391,7 @@ exports[`EditNote component should match snapshot of edit note with default prop
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#delete"
+          xlinkHref="/svglist.svg#delete"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>

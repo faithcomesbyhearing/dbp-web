@@ -11,7 +11,7 @@ exports[`<DonateButton /> component should match snapshot of dark theme 1`] = `
   >
     <svg>
       <use
-        xlinkHref="/static/svglist.svg#donate_light"
+        xlinkHref="/svglist.svg#donate_light"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -33,7 +33,7 @@ exports[`<DonateButton /> component should match snapshot of paper theme 1`] = `
   >
     <svg>
       <use
-        xlinkHref="/static/svglist.svg#donate_dark"
+        xlinkHref="/svglist.svg#donate_dark"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -55,7 +55,7 @@ exports[`<DonateButton /> component should match snapshot of red theme 1`] = `
   >
     <svg>
       <use
-        xlinkHref="/static/svglist.svg#donate_light"
+        xlinkHref="/svglist.svg#donate_light"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>

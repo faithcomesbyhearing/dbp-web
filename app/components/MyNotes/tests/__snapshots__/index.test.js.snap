@@ -14,7 +14,7 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#search"
+          xlinkHref="/svglist.svg#search"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -36,6 +36,8 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         className="list-item"
         href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -69,7 +71,7 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -86,6 +88,8 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         className="list-item"
         href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -119,57 +123,7 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id={5574788}
-    >
-      <a
-        className="list-item"
-        href="/bible/ENGESV/MAT/3"
-        onClick={[Function]}
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.06.19
-            </span>
-             
-            | 
-            Matthew 3:3
-          </h4>
-          <p
-            className="text"
-          >
-            ENGESV
-          </p>
-        </div>
-      </a>
-      <div
-        className="delete-highlight"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -186,6 +140,8 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         className="list-item"
         href="/bible/ENGESV/MRK/16"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -219,7 +175,7 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -236,6 +192,8 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         className="list-item"
         href="/bible/ENGNIV/MAT/11"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -269,7 +227,59 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <span>
+          Delete
+        </span>
+      </div>
+    </div>
+    <div
+      className="highlight-item"
+      id={5574788}
+    >
+      <a
+        className="list-item"
+        href="/bible/ENGESV/MAT/3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <div
+          className="title-text"
+        >
+          <h4
+            className="title"
+          >
+            <span
+              className="date"
+            >
+              02.06.19
+            </span>
+             
+            | 
+            Matthew 3:3
+          </h4>
+          <p
+            className="text"
+          >
+            ENGESV
+          </p>
+        </div>
+      </a>
+      <div
+        className="delete-highlight"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <svg
+          className="icon"
+        >
+          <use
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -320,7 +330,7 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
             width="7px"
           >
             <use
-              xlinkHref="/static/svglist.svg#pagination-arrows"
+              xlinkHref="/svglist.svg#pagination-arrows"
               xmlnsXlink="http://www.w3.org/1999/xlink"
             />
           </svg>
@@ -421,7 +431,7 @@ exports[`<MyNotes /> container should match snapshot with default props 1`] = `
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#search"
+          xlinkHref="/svglist.svg#search"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -435,77 +445,6 @@ exports[`<MyNotes /> container should match snapshot with default props 1`] = `
   <section
     className="note-list"
   >
-    <div
-      className="highlight-item"
-      id={403618}
-    >
-      <div
-        className="list-item"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.06.19
-            </span>
-             
-            | 
-            New Note
-          </h4>
-          <p
-            className="text"
-          >
-            Is here
-          </p>
-        </div>
-      </div>
-      <div
-        className="edit-note"
-        id="403618-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/static/svglist.svg#edit_note"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-        id="403618-delete"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/static/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
     <div
       className="highlight-item"
       id={403619}
@@ -549,7 +488,7 @@ exports[`<MyNotes /> container should match snapshot with default props 1`] = `
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#edit_note"
+            xlinkHref="/svglist.svg#edit_note"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -568,7 +507,78 @@ exports[`<MyNotes /> container should match snapshot with default props 1`] = `
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <span>
+          Delete
+        </span>
+      </div>
+    </div>
+    <div
+      className="highlight-item"
+      id={403618}
+    >
+      <div
+        className="list-item"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="title-text"
+        >
+          <h4
+            className="title"
+          >
+            <span
+              className="date"
+            >
+              02.06.19
+            </span>
+             
+            | 
+            New Note
+          </h4>
+          <p
+            className="text"
+          >
+            Is here
+          </p>
+        </div>
+      </div>
+      <div
+        className="edit-note"
+        id="403618-edit"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <svg
+          className="icon"
+        >
+          <use
+            xlinkHref="/svglist.svg#edit_note"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <span>
+          Edit
+        </span>
+      </div>
+      <div
+        className="delete-highlight"
+        id="403618-delete"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <svg
+          className="icon"
+        >
+          <use
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -619,7 +629,7 @@ exports[`<MyNotes /> container should match snapshot with default props 1`] = `
             width="7px"
           >
             <use
-              xlinkHref="/static/svglist.svg#pagination-arrows"
+              xlinkHref="/svglist.svg#pagination-arrows"
               xmlnsXlink="http://www.w3.org/1999/xlink"
             />
           </svg>
@@ -720,7 +730,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#search"
+          xlinkHref="/svglist.svg#search"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -742,6 +752,8 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         className="list-item"
         href="/bible/ENGNAB/EPH/4"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -768,7 +780,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span
           className="color-icon"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(173,221,121,0.7)",
             }
           }
@@ -786,7 +798,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
           onClick={[Function]}
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -803,6 +815,8 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         className="list-item"
         href="/bible/ENGESV/MAT/3"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -829,7 +843,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span
           className="color-icon"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(252,230,0,0.5)",
             }
           }
@@ -847,68 +861,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
           onClick={[Function]}
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id="25827776_rgba(84,185,72,0.5)"
-    >
-      <a
-        className="list-item"
-        href="/bible/ENGESV/MRK/16"
-        onClick={[Function]}
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            MRK - 16:5 - (ENGESV)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGESV
-          </h4>
-        </div>
-      </a>
-      <div
-        className="edit-color"
-        id="25827776_rgba(84,185,72,0.5)-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <span
-          className="color-icon"
-          style={
-            Object {
-              "backgroundColor": "rgba(84,185,72,0.5)",
-            }
-          }
-        />
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-      >
-        <svg
-          className="icon"
-          id="25827776_rgba(84,185,72,0.5)-delete"
-          onClick={[Function]}
-        >
-          <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -925,6 +878,8 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         className="list-item"
         href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -951,7 +906,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span
           className="color-icon"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(84,185,72,0.5)",
             }
           }
@@ -969,7 +924,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
           onClick={[Function]}
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -986,6 +941,8 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         className="list-item"
         href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -1012,7 +969,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span
           className="color-icon"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(80,165,220,0.5)",
             }
           }
@@ -1030,7 +987,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
           onClick={[Function]}
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -1047,6 +1004,8 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         className="list-item"
         href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <div
           className="title-text"
@@ -1073,7 +1032,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span
           className="color-icon"
           style={
-            Object {
+            {
               "backgroundColor": "rgba(252,230,0,0.5)",
             }
           }
@@ -1091,7 +1050,70 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
           onClick={[Function]}
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <span>
+          Delete
+        </span>
+      </div>
+    </div>
+    <div
+      className="highlight-item"
+      id="25827776_rgba(84,185,72,0.5)"
+    >
+      <a
+        className="list-item"
+        href="/bible/ENGESV/MRK/16"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <div
+          className="title-text"
+        >
+          <h4
+            className="title"
+          >
+            MRK - 16:5 - (ENGESV)
+          </h4>
+          <h4
+            className="text"
+          >
+            ENGESV
+          </h4>
+        </div>
+      </a>
+      <div
+        className="edit-color"
+        id="25827776_rgba(84,185,72,0.5)-edit"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <span
+          className="color-icon"
+          style={
+            {
+              "backgroundColor": "rgba(84,185,72,0.5)",
+            }
+          }
+        />
+        <span>
+          Edit
+        </span>
+      </div>
+      <div
+        className="delete-highlight"
+      >
+        <svg
+          className="icon"
+          id="25827776_rgba(84,185,72,0.5)-delete"
+          onClick={[Function]}
+        >
+          <use
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -1142,7 +1164,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             width="7px"
           >
             <use
-              xlinkHref="/static/svglist.svg#pagination-arrows"
+              xlinkHref="/svglist.svg#pagination-arrows"
               xmlnsXlink="http://www.w3.org/1999/xlink"
             />
           </svg>
@@ -1243,7 +1265,7 @@ exports[`<MyNotes /> container should match snapshot with page selector open 1`]
         className="icon"
       >
         <use
-          xlinkHref="/static/svglist.svg#search"
+          xlinkHref="/svglist.svg#search"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1257,77 +1279,6 @@ exports[`<MyNotes /> container should match snapshot with page selector open 1`]
   <section
     className="note-list"
   >
-    <div
-      className="highlight-item"
-      id={403618}
-    >
-      <div
-        className="list-item"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.06.19
-            </span>
-             
-            | 
-            New Note
-          </h4>
-          <p
-            className="text"
-          >
-            Is here
-          </p>
-        </div>
-      </div>
-      <div
-        className="edit-note"
-        id="403618-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/static/svglist.svg#edit_note"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-        id="403618-delete"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/static/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
     <div
       className="highlight-item"
       id={403619}
@@ -1371,7 +1322,7 @@ exports[`<MyNotes /> container should match snapshot with page selector open 1`]
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#edit_note"
+            xlinkHref="/svglist.svg#edit_note"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -1390,7 +1341,78 @@ exports[`<MyNotes /> container should match snapshot with page selector open 1`]
           className="icon"
         >
           <use
-            xlinkHref="/static/svglist.svg#delete"
+            xlinkHref="/svglist.svg#delete"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <span>
+          Delete
+        </span>
+      </div>
+    </div>
+    <div
+      className="highlight-item"
+      id={403618}
+    >
+      <div
+        className="list-item"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="title-text"
+        >
+          <h4
+            className="title"
+          >
+            <span
+              className="date"
+            >
+              02.06.19
+            </span>
+             
+            | 
+            New Note
+          </h4>
+          <p
+            className="text"
+          >
+            Is here
+          </p>
+        </div>
+      </div>
+      <div
+        className="edit-note"
+        id="403618-edit"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <svg
+          className="icon"
+        >
+          <use
+            xlinkHref="/svglist.svg#edit_note"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <span>
+          Edit
+        </span>
+      </div>
+      <div
+        className="delete-highlight"
+        id="403618-delete"
+        onClick={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <svg
+          className="icon"
+        >
+          <use
+            xlinkHref="/svglist.svg#delete"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           />
         </svg>
@@ -1441,7 +1463,7 @@ exports[`<MyNotes /> container should match snapshot with page selector open 1`]
             width="7px"
           >
             <use
-              xlinkHref="/static/svglist.svg#pagination-arrows"
+              xlinkHref="/svglist.svg#pagination-arrows"
               xmlnsXlink="http://www.w3.org/1999/xlink"
             />
           </svg>

@@ -245,10 +245,8 @@ export function* resetPassword({ email }) {
 	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/email?key=${
 		process.env.DBP_API_KEY
 	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const resetPath = `${window.location.href ||
-		`${window.location.protocol}//${window.location.hostname}${
-			window.location.pathname
-		}`}`;
+	const { href, protocol, hostname, pathname } = window.location;
+	const resetPath = href || `${protocol}//${hostname}${pathname}`;
 	// Probably want to somehow get the language of the currently active text or something to use here as a fallback
 	const browserLanguage =
 		window && window.navigator ? window.navigator.language : 'en';

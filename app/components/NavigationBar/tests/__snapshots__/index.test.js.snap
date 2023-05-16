@@ -19,7 +19,7 @@ exports[`<NavigationBar /> component should match snapshot with chapter selectio
         fill=""
       >
         <use
-          xlinkHref="/static/dark_theme_logo.svg#bible.is_logo"
+          xlinkHref="/dark_theme_logo.svg#bible.is_logo"
         />
       </svg>
     </a>
@@ -34,7 +34,7 @@ exports[`<NavigationBar /> component should match snapshot with chapter selectio
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -56,7 +56,7 @@ exports[`<NavigationBar /> component should match snapshot with chapter selectio
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -90,7 +90,7 @@ exports[`<NavigationBar /> component should match snapshot with default props 1`
         fill=""
       >
         <use
-          xlinkHref="/static/dark_theme_logo.svg#bible.is_logo"
+          xlinkHref="/dark_theme_logo.svg#bible.is_logo"
         />
       </svg>
     </a>
@@ -105,7 +105,7 @@ exports[`<NavigationBar /> component should match snapshot with default props 1`
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -127,7 +127,7 @@ exports[`<NavigationBar /> component should match snapshot with default props 1`
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -161,7 +161,7 @@ exports[`<NavigationBar /> component should match snapshot with ms as the user a
         fill="#fff"
       >
         <use
-          xlinkHref="/static/dark_theme_logo.svg#bible.is_logo"
+          xlinkHref="/dark_theme_logo.svg#bible.is_logo"
         />
       </svg>
     </a>
@@ -176,7 +176,7 @@ exports[`<NavigationBar /> component should match snapshot with ms as the user a
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -198,7 +198,7 @@ exports[`<NavigationBar /> component should match snapshot with ms as the user a
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -231,7 +231,7 @@ exports[`<NavigationBar /> component should match snapshot with paper theme 1`] 
         className="svg"
       >
         <use
-          xlinkHref="/static/light_theme_logo.svg#bible.is_logo_light"
+          xlinkHref="/light_theme_logo.svg#bible.is_logo_light"
         />
       </svg>
     </a>
@@ -246,7 +246,7 @@ exports[`<NavigationBar /> component should match snapshot with paper theme 1`] 
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -268,7 +268,7 @@ exports[`<NavigationBar /> component should match snapshot with paper theme 1`] 
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -302,7 +302,7 @@ exports[`<NavigationBar /> component should match snapshot with paper theme and 
         fill="#fff"
       >
         <use
-          xlinkHref="/static/dark_theme_logo.svg#bible.is_logo"
+          xlinkHref="/dark_theme_logo.svg#bible.is_logo"
         />
       </svg>
     </a>
@@ -317,7 +317,7 @@ exports[`<NavigationBar /> component should match snapshot with paper theme and 
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -339,7 +339,7 @@ exports[`<NavigationBar /> component should match snapshot with paper theme and 
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -373,7 +373,7 @@ exports[`<NavigationBar /> component should match snapshot with version selectio
         fill=""
       >
         <use
-          xlinkHref="/static/dark_theme_logo.svg#bible.is_logo"
+          xlinkHref="/dark_theme_logo.svg#bible.is_logo"
         />
       </svg>
     </a>
@@ -388,7 +388,7 @@ exports[`<NavigationBar /> component should match snapshot with version selectio
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -410,7 +410,7 @@ exports[`<NavigationBar /> component should match snapshot with version selectio
         opacity=".5"
       >
         <use
-          xlinkHref="/static/svglist.svg#arrow_down"
+          xlinkHref="/svglist.svg#arrow_down"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>

@@ -214,11 +214,14 @@
       "app"
     ],
     "moduleNameMapper": {
-      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
-      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
+      ".*\\.(css|less|styl|scss|sass)$": "./internals/mocks/cssModule.js",
+      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./internals/mocks/image.js"
     },
-    "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
-    "testRegex": "tests/.*\\.test\\.js$"
+    "setupFilesAfterEnv": [
+      "./internals/testing/test-bundler.js"
+    ],
+    "testRegex": "tests/.*\\.test\\.js$",
+    "testEnvironment": "jest-environment-jsdom"
   },
   "dependencies": {
     "@bugsnag/js": "^7.20.2",
@@ -287,6 +290,7 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.1",
     "@babel/preset-react": "^7.14.5",
+    "@cfaester/enzyme-adapter-react-18": "^0.7.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "add-asset-html-webpack-plugin": "^5.0.2",
     "ansi-regex": "^6.0.0",
@@ -324,6 +328,7 @@
     "html-webpack-plugin": "5.5.1",
     "imports-loader": "^4.0.1",
     "jest-cli": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
     "jsdom": "^21.1.1",
     "lint-staged": "^13.2.2",
     "lodash": "^4.17.10",

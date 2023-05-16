@@ -1,5 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { fromJS } from 'immutable';
 import VersionListSection from '..';
 import {
@@ -7,6 +9,8 @@ import {
 	filterFunction,
 	getTexts,
 } from './versionListSectionUtils';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const filterText = '';
 const activeTextId = 'ENGESV';
@@ -26,6 +30,7 @@ const items = [
 			audio: true,
 			text_format: true,
 		},
+		clickHandler: () => {},
 	},
 	{
 		path: { textId: 'ENGNIV', bookId: 'MAT', chapter: 1 },
@@ -40,6 +45,7 @@ const items = [
 			audio_drama: true,
 			video_stream: true,
 		},
+		clickHandler: () => {},
 	},
 	{
 		path: { textId: 'ENGKJV', bookId: 'MAT', chapter: 1 },
@@ -49,6 +55,7 @@ const items = [
 		text: 'King James Version',
 		altText: '',
 		types: { audio: true, audio_drama: true, text_plain: true },
+		clickHandler: () => {},
 	},
 	{
 		path: { textId: 'ENGNAB', bookId: 'MAT', chapter: 1 },
@@ -58,6 +65,7 @@ const items = [
 		text: 'New American Bible',
 		altText: '',
 		types: { text_format: true, audio_drama: true, text_plain: true },
+		clickHandler: () => {},
 	},
 	{
 		path: { textId: 'ENGWEB', bookId: 'MAT', chapter: 1 },
@@ -67,6 +75,7 @@ const items = [
 		text: 'World English Bible (Hosanna audio)',
 		altText: 'World English Bible',
 		types: { text_plain: true, text_format: true, audio_drama: true },
+		clickHandler: () => {},
 	},
 	{
 		path: { textId: 'ENGWWH', bookId: 'MAT', chapter: 1 },
@@ -76,6 +85,7 @@ const items = [
 		text: 'World English Bible (Afred Henson)',
 		altText: '',
 		types: { audio_drama: true, text_plain: true },
+		clickHandler: () => {},
 	},
 	{
 		path: { textId: 'ENGNIVA', bookId: 'MAT', chapter: 1 },
@@ -85,14 +95,17 @@ const items = [
 		text: 'New International Version (Anglicised)',
 		altText: '',
 		types: { audio_drama: true, audio: true, text_plain: true },
+		clickHandler: () => {},
 	},
 ];
 
 describe('<VersionListSection />', () => {
 	it('Should match previous snapshot with valid props', () => {
-		const tree = renderer.create(<VersionListSection items={items} />).toJSON();
-
-		expect(tree).toMatchSnapshot();
+		const wrapper = Enzyme.mount(
+			<VersionListSection items={items} />,
+		);
+		expect(wrapper.find('div.accordion-body-style').length).toEqual(4);
+		expect(wrapper.find('div.accordion-title-style').length).toEqual(7);
 	});
 	it('Should match previous snapshot using data from api', async () => {
 		const apiItems = await getTexts({ languageCode: 6414 });
@@ -105,10 +118,10 @@ describe('<VersionListSection />', () => {
 			filterFunction,
 			(bible, audioType) => `${bible}_${audioType}`,
 		);
-		const tree = renderer
-			.create(<VersionListSection items={sectionItems} />)
-			.toJSON();
 
-		expect(tree).toMatchSnapshot();
+		const wrapper = Enzyme.mount(
+			<VersionListSection items={sectionItems} />,
+		);
+		expect(wrapper.find('div.accordion-body-style').length).toEqual(4);
 	});
 });

@@ -1,13 +1,18 @@
 const env = require('./env-config');
 
 module.exports = {
-	presets: ['next/babel'],
-	plugins: ['lodash', ['transform-define', env]],
 	env: {
+		development: {
+			presets: ['next/babel'],
+			plugins: ['lodash', ['transform-define', env]],
+		},
+		production: {
+			presets: ['next/babel'],
+			plugins: ['lodash', ['transform-define', env]],
+		},
 		test: {
 			presets: [
-				'next/babel',
-				['@babel/preset-env', { modules: false }],
+				'@babel/preset-env',
 				'@babel/preset-react',
 			],
 			plugins: [

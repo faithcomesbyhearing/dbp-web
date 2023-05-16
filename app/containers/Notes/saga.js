@@ -1,7 +1,8 @@
 import { takeLatest, call, fork, put, cancelled } from 'redux-saga/effects';
-import request from '../../utils/request';
-// import { getHighlights } from '../HomePage/saga';
 import { GET_HIGHLIGHTS, LOAD_HIGHLIGHTS } from '../HomePage/constants';
+import request from '../../utils/request';
+import geFilesetsForBible from '../../utils/geFilesetsForBible';
+
 import {
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
@@ -35,7 +36,8 @@ export function* getChapterForNote({ note }) {
   // Need to get the bible filesets
   try {
     const response = yield call(request, bibleUrl);
-    const filesets = response.data.filesets[process.env.DBP_BUCKET_ID].filter(
+    const bibleFilesets = response.data.filesets ? geFilesetsForBible(response.data.filesets) : [];
+    const filesets = bibleFilesets.filter(
       (fileset) => fileset.type === 'text_plain',
     );
     const hasText = !!filesets.length;

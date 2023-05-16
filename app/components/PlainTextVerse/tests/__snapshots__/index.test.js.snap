@@ -8,7 +8,7 @@ exports[`PlainTextVerse Should match the old snapshot 1`] = `
   onMouseDown={[MockFunction]}
   onMouseUp={[MockFunction]}
   style={
-    Object {
+    {
       "background": "linear-gradient(inherit,inherit)",
     }
   }
@@ -41,7 +41,7 @@ exports[`PlainTextVerse Should match the old snapshot for oneVerse option 1`] = 
   onMouseDown={[MockFunction]}
   onMouseUp={[MockFunction]}
   style={
-    Object {
+    {
       "background": "linear-gradient(inherit,inherit)",
     }
   }

@@ -1,12 +1,16 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import {
 	copyrights,
 	invalidCopyrights,
 	invalidCopyrights2,
 } from '../../../utils/testUtils/copyrightData';
 import { Information } from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
@@ -37,11 +41,14 @@ describe('<Information /> component tests', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('should open and close', () => {
-		const wrapper = mount(<Information copyrights={copyrights} />);
+		const wrapper = Enzyme.mount(<Information copyrights={copyrights} />);
 		const spy = jest.spyOn(wrapper.instance(), 'toggleCopyright');
 		const button = wrapper.find('.information-toggle');
 
-		wrapper.instance().forceUpdate();
+		act(() => {
+			wrapper.instance().forceUpdate();
+		});
+
 		button.simulate('click');
 
 		expect(spy).toHaveBeenCalledTimes(1);
