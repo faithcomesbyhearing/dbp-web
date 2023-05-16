@@ -1,8 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Colors from '../../../../theme_config/javascriptColors';
 import HighlightColors from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
@@ -22,7 +25,7 @@ let wrapper;
 describe('HighlightColors component', () => {
 	beforeEach(() => {
 		addHighlight = jest.fn(({ color }) => color);
-		wrapper = mount(<HighlightColors addHighlight={addHighlight} />);
+		wrapper = Enzyme.mount(<HighlightColors addHighlight={addHighlight} />);
 	});
 	it('should match snapshot', () => {
 		const tree = renderer.create(

@@ -1,9 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import CopyrightStatement from '..';
 
 import { copyrights } from '../../../utils/testUtils/copyrightData';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
@@ -36,14 +39,14 @@ describe('CopyrightStatement component', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('should render a logo if organization has one', () => {
-		const wrapper = mount(<CopyrightStatement {...props} />);
+		const wrapper = Enzyme.mount(<CopyrightStatement {...props} />);
 
 		expect(wrapper.find('img').length).toEqual(1);
 	});
 	it('should not render a logo if organization does not have one', () => {
 		const customProps = { ...props };
 		delete customProps.organizations[0].logo;
-		const wrapper = mount(<CopyrightStatement {...customProps} />);
+		const wrapper = Enzyme.mount(<CopyrightStatement {...customProps} />);
 
 		expect(wrapper.find('img').length).toEqual(0);
 	});

@@ -1,6 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import FootnotePortal from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 // Mocks
 Object.defineProperty(document, 'getElementById', {
@@ -19,7 +22,7 @@ const props = {
 
 describe('FootnotePortal component', () => {
 	it('should match snapshot with expected props', () => {
-		const tree = mount(<FootnotePortal {...props} />);
+		const tree = Enzyme.mount(<FootnotePortal {...props} />);
 		expect(tree).toMatchSnapshot();
 	});
 });

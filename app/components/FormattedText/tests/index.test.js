@@ -1,17 +1,20 @@
 /** eslint-env jest */
-import { mount } from 'enzyme';
 import React from 'react';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { fromJS } from 'immutable';
 import FormattedText from '../index';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const highlights = [];
 const bookmarks = [];
 const userNotes = [];
 const domMethodsAvailable = false;
 const activeBookId = 'MAT';
-const setFormattedRef = () => {};
-const setFootnotes = () => {};
-const setFormattedRefHighlight = () => {};
+const setFormattedRef = () => { /* TODO document why this arrow function is empty */ };
+const setFootnotes = () => { /* TODO document why this arrow function is empty */ };
+const setFormattedRefHighlight = () => { /* TODO document why this arrow function is empty */ };
 const formattedSource = {
 	main:
 		'<div class="chapter section ENGESV_70_MAT_1 ENGESV ENG MAT latin" dir="ltr" data-id="ENGESV_70_MAT_1" data-nextid="MAT2" data-previd="MAL4" lang="ENG"><div class="c">1</div><p><span class="verse1 v-num v-1">&#160;1&#160;</span><span class="v MAT1_1" data-id="MAT1_1">The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.</span><span class="verse2 v-num v-2">&#160;2&#160;</span><span class="v MAT1_2" data-id="MAT1_2">Abraham was the father of Isaac, and Isaac the father o..."</span></p></div></div>',
@@ -70,7 +73,7 @@ describe('<FormattedText />', () => {
 
 	beforeEach(() => {
 		spyDidMount = jest.spyOn(FormattedText.prototype, 'componentDidMount');
-		wrapper = mount(
+		wrapper = Enzyme.mount(
 			<FormattedText
 				highlights={highlights}
 				activeChapter={activeChapter}

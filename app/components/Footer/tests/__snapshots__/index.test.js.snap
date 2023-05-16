@@ -20,7 +20,7 @@ exports[`Footer component tests matches snapshot when closed 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#profile"
+          xlinkHref="/svglist.svg#profile"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -38,7 +38,7 @@ exports[`Footer component tests matches snapshot when closed 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#search"
+          xlinkHref="/svglist.svg#search"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -56,7 +56,7 @@ exports[`Footer component tests matches snapshot when closed 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#notebook"
+          xlinkHref="/svglist.svg#notebook"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -74,7 +74,7 @@ exports[`Footer component tests matches snapshot when closed 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#text_options"
+          xlinkHref="/svglist.svg#text_options"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -103,7 +103,7 @@ exports[`Footer component tests matches snapshot when open 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#profile"
+          xlinkHref="/svglist.svg#profile"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -121,7 +121,7 @@ exports[`Footer component tests matches snapshot when open 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#search"
+          xlinkHref="/svglist.svg#search"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -139,7 +139,7 @@ exports[`Footer component tests matches snapshot when open 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#notebook"
+          xlinkHref="/svglist.svg#notebook"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -157,7 +157,7 @@ exports[`Footer component tests matches snapshot when open 1`] = `
         fill="#fff"
       >
         <use
-          xlinkHref="/static/svglist.svg#text_options"
+          xlinkHref="/svglist.svg#text_options"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>

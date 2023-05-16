@@ -153,21 +153,12 @@ export class VersionList extends React.PureComponent {
 
   filterFunction = (bible) => {
     const lowerCaseText = this.props.filterText.toLowerCase();
-    const abbr = bible.get('abbr') || '';
-    const name = bible.get('name') || '';
-    const vname = bible.get('vname') || '';
-    const date = bible.get('date') || '';
+    const properties = ['vname', 'name', 'abbr', 'date'];
 
-    if (vname.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (name.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (abbr.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (date.includes(lowerCaseText)) {
-      return true;
-    }
-    return false;
+    return properties.some((property) => {
+      const propValue = bible.get(property) || '';
+      return propValue.toLowerCase().includes(lowerCaseText);
+    });
   };
 
   // Make async

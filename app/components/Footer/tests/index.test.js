@@ -1,7 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Footer from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const props = {
 	settingsActive: false,
@@ -23,7 +26,7 @@ describe('Footer component tests', () => {
 		props.toggleProfile = jest.fn(toggleProfile);
 		props.toggleSearch = jest.fn(toggleSearch);
 
-		wrapper = mount(<Footer {...props} />);
+		wrapper = Enzyme.mount(<Footer {...props} />);
 
 		function toggleNotebook() {
 			wrapper.setProps({ notebookActive: !wrapper.props().notebookActive });

@@ -1,8 +1,11 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { fromJS } from 'immutable';
 import renderer from 'react-test-renderer';
 import BooksTestament from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const books = fromJS([
 	{
@@ -192,7 +195,7 @@ describe('<BooksTestament />', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('Should only render one active book', () => {
-		const wrapper = mount(
+		const wrapper = Enzyme.mount(
 			<BooksTestament
 				books={books}
 				handleRef={handleRef}
@@ -210,7 +213,7 @@ describe('<BooksTestament />', () => {
 		expect(wrapper.find('.active-book').length).toEqual(1);
 	});
 	it('Should only render one active chapter and it should match the given prop', () => {
-		const wrapper = mount(
+		const wrapper = Enzyme.mount(
 			<BooksTestament
 				books={books}
 				handleRef={handleRef}

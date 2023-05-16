@@ -1,8 +1,11 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import renderer from 'react-test-renderer';
 import Colors from '../../../../theme_config/javascriptColors';
 import ColorPicker from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const green = Colors.highlightGreen;
 const yellow = Colors.highlightYellow;
@@ -13,10 +16,11 @@ let handlePickedColor;
 let wrapper;
 
 describe('ColorPicker tests', () => {
-	// let wrapper;
 	beforeEach(() => {
 		handlePickedColor = jest.fn(({ color }) => color);
-		wrapper = mount(<ColorPicker handlePickedColor={handlePickedColor} />);
+		wrapper = Enzyme.mount(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 	});
 	it('Should render', () => {
 		const tree = renderer

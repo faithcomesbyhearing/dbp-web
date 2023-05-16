@@ -35,6 +35,15 @@ import checkAvailableSettingsDataInCookies from '../app/utils/checkAvailableSett
 import reconcilePersistedState from '../app/utils/reconcilePersistedState';
 import REDUX_PERSIST from '../app/utils/reduxPersist';
 import getBookMetaData from '../app/utils/getBookMetaData';
+import geFilesetsForBible from '../app/utils/geFilesetsForBible';
+import hasFilesetVideo from '../app/utils/hasFilesetVideo';
+import removeStoriesFilesets from '../app/utils/removeStoriesFilesets';
+import {
+  FILESET_TYPE_TEXT_PLAIN,
+  FILESET_TYPE_TEXT_FORMAT,
+  FILESET_TYPE_AUDIO_DRAMA,
+  FILESET_TYPE_AUDIO,
+} from '../app/constants/bibleFileset';
 
 function AppContainer(props) {
   const router = useRouter();
@@ -94,13 +103,11 @@ function AppContainer(props) {
           userAuthenticated: !!props.userProfile.userId,
           userProfile: {
             email:
-              props.userProfile.email ||
-              props.userProfile.email ||
-              '',
+              props.userProfile.email || '',
             name:
-              props.userProfile.name || props.userProfile.name || '',
+              props.userProfile.name || '',
             nickname:
-              props.userProfile.name || props.userProfile.name || '',
+              props.userProfile.name || '',
           },
         },
       });
@@ -376,8 +383,7 @@ AppContainer.getInitialProps = async (context) => {
     }
     return { data: {} };
   });
-  const singleBibleJson = singleBibleRes; // Not sure why I did this, probably should remove
-  const bible = singleBibleJson.data || {};
+  const bible = singleBibleRes.data;
 
   // Acceptable fileset types that the site is capable of ingesting and displaying
   const setTypes = {
@@ -387,76 +393,29 @@ AppContainer.getInitialProps = async (context) => {
     text_format: true,
     video_stream: true,
   };
-  // Filter out gideon bibles because the api will never be fixed in this area... -_- :( :'( ;'(
-  // Filters out the filesets that should be filtered by the api
-  // Gets only one of the text_plain or text_format filesets (These are identical if they both occur)
-  const activeFilesetId =
-    bible && bible.filesets && bible.filesets[process.env.DBP_BUCKET_ID]
-      ? bible.filesets[process.env.DBP_BUCKET_ID]
-          .filter(
-            (f) =>
-              !f.id.includes('GID') &&
-              f.id.slice(-4 !== 'DA16') &&
-              (f.type === 'text_plain' || f.type === 'text_format'),
-          )
-          .reduce((a, c) => c.id, '')
-      : '';
-  let filesets = [];
 
-  if (
-    bible &&
-    bible.filesets &&
-    bible.filesets[process.env.DBP_BUCKET_ID] &&
-    bible.filesets['dbp-vid']
-  ) {
-    hasVideo = true;
-    filesets = [
-      ...bible.filesets[process.env.DBP_BUCKET_ID],
-      ...bible.filesets['dbp-vid'],
-    ].filter(
-      (file) =>
-        (!file.id.includes('GID') &&
-          file.id.slice(-4) !== 'DA16' &&
-          setTypes[file.type] &&
-          file.size !== 'S' &&
-          bible.filesets[process.env.DBP_BUCKET_ID].length > 1) ||
-        bible.filesets[process.env.DBP_BUCKET_ID].length === 1,
-    );
-  } else if (
-    bible &&
-    bible.filesets &&
-    bible.filesets[process.env.DBP_BUCKET_ID]
-  ) {
-    filesets = bible.filesets[process.env.DBP_BUCKET_ID].filter(
-      (file) =>
-        (!file.id.includes('GID') &&
-          file.id.slice(-4) !== 'DA16' &&
-          setTypes[file.type] &&
-          file.size !== 'S' &&
-          bible.filesets[process.env.DBP_BUCKET_ID].length > 1) ||
-        bible.filesets[process.env.DBP_BUCKET_ID].length === 1,
-    );
-  } else if (bible && bible.filesets && bible.filesets['dbp-vid']) {
-    hasVideo = true;
-    filesets = bible.filesets['dbp-vid'].filter(
-      (file) =>
-        (!file.id.includes('GID') &&
-          file.id.slice(-4) !== 'DA16' &&
-          setTypes[file.type] &&
-          file.size !== 'S' &&
-          bible.filesets['dbp-vid'].length > 1) ||
-        bible.filesets['dbp-vid'].length === 1,
-    );
-  }
+  // Gets only one of the text_plain or text_format filesets (These are identical if they both occur)
+  hasVideo = bible && bible.filesets && hasFilesetVideo(bible.filesets);
+
+  const bibleFilesets = bible && bible.filesets ? geFilesetsForBible(bible.filesets) : [];
+  const activeFilesetId = bibleFilesets
+    ? bibleFilesets
+      .filter(
+        (f) => (f.type === FILESET_TYPE_TEXT_PLAIN || f.type === FILESET_TYPE_TEXT_FORMAT),
+      )
+      .reduce((a, c) => c.id, '')
+    : '';
+
+  const filesets = removeStoriesFilesets(bibleFilesets, setTypes);
 
   const formattedFilesetIds = [];
   const plainFilesetIds = [];
   const idsForBookMetadata = [];
   // Separate filesets by type
   filesets.forEach((set) => {
-    if (set.type === 'text_format') {
+    if (set.type === FILESET_TYPE_TEXT_FORMAT) {
       formattedFilesetIds.push(set.id);
-    } else if (set.type === 'text_plain') {
+    } else if (set.type === FILESET_TYPE_TEXT_PLAIN) {
       plainFilesetIds.push(set.id);
     }
     // Gets one id for each fileset type and size
@@ -472,12 +431,12 @@ AppContainer.getInitialProps = async (context) => {
     if (filesets.some((set) => set.type === audioParam)) {
       audioType = audioParam;
       // Otherwise check for drama first
-    } else if (filesets.some((set) => set.type === 'audio_drama')) {
-      audioType = 'audio_drama';
+    } else if (filesets.some((set) => set.type === FILESET_TYPE_AUDIO_DRAMA)) {
+      audioType = FILESET_TYPE_AUDIO_DRAMA;
       audioParam = '';
       // Lastly check for plain audio
-    } else if (filesets.some((set) => set.type === 'audio')) {
-      audioType = 'audio';
+    } else if (filesets.some((set) => set.type === FILESET_TYPE_AUDIO)) {
+      audioType = FILESET_TYPE_AUDIO;
       audioParam = '';
     }
   }
@@ -618,11 +577,13 @@ AppContainer.getInitialProps = async (context) => {
     activeBook = undefined;
   }
   const availableAudioTypes = [];
-  if (filesets.some((set) => set.type === 'audio_drama')) {
-    availableAudioTypes.push('audio_drama');
+
+  if (filesets.some((set) => set.type === FILESET_TYPE_AUDIO_DRAMA)) {
+    availableAudioTypes.push(FILESET_TYPE_AUDIO_DRAMA);
   }
-  if (filesets.some((set) => set.type === 'audio')) {
-    availableAudioTypes.push('audio');
+
+  if (filesets.some((set) => set.type === FILESET_TYPE_AUDIO)) {
+    availableAudioTypes.push(FILESET_TYPE_AUDIO);
   }
   const activeBookName = activeBook ? activeBook.name : '';
   const testaments = bookData
@@ -636,9 +597,9 @@ AppContainer.getInitialProps = async (context) => {
           userId: userProfile.userId,
           userAuthenticated: !!userProfile.userId,
           userProfile: {
-            email: userProfile.email || userProfile.email || '',
-            name: userProfile.name || userProfile.name || '',
-            nickname: userProfile.name || userProfile.name || '',
+            email: userProfile.email || '',
+            name: userProfile.name || '',
+            nickname: userProfile.name || '',
           },
         },
       });

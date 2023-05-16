@@ -16,7 +16,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
     <div
       className="pull-down-refresh"
       style={
-        Object {
+        {
           "height": 0,
           "maxHeight": 0,
         }
@@ -24,7 +24,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
     >
       <span
         style={
-          Object {
+          {
             "textAlign": "center",
             "width": "100%",
           }
@@ -47,7 +47,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AU"
+          xlinkHref="/flags.svg#AU"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -71,7 +71,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MD"
+          xlinkHref="/flags.svg#MD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -95,7 +95,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KH"
+          xlinkHref="/flags.svg#KH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -119,7 +119,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#DM"
+          xlinkHref="/flags.svg#DM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -143,7 +143,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IL"
+          xlinkHref="/flags.svg#IL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -167,7 +167,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MR"
+          xlinkHref="/flags.svg#MR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -191,7 +191,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SI"
+          xlinkHref="/flags.svg#SI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -215,7 +215,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#DZ"
+          xlinkHref="/flags.svg#DZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -239,7 +239,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MC"
+          xlinkHref="/flags.svg#MC"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -263,7 +263,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PH"
+          xlinkHref="/flags.svg#PH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -287,7 +287,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NZ"
+          xlinkHref="/flags.svg#NZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -311,7 +311,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CR"
+          xlinkHref="/flags.svg#CR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -335,7 +335,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SK"
+          xlinkHref="/flags.svg#SK"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -359,7 +359,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#HU"
+          xlinkHref="/flags.svg#HU"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -383,7 +383,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#FJ"
+          xlinkHref="/flags.svg#FJ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -407,7 +407,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IT"
+          xlinkHref="/flags.svg#IT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -431,7 +431,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TG"
+          xlinkHref="/flags.svg#TG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -455,7 +455,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BD"
+          xlinkHref="/flags.svg#BD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -479,7 +479,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BE"
+          xlinkHref="/flags.svg#BE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -503,7 +503,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MM"
+          xlinkHref="/flags.svg#MM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -527,7 +527,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CH"
+          xlinkHref="/flags.svg#CH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -551,7 +551,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AE"
+          xlinkHref="/flags.svg#AE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -575,7 +575,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#JO"
+          xlinkHref="/flags.svg#JO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -599,7 +599,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SY"
+          xlinkHref="/flags.svg#SY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -623,7 +623,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PG"
+          xlinkHref="/flags.svg#PG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -647,7 +647,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BO"
+          xlinkHref="/flags.svg#BO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -671,7 +671,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ID"
+          xlinkHref="/flags.svg#ID"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -695,7 +695,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SR"
+          xlinkHref="/flags.svg#SR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -719,7 +719,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#EH"
+          xlinkHref="/flags.svg#EH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -743,7 +743,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SG"
+          xlinkHref="/flags.svg#SG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -767,7 +767,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NP"
+          xlinkHref="/flags.svg#NP"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -791,7 +791,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AF"
+          xlinkHref="/flags.svg#AF"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -815,7 +815,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#HT"
+          xlinkHref="/flags.svg#HT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -839,7 +839,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MT"
+          xlinkHref="/flags.svg#MT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -863,7 +863,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MK"
+          xlinkHref="/flags.svg#MK"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -887,7 +887,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NR"
+          xlinkHref="/flags.svg#NR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -911,7 +911,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BA"
+          xlinkHref="/flags.svg#BA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -935,7 +935,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PY"
+          xlinkHref="/flags.svg#PY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -959,7 +959,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LS"
+          xlinkHref="/flags.svg#LS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -983,7 +983,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LU"
+          xlinkHref="/flags.svg#LU"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1007,7 +1007,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#JP"
+          xlinkHref="/flags.svg#JP"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1031,7 +1031,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IE"
+          xlinkHref="/flags.svg#IE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1055,7 +1055,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BF"
+          xlinkHref="/flags.svg#BF"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1079,7 +1079,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BS"
+          xlinkHref="/flags.svg#BS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1103,7 +1103,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AR"
+          xlinkHref="/flags.svg#AR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1127,7 +1127,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GM"
+          xlinkHref="/flags.svg#GM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1151,7 +1151,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TH"
+          xlinkHref="/flags.svg#TH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1175,7 +1175,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GA"
+          xlinkHref="/flags.svg#GA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1199,7 +1199,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MV"
+          xlinkHref="/flags.svg#MV"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1223,7 +1223,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KZ"
+          xlinkHref="/flags.svg#KZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1247,7 +1247,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TD"
+          xlinkHref="/flags.svg#TD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1271,7 +1271,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KM"
+          xlinkHref="/flags.svg#KM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1295,7 +1295,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CZ"
+          xlinkHref="/flags.svg#CZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1319,7 +1319,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KI"
+          xlinkHref="/flags.svg#KI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1343,7 +1343,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ET"
+          xlinkHref="/flags.svg#ET"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1367,7 +1367,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GY"
+          xlinkHref="/flags.svg#GY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1391,7 +1391,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AD"
+          xlinkHref="/flags.svg#AD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1415,7 +1415,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ES"
+          xlinkHref="/flags.svg#ES"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1439,7 +1439,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LT"
+          xlinkHref="/flags.svg#LT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1463,7 +1463,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SN"
+          xlinkHref="/flags.svg#SN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1487,7 +1487,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BW"
+          xlinkHref="/flags.svg#BW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1511,7 +1511,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PL"
+          xlinkHref="/flags.svg#PL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1535,7 +1535,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GD"
+          xlinkHref="/flags.svg#GD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1559,7 +1559,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AO"
+          xlinkHref="/flags.svg#AO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1583,7 +1583,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LR"
+          xlinkHref="/flags.svg#LR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1607,7 +1607,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#YE"
+          xlinkHref="/flags.svg#YE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1631,7 +1631,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BZ"
+          xlinkHref="/flags.svg#BZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1655,7 +1655,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NI"
+          xlinkHref="/flags.svg#NI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1663,6 +1663,30 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         className="inactive-country"
       >
         Nicaragua
+      </h4>
+    </div>
+    <div
+      className="country-name"
+      onClick={[Function]}
+      role="button"
+      style=""
+      tabIndex={0}
+      title="Solomon Islands"
+    >
+      <svg
+        className="icon"
+        height="25px"
+        width="25px"
+      >
+        <use
+          xlinkHref="/flags.svg#SB"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+        />
+      </svg>
+      <h4
+        className="inactive-country"
+      >
+        Solomon Islands
       </h4>
     </div>
     <div
@@ -1679,7 +1703,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#HR"
+          xlinkHref="/flags.svg#HR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1703,7 +1727,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#OM"
+          xlinkHref="/flags.svg#OM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1727,7 +1751,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MU"
+          xlinkHref="/flags.svg#MU"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1751,7 +1775,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NA"
+          xlinkHref="/flags.svg#NA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1775,7 +1799,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ANY"
+          xlinkHref="/flags.svg#ANY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1799,7 +1823,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SE"
+          xlinkHref="/flags.svg#SE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1823,7 +1847,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#HN"
+          xlinkHref="/flags.svg#HN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1847,7 +1871,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MG"
+          xlinkHref="/flags.svg#MG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1871,7 +1895,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BR"
+          xlinkHref="/flags.svg#BR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1895,7 +1919,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LY"
+          xlinkHref="/flags.svg#LY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1919,7 +1943,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ZA"
+          xlinkHref="/flags.svg#ZA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1943,7 +1967,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GR"
+          xlinkHref="/flags.svg#GR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1967,7 +1991,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TO"
+          xlinkHref="/flags.svg#TO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -1991,7 +2015,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BN"
+          xlinkHref="/flags.svg#BN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2015,7 +2039,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GT"
+          xlinkHref="/flags.svg#GT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2039,7 +2063,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CI"
+          xlinkHref="/flags.svg#CI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2063,7 +2087,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GB"
+          xlinkHref="/flags.svg#GB"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2087,7 +2111,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#DO"
+          xlinkHref="/flags.svg#DO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2111,7 +2135,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TR"
+          xlinkHref="/flags.svg#TR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2135,7 +2159,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CA"
+          xlinkHref="/flags.svg#CA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2159,7 +2183,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GL"
+          xlinkHref="/flags.svg#GL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2183,7 +2207,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#RW"
+          xlinkHref="/flags.svg#RW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2207,7 +2231,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SD"
+          xlinkHref="/flags.svg#SD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2231,7 +2255,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PW"
+          xlinkHref="/flags.svg#PW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2255,7 +2279,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LV"
+          xlinkHref="/flags.svg#LV"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2279,7 +2303,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GN"
+          xlinkHref="/flags.svg#GN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2303,7 +2327,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TN"
+          xlinkHref="/flags.svg#TN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2327,7 +2351,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MA"
+          xlinkHref="/flags.svg#MA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2351,7 +2375,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MN"
+          xlinkHref="/flags.svg#MN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2375,7 +2399,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CW"
+          xlinkHref="/flags.svg#CW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2399,7 +2423,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NL"
+          xlinkHref="/flags.svg#NL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2423,7 +2447,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BJ"
+          xlinkHref="/flags.svg#BJ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2447,7 +2471,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#VU"
+          xlinkHref="/flags.svg#VU"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2471,7 +2495,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ME"
+          xlinkHref="/flags.svg#ME"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2495,7 +2519,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#FM"
+          xlinkHref="/flags.svg#FM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2519,7 +2543,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AS"
+          xlinkHref="/flags.svg#AS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2543,7 +2567,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ML"
+          xlinkHref="/flags.svg#ML"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2567,7 +2591,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NG"
+          xlinkHref="/flags.svg#NG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2591,7 +2615,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CM"
+          xlinkHref="/flags.svg#CM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2615,7 +2639,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BT"
+          xlinkHref="/flags.svg#BT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2639,7 +2663,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KG"
+          xlinkHref="/flags.svg#KG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2663,7 +2687,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AZ"
+          xlinkHref="/flags.svg#AZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2687,7 +2711,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LC"
+          xlinkHref="/flags.svg#LC"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2711,7 +2735,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GH"
+          xlinkHref="/flags.svg#GH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2735,7 +2759,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ZW"
+          xlinkHref="/flags.svg#ZW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2759,7 +2783,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CF"
+          xlinkHref="/flags.svg#CF"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2783,7 +2807,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#DE"
+          xlinkHref="/flags.svg#DE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2807,7 +2831,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#UZ"
+          xlinkHref="/flags.svg#UZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2831,7 +2855,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ZM"
+          xlinkHref="/flags.svg#ZM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2855,7 +2879,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SO"
+          xlinkHref="/flags.svg#SO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2879,7 +2903,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LB"
+          xlinkHref="/flags.svg#LB"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2903,7 +2927,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PS"
+          xlinkHref="/flags.svg#PS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2927,7 +2951,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MX"
+          xlinkHref="/flags.svg#MX"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2951,7 +2975,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CD"
+          xlinkHref="/flags.svg#CD"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2975,7 +2999,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AT"
+          xlinkHref="/flags.svg#AT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -2999,7 +3023,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#QA"
+          xlinkHref="/flags.svg#QA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3023,7 +3047,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TV"
+          xlinkHref="/flags.svg#TV"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3047,7 +3071,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#RO"
+          xlinkHref="/flags.svg#RO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3071,7 +3095,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#FI"
+          xlinkHref="/flags.svg#FI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3095,7 +3119,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BB"
+          xlinkHref="/flags.svg#BB"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3119,7 +3143,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KN"
+          xlinkHref="/flags.svg#KN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3143,7 +3167,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CG"
+          xlinkHref="/flags.svg#CG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3167,7 +3191,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PR"
+          xlinkHref="/flags.svg#PR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3191,7 +3215,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CY"
+          xlinkHref="/flags.svg#CY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3215,7 +3239,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MZ"
+          xlinkHref="/flags.svg#MZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3239,7 +3263,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IS"
+          xlinkHref="/flags.svg#IS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3263,7 +3287,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#ER"
+          xlinkHref="/flags.svg#ER"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3287,7 +3311,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IR"
+          xlinkHref="/flags.svg#IR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3311,7 +3335,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KR"
+          xlinkHref="/flags.svg#KR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3335,7 +3359,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IN"
+          xlinkHref="/flags.svg#IN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3359,7 +3383,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CN"
+          xlinkHref="/flags.svg#CN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3383,7 +3407,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SZ"
+          xlinkHref="/flags.svg#SZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3407,7 +3431,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BG"
+          xlinkHref="/flags.svg#BG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3431,7 +3455,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PA"
+          xlinkHref="/flags.svg#PA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3455,7 +3479,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TJ"
+          xlinkHref="/flags.svg#TJ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3479,7 +3503,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#RE"
+          xlinkHref="/flags.svg#RE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3503,7 +3527,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BY"
+          xlinkHref="/flags.svg#BY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3527,7 +3551,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#WF"
+          xlinkHref="/flags.svg#WF"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3551,7 +3575,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PE"
+          xlinkHref="/flags.svg#PE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3575,7 +3599,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#VN"
+          xlinkHref="/flags.svg#VN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3599,7 +3623,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LI"
+          xlinkHref="/flags.svg#LI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3623,7 +3647,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GW"
+          xlinkHref="/flags.svg#GW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3647,7 +3671,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LA"
+          xlinkHref="/flags.svg#LA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3671,7 +3695,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#VE"
+          xlinkHref="/flags.svg#VE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3695,7 +3719,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#LK"
+          xlinkHref="/flags.svg#LK"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3719,7 +3743,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#IQ"
+          xlinkHref="/flags.svg#IQ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3743,7 +3767,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NE"
+          xlinkHref="/flags.svg#NE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3767,7 +3791,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#DK"
+          xlinkHref="/flags.svg#DK"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3791,7 +3815,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#RS"
+          xlinkHref="/flags.svg#RS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3815,7 +3839,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GQ"
+          xlinkHref="/flags.svg#GQ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3839,7 +3863,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#DJ"
+          xlinkHref="/flags.svg#DJ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3863,7 +3887,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#FR"
+          xlinkHref="/flags.svg#FR"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3887,7 +3911,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#EG"
+          xlinkHref="/flags.svg#EG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3911,7 +3935,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#RU"
+          xlinkHref="/flags.svg#RU"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3935,7 +3959,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TM"
+          xlinkHref="/flags.svg#TM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3959,7 +3983,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#YT"
+          xlinkHref="/flags.svg#YT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -3983,7 +4007,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#UA"
+          xlinkHref="/flags.svg#UA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4007,7 +4031,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#VA"
+          xlinkHref="/flags.svg#VA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4031,7 +4055,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MW"
+          xlinkHref="/flags.svg#MW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4055,7 +4079,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#MY"
+          xlinkHref="/flags.svg#MY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4079,7 +4103,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KE"
+          xlinkHref="/flags.svg#KE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4103,7 +4127,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CO"
+          xlinkHref="/flags.svg#CO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4127,7 +4151,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#JM"
+          xlinkHref="/flags.svg#JM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4151,7 +4175,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SS"
+          xlinkHref="/flags.svg#SS"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4175,7 +4199,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#UG"
+          xlinkHref="/flags.svg#UG"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4199,7 +4223,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AL"
+          xlinkHref="/flags.svg#AL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4223,7 +4247,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#CL"
+          xlinkHref="/flags.svg#CL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4247,7 +4271,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#EC"
+          xlinkHref="/flags.svg#EC"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4271,7 +4295,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#EE"
+          xlinkHref="/flags.svg#EE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4295,7 +4319,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PK"
+          xlinkHref="/flags.svg#PK"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4319,7 +4343,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BH"
+          xlinkHref="/flags.svg#BH"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4343,7 +4367,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AM"
+          xlinkHref="/flags.svg#AM"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4367,7 +4391,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#BI"
+          xlinkHref="/flags.svg#BI"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4391,7 +4415,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GE"
+          xlinkHref="/flags.svg#GE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4415,7 +4439,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SA"
+          xlinkHref="/flags.svg#SA"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4439,7 +4463,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#PT"
+          xlinkHref="/flags.svg#PT"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4463,7 +4487,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TZ"
+          xlinkHref="/flags.svg#TZ"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4487,7 +4511,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#NO"
+          xlinkHref="/flags.svg#NO"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4511,7 +4535,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#UY"
+          xlinkHref="/flags.svg#UY"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4535,7 +4559,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#KW"
+          xlinkHref="/flags.svg#KW"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4559,7 +4583,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#SL"
+          xlinkHref="/flags.svg#SL"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4583,7 +4607,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#US"
+          xlinkHref="/flags.svg#US"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4607,7 +4631,7 @@ exports[`CountryList component should match snapshot of active list 1`] = `
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GF"
+          xlinkHref="/flags.svg#GF"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4637,7 +4661,7 @@ exports[`CountryList component should match snapshot of active list with an appl
     <div
       className="pull-down-refresh"
       style={
-        Object {
+        {
           "height": 0,
           "maxHeight": 0,
         }
@@ -4645,7 +4669,7 @@ exports[`CountryList component should match snapshot of active list with an appl
     >
       <span
         style={
-          Object {
+          {
             "textAlign": "center",
             "width": "100%",
           }
@@ -4668,7 +4692,7 @@ exports[`CountryList component should match snapshot of active list with an appl
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#AE"
+          xlinkHref="/flags.svg#AE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4692,7 +4716,7 @@ exports[`CountryList component should match snapshot of active list with an appl
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#GB"
+          xlinkHref="/flags.svg#GB"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4716,7 +4740,7 @@ exports[`CountryList component should match snapshot of active list with an appl
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#TN"
+          xlinkHref="/flags.svg#TN"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4740,7 +4764,7 @@ exports[`CountryList component should match snapshot of active list with an appl
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#RE"
+          xlinkHref="/flags.svg#RE"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>
@@ -4764,7 +4788,7 @@ exports[`CountryList component should match snapshot of active list with an appl
         width="25px"
       >
         <use
-          xlinkHref="/static/flags.svg#US"
+          xlinkHref="/flags.svg#US"
           xmlnsXlink="http://www.w3.org/1999/xlink"
         />
       </svg>

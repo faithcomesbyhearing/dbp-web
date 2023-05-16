@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import Login from '..';
 
 /* eslint-disable react/prop-types */
-jest.mock('../../../containers/GoogleAuthentication', () => function (props) {
+jest.mock('../../../containers/GoogleAuthentication', () => function googleAuthenticationMock(props) {
   return (
 <div
 		role={'button'}
@@ -16,7 +16,7 @@ jest.mock('../../../containers/GoogleAuthentication', () => function (props) {
 </div>
 );
 });
-jest.mock('../../../containers/FacebookAuthentication', () => function (props) {
+jest.mock('../../../containers/FacebookAuthentication', () => function facebookAuthenticationMock(props) {
   return (
 <div
 		role={'button'}

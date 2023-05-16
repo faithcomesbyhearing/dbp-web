@@ -1,5 +1,8 @@
 // Needed to make process variables available in nextjs
-require('dotenv').config();
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 
 const fallbackSiteUrl = 'https://live.bible.is';
 
@@ -10,7 +13,6 @@ module.exports = {
 		BUGSNAG_API_KEY: process.env.BUGSNAG_API_KEY,
 		CDN_STATIC_FILES: process.env.CDN_STATIC_FILES,
 		DBP_API_KEY: process.env.DBP_API_KEY,
-		DBP_BUCKET_ID: process.env.DBP_BUCKET_ID,
 		FB_ACCESS: process.env.FB_ACCESS,
 		FB_APP_ID: process.env.FB_APP_ID,
 		GOOGLE_APP_ID: process.env.GOOGLE_APP_ID,

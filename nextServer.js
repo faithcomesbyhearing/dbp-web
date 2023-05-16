@@ -8,7 +8,11 @@ if (
 }
 require('core-js');
 require('regenerator-runtime');
-require('dotenv').config();
+
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 const cp = require('child_process');
 const express = require('express');
 const next = require('next');
@@ -61,7 +65,6 @@ app
         languageIso = langArray[0];
       }
       if (languageIso !== 'eng') {
-        isoCodesDidNotMatch = true;
         const biblesData = await fetch.get(
           `${
             process.env.BASE_API_ROUTE
@@ -85,7 +88,7 @@ app
         const biblesInLanguage = biblesData.data;
         // Check for first bible
         if (biblesInLanguage[0]) {
-          bibleId = biblesInLanguage[0].abbr;
+          const bibleId = biblesInLanguage[0].abbr;
           redirectPath = `/bible/${bibleId}/MAT/1`;
         }
       }
@@ -351,14 +354,6 @@ Disallow: /
 
     server.get('*', (req, res) => handle(req, res));
 
-    // if (process.env.NODE_ENV === 'development') {
-    // 	https.createServer(certOptions, server).listen(443);
-    // } else {
-    // 	server.listen(port, (err) => {
-    // 		if (err) throw err;
-    // 		console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
-    // 	});
-    // }
     server.listen(port, (err) => {
       if (
         err &&
@@ -370,15 +365,6 @@ Disallow: /
       if (err) throw err;
       console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
     });
-    // This code was causing the server to hang forever when in development, need to tweak it to enable a graceful shutdown
-    // process.on('SIGINT', () => {
-    // 	app.close((err) => {
-    // 		if (err) {
-    // 			console.error(err); // eslint-disable-line no-console
-    // 			process.exit(1);
-    // 		}
-    // 	});
-    // });
   })
   .catch((ex) => {
     /* eslint-disable no-console */
