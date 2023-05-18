@@ -2,6 +2,12 @@ version: 0.2
 
 runas: ubuntu
 
+env:
+  exported-variables:
+    - DBP_API_KEY
+    - BASE_API_ROUTE
+    - BUGSNAG_API_KEY
+
 phases:
   install:
     commands:
@@ -13,7 +19,7 @@ artifacts:
   files:
     - .next/**/*
     - public/**/*
-    - node_modules/**/*
+    - internals/scripts/**/*
     - scripts/**/*
     - nextServer.js
     - ecosystem.config.js
@@ -23,4 +29,11 @@ artifacts:
     - appspec.yml
     - env-config.js
     - .babelrc.js
+    - .gitignore
+    - node_modules/**/*
+    - app/utils/checkBookName.js
+    - app/utils/bugsnagServer.js
+    - app/utils/isoOneToThree.json
+    - app/utils/bookNameToId.json
+    - app/utils/osisIdMap.json
   name: $(AWS_REGION)-$(date +%Y-%m-%d)
