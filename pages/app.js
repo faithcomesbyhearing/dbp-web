@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
+import axios from 'axios';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
@@ -378,8 +379,9 @@ AppContainer.getInitialProps = async (context) => {
 
   // Get active bible data
   const singleBibleRes = await cachedFetch(singleBibleUrl).catch((e) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Error in get initial props single bible: ', e.message); // eslint-disable-line no-console
+    console.error('Error in get initial props single bible: ', e.message); // eslint-disable-line no-console
+    if (axios.isAxiosError(e)) {
+      console.error('Error occurred at URL:', e.config.url); // eslint-disable-line no-console
     }
     return { data: {} };
   });
@@ -640,7 +642,7 @@ AppContainer.getInitialProps = async (context) => {
         activeChapter: parseInt(chapter, 10) >= 0 ? parseInt(chapter, 10) : 1,
         activeBookName,
         verseNumber: verse,
-        activeTextId: bible.abbr || '',
+        activeTextId: bible.abbr,
         activeIsoCode: bible.iso || '',
         defaultLanguageIso: bible.iso || 'eng',
         activeLanguageName: bible.language || '',

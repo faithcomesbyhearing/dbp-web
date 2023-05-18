@@ -628,6 +628,7 @@ export class AudioPlayer extends React.Component {
       autoPlay,
       volume,
       playbackRate,
+      activeTextId,
     } = this.props;
 
     return (
@@ -685,7 +686,7 @@ export class AudioPlayer extends React.Component {
                 books: this.props.books,
                 chapter: this.props.activeChapter,
                 bookId: this.props.activeBookId.toLowerCase(),
-                textId: this.props.activeTextId.toLowerCase(),
+                textId: activeTextId.toLowerCase(),
                 verseNumber: this.props.verseNumber,
                 text: this.props.textData.text,
                 audioType,
@@ -706,7 +707,7 @@ export class AudioPlayer extends React.Component {
                 books: this.props.books,
                 chapter: this.props.activeChapter,
                 bookId: this.props.activeBookId.toLowerCase(),
-                textId: this.props.activeTextId.toLowerCase(),
+                textId: activeTextId.toLowerCase(),
                 verseNumber: this.props.verseNumber,
                 text: this.props.textData.text,
                 audioType,
@@ -825,7 +826,7 @@ AudioPlayer.propTypes = {
   audioSource: PropTypes.string,
   audioType: PropTypes.string,
   activeBookId: PropTypes.string,
-  activeTextId: PropTypes.string,
+  activeTextId: PropTypes.string.isRequired,
   verseNumber: PropTypes.string,
   dispatch: PropTypes.func,
   hasAudio: PropTypes.bool,

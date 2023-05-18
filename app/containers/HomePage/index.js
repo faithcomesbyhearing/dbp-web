@@ -466,7 +466,7 @@ class HomePage extends React.PureComponent {
               : 'content-container'
           }
         >
-          {(
+          {(activeTextId && (
               <VideoPlayer
                 fileset={
                   activeFilesets.filter((f) => f.type === 'video_stream')[0]
@@ -477,25 +477,28 @@ class HomePage extends React.PureComponent {
                 text={updatedText}
                 textId={activeTextId}
               />
-            )}
-          <Text
-            books={books}
-            text={updatedText}
-            hasVideo={hasVideo}
-            verseNumber={verse}
-            audioType={audioType}
-            menuIsOpen={isMenuOpen}
-            activeTextId={activeTextId}
-            activeBookId={activeBookId}
-            loadingAudio={loadingAudio}
-            activeChapter={activeChapter}
-            changingVersion={changingVersion}
-            videoPlayerOpen={videoPlayerOpen}
-            isScrollingDown={isScrollingDown}
-            audioPlayerState={audioPlayerState}
-            loadingNewChapterText={loadingNewChapterText}
-            chapterTextLoadingState={chapterTextLoadingState}
-          />
+            )
+          )}
+          { activeTextId && (
+              <Text
+              books={books}
+              text={updatedText}
+              hasVideo={hasVideo}
+              verseNumber={verse}
+              audioType={audioType}
+              menuIsOpen={isMenuOpen}
+              activeTextId={activeTextId}
+              activeBookId={activeBookId}
+              loadingAudio={loadingAudio}
+              activeChapter={activeChapter}
+              changingVersion={changingVersion}
+              videoPlayerOpen={videoPlayerOpen}
+              isScrollingDown={isScrollingDown}
+              audioPlayerState={audioPlayerState}
+              loadingNewChapterText={loadingNewChapterText}
+              chapterTextLoadingState={chapterTextLoadingState}
+              />
+          )}
         </div>
         <TransitionGroup>
           {isSettingsModalActive ? (
@@ -550,7 +553,7 @@ class HomePage extends React.PureComponent {
             </FadeTransition>
           ) : null}
         </TransitionGroup>
-        <AudioPlayer verseNumber={verse} audioType={audioType} />
+        {activeTextId && <AudioPlayer verseNumber={verse} audioType={audioType} />}
         <Footer
           profileActive={isProfileActive}
           searchActive={isSearchModalActive}
@@ -569,7 +572,38 @@ class HomePage extends React.PureComponent {
 
 HomePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  homepage: PropTypes.object.isRequired,
+  homepage: PropTypes.shape({
+    activeBookId: PropTypes.string,
+    activeTextId: PropTypes.string.isRequired,
+    activeChapter: PropTypes.number,
+    activeBookName: PropTypes.string,
+    activeFilesets: PropTypes.array,
+    activeTextName: PropTypes.string,
+    activeFilesetId: PropTypes.string,
+    audioPlayerState: PropTypes.bool,
+    books: PropTypes.array,
+    isProfileActive: PropTypes.bool,
+    isNotesModalActive: PropTypes.bool,
+    isSearchModalActive: PropTypes.bool,
+    isSettingsModalActive: PropTypes.bool,
+    isVersionSelectionActive: PropTypes.bool,
+    isChapterSelectionActive: PropTypes.bool,
+    userAgent: PropTypes.string,
+    loadingAudio: PropTypes.bool,
+    loadingNewChapterText: PropTypes.bool,
+    chapterTextLoadingState: PropTypes.bool,
+    changingVersion: PropTypes.bool,
+    videoPlayerOpen: PropTypes.bool,
+    hasVideo: PropTypes.bool,
+    audioType: PropTypes.string,
+    textDirection: PropTypes.string,
+    match: PropTypes.object,
+    firstLoad: PropTypes.bool,
+    addBookmarkSuccess: PropTypes.bool,
+    defaultLanguageIso: PropTypes.string,
+    defaultLanguageCode: PropTypes.number,
+    audioSource: PropTypes.string,
+  }).isRequired,
   userSettings: PropTypes.object,
   formattedSource: PropTypes.object,
   userAuthenticated: PropTypes.bool,
