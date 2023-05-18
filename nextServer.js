@@ -8,7 +8,7 @@ if (
 }
 require('core-js');
 require('regenerator-runtime');
-
+const lscache = require('lscache');
 const dotenv = require('dotenv');
 if (process.env.NODE_ENV !== 'production') {
 	dotenv.config();
@@ -113,7 +113,8 @@ app
     });
 
     server.get('/clean-the-cash', (req, res) => {
-      ssrCache.reset();
+      ssrCache.clear();
+      lscache.flush();
       res.send('Cleaned the cache');
     });
 

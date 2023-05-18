@@ -177,7 +177,7 @@ Text.propTypes = {
 	chapterTextLoadingState: PropTypes.bool,
 	audioType: PropTypes.string,
 	verseNumber: PropTypes.string,
-	activeTextId: PropTypes.string,
+	activeTextId: PropTypes.string.isRequired,
 	activeBookId: PropTypes.string,
 };
 

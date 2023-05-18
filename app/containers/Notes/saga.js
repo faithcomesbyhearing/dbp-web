@@ -156,6 +156,16 @@ export function* updateNote({ userId, data, noteId }) {
 
     if (response.success) {
       yield put({ type: ADD_NOTE_SUCCESS, response });
+      yield fork(getNotesForChapter, {
+        userId,
+        params: {
+          bible_id: data.bible_id,
+          book_id: data.book_id,
+          chapter: data.chapter,
+          limit: 150,
+          page: 1,
+        },
+      });
     }
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
@@ -229,22 +239,6 @@ export function* deleteNote({
       const response = yield call(request, requestUrl, options);
 
       if (response.success) {
-        if (isBookmark) {
-          yield fork(getUserBookmarks, {
-            userId,
-            params: { limit: pageSize, page: activePage },
-          });
-          yield fork(getBookmarksForChapter, {
-            userId,
-            params: {
-              bible_id: bibleId,
-              book_id: bookId,
-              chapter,
-              limit: 150,
-              page: 1,
-            },
-          });
-        }
         yield fork(getNotesForNotebook, {
           userId,
           params: { limit: pageSize, page: activePage },
