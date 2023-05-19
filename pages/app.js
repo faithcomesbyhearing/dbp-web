@@ -23,7 +23,7 @@ import axios from 'axios';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
-import getValidPlainFilesetsByBook from '../app/utils/getValidPlainFilesetsByBook';
+import getValidFilesetsByBook from '../app/utils/getValidFilesetsByBook';
 import {
   setChapterTextLoadingState,
   setUA,
@@ -396,37 +396,44 @@ AppContainer.getInitialProps = async (context) => {
     video_stream: true,
   };
 
-  // Gets only one of the text_plain or text_format filesets (These are identical if they both occur)
-  hasVideo = bible && bible.filesets && hasFilesetVideo(bible.filesets);
-
   const bibleFilesets = bible && bible.filesets ? geFilesetsForBible(bible.filesets) : [];
-  const activeFilesetId = bibleFilesets
-    ? bibleFilesets
+  const filesetsWithoutStories = removeStoriesFilesets(bibleFilesets, setTypes);
+
+  const idsForBookMetadata = filesetsWithoutStories.map((fileset) => ([fileset.type, fileset.id, fileset.size]));
+  const [bookMetaData, bookMetaResponse] = await getBookMetaData({
+    idsForBookMetadata,
+  });
+
+  const foundBook = bookMetaData.find(
+    (book) => bookId && book.book_id === bookId.toUpperCase(),
+  );
+
+  const filesets = foundBook ? getValidFilesetsByBook(foundBook, idsForBookMetadata, filesetsWithoutStories) : [];
+
+  hasVideo = filesets && filesets.length > 0 && hasFilesetVideo(filesets);
+
+  // Gets only one of the text_plain filesets
+  const activeFilesetId = filesets
+    ? filesets
       .filter(
-        (f) => (f.type === FILESET_TYPE_TEXT_PLAIN || f.type === FILESET_TYPE_TEXT_FORMAT),
+        (f) => (f.type === FILESET_TYPE_TEXT_PLAIN),
       )
       .reduce((a, c) => c.id, '')
     : '';
 
-  const filesets = removeStoriesFilesets(bibleFilesets, setTypes);
-
-  const formattedFilesetIds = [];
-  const plainFilesetIds = [];
-  const idsForBookMetadata = [];
   // Separate filesets by type
-  filesets.forEach((set) => {
-    if (set.type === FILESET_TYPE_TEXT_FORMAT) {
-      formattedFilesetIds.push(set.id);
-    } else if (set.type === FILESET_TYPE_TEXT_PLAIN) {
-      plainFilesetIds.push(set.id);
+  const plainFilesetIds = filesets.reduce((plainFilesetResult, fileset) => {
+    if (fileset.type === FILESET_TYPE_TEXT_PLAIN) {
+      plainFilesetResult.push(fileset.id);
     }
-    // Gets one id for each fileset type and size
-    idsForBookMetadata.push([set.type, set.id, set.size]);
-  });
-
-  const [bookMetaData, bookMetaResponse] = await getBookMetaData({
-    idsForBookMetadata,
-  });
+    return plainFilesetResult;
+  }, []);
+  const formattedFilesetIds = filesets.reduce((formattedFilesetResult, fileset) => {
+    if (fileset.type === FILESET_TYPE_TEXT_FORMAT) {
+      formattedFilesetResult.push(fileset.id);
+    }
+    return formattedFilesetResult;
+  }, []);
 
   if (audioParam) {
     // If there are any audio filesets with the given type
@@ -443,12 +450,8 @@ AppContainer.getInitialProps = async (context) => {
     }
   }
 
-  let foundBook = null;
   // Redirect to the new url if conditions are met
   if (bookMetaData && bookMetaData.length) {
-    foundBook = bookMetaData.find(
-      (book) => bookId && book.book_id === bookId.toUpperCase(),
-    );
     const foundChapter =
       foundBook &&
       foundBook.chapters.find((c) => chapter && c === parseInt(chapter, 10));
@@ -528,14 +531,12 @@ AppContainer.getInitialProps = async (context) => {
     audioPaths: [''],
   };
   try {
-    const plainFilesetFilteredByBookTest = getValidPlainFilesetsByBook(foundBook, idsForBookMetadata, plainFilesetIds);
-
     /* eslint-disable no-console */
     initData = await getinitialChapterData({
       filesets,
       bookId,
       chapter,
-      plainFilesetIds: plainFilesetFilteredByBookTest,
+      plainFilesetIds,
       formattedFilesetIds,
       audioType,
     }).catch((err) => {
@@ -591,6 +592,7 @@ AppContainer.getInitialProps = async (context) => {
   const testaments = bookData
     ? bookData.reduce((a, c) => ({ ...a, [c.book_id]: c.testament }), {})
     : [];
+
   if (context.reduxStore) {
     if (userProfile.userId && userProfile.email) {
       context.reduxStore.dispatch({
