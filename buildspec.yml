@@ -1,5 +1,9 @@
 version: 0.2
-
+env:
+  exported-variables:
+    - DBP_API_KEY
+    - BASE_API_ROUTE
+    - BUGSNAG_API_KEY
 phases:
   install:
     runtime-versions:
