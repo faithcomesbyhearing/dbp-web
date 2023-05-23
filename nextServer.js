@@ -179,9 +179,7 @@ Disallow: /
 
     server.get('/status', async (req, res) => {
       const ok = await fetch.get(
-        `${process.env.BASE_API_ROUTE}/bibles?v=4&key=${
-          process.env.DBP_API_KEY
-        }&language_code=6414`,
+        `${process.env.BASE_API_ROUTE}/status`,
       )
         .then((r) => r.status >= 200 && r.status < 300)
         .catch(() => false);

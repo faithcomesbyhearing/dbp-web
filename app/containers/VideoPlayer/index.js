@@ -55,8 +55,9 @@ class VideoPlayer extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { fileset, bookId, chapter, hasVideo } = this.props;
+    const { currentVideo, hlsSupported } = this.state;
 
     const contentChanged =
       prevProps.bookId !== bookId ||
@@ -64,6 +65,10 @@ class VideoPlayer extends React.PureComponent {
       (prevProps.fileset && fileset && !isEqual(prevProps.fileset, fileset));
 
     const videoStatusChanged = prevProps.hasVideo !== hasVideo;
+
+    if (prevState.currentVideo !== currentVideo || prevState.hlsSupported !== hlsSupported) {
+      this.initVideoStream({ thumbnailClick: false });
+    }
 
     if (contentChanged || (videoStatusChanged && hasVideo)) {
       this.fetchVideosIfNeeded(fileset, bookId, chapter, hasVideo);
@@ -162,7 +167,6 @@ class VideoPlayer extends React.PureComponent {
           currentVideo: playlist[0],
           poster: playlist[0] ? playlist[0].thumbnail : '',
         });
-        this.initVideoStream({ thumbnailClick: false });
       } else {
         this.setState({ playlist: [], currentVideo: {} });
         if (this.props.hasVideo) {

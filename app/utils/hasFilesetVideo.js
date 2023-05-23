@@ -1,6 +1,3 @@
-const hasFilesetVideo = (filesets) =>
-	Object.values(filesets).some((filesetBucket) =>
-		filesetBucket.some((fileset) => fileset.type.includes('video')),
-	);
+const hasFilesetVideo = (filesets) => filesets.some((fileset) => fileset.type.includes('video'));
 
 export default hasFilesetVideo;

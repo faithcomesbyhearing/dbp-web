@@ -255,7 +255,7 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 	playVideo = () => {
 		const { hlsSupported } = this.state;
 		const { hlsStream } = this.props;
-		// console.log('playVideo: can play type', this.videoRef.canPlayType('application/vnd.apple.mpegurl'))
+
 		if (
 			!hlsSupported ||
 			this.videoRef.canPlayType('application/vnd.apple.mpegurl')
