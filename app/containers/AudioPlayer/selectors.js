@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 const toJs = (state) =>
-	typeof state.toJS === 'function' ? state.toJS() : state;
+	typeof state?.toJS === 'function' ? state.toJS() : state;
 /**
  * Direct selector to the audioPlayer state domain
  */
@@ -39,7 +39,7 @@ const selectVolume = () =>
  */
 
 const makeSelectAudioPlayer = () =>
-	createSelector(selectDefaultDomain, (substate) => substate.toJS());
+	createSelector(selectDefaultDomain, (substate) => substate?.toJS());
 
 export default makeSelectAudioPlayer;
 export {

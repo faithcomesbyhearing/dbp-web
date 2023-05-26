@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SvgWrapper from '../SvgWrapper';
 
-const Footer = ({
+function Footer({
 	settingsActive,
 	profileActive,
 	searchActive,
@@ -18,12 +18,13 @@ const Footer = ({
 	toggleProfile,
 	toggleSearch,
 	isScrollingDown,
-}) => (
-	<div
+}) {
+  return (
+<div
 		className={
 			isScrollingDown ? 'footer-background closed' : 'footer-background'
 		}
-	>
+>
 		<div className="footer-content">
 			<span
 				title={'Profile'}
@@ -66,8 +67,9 @@ const Footer = ({
 				<SvgWrapper className={'icon'} fill="#fff" svgid="text_options" />
 			</span>
 		</div>
-	</div>
+</div>
 );
+}
 
 Footer.propTypes = {
 	settingsActive: PropTypes.bool,

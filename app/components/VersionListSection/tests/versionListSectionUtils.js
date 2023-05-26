@@ -1,4 +1,5 @@
 import request from '../../../utils/request';
+import geFilesetsForBible from '../../../utils/geFilesetsForBible';
 
 export function itemsParser(
 	bibles,
@@ -65,30 +66,19 @@ export function itemsParser(
 
 export function filterFunction(bible) {
 	const lowerCaseText = this.props.filterText.toLowerCase();
-	const abbr = bible.get('abbr') || '';
-	const name = bible.get('name') || '';
-	const vname = bible.get('vname') || '';
-	const date = bible.get('date') || '';
+	const properties = ['vname', 'name', 'abbr', 'date'];
 
-	if (vname.toLowerCase().includes(lowerCaseText)) {
-		return true;
-	} else if (name.toLowerCase().includes(lowerCaseText)) {
-		return true;
-	} else if (abbr.toLowerCase().includes(lowerCaseText)) {
-		return true;
-	} else if (date.includes(lowerCaseText)) {
-		return true;
-	}
-	return false;
+	return properties.some((property) => {
+		const propValue = bible.get(property) || '';
+		return propValue.toLowerCase().includes(lowerCaseText);
+	});
 }
 
 export async function getTexts({ languageCode }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?asset_id=${
-		process.env.DBP_BUCKET_ID
-	}&key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
+	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
 	const videoRequestUrl = `${
 		process.env.BASE_API_ROUTE
-	}/bibles?asset_id=dbp-vid&key=${
+	}/bibles?key=${
 		process.env.DBP_API_KEY
 	}&language_code=${languageCode}&v=4`;
 	// Put logic here for determining what url to direct to when user chooses new version
@@ -99,18 +89,39 @@ export async function getTexts({ languageCode }) {
 	try {
 		const response = await request(requestUrl);
 		const videoRes = await request(videoRequestUrl);
+
+		const videoRecords = [];
+
+		videoRes.data.forEach((video) => {
+			const newVideo = { ...video };
+			if (newVideo.filesets) {
+				newVideo.filesets = geFilesetsForBible(newVideo.filesets);
+			}
+			videoRecords.push(newVideo);
+		});
+
 		// Some texts may have plain text in the database but no filesets
 		// This filters out all texts that don't have a fileset
-		const videos = videoRes.data.filter(
+		const videos = videoRecords.filter(
 			(video) => video.abbr && video.language && video.language_id && video.iso,
 		);
 
-		const texts = response.data.filter(
+		const textsRecords = [];
+
+		response.data.forEach((text) => {
+			const newText = { ...text };
+			if (newText.filesets) {
+				newText.filesets = geFilesetsForBible(newText.filesets);
+			}
+			textsRecords.push(newText);
+		});
+
+		const texts = textsRecords.filter(
 			(text) =>
 				text.iso &&
 				text.abbr &&
-				(text.filesets[process.env.DBP_BUCKET_ID] &&
-					text.filesets[process.env.DBP_BUCKET_ID].find(
+				(text.filesets &&
+					text.filesets.find(
 						(f) =>
 							f.type === 'audio' ||
 							f.type === 'audio_drama' ||
@@ -126,16 +137,16 @@ export async function getTexts({ languageCode }) {
 			...text,
 			filesets: videosMap[text.abbr]
 				? [
-						...text.filesets[process.env.DBP_BUCKET_ID].filter(
+						...text.filesets.filter(
 							(f) =>
 								f.type === 'audio' ||
 								f.type === 'audio_drama' ||
 								f.type === 'text_plain' ||
 								f.type === 'text_format',
 						),
-						...videosMap[text.abbr].filesets['dbp-vid'],
+						...videosMap[text.abbr].filesets,
 				  ] || []
-				: text.filesets[process.env.DBP_BUCKET_ID].filter(
+				: text.filesets.filter(
 						(f) =>
 							f.type === 'audio' ||
 							f.type === 'audio_drama' ||

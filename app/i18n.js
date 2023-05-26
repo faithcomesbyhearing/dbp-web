@@ -4,12 +4,6 @@
  * This will setup the i18n language files and locale data for your app.
  *
  */
-import { addLocaleData } from 'react-intl';
-import enLocaleData from 'react-intl/locale-data/en';
-import arLocaleData from 'react-intl/locale-data/ar';
-import thLocaleData from 'react-intl/locale-data/th';
-import ruLocaleData from 'react-intl/locale-data/ru';
-import esLocaleData from 'react-intl/locale-data/es';
 import { DEFAULT_LOCALE } from './containers/LanguageProvider/constants';
 import enTranslationMessages from './translations/en.json';
 import arTranslationMessages from './translations/ar.json';
@@ -18,12 +12,6 @@ import ruTranslationMessages from './translations/ru.json';
 import esTranslationMessages from './translations/es.json';
 
 export const appLocales = ['en', 'ar', 'th', 'ru', 'es'];
-
-addLocaleData(enLocaleData);
-addLocaleData(arLocaleData);
-addLocaleData(thLocaleData);
-addLocaleData(ruLocaleData);
-addLocaleData(esLocaleData);
 
 export const formatTranslationMessages = (locale, messages) => {
 	const defaultFormattedMessages =

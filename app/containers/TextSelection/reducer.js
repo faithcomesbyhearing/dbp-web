@@ -16,7 +16,7 @@ import {
 	SET_VERSION_LIST_STATE,
 	SET_LANGUAGE_LIST_STATE,
 	SET_COUNTRY_LIST_STATE,
-	GET_DPB_TEXTS,
+	GET_DBP_TEXTS,
 	GET_LANGUAGES,
 	GET_COUNTRIES,
 	LOAD_COUNTRIES_ERROR,
@@ -44,7 +44,7 @@ const initialState = fromJS({
 	finishedLoadingCountries: false,
 });
 
-function textSelectionReducer(state = initialState, action) {
+function textSelectionReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case LOAD_VERSION_FOR_LANGUAGE:
 			return state.set('loadingLanguageVersion', action.state);
@@ -63,7 +63,7 @@ function textSelectionReducer(state = initialState, action) {
 				.set('finishedLoadingCountries', false);
 		case GET_LANGUAGES:
 			return state.set('loadingLanguages', true);
-		case GET_DPB_TEXTS:
+		case GET_DBP_TEXTS:
 			return state.set('loadingVersions', true);
 		case SET_LANGUAGE_LIST_STATE:
 			return state

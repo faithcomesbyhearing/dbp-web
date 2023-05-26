@@ -24,12 +24,12 @@ const selectVideoList = () =>
 
 const selectHasVideo = () =>
 	createSelector(
-		(state) => state.get('homepage'),
+		(state) => state?.get('homepage'),
 		(home) => home.get('hasVideo'),
 	);
 
 const makeSelectVideo = () =>
-	createSelector(selectNotesDomain, (substate) => substate.toJS());
+	createSelector(selectNotesDomain, (substate) => substate?.toJS());
 
 export default makeSelectVideo;
 

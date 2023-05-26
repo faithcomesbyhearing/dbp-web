@@ -1,4 +1,7 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 /**
  * New Relic agent configuration.
  *
@@ -6,12 +9,8 @@ require('dotenv').config();
  * description of configuration variables and their potential values.
  */
 /* eslint-disable no-nested-ternary */
-const appName =
-	process.env.NODE_ENV === 'staging'
-		? process.env.NEWRELIC_STAGE_ID
-		: process.env.NODE_ENV === 'production' && process.env.IS_DEV
-			? process.env.NEWRELIC_DEV_ID
-			: process.env.NEWRELIC_PROD_ID;
+const appName = process.env.NEWRELIC_ID ? process.env.NEWRELIC_ID : 'Bible.is Web Development';
+
 /* eslint-enable no-nested-ternary */
 exports.config = {
 	/**

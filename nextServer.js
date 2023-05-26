@@ -6,19 +6,23 @@ if (
 ) {
   require('newrelic'); // eslint-disable-line
 }
-require('@babel/polyfill');
-require('dotenv').config();
+require('core-js');
+require('regenerator-runtime');
+const lscache = require('lscache');
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 const cp = require('child_process');
 const express = require('express');
 const next = require('next');
 const compression = require('compression');
-const LRUCache = require('lru-cache');
-const fetch = require('isomorphic-fetch');
-// const crypto = require('crypto');p
+const { LRUCache } = require('lru-cache');
+const fetch = require('axios');
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV === 'development';
 const bugsnag = require('./app/utils/bugsnagServer');
-const manifestJson = require('./static/manifest');
+const manifestJson = require('./public/manifest.json');
 const checkBookId = require('./app/utils/checkBookName');
 const isoOneToThree = require('./app/utils/isoOneToThree.json');
 const app = next({ dev });
@@ -44,11 +48,6 @@ app
     // TODO: Ask api team for the redirect for oauth be to /oauth instead of just /
     // Then I can move all of the extra logic out of this route which is really gross
     server.get('/', async (req, res) => {
-      // console.log(''.padEnd(90, '!'));
-      // console.log(
-      //   "req.headers['accept-language']",
-      //   req.headers['accept-language'],
-      // );
       let languageIso = 'eng';
       let redirectPath = '/bible/EN1ESV/MAT/1';
 
@@ -60,29 +59,20 @@ app
             const newLang = lang.includes('-')
               ? lang.split(';')[0].split('-')[0]
               : lang.split(';')[0];
-            // If there isn't a match then I want to filter out those results
             return isoOneToThree[newLang];
           })
           .filter((lang) => !!lang);
-        // console.log(
-        //   'set the languages so site should be updated!!!!!!!!!!',
-        //   languageIso,
-        // );
-        // console.log('lang before', languageIso, languageIso.length);
         languageIso = langArray[0];
-        // console.log('lang after', languageIso, languageIso.length);
       }
-      // console.log(languageIso, 'eng');
       if (languageIso !== 'eng') {
-        // Using custom fetch here instead of util so I can set a default in case of a failure
-        // console.log('getting new bible: NOT ENGLISH');
-        isoCodesDidNotMatch = true;
-        const biblesData = await fetch(
-          `${process.env.BASE_API_ROUTE}/bibles?key=${
+        const biblesData = await fetch.get(
+          `${
+            process.env.BASE_API_ROUTE
+          }/bibles?language_code=${languageIso}&key=${
             process.env.DBP_API_KEY
-          }&v=4&asset_id=${process.env.DBP_BUCKET_ID},dbp-vid`,
+          }&v=4&include_font=false`,
         )
-          .then((body) => body.json())
+          .then((body) => body.data)
           .catch((err) => {
             if (process.env.NODE_ENV === 'development') {
               /* eslint-disable no-console */
@@ -95,36 +85,11 @@ app
             return { data: [] };
           });
         // Get list of bibles that match language
-        const biblesInLanguage = biblesData.data.filter(
-          (b) => b.iso === languageIso,
-        );
+        const biblesInLanguage = biblesData.data;
         // Check for first bible
         if (biblesInLanguage[0]) {
-          bibleId = biblesInLanguage[0].abbr;
-
-          const requestUrl = `${
-            process.env.BASE_API_ROUTE
-          }/bibles/${bibleId}?key=${process.env.DBP_API_KEY}&v=4&asset_id=${
-            process.env.DBP_BUCKET_ID
-          },dbp-vid`;
-
-          // Get active bible data
-          const bibleRes = await fetch(requestUrl)
-            .then((body) => body.json())
-            .catch((e) => {
-              if (process.env.NODE_ENV === 'development') {
-                /* eslint-disable no-console */
-                console.error(
-                  'Error in get initial props single bible for language: ',
-                  e.message,
-                );
-                /* eslint-enable no-console */
-              }
-              return { data: {} };
-            });
-          // console.log('Setting new bible path');
-          redirectPath = `/bible/${bibleRes.data.abbr}/MAT/1`;
-          // console.log('Redirect path:', redirectPath);
+          const bibleId = biblesInLanguage[0].abbr;
+          redirectPath = `/bible/${bibleId}/MAT/1`;
         }
       }
 
@@ -148,7 +113,8 @@ app
     });
 
     server.get('/clean-the-cash', (req, res) => {
-      ssrCache.reset();
+      ssrCache.clear();
+      lscache.flush();
       res.send('Cleaned the cache');
     });
 
@@ -156,9 +122,7 @@ app
       const userString = Buffer.from(req.query.code, 'base64').toString(
         'ascii',
       );
-      // console.log('userString', userString);
       const userArray = userString.split(',');
-      // console.log('user array', userArray);
       res.redirect(
         301,
         `/bible/ENGESV/MAT/1?user_id=${userArray[0]}&user_email=${
@@ -168,7 +132,7 @@ app
     });
 
     const sitemapOptions = {
-      root: `${__dirname}/static/sitemaps/`,
+      root: `${__dirname}/public/sitemaps/`,
       headers: {
         'Content-Type': 'text/xml;charset=UTF-8',
       },
@@ -176,6 +140,32 @@ app
     server.get('/sitemap.xml', (req, res) =>
       res.status(200).sendFile('sitemap-index.xml', sitemapOptions),
     );
+    server.get('/robots.txt', (req, res) => {
+      res.set('Content-Type', 'text/plain');
+      res.status(200).send(`User-agent: Googlebot
+Disallow:
+User-agent: Bingbot
+Disallow:
+User-agent: Slurp
+Disallow:
+User-agent: DuckDuckBot
+Disallow:
+User-agent: Baiduspider
+Disallow:
+User-agent: YandexBot
+Disallow:
+User-agent: Exabot
+Disallow:
+User-agent: facebot
+Disallow:
+User-agent: ia_archiver
+Disallow:
+User-agent: Sogou
+Disallow:
+User-agent: *
+Disallow: /
+`);
+    });
 
     server.get('/git/version', async (req, res) => {
       cp.exec('git rev-parse HEAD', (err, stdout) => {
@@ -188,10 +178,8 @@ app
     });
 
     server.get('/status', async (req, res) => {
-      const ok = await fetch(
-        `${process.env.BASE_API_ROUTE}/bibles?v=4&asset_id=${
-          process.env.DBP_BUCKET_ID
-        }&key=${process.env.DBP_API_KEY}&language_code=6414`,
+      const ok = await fetch.get(
+        `${process.env.BASE_API_ROUTE}/status`,
       )
         .then((r) => r.status >= 200 && r.status < 300)
         .catch(() => false);
@@ -212,7 +200,7 @@ app
     );
 
     const faviconOptions = {
-      root: `${__dirname}/static/`,
+      root: `${__dirname}/public/`,
     };
     server.get('/favicon.ico', (req, res) =>
       res.status(200).sendFile('favicon.ico', faviconOptions),
@@ -227,7 +215,7 @@ app
       const actualPage = '/jesusFilm';
       const iso = req.params.iso;
 
-      if (iso !== 'style.css' && !req.originalUrl.includes('/static')) {
+      if (iso !== 'style.css' && !req.originalUrl.includes('/public')) {
         renderAndCache(req, res, actualPage, { iso });
       } else {
         nextP();
@@ -245,10 +233,6 @@ app
       const queryParams = {
         token: req.params.token,
       };
-      // console.log(
-      // 	'Getting reset password token',
-      // 	`${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      // );
 
       app.render(req, res, actualPage, queryParams);
     });
@@ -284,7 +268,7 @@ app
 
       if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static') &&
+        !req.originalUrl.includes('/public') &&
         !queryParams.verse
       ) {
         renderAndCache(req, res, actualPage, { ...queryParams, ...userParams });
@@ -320,7 +304,7 @@ app
         );
       } else if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static')
+        !req.originalUrl.includes('/public')
       ) {
         renderAndCache(req, res, actualPage, queryParams);
       } else {
@@ -331,11 +315,6 @@ app
     server.get('/bible/:bibleId/:bookId', (req, res, nextP) => {
       const actualPage = '/app';
       const bookId = checkBookId(req.params.bookId);
-      // console.log(req.originalUrl.includes('/static'))
-      // console.log(
-      //   'Getting bible and book for route',
-      //   `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      // );
       // Params may not actually be passed using this method
       const queryParams = {
         bibleId: req.params.bibleId,
@@ -347,7 +326,7 @@ app
         res.redirect(301, `/bible/${req.params.bibleId}/${bookId}/1`);
       } else if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static')
+        !req.originalUrl.includes('/public')
       ) {
         renderAndCache(req, res, actualPage, queryParams);
       } else {
@@ -357,11 +336,6 @@ app
 
     server.get('/bible/:bibleId', (req, res, nextP) => {
       const actualPage = '/app';
-      // console.log(req.originalUrl.includes('/static'))
-      // console.log(
-      //   'Getting bible and book for route',
-      //   `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      // );
       // Params may not actually be passed using this method
       const queryParams = {
         bibleId: req.params.bibleId,
@@ -369,7 +343,7 @@ app
 
       if (
         queryParams.verse !== 'style.css' &&
-        !req.originalUrl.includes('/static')
+        !req.originalUrl.includes('/public')
       ) {
         renderAndCache(req, res, actualPage, queryParams);
       } else {
@@ -379,14 +353,6 @@ app
 
     server.get('*', (req, res) => handle(req, res));
 
-    // if (process.env.NODE_ENV === 'development') {
-    // 	https.createServer(certOptions, server).listen(443);
-    // } else {
-    // 	server.listen(port, (err) => {
-    // 		if (err) throw err;
-    // 		console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
-    // 	});
-    // }
     server.listen(port, (err) => {
       if (
         err &&
@@ -398,15 +364,6 @@ app
       if (err) throw err;
       console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
     });
-    // This code was causing the server to hang forever when in development, need to tweak it to enable a graceful shutdown
-    // process.on('SIGINT', () => {
-    // 	app.close((err) => {
-    // 		if (err) {
-    // 			console.error(err); // eslint-disable-line no-console
-    // 			process.exit(1);
-    // 		}
-    // 	});
-    // });
   })
   .catch((ex) => {
     /* eslint-disable no-console */

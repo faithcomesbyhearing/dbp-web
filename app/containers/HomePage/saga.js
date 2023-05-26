@@ -1,21 +1,35 @@
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import { takeLatest, call, all, put, fork } from 'redux-saga/effects';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
 import Router from 'next/router';
 import request from '../../utils/request';
+import geFilesetsForBible from '../../utils/geFilesetsForBible';
 import {
   getNotesForChapter,
   getBookmarksForChapter,
   getUserHighlights,
+  getHighlights,
 } from '../Notes/saga';
-import { getCountries, getLanguages, getTexts } from '../TextSelection/saga';
+import { getCountries, getLanguageAltNames, getTexts } from '../TextSelection/saga';
 import { ADD_BOOKMARK } from '../Notes/constants';
 import {
+  FILESET_TYPE_TEXT_PLAIN,
+  FILESET_TYPE_TEXT_FORMAT,
+  FILESET_TYPE_AUDIO_DRAMA,
+  FILESET_TYPE_AUDIO,
+  FILESET_TYPE_VIDEO_STREAM,
+  FILESET_SIZE_COMPLETE,
+  FILESET_SIZE_NEW_TESTAMENT,
+  FILESET_SIZE_NEW_TESTAMENT_PORTION,
+  FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION,
+  FILESET_SIZE_OLD_TESTAMENT,
+  FILESET_SIZE_OLD_TESTAMENT_PORTION,
+  FILESET_SIZE_PORTION,
+} from '../../constants/bibleFileset';
+import {
   ADD_HIGHLIGHTS,
-  LOAD_HIGHLIGHTS,
-  GET_HIGHLIGHTS,
   GET_NOTES_HOMEPAGE,
   GET_COPYRIGHTS,
   INIT_APPLICATION,
@@ -57,7 +71,7 @@ export function* deleteHighlights({
 
 export function* getCountriesAndLanguages() {
   yield fork(getCountries);
-  yield fork(getLanguages);
+  yield fork(getLanguageAltNames);
 }
 
 export function* initApplication(props) {
@@ -71,9 +85,11 @@ export function* initApplication(props) {
     setTimeout(runTimeout, timeoutDuration);
   }, timeoutDuration);
   // Forking each of these sagas here on the init of the application so that they all run in parallel
-  yield fork(getCountries);
-  yield fork(getLanguages);
-  yield fork(getTexts, { languageIso, languageCode });
+   yield all([
+    fork(getCountries),
+    fork(getLanguageAltNames),
+    fork(getTexts, { languageIso, languageCode }),
+  ]);
 }
 
 export function* addBookmark(props) {
@@ -129,7 +145,7 @@ export function* addBookmark(props) {
 export function* getBookMetadata({ bibleId }) {
   const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}/book?key=${
     process.env.DBP_API_KEY
-  }&asset_id=${process.env.DBP_BUCKET_ID}&v=4`;
+  }&v=4`;
   try {
     const response = yield call(request, reqUrl);
     const testaments = response.data.reduce(
@@ -145,33 +161,13 @@ export function* getBookMetadata({ bibleId }) {
   }
 }
 
-export function* getHighlights({ bible, book, chapter, userId }) {
-  const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId ||
-    'no_user_id'}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
-    process.env.NOTES_PROJECT_ID
-  }&bible_id=${bible}&book_id=${book}&chapter=${chapter}&limit=1000`;
-  let highlights = [];
-
-  try {
-    const response = yield call(request, requestUrl);
-    if (response.data) {
-      highlights = response.data;
-    }
-
-    yield put({ type: LOAD_HIGHLIGHTS, highlights });
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Caught in highlights request', error); // eslint-disable-line no-console
-    }
-  }
-}
-
 export function* addHighlight({
   bible,
   book,
   chapter,
   userId,
   verseStart,
+  verseEnd,
   highlightStart,
   highlightedWords,
   color,
@@ -194,6 +190,7 @@ export function* addHighlight({
   formData.append('fileset_id', bible);
   formData.append('chapter', chapter);
   formData.append('verse_start', verseStart);
+  formData.append('verse_end', verseEnd);
   if (color !== 'none') {
     formData.append('highlighted_color', color);
   }
@@ -239,11 +236,9 @@ export function* getBibleFromUrl({
   // Bible id
   const bibleId = oldBibleId.toUpperCase();
   const bookId = oldBookId.toUpperCase();
-  const requestUrl = `${
-    process.env.BASE_API_ROUTE
-  }/bibles/${bibleId}?asset_id=${process.env.DBP_BUCKET_ID}&key=${
+  const requestUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${
     process.env.DBP_API_KEY
-  }&v=4`;
+  }&v=4&include_font=false`;
 
   // Probably need to do stuff here to get the audio and text for this new bible
   try {
@@ -257,7 +252,7 @@ export function* getBibleFromUrl({
       const textDirection =
         response.data.alphabet && response.data.alphabet.direction;
       let hasMatt = false;
-      let activeBook = books.find((b) => {
+      const activeBook = books.find((b) => {
         if (b.book_id === 'MAT') {
           hasMatt = true;
         }
@@ -287,49 +282,26 @@ export function* getBibleFromUrl({
       // Nesting a ternary here because it keeps me from needing more variables and an if statement
       // If there wasn't an activeBook for the bookId given then check for if the resource has Matthew
       // If it has Matthew then use the bookId for that, otherwise just use the first bookId available
+      const defaultBook = hasMatt
+        ? 'MAT'
+        : get(books, [0, 'book_id'], '');
       const activeBookId = activeBook // eslint-disable-line no-nested-ternary
         ? activeBook.book_id
-        : hasMatt
-          ? 'MAT'
-          : get(books, [0, 'book_id'], '');
+        : defaultBook;
       const activeBookName = activeBook
         ? activeBook.name_short
         : get(books, [0, 'name_short'], '');
-      if (!activeBook) {
-        activeBook = books.find((b) => b.book_id === activeBookId);
-      }
-      let filesets = [];
-      if (
-        response.data &&
-        response.data.filesets[process.env.DBP_BUCKET_ID] &&
-        response.data.filesets['dbp-vid']
-      ) {
-        filesets = [
-          ...response.data.filesets['dbp-vid'],
-          ...response.data.filesets[process.env.DBP_BUCKET_ID],
-        ].filter(
-          (f) =>
-            (f.type === 'audio' ||
-              f.type === 'audio_drama' ||
-              f.type === 'text_plain' ||
-              f.type === 'text_format' ||
-              f.type === 'video_stream') &&
-            f.id.slice(-4) !== 'DA16',
-        );
-      } else if (
-        response.data &&
-        response.data.filesets[process.env.DBP_BUCKET_ID]
-      ) {
-        filesets = response.data.filesets[process.env.DBP_BUCKET_ID].filter(
-          (f) =>
-            (f.type === 'audio' ||
-              f.type === 'audio_drama' ||
-              f.type === 'text_plain' ||
-              f.type === 'text_format' ||
-              f.type === 'video_stream') &&
-            f.id.slice(-4) !== 'DA16',
-        );
-      }
+
+      const bibleFilesets = response.data && response.data.filesets ? geFilesetsForBible(response.data.filesets) : [];
+      const filesets = bibleFilesets.filter(
+        (f) =>
+          (f.type === FILESET_TYPE_AUDIO ||
+            f.type === FILESET_TYPE_AUDIO_DRAMA ||
+            f.type === FILESET_TYPE_TEXT_PLAIN ||
+            f.type === FILESET_TYPE_TEXT_FORMAT ||
+            f.type === FILESET_TYPE_VIDEO_STREAM),
+      );
+
       yield fork(getCopyrightSaga, { filesetIds: filesets });
 
       const chapterData = yield call(getChapterFromUrl, {
@@ -377,11 +349,11 @@ export function* getChapterFromUrl({
 }) {
   const bibleId = oldBibleId.toUpperCase();
   const bookId = oldBookId.toUpperCase();
-  const hasFormattedText = some(filesets, (f) => f.type === 'text_format');
+  const hasFormattedText = some(filesets, (f) => f.type === FILESET_TYPE_TEXT_FORMAT);
   // checking for audio but not fetching it as a part of this saga
   const hasAudio = some(
     filesets,
-    (f) => f.type === 'audio' || f.type === 'audio_drama',
+    (f) => f.type === FILESET_TYPE_AUDIO || f.type === FILESET_TYPE_AUDIO_DRAMA,
   );
 
   try {
@@ -389,7 +361,7 @@ export function* getChapterFromUrl({
     let formattedTextFilesetId = '';
     let plainTextFilesetId = '';
     let plainText = [];
-    let hasPlainText = some(filesets, (f) => f.type === 'text_plain');
+    let hasPlainText = some(filesets, (f) => f.type === FILESET_TYPE_TEXT_PLAIN);
 
     if (authenticated) {
       yield fork(getHighlights, {
@@ -428,21 +400,19 @@ export function* getChapterFromUrl({
         // Gets the last fileset id for a formatted text
         const filesetId =
           filesets.reduce(
-            (a, c) => (c.type === 'text_format' ? c.id : a),
+            (a, c) => (c.type === FILESET_TYPE_TEXT_FORMAT ? c.id : a),
             '',
           ) || bibleId;
         if (filesetId) {
           const reqUrl = `${
             process.env.BASE_API_ROUTE
-          }/bibles/filesets/${filesetId}?asset_id=${
-            process.env.DBP_BUCKET_ID
-          }&key=${
+          }/bibles/filesets/${filesetId}?key=${
             process.env.DBP_API_KEY
           }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`; // hard coded since this only ever needs to get formatted text
           const formattedChapterObject = yield call(request, reqUrl);
           const path = get(formattedChapterObject.data, [0, 'path']);
           formattedText = yield path
-            ? fetch(path).then((res) => res.text())
+            ? axios.get(path).then((res) => res.data)
             : '';
 
           formattedTextFilesetId = filesetId;
@@ -458,14 +428,14 @@ export function* getChapterFromUrl({
     // When this fails it should fail gracefully and not cause anything to break
     try {
       let filesetId = '';
-      if (filesets.filter((set) => set.type === 'text_plain').length > 1) {
+      if (filesets.filter((set) => set.type === FILESET_TYPE_TEXT_PLAIN).length > 1) {
         filesetId = filesets.reduce(
-          (a, c) => (c.type === 'text_plain' ? a.concat(c.id) : a),
+          (a, c) => (c.type === FILESET_TYPE_TEXT_PLAIN ? a.concat(c.id) : a),
           [],
         );
       } else {
         filesetId = filesets.reduce(
-          (a, c) => (c.type === 'text_plain' ? c.id : a),
+          (a, c) => (c.type === FILESET_TYPE_TEXT_PLAIN ? c.id : a),
           '',
         );
       }
@@ -602,10 +572,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
   const filteredFilesets = filesets.reduce((a, file) => {
     const newFile = { ...a };
 
-    if (
-      (file.type === 'audio' || file.type === 'audio_drama') &&
-      file.id.slice(-4) !== 'DA16'
-    ) {
+    if (file.type === FILESET_TYPE_AUDIO || file.type === FILESET_TYPE_AUDIO_DRAMA) {
       newFile[file.id] = file;
     }
 
@@ -625,24 +592,24 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 
   Object.entries(filteredFilesets)
     .sort((a, b) => {
-      if (a[1].type === 'audio_drama') return 1;
-      if (b[1].type === 'audio_drama') return 1;
+      if (a[1].type === FILESET_TYPE_AUDIO_DRAMA) return 1;
+      if (b[1].type === FILESET_TYPE_AUDIO_DRAMA) return 1;
       if (a[1].type > b[1].type) return 1;
       if (a[1].type < b[1].type) return -1;
       return 0;
     })
     .forEach((fileset) => {
-      if (fileset[1].size === 'C') {
+      if (fileset[1].size === FILESET_SIZE_COMPLETE) {
         completeAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NT') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT) {
         ntAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'OT') {
+      } else if (fileset[1].size === FILESET_SIZE_OLD_TESTAMENT) {
         otAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'OTP') {
+      } else if (fileset[1].size === FILESET_SIZE_OLD_TESTAMENT_PORTION) {
         partialOtAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NTP') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT_PORTION) {
         partialNtAudio.push({ id: fileset[0], data: fileset[1] });
-      } else if (fileset[1].size === 'NTPOTP') {
+      } else if (fileset[1].size === FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION) {
         partialNtOtAudio.push({ id: fileset[0], data: fileset[1] });
       }
     });
@@ -657,9 +624,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         completeAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         completeAudio,
         [0, 'data', 'type'],
       )}`;
@@ -687,9 +652,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         ntAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         ntAudio,
         [0, 'data', 'type'],
       )}`;
@@ -717,9 +680,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         otAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         otAudio,
         [0, 'data', 'type'],
       )}`;
@@ -750,9 +711,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         ntAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         ntAudio,
         [0, 'data', 'type'],
       )}`;
@@ -774,9 +733,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         otAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         otAudio,
         [0, 'data', 'type'],
       )}`;
@@ -812,9 +769,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         partialOtAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         partialOtAudio,
         [0, 'data', 'type'],
       )}`;
@@ -850,9 +805,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         partialNtAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         partialNtAudio,
         [0, 'data', 'type'],
       )}`;
@@ -892,9 +845,7 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
       const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
         partialNtOtAudio,
         [0, 'id'],
-      )}?asset_id=${
-        process.env.DBP_BUCKET_ID
-      }&key=e8a946a0-d9e2-11e7-bfa7-b1fb2d7f5824&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
+      )}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
         partialNtOtAudio,
         [0, 'data', 'type'],
       )}`;
@@ -931,19 +882,17 @@ export function* getCopyrightSaga({ filesetIds }) {
     (a, b) => a.type === b.type && a.size === b.size,
   );
   const videoFileset = filesetIds.filter(
-    (f) => f.type === 'video_stream' && codes[f.size],
+    (f) => f.type === FILESET_TYPE_VIDEO_STREAM && codes[f.size],
   )[0];
   const reqUrls = [];
 
   filteredFilesetIds.forEach(
     (set) =>
-      set.type !== 'video_stream' &&
+      set.type !== FILESET_TYPE_VIDEO_STREAM &&
       reqUrls.push(
         `${process.env.BASE_API_ROUTE}/bibles/filesets/${
           set.id
-        }/copyright?key=${process.env.DBP_API_KEY}&v=4&asset_id=${
-          process.env.DBP_BUCKET_ID
-        }&type=${set.type}`,
+        }/copyright?key=${process.env.DBP_API_KEY}&v=4&type=${set.type}`,
       ),
   );
 
@@ -955,7 +904,7 @@ export function* getCopyrightSaga({ filesetIds }) {
         request,
         `${process.env.BASE_API_ROUTE}/bibles/filesets/${
           videoFileset.id
-        }/copyright?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-vid&type=${
+        }/copyright?key=${process.env.DBP_API_KEY}&v=4&type=${
           videoFileset.type
         }`,
       );
@@ -1023,67 +972,67 @@ export function* getCopyrightSaga({ filesetIds }) {
 
     const cText = copyrights.filter(
       (c) =>
-        c.testament === 'C' &&
-        (c.type === 'text_plain' || c.type === 'text_format'),
+        c.testament === FILESET_SIZE_COMPLETE &&
+        (c.type === FILESET_TYPE_TEXT_PLAIN || c.type === FILESET_TYPE_TEXT_FORMAT),
     )[0];
     const ntText = !cText
       ? copyrights.filter(
           (c) =>
             ntCodes[c.testament] &&
-            (c.type === 'text_plain' || c.type === 'text_format'),
+            (c.type === FILESET_TYPE_TEXT_PLAIN || c.type === FILESET_TYPE_TEXT_FORMAT),
         )[0]
       : {};
     const otText = !cText
       ? copyrights.filter(
           (c) =>
             otCodes[c.testament] &&
-            (c.type === 'text_plain' || c.type === 'text_format'),
+            (c.type === FILESET_TYPE_TEXT_PLAIN || c.type === FILESET_TYPE_TEXT_FORMAT),
         )[0]
       : {};
     const partialText = copyrights.filter(
       (c) =>
-        c.testament === 'P' &&
-        (c.type === 'text_plain' || c.type === 'text_format'),
+        c.testament === FILESET_SIZE_PORTION &&
+        (c.type === FILESET_TYPE_TEXT_PLAIN || c.type === FILESET_TYPE_TEXT_FORMAT),
     )[0];
 
     const cAudio = copyrights.filter(
       (c) =>
-        c.testament === 'C' && (c.type === 'audio' || c.type === 'audio_drama'),
+        c.testament === FILESET_SIZE_COMPLETE && (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
     )[0];
     const ntAudio = !cAudio
       ? copyrights.filter(
           (c) =>
             ntCodes[c.testament] &&
-            (c.type === 'audio' || c.type === 'audio_drama'),
+            (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
         )[0]
       : {};
     const otAudio = !cAudio
       ? copyrights.filter(
           (c) =>
             otCodes[c.testament] &&
-            (c.type === 'audio' || c.type === 'audio_drama'),
+            (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
         )[0]
       : {};
     const partialAudio = copyrights.filter(
       (c) =>
-        c.testament === 'P' && (c.type === 'audio' || c.type === 'audio_drama'),
+        c.testament === FILESET_SIZE_PORTION && (c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
     )[0];
 
     const cVideo = videoCopyright.filter(
-      (c) => c.testament === 'C' && c.type === 'video_stream',
+      (c) => c.testament === FILESET_SIZE_COMPLETE && c.type === FILESET_TYPE_VIDEO_STREAM,
     )[0];
     const ntVideo = !cVideo
       ? videoCopyright.filter(
-          (c) => ntCodes[c.testament] && c.type === 'video_stream',
+          (c) => ntCodes[c.testament] && c.type === FILESET_TYPE_VIDEO_STREAM,
         )[0]
       : {};
     const otVideo = !cVideo
       ? videoCopyright.filter(
-          (c) => otCodes[c.testament] && c.type === 'video_stream',
+          (c) => otCodes[c.testament] && c.type === FILESET_TYPE_VIDEO_STREAM,
         )[0]
       : {};
     const partialVideo = videoCopyright.filter(
-      (c) => c.testament === 'P' && c.type === 'video_stream',
+      (c) => c.testament === FILESET_SIZE_PORTION && c.type === FILESET_TYPE_VIDEO_STREAM,
     )[0];
     const copyrightObject = {
       newTestament: {
@@ -1115,9 +1064,7 @@ export function* getCopyrightSaga({ filesetIds }) {
 export function* createSocialUser({ provider }) {
   const reqUrl = `${
     process.env.BASE_API_ROUTE
-  }/login/${provider}?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${
-    process.env.DBP_API_KEY
-  }${process.env.IS_DEV ? '&alt_url=true' : ''}`;
+  }/login/${provider}?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${process.env.DBP_API_KEY}${process.env.NODE_ENV === 'development' ? '&alt_url=true' : ''}`;
 
   try {
     const response = yield call(request, reqUrl);
@@ -1140,7 +1087,6 @@ export function* createSocialUser({ provider }) {
 export default function* defaultSaga() {
   yield takeLatest(INIT_APPLICATION, initApplication);
   yield takeLatest('getchapter', getChapterFromUrl);
-  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
   yield takeLatest(ADD_HIGHLIGHTS, addHighlight);
   yield takeLatest('getbible', getBibleFromUrl);
   yield takeLatest('getaudio', getChapterAudio);

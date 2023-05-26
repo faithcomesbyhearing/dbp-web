@@ -3,7 +3,7 @@ import {
 	defaultMemoize,
 	createSelector,
 } from 'reselect';
-import { is } from 'immutable';
+import { fromJS, is, isImmutable } from 'immutable';
 // TODO: If there seems to be some state missing check to make sure the equality check isn't failing
 // create a "selector creator" that uses lodash.isEqual instead of ===
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, is);
@@ -24,12 +24,13 @@ const selectCrossReferenceState = (state) =>
 const selectAudioType = () =>
 	createSelector(selectHomePageDomain, (home) => home.get('audioType'));
 const selectAvailableAudioTypes = () =>
-	createSelector(selectHomePageDomain, (home) =>
-		home.get('availableAudioTypes').toJS(),
-	);
+	createSelector(selectHomePageDomain, (home) => {
+		const availableAudioTypes = home.get('availableAudioTypes');
+		return Array.isArray(availableAudioTypes) ? availableAudioTypes : availableAudioTypes.toJS();
+	});
 const selectNotes = (state) => state.get('notes');
 const selectActiveNotesView = () =>
-	createSelector(selectNotes, (notes) => notes.get('activeChild'));
+	createSelector(selectNotes, (notes) => notes?.get('activeChild'));
 const selectUserNotes = () =>
 	createDeepEqualSelector(
 		[selectNotes, selectHomePageDomain, selectProfilePageDomain],
@@ -37,31 +38,35 @@ const selectUserNotes = () =>
 			const activeTextId = home.get('activeTextId');
 			const bookId = home.get('activeBookId');
 			const chapter = home.get('activeChapter');
-			const text = home.get('chapterText');
+			let text = home.get('chapterText');
+			text = text.toJS ? text : fromJS(text);
 			const profAuth = profile.get('userAuthenticated');
 			const profUser = profile.get('userId');
 			// TODO: Fix this once the api is functioning properly
 			// Should not need to filter because I am requesting only the notes/bookmarks for this chapter
 			const filteredNotes = notes
-				.get('userNotes')
-				.filter(
-					(note) =>
-						note.get('book_id') === bookId &&
-						note.get('chapter') === chapter &&
-						note.get('bible_id') === activeTextId,
-				);
+				? notes.get('userNotes')
+					.filter(
+						(note) =>
+							note.get('book_id') === bookId &&
+							note.get('chapter') === chapter &&
+							note.get('bible_id') === activeTextId,
+					)
+				: null;
+
 			const filteredBookmarks = notes
-				.get('chapterBookmarks')
-				.filter(
-					(note) =>
-						note.get('book_id') === bookId &&
-						note.get('chapter') === chapter &&
-						note.get('bible_id') === activeTextId,
-				);
-			const bookmarks = filteredBookmarks.toJS
+				? notes.get('chapterBookmarks')
+					.filter(
+						(note) =>
+							note.get('book_id') === bookId &&
+							note.get('chapter') === chapter &&
+							note.get('bible_id') === activeTextId,
+					)
+				: null;
+			const bookmarks = filteredBookmarks?.toJS
 				? filteredBookmarks.toJS()
 				: filteredBookmarks;
-			const userNotes = filteredNotes.toJS
+			const userNotes = filteredNotes?.toJS
 				? filteredNotes.toJS()
 				: filteredNotes;
 
@@ -75,7 +80,7 @@ const selectUserNotes = () =>
 			// If the user isn't authorized then there will not be any notes or bookmarks and I can just end the function here
 			if (!profAuth && !profUser) {
 				return {
-					text: text.toJS(),
+					text: Array.isArray(text) ? text : text.toJS(),
 					userNotes,
 					bookmarks,
 				};
@@ -83,35 +88,42 @@ const selectUserNotes = () =>
 			let newText = [];
 			const versesWithNotes = {};
 
-			filteredNotes.forEach((n, ni) => {
+			filteredNotes?.forEach((n, ni) => {
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
-					if (parseInt(t.get('verse_start'), 10) === n.get('verse_start')) {
+					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
+					const noteVerseStart = n.get ? n.get('verse_start') : n.verse_start;
+
+					if (parseInt(textVerseStart, 10) === noteVerseStart) {
 						iToSet = i;
 					}
-					return parseInt(t.get('verse_start'), 10) === n.get('verse_start');
+					return parseInt(textVerseStart, 10) === noteVerseStart;
 				});
 				if (verse) {
 					// Need to change this since the notes will be allowed to be null
 					// Eventually there will be two separate calls so I can have two piece of state
-					if (n.get('notes') && !versesWithNotes[verse.get('verse_start')]) {
+					const verseTextStart = isImmutable(verse) ? verse.get('verse_start') : verse.verse_start;
+					if (n.get('notes') && !versesWithNotes[verseTextStart]) {
 						newText = newText.size
 							? newText.setIn([iToSet, 'hasNote'], true)
 							: text.setIn([iToSet, 'hasNote'], true);
 						newText = newText.size
 							? newText.setIn([iToSet, 'noteIndex'], ni)
 							: text.setIn([iToSet, 'noteIndex'], ni);
-						versesWithNotes[verse.get('verse_start')] = true;
+						versesWithNotes[verseTextStart] = true;
 					}
 				}
 			});
-			filteredBookmarks.forEach((n, ni) => {
+			filteredBookmarks?.forEach((bookmark, ni) => {
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
-					if (parseInt(t.get('verse_start'), 10) === n.get('verse')) {
+					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
+					const bookmarkVerseStart = bookmark.get ? bookmark.get('verse') : n.verse;
+
+					if (parseInt(textVerseStart, 10) === bookmarkVerseStart) {
 						iToSet = i;
 					}
-					return parseInt(t.get('verse_start'), 10) === n.get('verse');
+					return parseInt(textVerseStart, 10) === bookmarkVerseStart;
 				});
 				if (verse) {
 					newText = newText.size
@@ -123,8 +135,10 @@ const selectUserNotes = () =>
 				}
 			});
 
+			const textFinal = text.toJS ? text.toJS() : text;
+
 			return {
-				text: newText.size ? newText.toJS() : text.toJS(),
+				text: newText.size ? newText.toJS() : textFinal,
 				userNotes,
 				bookmarks,
 			};
@@ -220,7 +234,7 @@ const selectChapterText = () =>
  */
 
 const makeSelectHomePage = () =>
-	createDeepEqualSelector(selectHomePageDomain, (substate) => substate.toJS());
+	createDeepEqualSelector(selectHomePageDomain, (substate) => substate?.toJS());
 
 export default makeSelectHomePage;
 export {

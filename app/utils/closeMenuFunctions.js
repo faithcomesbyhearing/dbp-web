@@ -11,6 +11,7 @@ class CloseMenuFunctions {
 		};
 		this.closeFunction = closeFunction;
 		this.onCloseOptions = onCloseOptions;
+		// this.handleClickOutside = this.handleClickOutside.bind(this);
 	}
 
 	handleTouchend = (event) => {

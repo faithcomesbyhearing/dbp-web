@@ -1,23 +1,12 @@
 /** eslint-env jest */
-import { mount } from 'enzyme';
 import React from 'react';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { fromJS } from 'immutable';
 import PlainText from '../index';
-/*
-	PlainText.propTypes = {
-	highlights: PropTypes.array,
-	initialText: PropTypes.array,
-	activeChapter: PropTypes.number,
-	verseNumber: PropTypes.string,
-	userAuthenticated: PropTypes.bool,
-	userSettings: PropTypes.object,
-	activeVerseInfo: PropTypes.object,
-	handleMouseUp: PropTypes.func,
-	getFirstVerse: PropTypes.func,
-	handleHighlightClick: PropTypes.func,
-	handleNoteClick: PropTypes.func,
-};
-*/
+
+Enzyme.configure({ adapter: new Adapter() });
+
 const highlights = [
 	{
 		id: 24436919,
@@ -159,7 +148,7 @@ const handleHighlightClick = () => {};
 const handleNoteClick = () => {};
 describe('<PlainText />', () => {
 	it('Expect it to render', () => {
-		const text = mount(
+		const text = Enzyme.mount(
 			<PlainText
 				highlights={highlights}
 				initialText={initialText}

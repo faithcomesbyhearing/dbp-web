@@ -56,13 +56,15 @@ exports[`<Text /> Should match previous snapshot with audioPlayerState true 1`] 
     className="arrow-wrapper prev"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="prev-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -74,13 +76,15 @@ exports[`<Text /> Should match previous snapshot with audioPlayerState true 1`] 
     className="arrow-wrapper next"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="next-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -191,13 +195,15 @@ exports[`<Text /> Should match previous snapshot with hasVideo true 1`] = `
     className="arrow-wrapper prev"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="prev-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -209,13 +215,15 @@ exports[`<Text /> Should match previous snapshot with hasVideo true 1`] = `
     className="arrow-wrapper next"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="next-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -296,13 +304,15 @@ exports[`<Text /> Should match previous snapshot with no options true 1`] = `
     className="arrow-wrapper prev"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="prev-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -314,13 +324,15 @@ exports[`<Text /> Should match previous snapshot with no options true 1`] = `
     className="arrow-wrapper next"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="next-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -337,13 +349,15 @@ exports[`<Text /> Should match previous snapshot with subFooterOpen true 1`] = `
     className="arrow-wrapper prev"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="prev-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -355,13 +369,15 @@ exports[`<Text /> Should match previous snapshot with subFooterOpen true 1`] = `
     className="arrow-wrapper next"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="next-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -378,13 +394,15 @@ exports[`<Text /> Should match previous snapshot with videoPlayerOpen true 1`] =
     className="arrow-wrapper prev"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="prev-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_left"
+        xlinkHref="/svglist.svg#arrow_left"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>
@@ -396,13 +414,15 @@ exports[`<Text /> Should match previous snapshot with videoPlayerOpen true 1`] =
     className="arrow-wrapper next"
     id=""
     onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
     title=""
   >
     <svg
       className="next-arrow-svg"
     >
       <use
-        xlinkHref="/static/svglist.svg#arrow_right"
+        xlinkHref="/svglist.svg#arrow_right"
         xmlnsXlink="http://www.w3.org/1999/xlink"
       />
     </svg>

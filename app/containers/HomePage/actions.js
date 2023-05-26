@@ -176,6 +176,10 @@ export const toggleVersionSelection = () => ({
 	type: TOGGLE_VERSION_SELECTION,
 });
 
+export const closeVersionSelection = () => ({
+	type: TOGGLE_VERSION_SELECTION,
+});
+
 export const toggleInformationModal = () => ({
 	type: TOGGLE_INFORMATION_MODAL,
 });

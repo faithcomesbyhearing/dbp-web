@@ -18,6 +18,8 @@ exports[`<Chapter /> Should match snapshot for inactive chapter 1`] = `
   className="chapter-box"
   href=""
   onClick={[Function]}
+  onMouseEnter={[Function]}
+  onTouchStart={[Function]}
 >
   <span>
     1

@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
-const Chapter = ({ as, active, chapter, clickHandler, href }) => {
+function Chapter({ as, active, chapter, clickHandler, href }) {
 	if (active) {
 		return (
 			<a className={'chapter-box'} onClick={clickHandler}>
@@ -17,13 +17,13 @@ const Chapter = ({ as, active, chapter, clickHandler, href }) => {
 		);
 	}
 	return (
-		<Link href={href} as={as}>
+		<Link legacyBehavior href={href} as={as}>
 			<a className={'chapter-box'} onClick={clickHandler}>
 				<span>{chapter}</span>
 			</a>
 		</Link>
 	);
-};
+}
 
 Chapter.propTypes = {
 	chapter: PropTypes.number,

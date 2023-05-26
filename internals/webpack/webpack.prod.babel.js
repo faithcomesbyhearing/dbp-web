@@ -2,8 +2,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
-// const OfflinePlugin = require('offline-plugin');
 
 module.exports = require('./webpack.base.babel')({
 	// In production, we skip all hot-reloading stuff

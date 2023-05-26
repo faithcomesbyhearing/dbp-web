@@ -1,5 +1,4 @@
-import { takeLatest, call, take, cancel, put } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { takeLatest, call, all, put } from 'redux-saga/effects';
 import request from '../../utils/request';
 import {
 	CHANGE_PICTURE,
@@ -204,18 +203,11 @@ export function* changePicture({ userId, avatar }) {
 export function* sendResetPassword({ password, userAccessToken, email }) {
 	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/reset?key=${
 		process.env.DBP_API_KEY
-	}&v=4&project_id=${
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID
-	}`;
+	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append(
-		'project_id',
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID,
+		'project_id', process.env.NOTES_PROJECT_ID,
 	);
 	formData.append('new_password', password);
 	formData.append('new_password_confirmation', password);
@@ -252,15 +244,9 @@ export function* sendResetPassword({ password, userAccessToken, email }) {
 export function* resetPassword({ email }) {
 	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/email?key=${
 		process.env.DBP_API_KEY
-	}&v=4&project_id=${
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID
-	}`;
-	const resetPath = `${window.location.href ||
-		`${window.location.protocol}//${window.location.hostname}${
-			window.location.pathname
-		}`}`;
+	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
+	const { href, protocol, hostname, pathname } = window.location;
+	const resetPath = href || `${protocol}//${hostname}${pathname}`;
 	// Probably want to somehow get the language of the currently active text or something to use here as a fallback
 	const browserLanguage =
 		window && window.navigator ? window.navigator.language : 'en';
@@ -268,10 +254,7 @@ export function* resetPassword({ email }) {
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append(
-		'project_id',
-		process.env.NODE_ENV === 'development'
-			? process.env.DEVELOPMENT_PROJECT_ID
-			: process.env.NOTES_PROJECT_ID,
+		'project_id', process.env.NOTES_PROJECT_ID
 	);
 	formData.append('iso', browserLanguage);
 	formData.append('reset_path', resetPath);
@@ -357,33 +340,15 @@ export function* socialMediaLogin({ driver }) {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-	const sendSignUpFormSaga = yield takeLatest(SEND_SIGNUP_FORM, sendSignUpForm);
-	const sendLoginFormSaga = yield takeLatest(SEND_LOGIN_FORM, sendLoginForm);
-	const sendResetPasswordSaga = yield takeLatest(
-		SEND_PASSWORD_RESET,
-		sendResetPassword,
-	);
-	const resetPasswordSaga = yield takeLatest(RESET_PASSWORD, resetPassword);
-	const deleteUserSaga = yield takeLatest(DELETE_USER, deleteUser);
-	const updateUserInformationSaga = yield takeLatest(
-		UPDATE_USER_INFORMATION,
-		updateUserInformation,
-	);
-	const updateEmailSaga = yield takeLatest(UPDATE_EMAIL, updateEmail);
-	const socialMediaLoginSaga = yield takeLatest(
-		SOCIAL_MEDIA_LOGIN,
-		socialMediaLogin,
-	);
-	const changePictureSaga = yield takeLatest(CHANGE_PICTURE, changePicture);
-
-	yield take(LOCATION_CHANGE);
-	yield cancel(changePictureSaga);
-	yield cancel(sendSignUpFormSaga);
-	yield cancel(sendLoginFormSaga);
-	yield cancel(sendResetPasswordSaga);
-	yield cancel(resetPasswordSaga);
-	yield cancel(deleteUserSaga);
-	yield cancel(updateUserInformationSaga);
-	yield cancel(updateEmailSaga);
-	yield cancel(socialMediaLoginSaga);
+	yield all([
+		takeLatest(SEND_SIGNUP_FORM, sendSignUpForm),
+		takeLatest(SEND_LOGIN_FORM, sendLoginForm),
+		takeLatest(SEND_PASSWORD_RESET, sendResetPassword),
+		takeLatest(RESET_PASSWORD, resetPassword),
+		takeLatest(DELETE_USER, deleteUser),
+		takeLatest(UPDATE_USER_INFORMATION, updateUserInformation),
+		takeLatest(UPDATE_EMAIL, updateEmail),
+		takeLatest(SOCIAL_MEDIA_LOGIN, socialMediaLogin),
+		takeLatest(CHANGE_PICTURE, changePicture),
+	]);
 }

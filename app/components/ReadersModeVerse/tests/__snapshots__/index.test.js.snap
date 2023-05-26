@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ReadersModeVerse tests Should match the old snapshot 1`] = `
-Array [
+[
   <span
     className="align-left"
     dangerouslySetInnerHTML={
-      Object {
+      {
         "__html": "In the beginning God created the heavens and the earth.",
       }
     }
@@ -14,7 +14,7 @@ Array [
     onMouseDown={[MockFunction]}
     onMouseUp={[MockFunction]}
     style={
-      Object {
+      {
         "background": "linear-gradient(inherit,inherit)",
       }
     }

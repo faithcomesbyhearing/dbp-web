@@ -1,7 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Checkbox from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const updater = jest.fn(() => {
   props.toggleState = !props.toggleState;
@@ -17,7 +20,7 @@ let wrapper;
 
 describe('Checkbox component', () => {
   beforeEach(() => {
-    wrapper = mount(<Checkbox {...props} />);
+    wrapper = Enzyme.mount(<Checkbox {...props} />);
     props.toggleState = true;
   });
   it('should match previous snapshot for active', () => {

@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import Slider from 'rc-slider/lib/Slider';
+import Slider from 'rc-slider';
 import injectReducer from '../../utils/injectReducer';
 import SettingsToggle from '../../components/SettingsToggle/index';
 import SvgWrapper from '../../components/SvgWrapper';
@@ -31,20 +31,27 @@ import Ieerror from '../../components/Ieerror';
 
 // add icon for settings close button
 export class Settings extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.timer = null;
+	}
+
 	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
 			this.ref,
 			this.props.toggleSettingsModal,
 		);
-		this.closeMenuController.onMenuMount();
+		this.timer = setTimeout(() => {
+			this.closeMenuController.onMenuMount();
+		}, 100);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const activeTheme = nextProps.userSettings.get('activeTheme');
-		const activeFontFamily = nextProps.userSettings.get('activeFontType');
-		const activeFontSize = nextProps.userSettings.get('activeFontSize');
-		const redLetter = nextProps.userSettings.getIn([
+	componentDidUpdate(nextProps) {
+		const activeTheme = this.props.userSettings.get('activeTheme');
+		const activeFontFamily = this.props.userSettings.get('activeFontType');
+		const activeFontSize = this.props.userSettings.get('activeFontSize');
+		const redLetter = this.props.userSettings.getIn([
 			'toggleOptions',
 			'redLetter',
 			'active',
@@ -52,26 +59,27 @@ export class Settings extends React.PureComponent {
 
 		if (
 			redLetter !==
-			this.props.userSettings.getIn(['toggleOptions', 'redLetter', 'active'])
+			nextProps.userSettings.getIn(['toggleOptions', 'redLetter', 'active'])
 		) {
 			toggleWordsOfJesus(redLetter);
 		}
 
-		if (activeTheme !== this.props.userSettings.get('activeTheme')) {
+		if (activeTheme !== nextProps.userSettings.get('activeTheme')) {
 			applyTheme(activeTheme);
 		}
 
-		if (activeFontFamily !== this.props.userSettings.get('activeFontType')) {
+		if (activeFontFamily !== nextProps.userSettings.get('activeFontType')) {
 			applyFontFamily(activeFontFamily);
 		}
 
-		if (activeFontSize !== this.props.userSettings.get('activeFontSize')) {
+		if (activeFontSize !== nextProps.userSettings.get('activeFontSize')) {
 			applyFontSize(activeFontSize);
 		}
 	}
 
 	componentWillUnmount() {
 		this.closeMenuController.onMenuUnmount();
+		clearTimeout(this.timer);
 	}
 
 	setRef = (node) => {
@@ -185,12 +193,14 @@ export class Settings extends React.PureComponent {
 				<div className={'settings-wrapper'}>
 					<div className={'settings-content'}>
 						<section className="color-schemes">
+							{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 							{activeTheme === 'paper' ? (
 								<SvgWrapper
 									style={{ width: '55px', height: '55px' }}
 									svgid={'light'}
 								/>
 							) : (
+								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'paper-theme-button'}
 									role="button"
@@ -205,6 +215,7 @@ export class Settings extends React.PureComponent {
 									svgid={'dark'}
 								/>
 							) : (
+								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'dark-theme-button'}
 									role="button"
@@ -219,6 +230,7 @@ export class Settings extends React.PureComponent {
 									svgid={'red'}
 								/>
 							) : (
+								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'red-theme-button'}
 									role="button"
@@ -346,11 +358,11 @@ export class Settings extends React.PureComponent {
 							}}
 							step={null}
 							marks={{
-								0: '',
-								18: '',
-								42: '',
-								69: '',
-								100: '',
+								0: <span></span>,
+								18: <span></span>,
+								42: <span></span>,
+								69: <span></span>,
+								100: <span></span>,
 							}}
 							min={0}
 							max={100}

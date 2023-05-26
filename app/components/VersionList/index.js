@@ -31,42 +31,46 @@ export class VersionList extends React.PureComponent {
       activeBookId,
     } = this.props;
     const filteredBibles = filterText
-      ? bibles.filter(this.filterFunction)
+      ? bibles?.filter(this.filterFunction)
       : bibles;
+
+    const getKey = (bible) => {
+      if (!bible) return '';
+      const abbr = bible.get('abbr');
+      const date = bible.get('date') || '2019';
+      const typeSuffix = bible.get('hasVideo') ? '_video' : '_plain';
+      return abbr + date + typeSuffix;
+    };
 
     // Change the way I figure out if a resource has text or audio
     // path, key, types, className, text, clickHandler
     // Set the path to just the bible_id and let app.js handle getting the actual book and chapter needed
-    const scrubbedBibles = filteredBibles.reduce(
-      (acc, bible) => [
-        ...acc,
-        {
-          path: {
-            textId: bible.get('abbr'),
-            bookId: activeBookId,
-            chapter: activeChapter,
-          },
-          key: `${bible.get('abbr')}${bible.get('date') || '2019'}${
-            bible.get('hasVideo') ? '_video' : '_plain'
-          }`,
-          clickHandler: (audioType) =>
-            this.handleVersionListClick(bible, audioType),
-          className: bible.get('abbr') === activeTextId ? 'active-version' : '',
-          title: bible.get('name'),
-          text: bible.get('vname') || bible.get('name') || bible.get('abbr'),
-          altText:
-            bible.get('vname') && bible.get('vname') !== bible.get('name')
-              ? bible.get('name')
-              : '',
-          types: bible.get('filesets')
-            ? bible
-                .get('filesets')
-                .reduce((a, c) => ({ ...a, [c.get('type')]: true }), {})
-            : {},
+    const scrubbedBibles = filteredBibles?.reduce((acc, bible) => {
+      const item = {
+        path: {
+          textId: bible.get('abbr'),
+          bookId: activeBookId,
+          chapter: activeChapter,
         },
-      ],
-      [],
-    );
+        key: getKey(bible),
+        clickHandler: (audioType) => this.handleVersionListClick(bible, audioType),
+        className: bible.get('abbr') === activeTextId ? 'active-version' : '',
+        title: bible.get('name'),
+        text: bible.get('vname') || bible.get('name') || bible.get('abbr'),
+        altText:
+          bible.get('vname') && bible.get('vname') !== bible.get('name')
+            ? bible.get('name')
+            : '',
+        types: bible.get('filesets')
+          ? bible
+            .get('filesets')
+            .reduce((a, c) => ({ ...a, [c.get('type')]: true }), {})
+          : {},
+      };
+
+      acc.push(item);
+      return acc;
+    }, []);
 
     // When I first get the response from the server with filesets
     const video = [];
@@ -74,7 +78,7 @@ export class VersionList extends React.PureComponent {
     const audioOnly = [];
     const textOnly = [];
 
-    scrubbedBibles.forEach((b) => {
+    scrubbedBibles?.forEach((b) => {
       if (b.types.video_stream) {
         video.push(b);
       } else if (
@@ -89,7 +93,7 @@ export class VersionList extends React.PureComponent {
       }
     });
 
-    const videoComponent = video.length ? (
+    const videoComponent = video?.length ? (
       <div className={'version-list-section'} key={'video'}>
         <div className={'version-list-section-title'}>
           <FormattedMessage {...messages.video} />
@@ -129,7 +133,7 @@ export class VersionList extends React.PureComponent {
       textOnlyComponent,
     ];
 
-    if (bibles.size === 0) {
+    if (bibles?.size === 0) {
       return (
         <span className="version-item-button">
           There was an error fetching this resource, an Admin has been notified.
@@ -138,7 +142,7 @@ export class VersionList extends React.PureComponent {
       );
     }
 
-    return scrubbedBibles.length ? (
+    return scrubbedBibles?.length ? (
       components
     ) : (
       <span className="version-item-button">
@@ -149,21 +153,12 @@ export class VersionList extends React.PureComponent {
 
   filterFunction = (bible) => {
     const lowerCaseText = this.props.filterText.toLowerCase();
-    const abbr = bible.get('abbr') || '';
-    const name = bible.get('name') || '';
-    const vname = bible.get('vname') || '';
-    const date = bible.get('date') || '';
+    const properties = ['vname', 'name', 'abbr', 'date'];
 
-    if (vname.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (name.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (abbr.toLowerCase().includes(lowerCaseText)) {
-      return true;
-    } else if (date.includes(lowerCaseText)) {
-      return true;
-    }
-    return false;
+    return properties.some((property) => {
+      const propValue = bible.get(property) || '';
+      return propValue.toLowerCase().includes(lowerCaseText);
+    });
   };
 
   // Make async

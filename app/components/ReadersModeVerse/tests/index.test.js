@@ -1,7 +1,10 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import renderer from 'react-test-renderer';
 import ReadersModeVerse from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const highlightMessage = 'clicked highlight';
 
@@ -45,7 +48,7 @@ describe('ReadersModeVerse tests', () => {
 		};
 		activeVerse = 0;
 		verseIsActive = false;
-		wrapper = shallow(
+		wrapper = Enzyme.shallow(
 			<ReadersModeVerse
 				wrapper={wrapper}
 				onMouseUp={onMouseUp}

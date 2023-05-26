@@ -1,10 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { act } from 'react-dom/test-utils';
 import { fromJS } from 'immutable';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { BooksTable } from '..';
-
 import { bookData } from '../../../utils/testUtils/booksData';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const closeBookTable = jest.fn(() => (props.active = false));
 const props = {
@@ -29,7 +32,7 @@ let wrapper;
 
 describe('BooksTable tests', () => {
 	beforeEach(() => {
-		wrapper = mount(<BooksTable {...props} />);
+		wrapper = Enzyme.mount(<BooksTable {...props} />);
 	});
 	it('should match snapshot with all potential props', () => {
 		const tree = renderer.create(<BooksTable {...props} />).toJSON();
@@ -70,13 +73,15 @@ describe('BooksTable tests', () => {
 	it('should successfully handle a book click where persist is a function', () => {
 		const spy = jest.spyOn(wrapper.instance(), 'handleBookClick');
 
-		wrapper.instance().handleBookClick(
-			{
-				persist: jest.fn(),
-				target: { parentElement: { offsetTop: 10 } },
-			},
-			'Matthew',
-		);
+		act(() => {
+			wrapper.instance().handleBookClick(
+				{
+					persist: jest.fn(),
+					target: { parentElement: { offsetTop: 10 } },
+				},
+				'Matthew',
+			);
+		});
 
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(wrapper.state('selectedBookName')).toBe('');
@@ -84,13 +89,15 @@ describe('BooksTable tests', () => {
 	it('should successfully handle a book click where persist is not a function', () => {
 		const spy = jest.spyOn(wrapper.instance(), 'handleBookClick');
 
-		wrapper.instance().container.scrollTop = 50;
-		wrapper.instance().handleBookClick(
-			{
-				target: { parentElement: { offsetTop: 60 } },
-			},
-			'Mark',
-		);
+		act(() => {
+			wrapper.instance().container.scrollTop = 50;
+			wrapper.instance().handleBookClick(
+				{
+					target: { parentElement: { offsetTop: 60 } },
+				},
+				'Mark',
+			);
+		});
 
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(wrapper.state('selectedBookName')).toBe('Mark');
@@ -99,19 +106,21 @@ describe('BooksTable tests', () => {
 	it('should successfully handle a book click where selected book name is different', () => {
 		const spy = jest.spyOn(wrapper.instance(), 'handleBookClick');
 
-		wrapper.instance().handleBookClick(
-			{
-				persist: jest.fn(),
-				target: { parentElement: { offsetTop: 15 } },
-			},
-			'Luke',
-		);
+		act(() => {
+			wrapper.instance().handleBookClick(
+				{
+					persist: jest.fn(),
+					target: { parentElement: { offsetTop: 15 } },
+				},
+				'Luke',
+			);
+		});
 
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(wrapper.state('selectedBookName')).toBe('Luke');
 	});
 	it('should successfully handle the active prop change', () => {
-		const spy = jest.spyOn(wrapper.instance(), 'componentWillReceiveProps');
+		const spy = jest.spyOn(wrapper.instance(), 'componentDidUpdate');
 		wrapper.setProps({ active: false });
 		expect(wrapper.props().active).toBe(false);
 		wrapper.setProps({ active: true, activeBookName: 'Mark' });
@@ -120,11 +129,11 @@ describe('BooksTable tests', () => {
 		expect(wrapper.state('selectedBookName')).toBe('Mark');
 	});
 	it('should work with empty initialBookName prop', () => {
-		const localWrapper = mount(<BooksTable {...props} initialBookName={''} />);
+		const localWrapper = Enzyme.mount(<BooksTable {...props} initialBookName={''} />);
 		expect(localWrapper.state('selectedBookName')).toEqual('Matthew');
 	});
 	it('should work with empty initialBookName and activeBookName props', () => {
-		const localWrapper = mount(
+		const localWrapper = Enzyme.mount(
 			<BooksTable {...props} initialBookName={''} activeBookName={''} />,
 		);
 		expect(localWrapper.state('selectedBookName')).toEqual('');

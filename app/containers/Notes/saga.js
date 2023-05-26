@@ -1,7 +1,10 @@
-import { take, cancel, takeLatest, call, fork, put } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { takeLatest, call, fork, put, cancelled } from 'redux-saga/effects';
+import { GET_HIGHLIGHTS, LOAD_HIGHLIGHTS } from '../HomePage/constants';
 import request from '../../utils/request';
-import { getHighlights } from '../HomePage/saga';
+import geFilesetsForBible from '../../utils/geFilesetsForBible';
+import {
+  FILESET_TYPE_TEXT_PLAIN,
+} from '../../constants/bibleFileset';
 import {
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
@@ -31,17 +34,16 @@ export function* getChapterForNote({ note }) {
   const bookId =
     typeof note.get === 'function' ? note.get('book_id') : note.book_id;
   // TODO: The bibleId here is undefined a lot of the time, find where it gets passed in and fix the issue
-  const bibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?asset_id=${
-    process.env.DBP_BUCKET_ID
-  }&key=${process.env.DBP_API_KEY}&v=4`;
+  const bibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${process.env.DBP_API_KEY}&v=4`;
   // Need to get the bible filesets
   try {
     const response = yield call(request, bibleUrl);
-    const filesets = response.data.filesets[process.env.DBP_BUCKET_ID].filter(
-      (fileset) => fileset.type === 'text_plain',
+    const bibleFilesets = response.data.filesets ? geFilesetsForBible(response.data.filesets) : [];
+    const filesets = bibleFilesets.filter(
+      (fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN,
     );
     const hasText = !!filesets.length;
-    const plain = filesets.find((fileset) => fileset.type === 'text_plain');
+    const plain = filesets.find((fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN);
     let text = [];
 
     if (hasText) {
@@ -50,9 +52,7 @@ export function* getChapterForNote({ note }) {
           request,
           `${process.env.BASE_API_ROUTE}/bibles/filesets/${
             plain.id
-          }/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&asset_id=${
-            process.env.DBP_BUCKET_ID
-          }&v=4&book_id=${bookId}&chapter_id=${chapter}`,
+          }/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}`,
         );
 
         text = res.data;
@@ -156,6 +156,16 @@ export function* updateNote({ userId, data, noteId }) {
 
     if (response.success) {
       yield put({ type: ADD_NOTE_SUCCESS, response });
+      yield fork(getNotesForChapter, {
+        userId,
+        params: {
+          bible_id: data.bible_id,
+          book_id: data.book_id,
+          chapter: data.chapter,
+          limit: 150,
+          page: 1,
+        },
+      });
     }
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
@@ -229,22 +239,6 @@ export function* deleteNote({
       const response = yield call(request, requestUrl, options);
 
       if (response.success) {
-        if (isBookmark) {
-          yield fork(getUserBookmarks, {
-            userId,
-            params: { limit: pageSize, page: activePage },
-          });
-          yield fork(getBookmarksForChapter, {
-            userId,
-            params: {
-              bible_id: bibleId,
-              book_id: bookId,
-              chapter,
-              limit: 150,
-              page: 1,
-            },
-          });
-        }
         yield fork(getNotesForNotebook, {
           userId,
           params: { limit: pageSize, page: activePage },
@@ -292,6 +286,16 @@ export function* getNotesForChapter({ userId, params = {} }) {
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       console.error('Error getting the notes', err); // eslint-disable-line no-console
+    }
+  } finally {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log('getHighlights generator function has completed execution');
+
+      if (yield cancelled()) {
+        // eslint-disable-next-line no-console
+        console.log('Saga was cancelled');
+      }
     }
   }
 }
@@ -395,6 +399,16 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
     if (process.env.NODE_ENV === 'development') {
       console.error('Error getting the notes', err); // eslint-disable-line no-console
     }
+  } finally {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log('getBookmarksForChapter generator function has completed execution');
+
+      if (yield cancelled()) {
+        // eslint-disable-next-line no-console
+        console.log('Saga was cancelled');
+      }
+    }
   }
 }
 
@@ -428,46 +442,49 @@ export function* getUserBookmarks({ userId, params = {} }) {
   }
 }
 
+export function* getHighlights({ bible, book, chapter, userId }) {
+  const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId ||
+    'no_user_id'}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
+    process.env.NOTES_PROJECT_ID
+  }&bible_id=${bible}&book_id=${book}&chapter=${chapter}&limit=1000`;
+  let highlights = [];
+
+  try {
+    const response = yield call(request, requestUrl);
+
+    if (response.data) {
+      highlights = response.data;
+    }
+
+    yield put({ type: LOAD_HIGHLIGHTS, highlights });
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Caught in highlights request', error); // eslint-disable-line no-console
+    }
+  } finally {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log('getHighlights generator function has completed execution');
+
+      if (yield cancelled()) {
+        // eslint-disable-next-line no-console
+        console.log('Saga was cancelled');
+      }
+    }
+  }
+}
+
 // Individual exports for testing
 export default function* notesSaga() {
-  const addNoteSaga = yield takeLatest(ADD_NOTE, addNote);
-  const getNotesSaga = yield takeLatest(GET_USER_NOTES, getNotesForChapter);
-  const updateNoteSaga = yield takeLatest(UPDATE_NOTE, updateNote);
-  const updateHighlightSaga = yield takeLatest(
-    UPDATE_HIGHLIGHT,
-    updateHighlight,
-  );
-  const deleteNoteSaga = yield takeLatest(DELETE_NOTE, deleteNote);
-  const getChapterSaga = yield takeLatest(
-    GET_CHAPTER_FOR_NOTE,
-    getChapterForNote,
-  );
-  const getNotebookSaga = yield takeLatest(
-    GET_USER_NOTEBOOK_DATA,
-    getNotesForNotebook,
-  );
-  const getUserHighlightsSaga = yield takeLatest(
-    GET_USER_HIGHLIGHTS,
-    getUserHighlights,
-  );
-  const getBookmarksForChapterSaga = yield takeLatest(
-    GET_BOOKMARKS_FOR_CHAPTER,
-    getBookmarksForChapter,
-  );
-  const getUserBookmarksSaga = yield takeLatest(
-    GET_USER_BOOKMARK_DATA,
-    getUserBookmarks,
-  );
-
-  yield take(LOCATION_CHANGE);
-  yield cancel(addNoteSaga);
-  yield cancel(getNotesSaga);
-  yield cancel(getChapterSaga);
-  yield cancel(updateNoteSaga);
-  yield cancel(deleteNoteSaga);
-  yield cancel(getNotebookSaga);
-  yield cancel(updateHighlightSaga);
-  yield cancel(getUserBookmarksSaga);
-  yield cancel(getBookmarksForChapterSaga);
-  yield cancel(getUserHighlightsSaga);
+  yield takeLatest(ADD_NOTE, addNote);
+  yield takeLatest(GET_USER_NOTES, getNotesForChapter);
+  yield takeLatest(UPDATE_NOTE, updateNote);
+  yield takeLatest(UPDATE_HIGHLIGHT, updateHighlight);
+  yield takeLatest(DELETE_NOTE, deleteNote);
+  yield takeLatest(GET_CHAPTER_FOR_NOTE, getChapterForNote);
+  yield takeLatest(GET_USER_NOTEBOOK_DATA, getNotesForNotebook);
+  yield takeLatest(GET_USER_HIGHLIGHTS, getUserHighlights);
+  yield takeLatest(GET_BOOKMARKS_FOR_CHAPTER, getBookmarksForChapter);
+  yield takeLatest(GET_USER_BOOKMARK_DATA, getUserBookmarks);
+  yield takeLatest(GET_HIGHLIGHTS, getHighlights);
 }

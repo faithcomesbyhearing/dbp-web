@@ -7,7 +7,7 @@ exports[`<ChapterSelection /> should match snapshot for deafult inactive props 1
   onClick={[Function]}
   onTouchEnd={[Function]}
   style={
-    Object {
+    {
       "display": "none",
     }
   }
@@ -23,7 +23,7 @@ exports[`<ChapterSelection /> should match snapshot for default active props 1`]
   onClick={[Function]}
   onTouchEnd={[Function]}
   style={
-    Object {
+    {
       "display": "flex",
     }
   }

@@ -27,7 +27,6 @@ import {
   addNote,
   getNotesForNotebook,
   getChapterForNote,
-  addHighlight,
   updateNote,
   deleteNote,
   getUserBookmarkData,
@@ -51,6 +50,8 @@ import messages from './messages';
 import Ieerror from '../../components/Ieerror';
 
 export class Notes extends React.PureComponent {
+  timer = null;
+
   constructor(props) {
     super(props);
     if (props.openView) {
@@ -63,7 +64,9 @@ export class Notes extends React.PureComponent {
       this.ref,
       this.props.toggleNotesModal,
     );
-    this.closeMenuController.onMenuMount();
+    this.timer = setTimeout(() => {
+      this.closeMenuController.onMenuMount();
+    }, 100);
     // Only fetch chapter text if there is a selected note
     if (
       this.props.note &&
@@ -78,6 +81,7 @@ export class Notes extends React.PureComponent {
 
   componentWillUnmount() {
     this.closeMenuController.onMenuUnmount();
+    clearTimeout(this.timer);
   }
 
   setRef = (node) => {
@@ -121,14 +125,6 @@ export class Notes extends React.PureComponent {
   toggleAddVerseMenu = () => this.props.dispatch(toggleAddVerseMenu());
 
   togglePageSelector = () => this.props.dispatch(togglePageSelector());
-
-  addHighlight = (data) =>
-    this.props.dispatch(
-      addHighlight({
-        userId: this.props.userId,
-        data: { ...data, user_id: this.props.userId },
-      }),
-    );
 
   updateHighlight = (props) =>
     this.props.dispatch(
@@ -202,13 +198,6 @@ export class Notes extends React.PureComponent {
   readSavedMessage = (props) => this.props.dispatch(readSavedMessage(props));
 
   clearNoteErrorMessage = () => this.props.dispatch(clearNoteErrorMessage());
-
-  titleOptions = {
-    edit: 'Edit Note',
-    notes: 'My Notes',
-    bookmarks: 'My Bookmarks',
-    highlights: 'My Highlights',
-  };
 
   render() {
     const {

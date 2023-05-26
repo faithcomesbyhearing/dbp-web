@@ -1,9 +1,8 @@
 import lscache from 'lscache';
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 
 // Set a default expiry for 5 minutes in development 24 hours in production
-const TTL_MINUTES =
-	process.env.IS_DEV || process.env.NODE_ENV === 'development'
+const TTL_MINUTES =	 process.env.NODE_ENV === 'development'
 		? 1000 * 60 * 5
 		: 1000 * 60 * 60 * 24;
 
@@ -20,7 +19,7 @@ export default async function cachedFetch(url, options, expires) {
 		if (expires) {
 			// don't return because I want this to always return the cached item until it expires
 		} else {
-			return fetch(url, options).then((response) => response.json());
+			return axios.get(url, options).then((response) => response.data);
 		}
 	}
 
@@ -28,8 +27,8 @@ export default async function cachedFetch(url, options, expires) {
 	// If there is no cached response,
 	// do the actual call and store the response
 	if (cachedResponse === null) {
-		cachedResponse = await fetch(url, options).then((response) =>
-			response.json(),
+		cachedResponse = await axios.get(url, options).then((response) =>
+			response.data,
 		);
 		lscache.set(url, cachedResponse, expires || TTL_MINUTES);
 	}

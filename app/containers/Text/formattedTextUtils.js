@@ -7,7 +7,7 @@ const applyNotes = (source, notes) => {
 	const serializer = new XMLSerializer();
 	const parser = new DOMParser();
 
-	if (!source || !notes.length) {
+	if (!source || !notes?.length) {
 		return source;
 	}
 	const xmlDoc = parser.parseFromString(source, 'text/xml');
@@ -39,7 +39,7 @@ const applyNotes = (source, notes) => {
 			const use = xmlDoc.createElement('use');
 			// Can't set the event handlers here because this "dom" is removed
 			use.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-			use.setAttribute('xlink:href', '/static/svglist.svg#note_in_verse');
+			use.setAttribute('xlink:href', '/svglist.svg#note_in_verse');
 			svg.setAttribute('class', 'icon note-in-verse');
 			svg.appendChild(use);
 			// If there are errors in Edge or IE check that the pollyfill for prepend
@@ -114,7 +114,7 @@ const applyWholeVerseHighlights = (source, highlights) => {
 const applyBookmarks = (source, bookmarks) => {
 	const serializer = new XMLSerializer();
 	const parser = new DOMParser();
-	if (!source || !bookmarks.length) {
+	if (!source || !bookmarks?.length) {
 		return source;
 	}
 	const xmlDoc = parser.parseFromString(source, 'text/xml');
@@ -144,7 +144,7 @@ const applyBookmarks = (source, bookmarks) => {
 			const use = xmlDoc.createElement('use');
 			// Can't set the event handlers here because this "dom" is removed
 			use.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-			use.setAttribute('xlink:href', '/static/svglist.svg#bookmark_in_verse');
+			use.setAttribute('xlink:href', '/svglist.svg#bookmark_in_verse');
 			svg.setAttribute('class', 'icon bookmark-in-verse');
 			svg.appendChild(use);
 			// If there are errors in Edge or IE check that the pollyfill for prepend

@@ -30,11 +30,14 @@ import Ieerror from '../Ieerror';
 // change to pure component and handle outside clicks instead of click handler
 // on each item
 export class ContextPortal extends React.PureComponent {
-	state = {
-		highlightOpen: false,
-		openPopup: false,
-		popupCoords: { x: 0, y: 0 },
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			highlightOpen: false,
+			openPopup: false,
+			popupCoords: { x: 0, y: 0 },
+		};
+	}
 
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
@@ -244,6 +247,7 @@ export class ContextPortal extends React.PureComponent {
 						quote={`"${selectedText}"`}
 						url={window.location.href}
 						id={'facebook-share-button'}
+						resetButtonStyle={false}
 					>
 						<SvgWrapper className={'icon'} svgid="facebook" />
 					</FacebookShareButton>
@@ -255,6 +259,7 @@ export class ContextPortal extends React.PureComponent {
 						hashtags={[`${document.title.split('|')[0].replace(/\s/g, '')}`]}
 						url={window.location.href}
 						id={'twitter-share-button'}
+						resetButtonStyle={false}
 					>
 						<SvgWrapper className={'icon'} svgid="twitter" />
 					</TwitterShareButton>
@@ -266,9 +271,9 @@ export class ContextPortal extends React.PureComponent {
 						id={'like-facebook'}
 						onClick={addFacebookLike}
 					>
-						<span className={'share-count'}>
-							<FacebookShareCount url={window.location.href} />
-						</span>
+						<FacebookShareCount url={window.location.href}>
+							{(shareCount) => <span className={'share-count'}>{shareCount}</span>}
+						</FacebookShareCount>
 						<span className={'like-thumb'}>
 							<SvgWrapper
 								height={'24px'}

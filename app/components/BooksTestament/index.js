@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import ChaptersContainer from '../ChaptersContainer';
 import SvgWrapper from '../SvgWrapper';
 
-const BooksTestament = ({
+function BooksTestament({
 	books,
 	selectedBookName,
 	testamentPrefix,
@@ -21,7 +21,8 @@ const BooksTestament = ({
 	activeChapter,
 	audioType,
 	testamentTitle,
-}) => [
+}) {
+  return [
 	<div key={`${testamentPrefix}_title_key`} className={'testament-title'}>
 		<h3>{testamentTitle}</h3>
 	</div>,
@@ -40,8 +41,7 @@ const BooksTestament = ({
 				book.get('book_id'),
 			)}
 			onClick={(e) =>
-				handleBookClick(e, book.get('name') || book.get('name_short'))
-			}
+				handleBookClick(e, book.get('name') || book.get('name_short'))}
 		>
 			<h4
 				className={
@@ -71,6 +71,7 @@ const BooksTestament = ({
 		</div>
 	)),
 ];
+}
 
 BooksTestament.propTypes = {
 	books: PropTypes.object,

@@ -14,6 +14,7 @@ function HighlightColors({ addHighlight }) {
 	return (
 		<>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={0}
@@ -22,14 +23,14 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: 'none',
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.none} />
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-1}
@@ -38,14 +39,14 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightYellow,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.yellow} />
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-2}
@@ -54,14 +55,14 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightGreen,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.green} />
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-3}
@@ -70,14 +71,14 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightPink,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.pink} />
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-4}
@@ -86,14 +87,14 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightPurple,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.purple} />
 				</span>
 			</span>
 			<span className={'color-group'}>
+				{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 				<span
 					role={'button'}
 					tabIndex={-5}
@@ -102,8 +103,7 @@ function HighlightColors({ addHighlight }) {
 						addHighlight({
 							popupCoords: { x: e.clientX, y: e.clientY },
 							color: Colors.highlightBlue,
-						})
-					}
+						})}
 				/>
 				<span className={'color-text'}>
 					<FormattedMessage {...messages.blue} />

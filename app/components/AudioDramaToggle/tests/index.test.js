@@ -1,7 +1,12 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
+
 import renderer from 'react-test-renderer';
 import { AudioDramaToggle } from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const props = {
 	audioType: 'audio_drama',
@@ -35,12 +40,15 @@ describe('<AudioDramaToggle />', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('mount and have two different buttons', () => {
-		const wrapper = mount(<AudioDramaToggle {...props} />);
+		const wrapper = Enzyme.mount(<AudioDramaToggle {...props} />);
 		const dramaButton = wrapper.find('#drama-button');
 		const nonDramaButton = wrapper.find('#non-drama-button');
 		const spy = jest.spyOn(wrapper.instance(), 'setAudioType');
 
-		wrapper.instance().forceUpdate();
+		act(() => {
+			wrapper.instance().forceUpdate();
+		});
+
 		expect(dramaButton).toHaveLength(1);
 		expect(nonDramaButton).toHaveLength(1);
 

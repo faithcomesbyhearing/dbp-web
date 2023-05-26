@@ -1,11 +1,13 @@
-import { takeLatest, call, fork, put } from 'redux-saga/effects';
+import { all, takeLatest, call, fork, put } from 'redux-saga/effects';
 import { fromJS } from 'immutable';
 import cachedFetch from '../../utils/cachedFetch';
 import territoryCodes from '../../utils/territoryCodes.json';
 import request from '../../utils/request';
+import geFilesetsForBible from '../../utils/geFilesetsForBible';
+
 import {
   GET_COUNTRIES,
-  GET_DPB_TEXTS,
+  GET_DBP_TEXTS,
   GET_LANGUAGES,
   ERROR_GETTING_LANGUAGES,
   ERROR_GETTING_VERSIONS,
@@ -20,13 +22,31 @@ const oneDay = 1000 * 60 * 60 * 24;
 export function* getCountries() {
   const requestUrl = `${process.env.BASE_API_ROUTE}/countries?key=${
     process.env.DBP_API_KEY
-  }&v=4&asset_id=${
-    process.env.DBP_BUCKET_ID
-  }&has_filesets=true&include_languages=true`;
+  }&v=4&has_filesets=true&include_languages=true`;
 
   try {
+    const countriesData = [];
+
     const response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    const countriesObject = response.data.reduce((acc, country) => {
+    countriesData.push(...response.data);
+
+    let currentPage = response.meta.pagination.current_page;
+    const countryRequestList = [];
+
+    while (currentPage < response.meta.pagination.total_pages) {
+      currentPage += 1;
+      countryRequestList.push(`${requestUrl}&page=${currentPage}`);
+    }
+
+    const countryResponses = yield all(
+      countryRequestList.map((countryRequest) => call(cachedFetch, countryRequest, {}, oneDay))
+    );
+
+    countryResponses.forEach((countryResponse) => {
+      countriesData.push(...countryResponse.data);
+    });
+
+    const countriesObject = countriesData.reduce((acc, country) => {
       const tempObj = acc;
       if (typeof country.name !== 'string') {
         tempObj[country.name.name] = { ...country, name: country.name.name };
@@ -65,12 +85,7 @@ export function* getCountries() {
 }
 
 export function* getTexts({ languageCode, languageIso }) {
-  const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?asset_id=${
-    process.env.DBP_BUCKET_ID
-  }&key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
-  const videoRequestUrl = `${
-    process.env.BASE_API_ROUTE
-  }/bibles?asset_id=dbp-vid&key=${
+  const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${
     process.env.DBP_API_KEY
   }&language_code=${languageCode}&v=4`;
   const jesusFilmUrl = `${
@@ -96,16 +111,15 @@ export function* getTexts({ languageCode, languageIso }) {
         iso: languageIso,
         language_id: languageCode,
         jesusFilm: true,
-        filesets: {
-          'dbp-vid': [
-            {
-              id: jesusResponse[languageIso],
-              jesusFilm: true,
-              type: 'video_stream',
-              size: 'NTP',
-            },
-          ],
-        },
+        hasVideo: true,
+        filesets: [
+          {
+            id: jesusResponse[languageIso],
+            jesusFilm: true,
+            type: 'video_stream',
+            size: 'NTP',
+          },
+        ],
       };
     }
     // 'https://api-dev.dbp4.org/arclight/jesus-film/languages?v=4&key=2024ce0fdb44517f53a2c255b3cd66f8' find arclight_id based on iso
@@ -118,26 +132,12 @@ export function* getTexts({ languageCode, languageIso }) {
 
   try {
     const response = yield call(request, requestUrl);
-    const videoRes = yield call(request, videoRequestUrl);
-    // Some texts may have plain text in the database but no filesets
-    // This filters out all texts that don't have a fileset
-    const videos = videoRes.data.filter(
-      (video) => video.abbr && video.language && video.language_id && video.iso,
-    );
+    const texts = response.data ? response.data.map((resource) => ({
+        ...resource,
+        filesets: geFilesetsForBible(resource.filesets),
+      })
+    ) : [];
 
-    const texts = response.data.filter(
-      (text) =>
-        text.iso &&
-        text.abbr &&
-        (text.filesets[process.env.DBP_BUCKET_ID] &&
-          text.filesets[process.env.DBP_BUCKET_ID].find(
-            (f) =>
-              f.type === 'audio' ||
-              f.type === 'audio_drama' ||
-              f.type === 'text_plain' ||
-              f.type === 'text_format',
-          )),
-    );
     // Create map of videos for constant time lookup when iterating through the texts
     const types = {
       audio: true,
@@ -148,16 +148,12 @@ export function* getTexts({ languageCode, languageIso }) {
     };
     // If there is a Jesus film then add it to the array of Bibles
     const combinedTexts = jesusFilm
-      ? [...texts, ...videos, jesusFilm]
-      : [...texts, ...videos];
+      ? [...texts, jesusFilm]
+      : [...texts];
     const mappedTexts = combinedTexts.map((resource) => ({
       ...resource,
-      hasVideo: !!(
-        resource.filesets['dbp-vid'] && resource.filesets['dbp-vid'].length
-      ),
-      filesets: Object.values(resource.filesets)
-        .reduce((all, current) => [...all, ...current])
-        .filter((value) => types[value.type]),
+      hasVideo: resource.hasVideo || resource.filesets.some((fileset) => fileset.type.includes('video')),
+      filesets: resource.filesets.filter((value) => types[value.type]),
     }));
 
     yield put({ type: CLEAR_ERROR_GETTING_VERSIONS });
@@ -174,14 +170,19 @@ export function* getTexts({ languageCode, languageIso }) {
 export function* getLanguages() {
   const requestUrl = `${process.env.BASE_API_ROUTE}/languages?key=${
     process.env.DBP_API_KEY
-  }&v=4&asset_id=${
-    process.env.DBP_BUCKET_ID
-  }&has_filesets=true&asset_id=dbp-prod,dbp-vid`;
+  }&v=4&has_filesets=true`;
 
   try {
-    const response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    // Sometimes the api returns an array and sometimes an object with the data key
-    const languages = response.data || response;
+    const languages = [];
+
+    let response = yield call(cachedFetch, requestUrl, {}, oneDay);
+    languages.push(...response.data);
+
+    while (response.meta.pagination.current_page < response.meta.pagination.total_pages) {
+      const nextRequestUrl = `${requestUrl}&page=${response.meta.pagination.current_page + 1}`;
+      response = yield call(cachedFetch, nextRequestUrl, {}, oneDay);
+      languages.push(...response.data);
+    }
 
     yield put(setLanguages({ languages }));
     yield put({ type: CLEAR_ERROR_GETTING_LANGUAGES });
@@ -207,12 +208,29 @@ function sortLanguagesByVname(a, b) {
 export function* getLanguageAltNames() {
   const requestUrl = `${process.env.BASE_API_ROUTE}/languages?key=${
     process.env.DBP_API_KEY
-  }&v=4&asset_id=${
-    process.env.DBP_BUCKET_ID
-  }&has_filesets=true&include_alt_names=true&asset_id=dbp-prod,dbp-vid`;
+  }&v=4&has_filesets=true&include_alt_names=true`;
   try {
+    const languageData = [];
+
     const response = yield call(cachedFetch, requestUrl, {}, oneDay);
-    const languageData = response.data || response;
+    languageData.push(...response.data);
+
+    let currentPage = response.meta.pagination.current_page;
+    const languageRequestList = [];
+
+    while (currentPage < response.meta.pagination.total_pages) {
+      currentPage += 1;
+      languageRequestList.push(`${requestUrl}&page=${currentPage}`);
+    }
+
+    const languageResponses = yield all(
+      languageRequestList.map((languageRequest) => call(cachedFetch, languageRequest, {}, oneDay))
+    );
+
+    languageResponses.forEach((languageResponse) => {
+      languageData.push(...languageResponse.data);
+    });
+
     const languages = languageData
       .map((l) => {
         if (l.translations) {
@@ -245,7 +263,9 @@ export function* getLanguageAltNames() {
 
 // Individual exports for testing
 export default function* defaultSaga() {
-  yield takeLatest(GET_DPB_TEXTS, getTexts);
-  yield takeLatest(GET_LANGUAGES, getLanguages);
-  yield takeLatest(GET_COUNTRIES, getCountries);
+  yield all([
+    takeLatest(GET_DBP_TEXTS, getTexts),
+    takeLatest(GET_LANGUAGES, getLanguageAltNames),
+    takeLatest(GET_COUNTRIES, getCountries),
+  ]);
 }

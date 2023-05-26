@@ -32,6 +32,7 @@ import {
 	TOGGLE_SETTINGS_MODAL,
 	TOGGLE_INFORMATION_MODAL,
 	TOGGLE_VERSION_SELECTION,
+	CLOSE_VERSION_SELECTION,
 	TOGGLE_CHAPTER_SELECTION,
 	TOGGLE_FIRST_LOAD_TEXT_SELECTION,
 	SET_ACTIVE_NOTE,
@@ -126,7 +127,7 @@ const initialState = fromJS({
 	textDirection: 'ltr',
 });
 
-function homePageReducer(state = initialState, action) {
+function homePageReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		// Audio play actions
 		case SET_AUDIO_TYPE:
@@ -199,6 +200,11 @@ function homePageReducer(state = initialState, action) {
 			return state.set(
 				'isVersionSelectionActive',
 				!state.get('isVersionSelectionActive'),
+			);
+		case CLOSE_VERSION_SELECTION:
+			return state.set(
+				'isVersionSelectionActive',
+				false,
 			);
 		case TOGGLE_INFORMATION_MODAL:
 			return state.set(

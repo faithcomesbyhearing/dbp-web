@@ -10,7 +10,7 @@ import {
 	LOAD_COUNTRIES,
 	LOAD_VERSION_FOR_LANGUAGE,
 	GET_COUNTRY,
-	GET_DPB_TEXTS,
+	GET_DBP_TEXTS,
 	GET_LANGUAGES,
 	GET_COUNTRIES,
 	SET_LANGUAGES,
@@ -42,7 +42,7 @@ export const loadCountries = ({ countries }) => ({
 });
 
 export const getTexts = (props) => ({
-	type: GET_DPB_TEXTS,
+	type: GET_DBP_TEXTS,
 	...props,
 });
 

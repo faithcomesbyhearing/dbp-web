@@ -13,7 +13,7 @@ const selectProfilePageDomain = (state) => state.get('profile');
  */
 // Homepage State
 const selectHighlights = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('highlights').toJS());
+	createSelector(selectHomePageDomain, (home) => home.get('highlights')?.toJS ? home.get('highlights').toJS() : home.get('highlights'));
 const selectActiveTextId = () =>
 	createSelector(selectHomePageDomain, (home) => home.get('activeTextId'));
 const selectActiveBookId = () =>
@@ -40,14 +40,14 @@ const selectUserId = () =>
 	createSelector(selectProfilePageDomain, (profile) => profile.get('userId'));
 const selectUserAuthenticated = () =>
 	createSelector(selectProfilePageDomain, (profile) =>
-		profile.get('userAuthenticated'),
+		profile?.get('userAuthenticated'),
 	);
 /**
  * Default selector used by Verses
  */
 
 const makeSelectVerses = () =>
-	createSelector(selectVersesDomain, (substate) => substate.toJS());
+	createSelector(selectVersesDomain, (substate) => substate?.toJS());
 
 export default makeSelectVerses;
 export {

@@ -1,19 +1,22 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { ContextPortal } from '..';
-import PopupMessage from '../../PopupMessage';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-jest.mock('../../PopupMessage', () => ({ styles, message, x, y }) => (
-	<div
+jest.mock('../../PopupMessage', () => function portalPopupMessageMock({ styles, message, x, y }) {
+  return (
+<div
 		style={{ top: y - 50, left: x - 87.5, ...styles }}
 		className={'custom-popup'}
-	>
+>
 		{message ? (
 			<p>{message}</p>
 		) : (
@@ -31,8 +34,9 @@ jest.mock('../../PopupMessage', () => ({ styles, message, x, y }) => (
 				.
 			</p>
 		)}
-	</div>
-));
+</div>
+);
+});
 /* eslint-enable react/prop-types */
 
 const props = {
@@ -89,7 +93,7 @@ describe('ContextPortal Component', () => {
 		expect(json).toMatchSnapshot();
 	});
 	it('Should render a div containing given book and chapter', () => {
-		const wrapper = mount(<ContextPortal {...props} />);
+		const wrapper = Enzyme.mount(<ContextPortal {...props} />);
 
 		expect(wrapper).toBeTruthy();
 	});

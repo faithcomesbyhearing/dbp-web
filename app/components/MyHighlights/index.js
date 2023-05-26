@@ -10,11 +10,14 @@ import Link from 'next/link';
 import SvgWrapper from '../SvgWrapper';
 
 class MyHighlights extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		selectedId: '',
-		selectedColor: '',
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			selectedId: '',
+			selectedColor: '',
+		};
+	}
 
 	highlightIcon(color) {
 		return (
@@ -38,6 +41,7 @@ class MyHighlights extends React.PureComponent {
 				className={'highlight-item'}
 			>
 				<Link
+					legacyBehavior
 					as={`/bible/${highlight.bible_id}/${highlight.book_id}/${
 						highlight.chapter
 					}`}
@@ -61,8 +65,7 @@ class MyHighlights extends React.PureComponent {
 						startUpdateProcess({
 							id: highlight.id,
 							color: highlight.highlighted_color,
-						})
-					}
+						})}
 				>
 					{this.highlightIcon(highlight.highlighted_color)}
 					<span>Edit</span>

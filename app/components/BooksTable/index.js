@@ -29,12 +29,15 @@ import {
 import { selectTextDirection } from '../../containers/Verses/selectors';
 
 export class BooksTable extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		selectedBookName:
-			this.props.initialBookName || this.props.activeBookName || '',
-		updateScrollTop: false,
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			selectedBookName:
+				this.props.initialBookName || this.props.activeBookName || '',
+			updateScrollTop: false,
+		};
+	}
 
 	componentDidMount() {
 		if (this.button && this.container) {
@@ -42,9 +45,9 @@ export class BooksTable extends React.PureComponent {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.active !== this.props.active && nextProps.active) {
-			this.setState({ selectedBookName: nextProps.activeBookName });
+	componentDidUpdate(prevProps) {
+		if (prevProps.active !== this.props.active && this.props.active) {
+			this.setState({ selectedBookName: this.props.activeBookName });
 		}
 	}
 
@@ -150,11 +153,11 @@ export class BooksTable extends React.PureComponent {
 							activeChapter={activeChapter}
 						/>
 					)}
-					{!!books.get('AP') && (
+					{!!(books.get('AP') || !!books.get('DC')) && (
 						<BooksTestament
-							books={books.get('AP')}
-							testamentPrefix={'ap'}
-							testamentTitle={'Apocrypha'}
+							books={books.get('AP') || books.get('DC')}
+							testamentPrefix={'dc'}
+							testamentTitle={'Deuterocanon'}
 							selectedBookName={selectedBookName}
 							handleRef={this.handleRef}
 							handleBookClick={this.handleBookClick}

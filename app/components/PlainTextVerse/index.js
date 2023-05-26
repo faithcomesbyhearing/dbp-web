@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import IconsInText from '../IconsInText';
 import customStyle from '../../utils/customVerseStyle';
 
-const PlainTextVerse = ({
+function PlainTextVerse({
 	onMouseUp,
 	onMouseDown,
 	onHighlightClick,
@@ -18,8 +18,9 @@ const PlainTextVerse = ({
 	activeVerse,
 	verseIsActive,
 	oneVerse,
-}) => (
-	<span
+}) {
+  return (
+<span
 		onMouseUp={onMouseUp}
 		onMouseDown={onMouseDown}
 		onClick={onHighlightClick}
@@ -33,7 +34,7 @@ const PlainTextVerse = ({
 		}
 		data-verseid={verse.verse_start}
 		key={verse.verse_start}
-	>
+>
 		{oneVerse && <br />}
 		<sup data-verseid={verse.verse_start}>
 			&nbsp;
@@ -56,8 +57,9 @@ const PlainTextVerse = ({
 		) : (
 			<span data-verseid={verse.verse_start}>{verse.verse_text}</span>
 		)}
-	</span>
+</span>
 );
+}
 
 PlainTextVerse.propTypes = {
 	onMouseUp: PropTypes.func,

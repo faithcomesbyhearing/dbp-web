@@ -10,9 +10,12 @@ import PopupMessage from '../PopupMessage';
 import checkEmail from '../../utils/checkEmailForValidity';
 
 class PasswordReset extends React.PureComponent {
-	state = {
-		email: '',
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: '',
+		};
+	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();

@@ -1,9 +1,15 @@
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { ChapterSelection } from '..';
 
-jest.mock('../../../components/BooksTable', () => () => <div />);
+Enzyme.configure({ adapter: new Adapter() });
+
+jest.mock('../../../components/BooksTable', () => function booksTableMock() {
+  return <div />;
+});
 
 const dispatch = jest.fn();
 
@@ -32,13 +38,13 @@ describe('<ChapterSelection />', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('should call receive props when active state changes', () => {
-		const wrapper = mount(<ChapterSelection {...activeProps} />);
-		const spy = jest.spyOn(wrapper.instance(), 'componentWillReceiveProps');
+		const wrapper = Enzyme.mount(<ChapterSelection {...activeProps} />);
+		const spy = jest.spyOn(wrapper.instance(), 'componentDidUpdate');
 		wrapper.setProps({ active: false });
 		expect(spy).toHaveBeenCalled();
 	});
 	it('should toggle active state with toggleChapterSelection', () => {
-		const wrapper = mount(<ChapterSelection {...activeProps} />);
+		const wrapper = Enzyme.mount(<ChapterSelection {...activeProps} />);
 		const spy1 = jest.spyOn(wrapper.instance(), 'componentWillUnmount');
 		const spy2 = jest.spyOn(wrapper.instance(), 'toggleChapterSelection');
 		const spy3 = jest.spyOn(
@@ -46,7 +52,10 @@ describe('<ChapterSelection />', () => {
 			'onMenuUnmount',
 		);
 
-		wrapper.instance().forceUpdate();
+		act(() => {
+			wrapper.instance().forceUpdate();
+		});
+
 		wrapper.instance().toggleChapterSelection();
 
 		expect(dispatch).toHaveBeenCalled();

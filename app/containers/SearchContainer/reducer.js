@@ -27,7 +27,7 @@ const initialState = fromJS({
 	showError: false,
 });
 
-function searchContainerReducer(state = initialState, action) {
+function searchContainerReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case ADD_SEARCH_TERM:
 			if (

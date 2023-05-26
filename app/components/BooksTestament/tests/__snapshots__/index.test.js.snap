@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<BooksTestament /> Should match the old snapshot 1`] = `
-Array [
+[
   <div
     className="testament-title"
   >
@@ -36,6 +36,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/2?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           2
@@ -45,6 +47,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/3?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           3
@@ -54,6 +58,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/4?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           4
@@ -63,6 +69,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/5?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           5
@@ -72,6 +80,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/6?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           6
@@ -81,6 +91,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/7?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           7
@@ -90,6 +102,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/8?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           8
@@ -99,6 +113,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/9?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           9
@@ -108,6 +124,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/10?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           10
@@ -117,6 +135,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/11?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           11
@@ -126,6 +146,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/12?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           12
@@ -135,6 +157,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/13?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           13
@@ -144,6 +168,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/14?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           14
@@ -153,6 +179,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/15?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           15
@@ -162,6 +190,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/16?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           16
@@ -171,6 +201,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/17?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           17
@@ -180,6 +212,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/18?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           18
@@ -189,6 +223,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/19?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           19
@@ -198,6 +234,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/20?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           20
@@ -207,6 +245,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/21?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           21
@@ -216,6 +256,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/22?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           22
@@ -225,6 +267,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/23?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           23
@@ -234,6 +278,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/24?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           24
@@ -243,6 +289,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/25?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           25
@@ -252,6 +300,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/26?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           26
@@ -261,6 +311,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/27?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           27
@@ -270,6 +322,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/28?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           28
@@ -279,6 +333,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/29?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           29
@@ -288,6 +344,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/30?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           30
@@ -297,6 +355,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/31?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           31
@@ -306,6 +366,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/32?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           32
@@ -315,6 +377,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/33?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           33
@@ -324,6 +388,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/34?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           34
@@ -333,6 +399,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/35?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           35
@@ -342,6 +410,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/36?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           36
@@ -351,6 +421,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/37?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           37
@@ -360,6 +432,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/38?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           38
@@ -369,6 +443,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/39?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           39
@@ -378,6 +454,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/40?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           40
@@ -387,6 +465,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/41?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           41
@@ -396,6 +476,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/42?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           42
@@ -405,6 +487,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/43?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           43
@@ -414,6 +498,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/44?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           44
@@ -423,6 +509,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/45?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           45
@@ -432,6 +520,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/46?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           46
@@ -441,6 +531,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/47?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           47
@@ -450,6 +542,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/48?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           48
@@ -459,6 +553,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/49?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           49
@@ -468,6 +564,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/GEN/50?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           50
@@ -492,6 +590,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/1?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           1
@@ -501,6 +601,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/2?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           2
@@ -510,6 +612,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/3?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           3
@@ -519,6 +623,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/4?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           4
@@ -528,6 +634,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/5?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           5
@@ -537,6 +645,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/6?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           6
@@ -546,6 +656,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/7?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           7
@@ -555,6 +667,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/8?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           8
@@ -564,6 +678,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/9?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           9
@@ -573,6 +689,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/10?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           10
@@ -582,6 +700,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/11?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           11
@@ -591,6 +711,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/12?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           12
@@ -600,6 +722,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/13?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           13
@@ -609,6 +733,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/14?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           14
@@ -618,6 +744,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/15?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           15
@@ -627,6 +755,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/16?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           16
@@ -636,6 +766,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/17?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           17
@@ -645,6 +777,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/18?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           18
@@ -654,6 +788,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/19?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           19
@@ -663,6 +799,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/20?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           20
@@ -672,6 +810,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/21?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           21
@@ -681,6 +821,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/22?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           22
@@ -690,6 +832,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/23?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           23
@@ -699,6 +843,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/24?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           24
@@ -708,6 +854,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/25?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           25
@@ -717,6 +865,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/26?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           26
@@ -726,6 +876,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/27?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           27
@@ -735,6 +887,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/28?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           28
@@ -744,6 +898,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/29?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           29
@@ -753,6 +909,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/30?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           30
@@ -762,6 +920,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/31?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           31
@@ -771,6 +931,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/32?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           32
@@ -780,6 +942,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/33?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           33
@@ -789,6 +953,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/34?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           34
@@ -798,6 +964,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/35?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           35
@@ -807,6 +975,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/36?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           36
@@ -816,6 +986,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/37?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           37
@@ -825,6 +997,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/38?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           38
@@ -834,6 +1008,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/39?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           39
@@ -843,6 +1019,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/EXO/40?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           40
@@ -867,6 +1045,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/1?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           1
@@ -876,6 +1056,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/2?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           2
@@ -885,6 +1067,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/3?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           3
@@ -894,6 +1078,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/4?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           4
@@ -903,6 +1089,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/5?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           5
@@ -912,6 +1100,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/6?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           6
@@ -921,6 +1111,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/7?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           7
@@ -930,6 +1122,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/8?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           8
@@ -939,6 +1133,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/9?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           9
@@ -948,6 +1144,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/10?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           10
@@ -957,6 +1155,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/11?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           11
@@ -966,6 +1166,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/12?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           12
@@ -975,6 +1177,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/13?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           13
@@ -984,6 +1188,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/14?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           14
@@ -993,6 +1199,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/15?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           15
@@ -1002,6 +1210,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/16?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           16
@@ -1011,6 +1221,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/17?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           17
@@ -1020,6 +1232,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/18?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           18
@@ -1029,6 +1243,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/19?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           19
@@ -1038,6 +1254,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/20?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           20
@@ -1047,6 +1265,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/21?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           21
@@ -1056,6 +1276,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/22?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           22
@@ -1065,6 +1287,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/23?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           23
@@ -1074,6 +1298,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/24?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           24
@@ -1083,6 +1309,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/25?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           25
@@ -1092,6 +1320,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/26?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           26
@@ -1101,6 +1331,8 @@ Array [
         className="chapter-box"
         href="/bible/ENGESV/LEV/27?audio_type=drama"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         <span>
           27

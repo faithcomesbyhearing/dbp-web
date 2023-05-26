@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import isEqual from 'lodash/isEqual';
 import Router from 'next/router';
+import Hls from 'hls.js';
 import cachedFetch, { overrideCache } from '../../utils/cachedFetch';
 import { openVideoPlayer, closeVideoPlayer, setHasVideo } from './actions';
 import SvgWrapper from '../../components/SvgWrapper';
@@ -13,63 +14,65 @@ import VideoList from '../../components/VideoList';
 import VideoProgressBar from '../../components/VideoProgressBar';
 import VideoOverlay from '../../components/VideoOverlay';
 import { selectHasVideo, selectPlayerOpenState } from './selectors';
-import checkForVideoAsync from '../../utils/checkForVideoAsync';
 
 class VideoPlayer extends React.PureComponent {
-  state = {
-    paused: true,
-    elipsisOpen: false,
-    volume: 1,
-    currentTime: 0,
-    bufferLength: 0,
-    playlist: [],
-    videos: [],
-    currentVideo: {},
-    poster: '',
-    hlsSupported: true,
-    preload: 'metadata',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      paused: true,
+      elipsisOpen: false,
+      volume: 1,
+      currentTime: 0,
+      bufferLength: 0,
+      playlist: [],
+      videos: [],
+      currentVideo: {},
+      poster: '',
+      hlsSupported: true,
+      preload: 'metadata',
+    };
+  }
 
   componentDidMount() {
     this.getHls();
-    this.videoRef.addEventListener(
-      'webkitendfullscreen',
-      this.webkitendfullscreen,
-      false,
-    );
+    if (this.videoRef) {
+      this.videoRef.addEventListener(
+        'webkitendfullscreen',
+        this.webkitendfullscreen,
+        false,
+      );
+    }
     Router.router.events.on('routeChangeStart', this.handleRouteChange);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { fileset } = nextProps;
-
-    if (
-      nextProps.bookId !== this.props.bookId ||
-      nextProps.chapter !== this.props.chapter ||
-      (nextProps.fileset &&
-        this.props.fileset &&
-        !isEqual(nextProps.fileset, this.props.fileset))
-    ) {
-      if (nextProps.hasVideo) {
-        this.getVideos({
-          filesetId: fileset ? fileset.id : '',
-          bookId: nextProps.bookId || '',
-          chapter: nextProps.chapter,
-        });
-      }
-    } else if (
-      nextProps.hasVideo !== this.props.hasVideo &&
-      nextProps.hasVideo
-    ) {
+  fetchVideosIfNeeded(fileset, bookId, chapter, hasVideo) {
+    if (hasVideo) {
       this.getVideos({
         filesetId: fileset ? fileset.id : '',
-        bookId: nextProps.bookId || '',
-        chapter: nextProps.chapter,
+        bookId: bookId || '',
+        chapter,
       });
-    } else if (
-      nextProps.hasVideo !== this.props.hasVideo &&
-      !nextProps.hasVideo
-    ) {
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { fileset, bookId, chapter, hasVideo } = this.props;
+    const { currentVideo, hlsSupported } = this.state;
+
+    const contentChanged =
+      prevProps.bookId !== bookId ||
+      prevProps.chapter !== chapter ||
+      (prevProps.fileset && fileset && !isEqual(prevProps.fileset, fileset));
+
+    const videoStatusChanged = prevProps.hasVideo !== hasVideo;
+
+    if (prevState.currentVideo !== currentVideo || prevState.hlsSupported !== hlsSupported) {
+      this.initVideoStream({ thumbnailClick: false });
+    }
+
+    if (contentChanged || (videoStatusChanged && hasVideo)) {
+      this.fetchVideosIfNeeded(fileset, bookId, chapter, hasVideo);
+    } else if (videoStatusChanged && !hasVideo) {
       this.props.dispatch(closeVideoPlayer());
     }
   }
@@ -108,10 +111,10 @@ class VideoPlayer extends React.PureComponent {
   };
 
   getHls = async () => {
-    const hls = await import('hls.js');
     const { fileset } = this.props;
-    this.Hls = hls.default;
-    this.isSupported = hls.isSupported;
+    this.Hls = Hls;
+    this.isSupported = Hls.isSupported;
+
     if (this.videoRef) {
       this.getVideos({
         filesetId: fileset ? fileset.id : '',
@@ -129,7 +132,7 @@ class VideoPlayer extends React.PureComponent {
       process.env.BASE_API_ROUTE
     }/bibles/filesets/${filesetId}?key=${
       process.env.DBP_API_KEY
-    }&v=4&type=video_stream&asset_id=dbp-vid&book_id=${bookId}`;
+    }&v=4&type=video_stream&book_id=${bookId}`;
 
     try {
       // TODO: Profile to see how much time the caching actually saves here
@@ -164,17 +167,6 @@ class VideoPlayer extends React.PureComponent {
           currentVideo: playlist[0],
           poster: playlist[0] ? playlist[0].thumbnail : '',
         });
-        this.initVideoStream({ thumbnailClick: false });
-        this.openPlayer();
-        if (!this.props.hasVideo) {
-          this.props.dispatch(
-            setHasVideo({
-              videoPlayerOpen: true,
-              state: true,
-              videoChapterState: true,
-            }),
-          );
-        }
       } else {
         this.setState({ playlist: [], currentVideo: {} });
         if (this.props.hasVideo) {
@@ -193,20 +185,6 @@ class VideoPlayer extends React.PureComponent {
       }
     }
   };
-
-  get playButton() {
-    const { paused } = this.state;
-
-    return (
-      <SvgWrapper
-        onClick={this.playVideo}
-        className={paused ? 'play-video show-play' : 'play-video hide-play'}
-        fill={'#fff'}
-        svgid={'play_video'}
-        viewBox={'0 0 90 40'}
-      />
-    );
-  }
 
   get previousVideo() {
     const { playlist, currentVideo } = this.state;
@@ -313,55 +291,6 @@ class VideoPlayer extends React.PureComponent {
     }
   };
 
-  // Checks to see if we have video content for the selected chapter
-  // This seems somewhat repetitive and unnecessary
-  checkForBooks = async ({ filesetId, bookId, chapter }) => {
-    if (!filesetId) {
-      this.props.dispatch(
-        setHasVideo({
-          videoPlayerOpen: false,
-          state: false,
-          videoChapterState: false,
-        }),
-      );
-      return;
-    }
-
-    try {
-      // TODO: Profile to see if caching helps here
-      const hasVideo = await checkForVideoAsync(filesetId, bookId, chapter);
-
-      if (hasVideo) {
-        this.props.dispatch(
-          setHasVideo({
-            videoPlayerOpen: hasVideo,
-            state: hasVideo,
-            videoChapterState: hasVideo,
-          }),
-        );
-      } else {
-        this.props.dispatch(
-          setHasVideo({
-            videoPlayerOpen: false,
-            state: false,
-            videoChapterState: false,
-          }),
-        );
-      }
-    } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error checking for video context', err); // eslint-disable-line no-console
-      }
-      this.props.dispatch(
-        setHasVideo({
-          videoPlayerOpen: false,
-          state: false,
-          videoChapterState: false,
-        }),
-      );
-    }
-  };
-
   initHls = () => {
     // Destroying the old hls stream so that there aren't artifacts leftover in the new stream
     if (this.hls) {
@@ -396,7 +325,7 @@ class VideoPlayer extends React.PureComponent {
       if (this.videoRef.canPlayType('application/vnd.apple.mpegurl')) {
         this.videoRef.src = `${currentVideo.source}?key=${
           process.env.DBP_API_KEY
-        }&v=4&asset_id=dbp-vid`;
+        }&v=4`;
         this.videoRef.addEventListener(
           'timeupdate',
           this.timeUpdateEventListener,
@@ -419,7 +348,7 @@ class VideoPlayer extends React.PureComponent {
             this.hls.loadSource(
               `${currentVideo.source}?key=${
                 process.env.DBP_API_KEY
-              }&v=4&asset_id=dbp-vid`,
+              }&v=4`,
             );
             this.hls.media.addEventListener(
               'timeupdate',
@@ -489,7 +418,7 @@ class VideoPlayer extends React.PureComponent {
         this.videoRef.src ===
         `${currentVideo.source}?key=${
           process.env.DBP_API_KEY
-        }&v=4&asset_id=dbp-vid`
+        }&v=4`
       ) {
         this.videoRef.play();
         this.setState({ paused: false });
@@ -508,7 +437,7 @@ class VideoPlayer extends React.PureComponent {
             this.hls.url ===
               `${currentVideo.source}?key=${
                 process.env.DBP_API_KEY
-              }&v=4&asset_id=dbp-vid`
+              }&v=4`
           ) {
             this.hls.media.play();
             this.setState({ paused: false });

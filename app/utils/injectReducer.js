@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { useStore } from 'react-redux';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 import getInjectors from './reducerInjectors';
@@ -11,30 +12,27 @@ import getInjectors from './reducerInjectors';
  * @param {function} reducer A reducer that will be injected
  *
  */
+const ReducerInjector = ({ keyReducer, reducer, children }) => {
+	const store = useStore();
+	const injectors = getInjectors(store);
+
+	React.useEffect(() => {
+		injectors.injectReducer(keyReducer, reducer);
+	}, [injectors, keyReducer, reducer]);
+
+	return children;
+};
+
 export default ({ key, reducer }) => (WrappedComponent) => {
-	class ReducerInjector extends React.Component {
-		static WrappedComponent = WrappedComponent;
+	function WithReducer(props) {
+  return (
+<ReducerInjector keyReducer={key} reducer={reducer}>
+			<WrappedComponent {...props} />
+</ReducerInjector>
+);
+}
 
-		static contextTypes = {
-			store: PropTypes.object.isRequired,
-		};
+	WithReducer.displayName = `withReducer(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
-		static displayName = `withReducer(${WrappedComponent.displayName ||
-			WrappedComponent.name ||
-			'Component'})`;
-
-		componentWillMount() {
-			const { injectReducer } = this.injectors;
-
-			injectReducer(key, reducer);
-		}
-
-		injectors = getInjectors(this.context.store);
-
-		render() {
-			return <WrappedComponent {...this.props} />;
-		}
-	}
-
-	return hoistNonReactStatics(ReducerInjector, WrappedComponent);
+	return hoistNonReactStatics(WithReducer, WrappedComponent);
 };

@@ -1,10 +1,12 @@
 // needed for regenerator-runtime
 // (ES7 generator support is required by redux-saga)
-import '@babel/polyfill';
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import { XMLSerializer } from 'xmldom';
+import { XMLSerializer } from '@xmldom/xmldom';
+import { TextDecoder, TextEncoder } from 'util';
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 const jsdom = require('jsdom');
+
 const documentHTML = `
 	<!doctype html>
 		<html>
@@ -13,7 +15,6 @@ const documentHTML = `
 			</body>
 		</html>
 `;
-configure({ adapter: new Adapter() });
 function copyProps(src, target) {
 	const props = Object.getOwnPropertyNames(src)
 		.filter((prop) => typeof target[prop] === 'undefined')
@@ -39,7 +40,9 @@ copyProps(window, global);
 // lazy imports (require.resolveWeak) which conflicts with the Node module system.
 // Need to use require instead of import here and pass through all the props given.
 jest.mock('next/dynamic', () => () => {
-	const DynamicComponent = () => null;
+	function DynamicComponent() {
+  return null;
+}
 	DynamicComponent.displayName = 'LoadableComponent';
 	DynamicComponent.preload = jest.fn();
 	return DynamicComponent;

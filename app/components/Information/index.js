@@ -17,13 +17,17 @@ import messages from './messages';
 import SvgWrapper from '../SvgWrapper';
 
 export class Information extends React.PureComponent {
-	state = {
-		opened: false,
-		height: 0,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			opened: false,
+			height: 0,
+		};
+	}
 
 	// eslint-disable-line react/prefer-stateless-function
 	setRef = (node) => {
+		// eslint-disable-next-line react/no-unused-class-component-methods
 		this.ref = node;
 	};
 
@@ -86,7 +90,7 @@ export class Information extends React.PureComponent {
 						&nbsp;
 					</div>
 					<div className={'ministry-terms-support'}>
-						<Link href={'/terms'}>
+						<Link legacyBehavior href={'/terms'}>
 							<a id={'terms-of-service'}>
 								<FormattedMessage {...messages.terms} />
 							</a>

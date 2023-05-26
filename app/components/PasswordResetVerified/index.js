@@ -11,12 +11,15 @@ import PopupMessage from '../PopupMessage';
 import messages from './messages';
 
 class PasswordResetVerified extends React.PureComponent {
-	state = {
-		email: '',
-		firstPass: '',
-		secondPass: '',
-		validPassword: true,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: '',
+			firstPass: '',
+			secondPass: '',
+			validPassword: true,
+		};
+	}
 
 	handleFirstChange = (e) => {
 		this.setState({ firstPass: e.target.value });

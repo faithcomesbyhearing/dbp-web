@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import request from './request';
 
 export default async ({
@@ -11,9 +11,7 @@ export default async ({
   const bookId = lowerCaseBookId.toUpperCase();
   // start promise for formatted text
   const formattedPromises = formattedFilesetIds.map(async (id) => {
-    const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?asset_id=${
-      process.env.DBP_BUCKET_ID
-    }&key=${
+    const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
       process.env.DBP_API_KEY
     }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`;
     const res = await request(url).catch((e) => {
@@ -24,11 +22,11 @@ export default async ({
     const path = res && res.data && res.data[0] && res.data[0].path;
     let text = '';
     if (path) {
-      text = await fetch(path)
-        .then((textRes) => textRes.text())
+      text = await axios.get(path)
+        .then((textRes) => textRes.data)
         .catch((e) => {
           if (process.env.NODE_ENV === 'development') {
-            console.log('Error fetching formatted text: ', e.message); // eslint-disable-line no-console
+            console.log('Error fetching formatted text: ', e.message, ' path: ', path); // eslint-disable-line no-console
           }
         });
     }
@@ -46,12 +44,12 @@ export default async ({
     }&v=4`;
     const res = await request(url)
       .then((json) => {
-        plainTextJson = JSON.stringify(json);
+        plainTextJson = JSON.stringify(json.data);
         return json;
       })
       .catch((e) => {
         if (process.env.NODE_ENV === 'development') {
-          console.error('Error in request for plain fileset: ', e.message); // eslint-disable-line no-console
+          console.error('Error in request for plain fileset: ', e.message, 'url', url); // eslint-disable-line no-console
         }
         return { data: [] };
       });

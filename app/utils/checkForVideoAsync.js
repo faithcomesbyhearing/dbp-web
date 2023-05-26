@@ -7,7 +7,7 @@ export default async (filesetId, bookId, chapter) => {
 		process.env.BASE_API_ROUTE
 	}/bibles/filesets/${filesetId}/books?key=${
 		process.env.DBP_API_KEY
-	}&asset_id=dbp-vid&fileset_type=video_stream&v=4`;
+	}&fileset_type=video_stream&v=4`;
 
 	try {
 		const res = await request(reqUrl);

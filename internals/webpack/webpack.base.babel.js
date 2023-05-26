@@ -4,8 +4,11 @@
 
 const path = require('path');
 const webpack = require('webpack');
-require('dotenv').config();
-// const SitemapPlugin = require('sitemap-webpack-plugin').default;
+
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -15,14 +18,12 @@ process.noDeprecation = true;
 
 module.exports = (options) => ({
 	entry: options.entry,
-	output: Object.assign(
-		{
-			// Compile into js/build.js
+	output: {
+		// Compile into js/build.js
 			path: path.resolve(process.cwd(), 'build'),
 			publicPath: '/',
-		},
-		options.output,
-	), // Merge with env dependent settings
+		...options.output,
+	}, // Merge with env dependent settings
 	module: {
 		rules: [
 			{
@@ -56,7 +57,7 @@ module.exports = (options) => ({
 				use: [
 					'file-loader',
 					{
-						loader: 'image-webpack-loader',
+						loader: 'image-minimizer-webpack-plugin',
 						options: {
 							progressive: true,
 							optimizationLevel: 7,
@@ -111,9 +112,7 @@ module.exports = (options) => ({
 				FB_APP_ID: JSON.stringify(process.env.FB_APP_ID),
 				FB_ACCESS: JSON.stringify(process.env.FB_ACCESS),
 				NOTES_PROJECT_ID: JSON.stringify(process.env.NOTES_PROJECT_ID),
-				DBP_BUCKET_ID: JSON.stringify(process.env.DBP_BUCKET_ID),
 				GOOGLE_APP_ID: JSON.stringify(process.env.GOOGLE_APP_ID),
-				GOOGLE_APP_ID_PROD: JSON.stringify(process.env.GOOGLE_APP_ID_PROD),
 			},
 		}),
 		new webpack.NamedModulesPlugin(),

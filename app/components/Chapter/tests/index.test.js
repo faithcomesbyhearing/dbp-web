@@ -1,13 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import renderer from 'react-test-renderer';
 import Chapter from '..';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const clickMessage = 'click-handler';
 
 describe('<Chapter />', () => {
 	it('Should render', () => {
-		const wrapper = shallow(
+		const wrapper = Enzyme.shallow(
 			<Chapter
 				clickHandler={jest.fn(() => clickMessage)}
 				chapter={1}
@@ -19,7 +22,7 @@ describe('<Chapter />', () => {
 		expect(wrapper.text()).toEqual('1');
 	});
 	it('Should render for active chapter', () => {
-		const wrapper = shallow(
+		const wrapper = Enzyme.shallow(
 			<Chapter
 				clickHandler={jest.fn(() => clickMessage)}
 				chapter={1}
@@ -31,7 +34,7 @@ describe('<Chapter />', () => {
 		expect(wrapper.find('.active-chapter').length).toEqual(1);
 	});
 	it('Should render for inactive chapter', () => {
-		const wrapper = shallow(
+		const wrapper = Enzyme.shallow(
 			<Chapter
 				clickHandler={jest.fn(() => clickMessage)}
 				chapter={1}
@@ -69,7 +72,7 @@ describe('<Chapter />', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('Should correctly fire click event', () => {
-		const wrapper = shallow(
+		const wrapper = Enzyme.shallow(
 			<Chapter
 				clickHandler={jest.fn(() => clickMessage)}
 				chapter={1}

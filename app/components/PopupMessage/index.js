@@ -15,9 +15,9 @@ function PopupMessage({ styles, message, x, y }) {
 			className={'custom-popup'}
 		>
 			{message ? (
-				<p>{message}</p>
+				<div>{message}</div>
 			) : (
-				<p>
+				<div>
 					If you believe this to be an error please{' '}
 					<a
 						className={'logo'}
@@ -29,7 +29,7 @@ function PopupMessage({ styles, message, x, y }) {
 						contact support
 					</a>
 					.
-				</p>
+				</div>
 			)}
 		</div>
 	);
@@ -38,7 +38,11 @@ function PopupMessage({ styles, message, x, y }) {
 }
 
 PopupMessage.propTypes = {
-	message: PropTypes.string.isRequired,
+	message: PropTypes.oneOfType([
+		PropTypes.string.isRequired,
+		PropTypes.func.isRequired,
+		PropTypes.object.isRequired,
+	]).isRequired,
 	x: PropTypes.number,
 	y: PropTypes.number,
 	styles: PropTypes.object,

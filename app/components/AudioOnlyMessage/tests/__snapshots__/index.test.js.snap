@@ -6,7 +6,7 @@ exports[`AudioOnlyMessage Component Should match previous snapshot 1`] = `
 >
   <svg>
     <use
-      xlinkHref="/static/svglist.svg#audio_only"
+      xlinkHref="/svglist.svg#audio_only"
       xmlnsXlink="http://www.w3.org/1999/xlink"
     />
   </svg>

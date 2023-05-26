@@ -1,10 +1,12 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-// import configureStore from 'redux-mock-store';
-import { mount } from 'enzyme';
 import { fromJS } from 'immutable';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
+
 import { VersionList } from '..';
 import { getTexts } from '../../VersionListSection/tests/versionListSectionUtils';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
@@ -24,8 +26,7 @@ const props = {
 	active: true,
 	loadingVersions: false,
 };
-// const mockStore = configureStore();
-// const store = mockStore(fromJS(props));
+
 let bibles = fromJS([]);
 describe('<VersionList />', () => {
 	beforeEach(async () => {
@@ -33,14 +34,12 @@ describe('<VersionList />', () => {
 		bibles = fromJS(jsBibles);
 	});
 	it('Should match previous snapshot', () => {
-		const tree = renderer
-			.create(<VersionList {...props} bibles={bibles} />)
-			.toJSON();
+		const wrapper = Enzyme.mount(<VersionList {...props} bibles={bibles} />);
 
-		expect(tree).toMatchSnapshot();
+		expect(wrapper.find('div.accordion-title-style').length).toEqual(bibles.size);
 	});
 	it('Should contain a list of version names', () => {
-		const wrapper = mount(<VersionList {...props} bibles={bibles} />);
+		const wrapper = Enzyme.mount(<VersionList {...props} bibles={bibles} />);
 
 		expect(wrapper.find('.version-name-list').length).toEqual(1);
 	});

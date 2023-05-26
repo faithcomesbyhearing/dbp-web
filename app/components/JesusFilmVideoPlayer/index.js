@@ -7,20 +7,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
-import SvgWrapper from '../SvgWrapper';
 import VideoControls from '../VideoControls';
 import VideoProgressBar from '../VideoProgressBar';
 import VideoOverlay from '../VideoOverlay';
 
 class JesusFilmVideoPlayer extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		paused: true,
-		volume: 1,
-		currentTime: 0,
-		bufferLength: 0,
-		hlsSupported: true,
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			paused: true,
+			volume: 1,
+			currentTime: 0,
+			bufferLength: 0,
+			hlsSupported: true,
+		};
+	}
 
 	componentDidMount() {
 		if (this.videoRef) {
@@ -79,20 +81,6 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 			this.initVideoStream();
 		}
 	};
-
-	get playButton() {
-		const { paused } = this.state;
-
-		return (
-			<SvgWrapper
-				onClick={this.playVideo}
-				className={paused ? 'play-video show-play' : 'play-video hide-play'}
-				fill={'#fff'}
-				svgid={'play_video'}
-				viewBox={'0 0 90 40'}
-			/>
-		);
-	}
 
 	setVideoRef = (el) => {
 		this.videoRef = el;
@@ -175,19 +163,17 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 	initVideoStream = () => {
 		const { hlsSupported } = this.state;
 		const { hlsStream } = this.props;
-		// console.log('initVideo: hls supported', hlsSupported)
-		// console.log('initVideo: hls stream', hlsStream)
-		// console.log('initVideo: can play type', this.videoRef.canPlayType('application/vnd.apple.mpegurl'))
+
 		if (
 			!hlsSupported ||
 			this.videoRef.canPlayType('application/vnd.apple.mpegurl')
 		) {
 			this.videoRef.src = `${hlsStream}?key=${
 				process.env.DBP_API_KEY
-			}&v=4&asset_id=dbp-vid`;
+			}&v=4`;
 			// console.log('initVideo: new source', `${hlsStream}?key=${
 			// 	process.env.DBP_API_KEY
-			// }&v=4&asset_id=dbp-vid`);
+			// }&v=4`);
 			this.videoRef.addEventListener(
 				'timeupdate',
 				this.timeUpdateEventListener,
@@ -206,7 +192,7 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 						this.hls.loadSource(
 							`${hlsStream}?key=${
 								process.env.DBP_API_KEY
-							}&v=4&asset_id=dbp-vid`,
+							}&v=4`,
 						);
 						this.hls.media.addEventListener(
 							'timeupdate',
@@ -269,14 +255,14 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 	playVideo = () => {
 		const { hlsSupported } = this.state;
 		const { hlsStream } = this.props;
-		// console.log('playVideo: can play type', this.videoRef.canPlayType('application/vnd.apple.mpegurl'))
+
 		if (
 			!hlsSupported ||
 			this.videoRef.canPlayType('application/vnd.apple.mpegurl')
 		) {
 			if (
 				this.videoRef.src ===
-				`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-vid`
+				`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4`
 			) {
 				const playPromise = this.videoRef.play();
 				if (playPromise) {
@@ -305,7 +291,7 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 					if (
 						this.hls.media &&
 						this.hls.url ===
-							`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4&asset_id=dbp-vid`
+							`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4`
 					) {
 						const playPromise = this.hls.media.play();
 						if (playPromise) {

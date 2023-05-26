@@ -12,40 +12,44 @@ const goBack = () => {
 	history.back();
 };
 
-const BackButton = ({ isIe }) => (
-	<button className={'back-button'} type={'button'} onClick={goBack}>
+function BackButton({ isIe }) {
+  return (
+<button className={'back-button'} type={'button'} onClick={goBack}>
 		<SvgWrapper
 			className={'svg'}
 			fill={isIe ? '#fff' : ''}
 			svgid={'arrow_left'}
 		/>
-	</button>
+</button>
 );
+}
 
 BackButton.propTypes = {
 	isIe: PropTypes.bool,
 };
 
-const Logo = ({ theme, isIe }) => (
-	<a
+function Logo({ theme, isIe }) {
+  return (
+<a
 		className={'logo'}
 		href={'http://www.bible.is'}
 		title={'http://www.bible.is'}
 		rel={'noopener'}
-	>
+>
 		{theme === 'paper' &&
 			!isIe && (
 				<svg className={'svg'}>
-					<use xlinkHref={'/static/light_theme_logo.svg#bible.is_logo_light'} />
+				<use xlinkHref={'/light_theme_logo.svg#bible.is_logo_light'} />
 				</svg>
 			)}
 		{(theme !== 'paper' || isIe) && (
 			<svg className={'svg'} fill={isIe ? '#fff' : ''}>
-				<use xlinkHref={'/static/dark_theme_logo.svg#bible.is_logo'} />
+				<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
 			</svg>
 		)}
-	</a>
+</a>
 );
+}
 
 Logo.propTypes = {
 	theme: PropTypes.string,
@@ -55,14 +59,14 @@ Logo.propTypes = {
 // Basic nav
 // Basic footer
 // Video Player with adjusted styles
-const JesusFilm = ({
+function JesusFilm({
 	iso,
 	routeLocation,
 	hlsStream,
 	theme,
 	isIe,
 	duration,
-}) => {
+}) {
 	const titleText = `Jesus Film | ${iso} | Bible.is`;
 
 	return (
@@ -72,7 +76,7 @@ const JesusFilm = ({
 				<meta property={'og:title'} content={titleText} />
 				<meta
 					property={'og:image'}
-					content={`${process.env.BASE_SITE_URL}/static/icon-310x310.png`}
+					content={`${process.env.BASE_SITE_URL}/public/icon-310x310.png`}
 				/>
 				<meta property={'og:image:width'} content={310} />
 				<meta property={'og:image:height'} content={310} />
@@ -99,7 +103,7 @@ const JesusFilm = ({
 			<div className={'footer-background'} />
 		</div>
 	);
-};
+}
 
 JesusFilm.getInitialProps = async (context) => {
 	const { req } = context;

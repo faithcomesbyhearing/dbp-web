@@ -60,11 +60,6 @@
 	}
 
 	.chapter-container {
-		//  display:grid;
-		//  margin:auto;
-		//  padding-top:10px;
-		//  grid-template-columns:repeat(5,60px);
-		//  grid-template-rows:auto;
 		display: flex;
 		flex-wrap: wrap;
 		flex-shrink: 0;
@@ -72,13 +67,10 @@
 		height: auto;
 		margin-top: 15px;
 		margin-bottom: 15px;
-		//padding-top:5px;
 		padding: 10px 15px 5px 15px;
 		clear: both;
-		//overflow:auto;
 		@include css4 {
 			background-color: var(--text-selection-accordion-body-background);
-			//color: var(--book-dropdown-text-color);
 		}
 
 		&.inactive-book-chapters {
@@ -105,15 +97,8 @@
 				&:hover {
 					cursor: default;
 				}
-				//filter:invert(1);
 			}
-			//padding:15px;
-
-			//.accordion {
-			//  padding: 15px;
-			//}
 			.accordion-title-style {
-				//&aria-selected["true"]
 				@include css4 {
 					background-color: var(--text-selection-accordion-body-background);
 				}
@@ -121,17 +106,16 @@
 					padding-bottom: 15px;
 				}
 				padding-top: 15px;
-				//padding-left: 15px;
 				cursor: pointer;
 
-				& .accordion__title[aria-selected='true'] {
+				& .accordion__button[aria-expanded='true'] {
 					padding-bottom: 15px;
 					@include css4 {
 						color: var(--active-color-primary);
 					}
 				}
 
-				& .accordion__title {
+				& .accordion__button {
 					padding: 0 15px;
 				}
 
@@ -195,16 +179,11 @@
 	}
 
 	.book-button {
-		//display: inline-block;
 		display: flex;
 		flex-direction: column;
 		flex-shrink: 0;
-		//margin-bottom:10px;
 		min-height: 36px;
-		//height: 36px;
 		width: 100%;
-		//padding: 0 15px 5px 15px;
-		//padding-bottom: 5px;
 		clear: both;
 		overflow: hidden;
 

@@ -1,9 +1,14 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import renderer from 'react-test-renderer';
 import PlainTextVerse from '../index';
 
-jest.mock('../../IconsInText', () => () => <div id="mockIcons">mockIcons</div>);
+Enzyme.configure({ adapter: new Adapter() });
+
+jest.mock('../../IconsInText', () => function iconsInTextMock() {
+  return <div id="mockIcons">mockIcons</div>;
+});
 
 const onMouseUp = jest.fn();
 const onMouseDown = jest.fn();
@@ -28,7 +33,7 @@ const oneVerse = false;
 
 describe('PlainTextVerse', () => {
 	it('should return correct component', () => {
-		const wrapper = mount(
+		const wrapper = Enzyme.mount(
 			<PlainTextVerse
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}
@@ -79,7 +84,7 @@ describe('PlainTextVerse', () => {
 		expect(tree).toMatchSnapshot();
 	});
 	it('Should render one verse per line if oneVerse is true', () => {
-		const wrapper = mount(
+		const wrapper = Enzyme.mount(
 			<PlainTextVerse
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}

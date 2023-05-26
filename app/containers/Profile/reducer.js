@@ -47,7 +47,7 @@ const initialState = fromJS({
 	passwordWasReset: false,
 });
 
-function profileReducer(state = initialState, action) {
+function profileReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case SOCIAL_MEDIA_LOGIN:
 			return state.set('activeDriver', action.driver);

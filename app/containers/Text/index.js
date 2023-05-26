@@ -26,9 +26,12 @@ const Verses = dynamic(import('../Verses'), {
 	 and the most straight forward way of doing so is with the onMouseUp event */
 // Todo: Set selected text when user clicks a verse
 class Text extends React.PureComponent {
-	state = {
-		loadingNextPage: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			loadingNextPage: false,
+		};
+	}
 
 	componentDidMount() {
 		// Doing all these assignments because nextjs was erroring because they try to use the dom
@@ -37,15 +40,15 @@ class Text extends React.PureComponent {
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(prevProps) {
 		// If there is new formatted text or new plain text then the menus need to be disabled
 		// Change the loading state to be set and controlled within the API call and promise
 		if (
 			// If there was a change in the text at all then the menus need to be closed
-			nextProps.verseNumber !== this.props.verseNumber ||
-			nextProps.activeChapter !== this.props.activeChapter ||
-			nextProps.activeBookId !== this.props.activeBookId ||
-			nextProps.activeTextId !== this.props.activeTextId
+			prevProps.verseNumber !== this.props.verseNumber ||
+			prevProps.activeChapter !== this.props.activeChapter ||
+			prevProps.activeBookId !== this.props.activeBookId ||
+			prevProps.activeTextId !== this.props.activeTextId
 		) {
 			this.setState({ loadingNextPage: false });
 		}
@@ -174,7 +177,7 @@ Text.propTypes = {
 	chapterTextLoadingState: PropTypes.bool,
 	audioType: PropTypes.string,
 	verseNumber: PropTypes.string,
-	activeTextId: PropTypes.string,
+	activeTextId: PropTypes.string.isRequired,
 	activeBookId: PropTypes.string,
 };
 

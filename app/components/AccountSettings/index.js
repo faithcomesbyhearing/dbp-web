@@ -10,33 +10,21 @@ import { FormattedMessage } from 'react-intl';
 import SvgWrapper from '../SvgWrapper';
 import PopupMessage from '../PopupMessage';
 import messages from './messages';
-// import DonateButton from '../DonateButton';
 
 class AccountSettings extends React.PureComponent {
-	state = {
-		email: this.props.profile.email,
-		nickname: this.props.profile.nickname,
-		name: this.props.profile.name,
-		avatar: this.props.profile.avatar,
-		popupOpen: false,
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: this.props.profile.email,
+			nickname: this.props.profile.nickname,
+			name: this.props.profile.name,
+			avatar: this.props.profile.avatar,
+			popupOpen: false,
+		};
+	}
 
 	handleEmailChange = (e) => {
 		this.setState({ email: e.target.value });
-	};
-
-	handleFileInputChange = (e) => {
-		if (e.target.files[0]) {
-			this.props.changePicture({ avatar: e.target.files[0] });
-		} else {
-			this.setState({ popupOpen: true });
-			if (this.timer) {
-				clearTimeout(this.timer);
-			}
-			setTimeout(() => {
-				this.setState({ popupOpen: false });
-			}, 2500);
-		}
 	};
 
 	render() {

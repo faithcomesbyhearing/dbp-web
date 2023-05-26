@@ -13,24 +13,27 @@ import PopupMessage from '../../components/PopupMessage';
 import { createUserWithSocialAccount } from '../HomePage/actions';
 
 export class FacebookAuthentication extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
-	state = {
-		popupOpen: false,
-		popupCoords: { x: 0, y: 0 },
-		oauthError: '',
-		oauthErrorMessage: '',
-	};
+	constructor(props) {
+		super(props);
+		// eslint-disable-line react/prefer-stateless-function
+		this.state = {
+			popupOpen: false,
+			popupCoords: { x: 0, y: 0 },
+			oauthError: '',
+			oauthErrorMessage: '',
+		};
+	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate() {
 		if (
 			!this.state.popupOpen &&
-			nextProps.oauthError &&
-			nextProps.oauthErrorMessage
+			this.props.oauthError &&
+			this.props.oauthErrorMessage
 		) {
 			this.openPopup(
 				{ clientX: 150, clientY: 300 },
-				nextProps.oauthError,
-				nextProps.oauthErrorMessage,
+				this.props.oauthError,
+				this.props.oauthErrorMessage,
 			);
 		}
 	}
