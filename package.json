@@ -58,7 +58,6 @@
   },
   "lint-staged": {
     "*.{js,json,scss,md}": [
-      "prettier --arrow-parens=always --use-tabs --write --single-quote --trailing-comma=all",
       "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
       "git add"
     ]
