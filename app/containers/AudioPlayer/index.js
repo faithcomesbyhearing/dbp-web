@@ -24,7 +24,11 @@ import makeSelectAudioPlayer, {
   selectVolume,
 } from './selectors';
 import { selectUserNotes } from '../HomePage/selectors';
-import { setAudioPlayerState, toggleAutoPlay } from '../HomePage/actions';
+import {
+  setAudioPlayerState,
+  toggleAutoPlay,
+  setChapterTextLoadingState,
+} from '../HomePage/actions';
 import reducer from './reducer';
 import messages from './messages';
 import getNextChapterUrl from '../../utils/getNextChapterUrl';
@@ -58,6 +62,7 @@ export class AudioPlayer extends React.Component {
         last: props.audioPaths.length === 0,
       },
       clickedPlay: false,
+      wasPlaying: false,
     };
   }
 
@@ -69,8 +74,7 @@ export class AudioPlayer extends React.Component {
     if (this.props.autoPlay) {
       // Checking User Agent because the canplay event fails silently on mobile apple devices
       if (
-        navigator &&
-        navigator.userAgent &&
+        navigator?.userAgent &&
         /iPhone|iPod|iPad/i.test(navigator.userAgent)
       ) {
         this.audioRef.addEventListener('loadedmetadata', this.autoPlayListener);
@@ -107,16 +111,17 @@ export class AudioPlayer extends React.Component {
     );
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.hasVideo && this.props.videoPlayerOpen) {
       // this.pauseAudio();
     }
     if (
-      nextProps.activeTextId !== this.props.activeTextId ||
-      nextProps.activeBookId !== this.props.activeBookId ||
-      nextProps.activeChapter !== this.props.activeChapter ||
-      nextProps.audioType !== this.props.audioType ||
-      nextProps.verseNumber !== this.props.verseNumber
+      prevProps.activeTextId !== this.props.activeTextId ||
+      prevProps.activeBookId !== this.props.activeBookId ||
+      prevProps.activeChapter !== this.props.activeChapter ||
+      prevProps.audioType !== this.props.audioType ||
+      prevProps.verseNumber !== this.props.verseNumber ||
+      !isEqual(prevProps.activeFilesets, this.props.activeFilesets)
     ) {
       this.getAudio(
         this.props.activeFilesets,
@@ -124,15 +129,17 @@ export class AudioPlayer extends React.Component {
         this.props.activeChapter,
         this.props.audioType,
       );
+
+      this.setTextLoadingState({ state: false });
     }
-    if (nextProps.audioSource !== this.props.audioSource) {
-      if (this.props.audioSource && !nextProps.audioSource) {
+    if (prevProps.audioSource !== this.props.audioSource) {
+      if (this.props.audioSource && !prevProps.audioSource) {
         this.setAudioPlayerState(true);
       }
       if (this.props.audioSource) {
         this.setState({ playing: false, loadingNextChapter: false });
       } else if (
-        nextProps.audioPlayerState &&
+        prevProps.audioPlayerState &&
         (!this.props.audioSource || !this.props.hasAudio)
       ) {
         this.setState({ playing: false }, () =>
@@ -143,8 +150,7 @@ export class AudioPlayer extends React.Component {
 
     if (this.props.autoPlay) {
       if (
-        navigator &&
-        navigator.userAgent &&
+        navigator?.userAgent &&
         /iPhone|iPod|iPad/i.test(navigator.userAgent)
       ) {
         this.audioRef.addEventListener('loadedmetadata', this.autoPlayListener);
@@ -153,8 +159,7 @@ export class AudioPlayer extends React.Component {
       }
     } else if (!this.props.autoPlay) {
       if (
-        navigator &&
-        navigator.userAgent &&
+        navigator?.userAgent &&
         /iPhone|iPod|iPad/i.test(navigator.userAgent)
       ) {
         this.audioRef.removeEventListener(
@@ -167,7 +172,7 @@ export class AudioPlayer extends React.Component {
     }
 
     if (
-      !isEqual(nextProps.audioPaths, this.props.audioPaths) &&
+      !isEqual(prevProps.audioPaths, this.props.audioPaths) &&
       this.props.audioPaths.length
     ) {
       this.props.audioPaths.forEach((path) => this.preLoadPath(path));
@@ -182,29 +187,25 @@ export class AudioPlayer extends React.Component {
 
     // Ensure that the player volume and state volume stay in sync
     if (this.audioRef) {
-      if (this.audioRef.volume !== nextProps.volume) {
-        this.audioRef.volume = nextProps.volume;
+      if (this.audioRef.volume !== prevProps.volume) {
+        this.audioRef.volume = prevProps.volume;
       }
       // Ensure that the player playback rate and state playback rate stay in sync
-      if (this.audioRef.playbackRate !== nextProps.playbackRate) {
-        this.audioRef.playbackRate = nextProps.playbackRate;
+      if (this.audioRef.playbackRate !== prevProps.playbackRate) {
+        this.audioRef.playbackRate = prevProps.playbackRate;
       }
       if (
         this.state.wasPlaying &&
-        this.props.audioSource !== nextProps.audioSource
+        this.props.audioSource !== prevProps.audioSource
       ) {
-        this.playAudio(nextProps.audioSource);
+        this.playAudio(prevProps.audioSource);
       }
     }
   }
 
   componentWillUnmount() {
     // Removing all the event listeners in the case that this component is unmounted
-    if (
-      navigator &&
-      navigator.userAgent &&
-      /iPhone|iPod|iPad/i.test(navigator.userAgent)
-    ) {
+    if (navigator?.userAgent && /iPhone|iPod|iPad/i.test(navigator.userAgent)) {
       this.audioRef.removeEventListener(
         'loadedmetadata',
         this.autoPlayListener,
@@ -262,6 +263,9 @@ export class AudioPlayer extends React.Component {
   setAudioPlayerState = (state) =>
     this.props.dispatch(setAudioPlayerState(state));
 
+  setTextLoadingState = (props) =>
+    this.props.dispatch(setChapterTextLoadingState(props));
+
   getAudio = async (filesets, bookId, chapter, audioType) => {
     const audio = await getAudioAsyncCall(filesets, bookId, chapter, audioType);
     this.props.dispatch({ type: 'loadaudio', ...audio });
@@ -307,7 +311,7 @@ export class AudioPlayer extends React.Component {
     const { audioPlayerState, changingVersion } = this.props;
 
     // can accept event as a parameter
-    if (this.audioRef && this.audioRef.duration) {
+    if (this.audioRef?.duration) {
       this.setState({
         duration: this.audioRef.duration,
       });
@@ -607,9 +611,10 @@ export class AudioPlayer extends React.Component {
       onClick={() => {
         this.playAudio(this.props.audioSource);
       }}
-      className={`icon-wrap ${(this.state.loadingNextChapter ||
-        this.props.changingVersion) &&
-        'audio-player-play-disabled'}`}
+      className={`icon-wrap ${
+        (this.state.loadingNextChapter || this.props.changingVersion) &&
+        'audio-player-play-disabled'
+      }`}
       title={messages.playTitle.defaultMessage}
     >
       <SvgWrapper className="svgitem icon" svgid="play" />
@@ -874,14 +879,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'audioPlayer', reducer });
 
-export default compose(
-  withReducer,
-  withConnect,
-)(AudioPlayer);
+export default compose(withReducer, withConnect)(AudioPlayer);

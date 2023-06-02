@@ -207,8 +207,7 @@ class HomePage extends React.PureComponent {
     const prevVerseNumber = prevProps.homepage.match.params.verse;
     const verseNumber = this.props.homepage.match.params.verse;
     const audioParam =
-      location &&
-      location.search &&
+      location?.search &&
       location.search
         .slice(1)
         .split('&')
