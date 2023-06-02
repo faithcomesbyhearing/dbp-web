@@ -71,10 +71,11 @@ export default ({
   // This relies on the books list already being sorted in ascending book_order
   const nextBook = books.find(
     (book) =>
-      book.book_order === activeBook.book_order + 1 ||
-      book.book_order > activeBook.book_order,
+      activeBook &&
+      (book.book_order === activeBook.book_order + 1 ||
+        book.book_order > activeBook.book_order),
   );
-  const maxChapter = activeBook.chapters[activeBook.chapters.length - 1];
+  const maxChapter = activeBook?.chapters[activeBook.chapters.length - 1];
   // If the next book in line doesn't exist and we are already at the last chapter just return
   if (!nextBook && chapter === maxChapter) {
     return url({ audioType, textId, bookId, chapter });
@@ -91,13 +92,17 @@ export default ({
     });
   }
 
-  const chapterIndex = activeBook.chapters.findIndex(
+  const chapterIndex = activeBook?.chapters.findIndex(
     (c) => c === chapter || c > chapter,
   );
   const nextChapterNumber =
-    activeBook.chapters[chapterIndex] === chapter
-      ? activeBook.chapters[chapterIndex + 1]
-      : activeBook.chapters[chapterIndex];
+    activeBook?.chapters[chapterIndex] === chapter
+      ? activeBook?.chapters[chapterIndex + 1]
+      : activeBook?.chapters[chapterIndex];
+
+  if (!nextChapterNumber) {
+    return url({ audioType, textId, bookId, chapter, isHref });
+  }
 
   return url({
     audioType,

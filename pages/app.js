@@ -18,7 +18,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
@@ -186,6 +186,16 @@ function AppContainer(props) {
       setPrevFormattedText(props.formattedText);
     }
   }, [props.formattedText]);
+
+  useEffect(() => {
+    if (props.triggerRedirect.url && props.triggerRedirect.as) {
+      router.push(
+        props.triggerRedirect.url,
+        props.triggerRedirect.as,
+      );
+    }
+  }, [props.triggerRedirect.url, props.triggerRedirect.as]);
+
   const {
     activeChapter,
     chapterText,
@@ -278,20 +288,24 @@ AppContainer.getInitialProps = async (context) => {
   let initialPlaybackRate = 1;
   let isIe = false;
   let audioType = '';
+  const triggerRedirect = {
+    url: null,
+    as: null,
+  };
 
-  if (req && req.query.audio_type) {
+  if (req?.query.audio_type) {
     audioParam = req.query.audio_type;
   } else if (!req) {
     audioParam = context.query.audio_type;
   }
 
-  if (req && req.headers) {
+  if (req?.headers) {
     isIe = isUserAgentInternetExplorer(req.headers['user-agent']);
   }
 
   let cookieData = null;
 
-  if (req && req.headers.cookie) {
+  if (req?.headers.cookie) {
     // Get all cookies that the page needs
     cookieData = parseCookie(req.headers.cookie);
 
@@ -396,7 +410,7 @@ AppContainer.getInitialProps = async (context) => {
     video_stream: true,
   };
 
-  const bibleFilesets = bible && bible.filesets ? geFilesetsForBible(bible.filesets) : [];
+  const bibleFilesets = bible?.filesets ? geFilesetsForBible(bible.filesets) : [];
   const filesetsWithoutStories = removeStoriesFilesets(bibleFilesets, setTypes);
 
   const idsForBookMetadata = filesetsWithoutStories.map((fileset) => ([fileset.type, fileset.id, fileset.size]));
@@ -408,7 +422,9 @@ AppContainer.getInitialProps = async (context) => {
     (book) => bookId && book.book_id === bookId.toUpperCase(),
   );
 
-  const filesets = foundBook ? getValidFilesetsByBook(foundBook, idsForBookMetadata, filesetsWithoutStories) : [];
+  const filesets = foundBook
+    ? getValidFilesetsByBook(foundBook, idsForBookMetadata, filesetsWithoutStories, bookMetaResponse)
+    : [];
 
   hasVideo = filesets && filesets.length > 0 && hasFilesetVideo(filesets);
 
@@ -492,9 +508,10 @@ AppContainer.getInitialProps = async (context) => {
         });
         serverRes.end();
       } else {
-        Router.push(
-          `${window.location.origin}/bible/${bibleId}/${bookChapterRoute}`,
-        );
+        const bookRoute = bookChapterRoute.split('/')[0];
+        const chapterRoute = bookChapterRoute.split('/')[1];
+        triggerRedirect.url = `/app?bibleId=${bibleId}&bookId=${bookRoute}&chapter=${chapterRoute}`;
+        triggerRedirect.as = `/bible/${bibleId}/${bookChapterRoute}`;
       }
     } else if (foundBook) {
       // if the book was found
@@ -512,13 +529,10 @@ AppContainer.getInitialProps = async (context) => {
           });
           serverRes.end();
         } else {
-          Router.push(
-            `${
-              window.location.origin
-            }/bible/${bibleId}/${foundBookId}/${foundChapterId}${
-              audioParam ? `?audio_type=${audioParam}` : ''
-            }`,
-          );
+          triggerRedirect.url = `/app?bibleId=${bibleId}&bookId=${foundBookId}&chapter=${foundChapterId}`;
+          triggerRedirect.as = `/bible/${bibleId}/${foundBookId}/${foundChapterId}${
+            audioParam ? `?audio_type=${audioParam}` : ''
+          }`;
         }
       }
     }
@@ -634,9 +648,9 @@ AppContainer.getInitialProps = async (context) => {
         availableAudioTypes,
         loadingAudio: true,
         hasVideo,
+        videoPlayerOpen: hasVideo,
         chapterText,
         testaments,
-        // userSettings,
         formattedSource: initData.formattedText,
         activeFilesets: filesets,
         changingVersion: false,
@@ -713,6 +727,7 @@ AppContainer.getInitialProps = async (context) => {
       },
     },
     fetchedUrls: [],
+    triggerRedirect,
   };
 };
 
@@ -733,6 +748,10 @@ AppContainer.propTypes = {
     PropTypes.number,
     PropTypes.string,
   ]),
+  triggerRedirect: PropTypes.shape({
+    url: PropTypes.string,
+    as: PropTypes.string,
+  }),
 };
 
 export default connect()(AppContainer);

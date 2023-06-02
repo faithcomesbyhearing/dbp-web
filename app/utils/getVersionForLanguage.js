@@ -70,7 +70,7 @@ export const getVersionForLanguage = async ({
       // Set href and as to correct place
       versionHref = `/app?bibleId=${
         bible.abbr
-      }&bookId=${bookId}&chapter=${chapterId}${query}`;
+      }&bookId=${bookId}&chapter=${chapterId}${query || ''}`;
       versionAs = `/bible/${bible.abbr}/${bookChapterUrl}`;
     }
 

@@ -166,7 +166,6 @@ export class VersionList extends React.PureComponent {
     // Figure out correct url here based on session variable value
     const {
       toggleTextSelection,
-      setActiveText,
       activeTextId,
       activeBookId,
       activeChapter,
@@ -188,38 +187,6 @@ export class VersionList extends React.PureComponent {
 
     if (bible.get('abbr').toLowerCase() !== activeTextId.toLowerCase()) {
       this.props.dispatch(changeVersion({ state: true }));
-    }
-
-    if (bible) {
-      const filesets = bible
-        .get('filesets')
-        .filter((f) => f.get('type') !== 'app');
-
-      if (audioType) {
-        if (
-          typeof window !== 'undefined' &&
-          (audioType === 'audio' || audioType === 'audio_drama')
-        ) {
-          document.cookie = `bible_is_audio_type=${audioType};path=/bible/${bible.get(
-            'abbr',
-          )}`;
-        }
-        setActiveText({
-          textId: bible.get('abbr'),
-          textName:
-            bible.get('vname') || bible.get('name') || bible.get('abbr'),
-          filesets,
-        });
-        toggleTextSelection();
-      } else {
-        setActiveText({
-          textId: bible.get('abbr'),
-          textName:
-            bible.get('vname') || bible.get('name') || bible.get('abbr'),
-          filesets,
-        });
-        toggleTextSelection();
-      }
     }
 
     if (JSON.parse(sessionStorage.getItem('bible_is_maintain_location'))) {
@@ -267,9 +234,23 @@ export class VersionList extends React.PureComponent {
       Router.push(
         `/app?bibleId=${bible.get(
           'abbr',
-        )}&bookId=${bookId}&chapter=${chapterId}${query}`,
+        )}&bookId=${bookId}&chapter=${chapterId}${query || ''}`,
         `/bible/${bible.get('abbr')}/${bookChapterUrl}`,
       );
+    }
+
+    if (bible) {
+      if (audioType) {
+        if (
+          typeof window !== 'undefined' &&
+          (audioType === 'audio' || audioType === 'audio_drama')
+        ) {
+          document.cookie = `bible_is_audio_type=${audioType};path=/bible/${bible.get(
+            'abbr',
+          )}`;
+        }
+      }
+      toggleTextSelection();
     }
   };
 

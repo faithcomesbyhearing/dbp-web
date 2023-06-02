@@ -116,5 +116,9 @@ export default ({
     .get('chapters')
     .findIndex((c) => c === chapter || c > chapter);
 
+  if (!chapterIndex) {
+    return url({ audioType, textId, bookId, chapter, isHref });
+  }
+
   return url({ audioType, textId, bookId, chapter: chapterIndex, isHref });
 };

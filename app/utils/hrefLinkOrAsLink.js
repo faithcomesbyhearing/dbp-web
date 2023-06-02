@@ -4,6 +4,14 @@ export default ({ textId, bookId, chapter, nextVerse, isHref, audioType }) => {
 		? `${isHref ? '&' : '?'}audio_type=${audioType}`
 		: '';
 
+	if (!bookId) {
+		return `${baseUrl}/${textId}`;
+	}
+
+	if (!chapter) {
+		return `${baseUrl}/${textId}/${bookId}`;
+	}
+
 	if (isHref) {
 		if (nextVerse) {
 			return `${baseUrl}bibleId=${textId}&bookId=${bookId}&chapter=${chapter}&verse=${nextVerse}${params}`;
