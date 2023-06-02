@@ -202,10 +202,7 @@ function homePageReducer(state = initialState, action = { type: null }) {
 				!state.get('isVersionSelectionActive'),
 			);
 		case CLOSE_VERSION_SELECTION:
-			return state.set(
-				'isVersionSelectionActive',
-				false,
-			);
+			return state.set('isVersionSelectionActive', false);
 		case TOGGLE_INFORMATION_MODAL:
 			return state.set(
 				'isInformationModalActive',
@@ -219,7 +216,6 @@ function homePageReducer(state = initialState, action = { type: null }) {
 			return state.set('activeChapter', action.chapter);
 		case ACTIVE_TEXT_ID:
 			return state
-				.set('activeFilesets', fromJS(action.filesets))
 				.set('activeTextName', action.textName)
 				.setIn(['userSettings', 'autoPlayEnabled'], false)
 				.set('activeTextId', action.textId);
