@@ -324,7 +324,7 @@
     "exports-loader": "^4.0.0",
     "file-loader": "6.2.0",
     "html-loader": "4.2.0",
-    "html-webpack-plugin": "5.5.1",
+    "html-webpack-plugin": "5.5.3",
     "imports-loader": "^4.0.1",
     "jest-cli": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
