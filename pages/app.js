@@ -45,6 +45,7 @@ import {
   FILESET_TYPE_AUDIO_DRAMA,
   FILESET_TYPE_AUDIO,
 } from '../app/constants/bibleFileset';
+import Bugsnag from '../app/utils/bugsnagClient';
 
 function AppContainer(props) {
   const router = useRouter();
@@ -396,6 +397,15 @@ AppContainer.getInitialProps = async (context) => {
     console.error('Error in get initial props single bible: ', e.message); // eslint-disable-line no-console
     if (axios.isAxiosError(e)) {
       console.error('Error occurred at URL:', e.config.url); // eslint-disable-line no-console
+      Bugsnag.notify(e, (event) => {
+        event.addMetadata('request', {
+          url: e.config.url,
+          method: e.config.method,
+          headers: e.config.headers,
+          params: e.config.params,
+          message: e.message,
+        });
+      });
     }
     return { data: {} };
   });
