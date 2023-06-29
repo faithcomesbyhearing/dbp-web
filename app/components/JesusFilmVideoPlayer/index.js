@@ -147,7 +147,11 @@ class JesusFilmVideoPlayer extends React.PureComponent {
 			if (data.fatal) {
 				switch (data.type) {
 					case this.Hls.ErrorTypes.NETWORK_ERROR:
-						this.hls.startLoad();
+						// All retries and media options have been exhausted.
+						// Immediately trying to restart loading could cause loop loading.
+						if (process.env.NODE_ENV === 'development') {
+							console.error('fatal network error encountered', data); // eslint-disable-line no-console
+						}
 						break;
 					case this.Hls.ErrorTypes.MEDIA_ERROR:
 						this.hls.recoverMediaError();
