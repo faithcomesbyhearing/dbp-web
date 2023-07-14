@@ -13,6 +13,7 @@ import VideoControls from '../../components/VideoControls';
 import VideoList from '../../components/VideoList';
 import VideoProgressBar from '../../components/VideoProgressBar';
 import VideoOverlay from '../../components/VideoOverlay';
+import Bugsnag from '../../utils/bugsnagClient';
 import { selectHasVideo, selectPlayerOpenState } from './selectors';
 
 class VideoPlayer extends React.PureComponent {
@@ -296,12 +297,78 @@ class VideoPlayer extends React.PureComponent {
     if (this.hls) {
       this.hls.destroy();
     }
-    this.hls = new this.Hls();
+    this.hls = new this.Hls({
+      playlistLoadPolicy: {
+        default: {
+          maxTimeToFirstByteMs: 10000,
+          maxLoadTimeMs: 20000,
+          timeoutRetry: {
+            maxNumRetry: 4,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 20000,
+            backoff: 'exponential',
+          },
+          errorRetry: {
+            maxNumRetry: 4,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 20000,
+            backoff: 'exponential',
+          },
+        },
+      },
+      fragLoadPolicy: {
+        default: {
+          maxTimeToFirstByteMs: 10000,
+          maxLoadTimeMs: 120000,
+          timeoutRetry: {
+            maxNumRetry: 4,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 20000,
+            backoff: 'exponential',
+          },
+          errorRetry: {
+            maxNumRetry: 6,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 20000,
+            backoff: 'exponential',
+          },
+        },
+      },
+      keyLoadPolicy: {
+        default: {
+          maxTimeToFirstByteMs: 8000,
+          maxLoadTimeMs: 20000,
+          timeoutRetry: {
+            maxNumRetry: 4,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 20000,
+            backoff: 'exponential',
+          },
+          errorRetry: {
+            maxNumRetry: 8,
+            retryDelayMs: 1000,
+            maxRetryDelayMs: 20000,
+            backoff: 'exponential',
+          },
+        },
+      },
+    });
     this.hls.on(this.Hls.Events.ERROR, (event, data) => {
       if (data.fatal) {
         switch (data.type) {
           case this.Hls.ErrorTypes.NETWORK_ERROR:
-            this.hls.startLoad();
+            // All retries and media options have been exhausted.
+            // Immediately trying to restart loading could cause loop loading.
+            if (process.env.NODE_ENV === 'development') {
+              console.error('fatal network error encountered', data); // eslint-disable-line no-console
+            }
+            Bugsnag.notify(event, (BugsnagEvent) => {
+              BugsnagEvent.addMetadata('responseError', {
+                type: data.type,
+                details: data.details,
+                response: data.response,
+              });
+            });
             break;
           case this.Hls.ErrorTypes.MEDIA_ERROR:
             this.hls.recoverMediaError();

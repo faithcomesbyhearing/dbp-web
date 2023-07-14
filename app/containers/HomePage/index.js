@@ -27,7 +27,7 @@ import textSaga from '../TextSelection/saga';
 import profileSaga from '../Profile/saga';
 import profileReducer from '../Profile/reducer';
 import makeSelectProfile from '../Profile/selectors';
-// import { setActiveIsoCode } from '../TextSelection/actions';
+import { setActiveIsoCode } from '../TextSelection/actions';
 import { getBookmarksForChapter } from '../Notes/actions';
 import { setHasVideo } from '../VideoPlayer/actions';
 import {
@@ -331,13 +331,13 @@ class HomePage extends React.PureComponent {
     }
 
     if (!this.props.homepage.firstLoad && prevProps.homepage.firstLoad) {
-      // this.props.dispatch(
-      //   setActiveIsoCode({
-      //     iso: this.props.homepage.initialIsoCode,
-      //     languageCode: this.props.homepage.defaultLanguageCode,
-      //     name: this.props.homepage.initialLanguageName,
-      //   }),
-      // );
+      this.props.dispatch(
+        setActiveIsoCode({
+          iso: this.props.homepage.initialIsoCode,
+          languageCode: this.props.homepage.defaultLanguageCode,
+          name: this.props.homepage.initialLanguageName,
+        }),
+      );
 
       this.props.dispatch(
         initApplication({
@@ -600,6 +600,8 @@ HomePage.propTypes = {
     firstLoad: PropTypes.bool,
     addBookmarkSuccess: PropTypes.bool,
     defaultLanguageIso: PropTypes.string,
+    initialIsoCode: PropTypes.string,
+    initialLanguageName: PropTypes.string,
     defaultLanguageCode: PropTypes.number,
     audioSource: PropTypes.string,
   }).isRequired,

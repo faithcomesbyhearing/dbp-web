@@ -78,4 +78,3 @@ sudo rm /etc/nginx/sites-enabled/default 2> /dev/null
 sudo make-ssl-cert generate-default-snakeoil --force-overwrite
 sudo openssl dhparam -out /etc/nginx/dhparams.pem 1024
 sudo service nginx restart
-sudo npm install -g pm2
