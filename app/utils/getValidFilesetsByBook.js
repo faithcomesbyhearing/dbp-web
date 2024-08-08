@@ -6,54 +6,57 @@ import { FILESET_SIZE_COMPLETE } from '../constants/bibleFileset';
  * @param {Book{testament:string}} book
  * @param {Array[type, fileset_id, testament]} filesetIdsForBookMetadata
  * @param {Array} filesets
+ * @param {Array[{fileset_id : Object{filesetType:string, books:Array}}]} filesetIdsWithBooksAllowed
  * @returns
  */
 const getValidFilesetsByBook = (
-	book,
-	filesetIdsForBookMetadata,
-	filesets,
-	filesetIdsWithBooksAllowed,
+  book,
+  filesetIdsForBookMetadata,
+  filesets,
+  filesetIdsWithBooksAllowed,
 ) => {
-	const idsForBookMetadataIndexed = {};
-	const filesetWithBooksAllowedIndexed = filesetIdsWithBooksAllowed.reduce(
-		(accum, fileset) => ({ ...accum, ...fileset }),
-		{},
-	);
+  const idsForBookMetadataIndexed = {};
+  const filesetWithBooksAllowedIndexed = {};
 
-	filesetIdsForBookMetadata.forEach((fileset) => {
-		const filesetId = fileset[1];
-		const filesetType = fileset[0];
-		const filesetSize = fileset[2];
+  filesetIdsWithBooksAllowed.forEach((item) => {
+    const [key, value] = Object.entries(item)[0];
+    if (!filesetWithBooksAllowedIndexed[key]) {
+      filesetWithBooksAllowedIndexed[key] = [];
+    }
+    filesetWithBooksAllowedIndexed[key] = filesetWithBooksAllowedIndexed[key].concat(value.books);
+  });
 
-		if (filesetId) {
-			const booksAllowed = {};
-			if (filesetWithBooksAllowedIndexed[filesetId]) {
-				filesetWithBooksAllowedIndexed[filesetId].forEach((bookAllowed) => {
-					booksAllowed[bookAllowed.book_id] = true;
-				});
-			}
+  filesetIdsForBookMetadata.forEach(([filesetType, filesetId, filesetSize]) => {
+    if (!filesetId) return;
 
-			idsForBookMetadataIndexed[filesetId] = {
-				type: filesetType,
-				id: filesetId,
-				testament: filesetSize,
-				booksAllowed,
-			};
-		}
-	});
+    const booksAllowed = (filesetWithBooksAllowedIndexed[filesetId] || []).reduce((acc, { book_id: bookId }) => {
+      acc[bookId] = true;
+      return acc;
+    }, {});
 
-	return filesets.filter(
-		(fileset) =>
-			// 1. If the Fileset testament is NTP, it will only be considered valid if the testament of the book is also NT.
-			// 2. A Fileset with a testament code of C is considered valid because it includes both the Old and New Testaments.
-			//    This is because the C size code denotes a fileset that includes content from both testaments.
-			(idsForBookMetadataIndexed[fileset.id]?.testament ===
-				FILESET_SIZE_COMPLETE ||
-				idsForBookMetadataIndexed[fileset.id]?.testament.includes(
-					book.testament,
-				)) &&
-			idsForBookMetadataIndexed[fileset.id]?.booksAllowed[book.book_id],
-	);
+    idsForBookMetadataIndexed[filesetId] = idsForBookMetadataIndexed[filesetId] || {};
+    idsForBookMetadataIndexed[filesetId][filesetType] = {
+      testament: filesetSize,
+      booksAllowed,
+    };
+  });
+
+  return filesets.filter((fileset) => {
+    // 1. If the Fileset testament is NTP, it will only be considered valid if the testament of the book is also NT.
+    // 2. A Fileset with a testament code of C is considered valid because it includes both the Old and New Testaments.
+    //    This is because the C size code denotes a fileset that includes content from both testaments.
+    const filesetMetadata = idsForBookMetadataIndexed[fileset.id]?.[fileset.type];
+
+    if (!filesetMetadata) {
+      return false;
+    }
+
+    const isCompleteTestament = filesetMetadata.testament === FILESET_SIZE_COMPLETE;
+    const isMatchingTestament = filesetMetadata.testament.includes(book.testament);
+    const isBookAllowed = filesetMetadata.booksAllowed[book.book_id];
+
+    return (isCompleteTestament || isMatchingTestament) && isBookAllowed;
+  });
 };
 
 export default getValidFilesetsByBook;

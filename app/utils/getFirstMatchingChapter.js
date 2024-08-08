@@ -1,38 +1,36 @@
 // Takes two separate book lists and finds the first book/chapter
 // combination that matches in both lists
+
+// Helper function to reduce books into a map of book_id to chapters
+const reduceBooks = (filesetTypeObj) =>
+  Object.values(filesetTypeObj)?.[0]?.books?.reduce((acc, book) => {
+    acc[book.book_id] = book.chapters;
+    return acc;
+  }, {}) || {};
+
 const firstMatchingChapter = (textObj, audioObj) => {
-	const text = Object.values(textObj)[0].reduce(
-		(reducedBooks, book) => ({
-			...reducedBooks,
-			[book.book_id]: book.chapters,
-		}),
-		{},
-	);
-	const audio = Object.values(audioObj)[0].reduce(
-		(reducedBooks, book) => ({
-			...reducedBooks,
-			[book.book_id]: book.chapters,
-		}),
-		{},
-	);
-	let firstLocation;
+  const text = reduceBooks(textObj);
+  const audio = reduceBooks(audioObj);
 
-	/* eslint-disable */
-	// Look into why going for-in here is recommended against
-	for (const key in text) {
-		if (firstLocation) break;
-		if (audio[key]) {
-			for (let i = 0; i < text[key].length; i++) {
-				if (firstLocation) break;
-				if (audio[key].includes(text[key][i])) {
-					firstLocation = `${key}/${text[key][i]}`;
-				}
-			}
-		}
-	}
-	/* eslint-enable */
+  let firstLocation;
 
-	return firstLocation;
+  Object.keys(text).some((key) => {
+    const textChapters = text[key];
+    const audioChapters = audio[key];
+
+    if (audioChapters) {
+      return textChapters.some((chapter) => {
+        if (audioChapters.includes(chapter)) {
+          firstLocation = `${key}/${chapter}`;
+          return true;
+        }
+        return false;
+      });
+    }
+    return false;
+  });
+
+  return firstLocation;
 };
 
 export default firstMatchingChapter;
