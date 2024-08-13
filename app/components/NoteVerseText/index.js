@@ -9,25 +9,25 @@ import PropTypes from 'prop-types';
 import LoadingSpinner from '../LoadingSpinner';
 
 function NoteVerseText({ loading, notePassage }) {
-  if (loading) {
-    return (
-      <div className="verse-text">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-  return (
-    <div className="verse-text">
-      &quot;&nbsp;
-      {notePassage}
-      &nbsp;&quot;
-    </div>
-  );
+	if (loading) {
+		return (
+			<div className="verse-text">
+				<LoadingSpinner />
+			</div>
+		);
+	}
+	return (
+		<div className="verse-text">
+			&quot;&nbsp;
+			{notePassage}
+			&nbsp;&quot;
+		</div>
+	);
 }
 
 NoteVerseText.propTypes = {
-  notePassage: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
+	notePassage: PropTypes.string.isRequired,
+	loading: PropTypes.bool,
 };
 
 export default NoteVerseText;

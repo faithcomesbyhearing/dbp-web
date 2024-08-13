@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import MyBookmarks from '..';
 import {
 	getFormattedNoteDate,
@@ -17,7 +17,7 @@ const props = {
 
 describe('<MyBookmarks /> component', () => {
 	it('should match snapshot with expected props', () => {
-		const tree = renderer.create(<MyBookmarks {...props} />);
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<MyBookmarks {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

@@ -1,266 +1,236 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<MyBookmarks /> component should match snapshot with expected props 1`] = `
-[
+<DocumentFragment>
   <div
-    className="highlight-item"
-    id={5452296}
+    class="highlight-item"
+    id="5452296"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/1"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           <span
-            className="date"
+            class="date"
           >
             01.18.19
           </span>
-           
-          | 
-          Matthew 1:undefined
+           | Matthew 1:undefined
         </h4>
         <p
-          className="text"
+          class="text"
         >
           ENGESV
         </p>
       </div>
-    </a>
-    <div
-      className="delete-highlight"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+    </button>
+    <button
+      class="delete-highlight"
+      tabindex="0"
+      type="button"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
-    </div>
-  </div>,
+    </button>
+  </div>
   <div
-    className="highlight-item"
-    id={5452373}
+    class="highlight-item"
+    id="5452373"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/1"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           <span
-            className="date"
+            class="date"
           >
             01.18.19
           </span>
-           
-          | 
-          Matthew 1:undefined
+           | Matthew 1:undefined
         </h4>
         <p
-          className="text"
+          class="text"
         >
           ENGESV
         </p>
       </div>
-    </a>
-    <div
-      className="delete-highlight"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+    </button>
+    <button
+      class="delete-highlight"
+      tabindex="0"
+      type="button"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
-    </div>
-  </div>,
+    </button>
+  </div>
   <div
-    className="highlight-item"
-    id={5574788}
+    class="highlight-item"
+    id="5574788"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/3"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           <span
-            className="date"
+            class="date"
           >
             02.06.19
           </span>
-           
-          | 
-          Matthew 3:3
+           | Matthew 3:3
         </h4>
         <p
-          className="text"
+          class="text"
         >
           ENGESV
         </p>
       </div>
-    </a>
-    <div
-      className="delete-highlight"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+    </button>
+    <button
+      class="delete-highlight"
+      tabindex="0"
+      type="button"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
-    </div>
-  </div>,
+    </button>
+  </div>
   <div
-    className="highlight-item"
-    id={5574789}
+    class="highlight-item"
+    id="5574789"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MRK/16"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           <span
-            className="date"
+            class="date"
           >
             02.08.19
           </span>
-           
-          | 
-          Mark 16:3
+           | Mark 16:3
         </h4>
         <p
-          className="text"
+          class="text"
         >
           ENGESV
         </p>
       </div>
-    </a>
-    <div
-      className="delete-highlight"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+    </button>
+    <button
+      class="delete-highlight"
+      tabindex="0"
+      type="button"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
-    </div>
-  </div>,
+    </button>
+  </div>
   <div
-    className="highlight-item"
-    id={5574790}
+    class="highlight-item"
+    id="5574790"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGNIV/MAT/11"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           <span
-            className="date"
+            class="date"
           >
             02.12.19
           </span>
-           
-          | 
-          Matthew 11:7
+           | Matthew 11:7
         </h4>
         <p
-          className="text"
+          class="text"
         >
           ENGNIV
         </p>
       </div>
-    </a>
-    <div
-      className="delete-highlight"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+    </button>
+    <button
+      class="delete-highlight"
+      tabindex="0"
+      type="button"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
-    </div>
-  </div>,
-]
+    </button>
+  </div>
+</DocumentFragment>
 `;

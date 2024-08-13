@@ -12,15 +12,15 @@ const checkStatus = (res) => {
 	}
 	if (res.status === 428) {
 		return {
-			data: ({
+			data: {
 				error: { message: 'You need to reset your password.', code: 428 },
-			}),
+			},
 		};
 	} else if (res.status === 401) {
 		return {
-			data: ({
+			data: {
 				error: { message: 'Invalid credentials, please try again', code: 401 },
-			}),
+			},
 		};
 	}
 
@@ -29,7 +29,10 @@ const checkStatus = (res) => {
 	throw error;
 };
 
-const request = async (url, options = { method: 'GET', body: {}, config: {}, header: {} }) => {
+const request = async (
+	url,
+	options = { method: 'GET', body: {}, config: {}, header: {} },
+) => {
 	let invoke = null;
 	switch (options.method) {
 		case 'POST':
@@ -43,7 +46,9 @@ const request = async (url, options = { method: 'GET', body: {}, config: {}, hea
 			break;
 		case 'GET':
 		default:
-			invoke = isEmpty(options.header) ? axios.get(url) : axios.get(url, { headers: options.header });
+			invoke = isEmpty(options.header)
+				? axios.get(url)
+				: axios.get(url, { headers: options.header });
 			break;
 	}
 	const res = await invoke;

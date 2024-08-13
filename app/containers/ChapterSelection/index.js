@@ -19,7 +19,6 @@ import injectReducer from '../../utils/injectReducer';
 import CloseMenuFunctions from '../../utils/closeMenuFunctions';
 import { selectActiveBookName, selectActiveChapter } from './selectors';
 import reducer from './reducer';
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 
 export class ChapterSelection extends React.PureComponent {
 	constructor(props) {
@@ -27,7 +26,6 @@ export class ChapterSelection extends React.PureComponent {
 		this.timer = null;
 	}
 
-	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		// Need to only register this handler if the menu is in its active state
 		if (this.props.active) {
@@ -116,14 +114,8 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'chapterSelection', reducer });
 
-export default compose(
-	withReducer,
-	withConnect,
-)(ChapterSelection);
+export default compose(withReducer, withConnect)(ChapterSelection);

@@ -1,96 +1,80 @@
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import renderer from 'react-test-renderer';
+import { render, fireEvent } from '@testing-library/react';
 import Colors from '../../../../theme_config/javascriptColors';
 import ColorPicker from '..';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 const green = Colors.highlightGreen;
 const yellow = Colors.highlightYellow;
 const pink = Colors.highlightPink;
 const purple = Colors.highlightPurple;
 const blue = Colors.highlightBlue;
-let handlePickedColor;
-let wrapper;
 
 describe('ColorPicker tests', () => {
+	let handlePickedColor;
+
 	beforeEach(() => {
-		handlePickedColor = jest.fn(({ color }) => color);
-		wrapper = Enzyme.mount(
+		handlePickedColor = jest.fn();
+	});
+
+	it('Should render and match snapshot', () => {
+		const { container } = render(
 			<ColorPicker handlePickedColor={handlePickedColor} />,
 		);
+		expect(container).toMatchSnapshot();
 	});
-	it('Should render', () => {
-		const tree = renderer
-			.create(<ColorPicker handlePickedColor={handlePickedColor} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('Should call the handler when the green option is clicked', () => {
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
+		const greenButton = getByLabelText('green');
+
+		fireEvent.click(greenButton);
+		expect(handlePickedColor).toHaveBeenCalledWith({ color: green });
+		expect(handlePickedColor).toHaveBeenCalledTimes(1);
 	});
-	it('It should call the handler when the green option is clicked', () => {
-		const colorNode = wrapper.find('.green');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick();
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(green);
+	it('Should call the handler when the yellow option is clicked', () => {
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
+		const yellowButton = getByLabelText('yellow');
 
-		colorNode.simulate('click');
-
-		expect(handlePickedColor).toHaveBeenCalledTimes(2);
-		expect(wrapper).toBeTruthy();
+		fireEvent.click(yellowButton);
+		expect(handlePickedColor).toHaveBeenCalledWith({ color: yellow });
+		expect(handlePickedColor).toHaveBeenCalledTimes(1);
 	});
-	it('It should call the handler when the yellow option is clicked', () => {
-		const colorNode = wrapper.find('.yellow');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick();
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(yellow);
+	it('Should call the handler when the pink option is clicked', () => {
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
+		const pinkButton = getByLabelText('pink');
 
-		colorNode.simulate('click');
-
-		expect(handlePickedColor).toHaveBeenCalledTimes(2);
-		expect(wrapper).toBeTruthy();
+		fireEvent.click(pinkButton);
+		expect(handlePickedColor).toHaveBeenCalledWith({ color: pink });
+		expect(handlePickedColor).toHaveBeenCalledTimes(1);
 	});
-	it('It should call the handler when the pink option is clicked', () => {
-		const colorNode = wrapper.find('.pink');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick();
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(pink);
+	it('Should call the handler when the purple option is clicked', () => {
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
+		const purpleButton = getByLabelText('purple');
 
-		colorNode.simulate('click');
-
-		expect(handlePickedColor).toHaveBeenCalledTimes(2);
-		expect(wrapper).toBeTruthy();
+		fireEvent.click(purpleButton);
+		expect(handlePickedColor).toHaveBeenCalledWith({ color: purple });
+		expect(handlePickedColor).toHaveBeenCalledTimes(1);
 	});
-	it('It should call the handler when the blue option is clicked', () => {
-		const colorNode = wrapper.find('.blue');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick();
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(blue);
+	it('Should call the handler when the blue option is clicked', () => {
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
+		const blueButton = getByLabelText('blue');
 
-		colorNode.simulate('click');
-
-		expect(handlePickedColor).toHaveBeenCalledTimes(2);
-		expect(wrapper).toBeTruthy();
-	});
-	it('It should call the handler when the purple option is clicked', () => {
-		const colorNode = wrapper.find('.purple');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick();
-
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(purple);
-
-		colorNode.simulate('click');
-
-		expect(handlePickedColor).toHaveBeenCalledTimes(2);
-		expect(wrapper).toBeTruthy();
+		fireEvent.click(blueButton);
+		expect(handlePickedColor).toHaveBeenCalledWith({ color: blue });
+		expect(handlePickedColor).toHaveBeenCalledTimes(1);
 	});
 });

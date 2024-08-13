@@ -39,6 +39,34 @@ function JesusFilmVideoPlayer({
 		}
 	}, []);
 
+	// --- play/pause controls ---
+	const play = useCallback(() => {
+		const video = videoRef.current;
+		if (!video) return;
+		const promise = video.play();
+		if (promise !== undefined) {
+			promise
+				.then(() => setPaused(false))
+				.catch((err) => {
+					setPaused(true);
+					if (onError) onError(err);
+					// in dev you might still log:
+					if (process.env.NODE_ENV === 'development') {
+						console.warn('Playback error', err); // eslint-disable-line no-console
+					}
+				});
+		}
+	}, [onError]);
+
+	const pause = useCallback(() => {
+		videoRef.current?.pause();
+		setPaused(true);
+	}, []);
+
+	const togglePlay = useCallback(() => {
+		paused ? play() : pause();
+	}, [paused, play, pause]);
+
 	// --- initialize HLS / native src on mount / when hlsStream changes ---
 	useEffect(() => {
 		const video = videoRef.current;
@@ -125,34 +153,6 @@ function JesusFilmVideoPlayer({
 		};
 	}, [onTimeOrBufferUpdate]);
 
-	// --- play/pause controls ---
-	const play = useCallback(() => {
-		const video = videoRef.current;
-		if (!video) return;
-		const promise = video.play();
-		if (promise !== undefined) {
-			promise
-				.then(() => setPaused(false))
-				.catch((err) => {
-					setPaused(true);
-					if (onError) onError(err);
-					// in dev you might still log:
-					if (process.env.NODE_ENV === 'development') {
-						console.warn('Playback error', err); // eslint-disable-line no-console
-					}
-				});
-		}
-	}, [onError]);
-
-	const pause = useCallback(() => {
-		videoRef.current?.pause();
-		setPaused(true);
-	}, []);
-
-	const togglePlay = useCallback(() => {
-		paused ? play() : pause();
-	}, [paused, play, pause]);
-
 	// --- volume & seeking API ---
 	const changeVolume = useCallback((vol) => {
 		if (videoRef.current) {
@@ -200,7 +200,7 @@ function JesusFilmVideoPlayer({
 					togglePlayState={togglePlay}
 					isJesusFilm
 				/>
-				{/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+				{ }
 				<video
 					ref={videoRef}
 					onClick={togglePlay}

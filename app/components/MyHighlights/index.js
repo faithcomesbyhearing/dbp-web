@@ -6,14 +6,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
-import Router from 'next/router';
 import SvgWrapper from '../SvgWrapper';
+import LegacyLink from '../LegacyLink';
 
 class MyHighlights extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			selectedId: '',
 			selectedColor: '',
@@ -35,22 +34,13 @@ class MyHighlights extends React.PureComponent {
 			startUpdateProcess,
 		} = this.props;
 
-		const handleClick = (newUrl) =>
-			(e) => {
-				if (Router.asPath === newUrl) {
-					e.preventDefault(); // Stop navigation if it's the same URL
-					toggleNotesModal(); // Only toggle modal
-				}
-			};
-
 		return highlights.map((highlight) => (
 			<div
 				key={`${highlight.id}_${highlight.highlighted_color}`}
 				id={`${highlight.id}_${highlight.highlighted_color}`}
 				className={'highlight-item'}
 			>
-				<Link
-					legacyBehavior
+				<LegacyLink
 					as={`/bible/${highlight.bible_id}/${highlight.book_id}/${
 						highlight.chapter
 					}`}
@@ -58,27 +48,32 @@ class MyHighlights extends React.PureComponent {
 						highlight.chapter
 					}`}
 				>
-					<a onClick={handleClick(`/bible/${highlight.bible_id}/${highlight.book_id}/${highlight.chapter}`)} className="list-item">
+					<button
+						onClick={toggleNotesModal}
+						className="list-item"
+						type="button"
+					>
 						<div className="title-text">
 							<h4 className="title">{getReference(highlight)}</h4>
 							<h4 className={'text'}>{highlight.bible_id}</h4>
 						</div>
-					</a>
-				</Link>
-				<div
+					</button>
+				</LegacyLink>
+				<button
 					id={`${highlight.id}_${highlight.highlighted_color}-edit`}
 					className={'edit-color'}
 					tabIndex={0}
-					role={'button'}
+					type={'button'}
 					onClick={() =>
 						startUpdateProcess({
 							id: highlight.id,
 							color: highlight.highlighted_color,
-						})}
+						})
+					}
 				>
 					{this.highlightIcon(highlight.highlighted_color)}
 					<span>Edit</span>
-				</div>
+				</button>
 				<div className={'delete-highlight'}>
 					<SvgWrapper
 						className={'icon'}

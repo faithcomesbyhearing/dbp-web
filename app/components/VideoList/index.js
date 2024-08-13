@@ -5,12 +5,8 @@ import SvgWrapper from '../SvgWrapper';
 
 class VideoList extends React.PureComponent {
 	render() {
-		const {
-			elipsisOpen,
-			playlist,
-			handleThumbnailClick,
-			toggleElipsis,
-		} = this.props;
+		const { elipsisOpen, playlist, handleThumbnailClick, toggleElipsis } =
+			this.props;
 
 		return (
 			<div

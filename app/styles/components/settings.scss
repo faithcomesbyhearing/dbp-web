@@ -183,7 +183,10 @@
 //.font-settings .option.serif > span {@include css4{font-family:var(--serif-font-family-option) !important;};}
 //.font-settings .option.slab > span  {@include css4{font-family:var(--slab-font-family-option) !important;};}
 .font-settings .option.sans > span {
-	font-family: 'Raleway', Helvetica, sans serif;
+	font-family:
+		'Raleway',
+		Helvetica,
+		sans serif;
 }
 .font-settings .option.serif > span {
 	font-family: 'Alegreya', 'Palatino Linotype', Palatino, serif;

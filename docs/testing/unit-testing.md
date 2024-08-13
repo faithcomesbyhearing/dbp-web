@@ -1,6 +1,6 @@
 # Unit testing
 
-Unit testing is the practice of testing the smallest possible *units* of our
+Unit testing is the practice of testing the smallest possible _units_ of our
 code, functions. We run our tests and automatically verify that our functions
 do the thing we expect them to do. We assert that, given a set of inputs, our
 functions return the proper values and handle problems.
@@ -12,11 +12,11 @@ framework to run tests and make assertions. This library makes writing tests as 
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Basics](#basics)
-	- [Jest](#jest)
+  - [Jest](#jest)
 - [Testing Redux Applications](#testing-redux-applications)
-	- [Reducers](#reducers)
-		- [snapshots](#snapshots)
-	- [Actions](#actions)
+  - [Reducers](#reducers)
+    - [snapshots](#snapshots)
+  - [Actions](#actions)
 
 <!-- /TOC -->
 
@@ -34,15 +34,15 @@ situated in the `add.js` file:
 // add.js
 
 export function add(x, y) {
-  return x + y;
+	return x + y;
 }
 ```
 
 > Note: The `export` here is ES6 syntax, and you would need an ES6 transpiler
-  (e.g. babel.js) to run this JavaScript.
+> (e.g. babel.js) to run this JavaScript.
 
 > The `export` makes our function available as a module, which we can `import` and use
-  in other files. Continue below to see what that looks like.
+> in other files. Continue below to see what that looks like.
 
 ### Jest
 
@@ -65,25 +65,19 @@ import { add } from './add.js';
 Second, we `describe` our function:
 
 ```javascript
-describe('add()', () => {
-
-});
+describe('add()', () => {});
 ```
 
 > Note: `(arg1, arg2) => { }` is ES6 notation for anonymous functions, i.e. is
-the same thing as `function(arg1, arg2) { }`
+> the same thing as `function(arg1, arg2) { }`
 
 Third, we tell Jest what `it` (our function) should do:
 
 ```javascript
 describe('add()', () => {
-  it('adds two numbers', () => {
+	it('adds two numbers', () => {});
 
-  });
-
-  it("doesn't add the third number", () => {
-
-  });
+	it("doesn't add the third number", () => {});
 });
 ```
 
@@ -94,7 +88,7 @@ corresponding output:
 ```javascript
 // [...]
 it('adds two numbers', () => {
-  expect(add(2, 3)).toEqual(5);
+	expect(add(2, 3)).toEqual(5);
 });
 // [...]
 ```
@@ -105,15 +99,15 @@ third number if one is present:
 ```javascript
 // [...]
 it("doesn't add the third number", () => {
- expect(add(2, 3, 5)).toEqual(add(2, 3));
+	expect(add(2, 3, 5)).toEqual(add(2, 3));
 });
 // [...]
 ```
 
 > Note: Notice that we call `add` in `toEqual`. I won't tell you why, but just
-  think about what would happen if we rewrote the expect as `expect(add(2, 3, 5)).toEqual(5)`
-  and somebody broke something in the add function. What would this test
-  actually... test?
+> think about what would happen if we rewrote the expect as `expect(add(2, 3, 5)).toEqual(5)`
+> and somebody broke something in the add function. What would this test
+> actually... test?
 
 Should our function work, Jest will show this output when running the tests:
 
@@ -129,7 +123,7 @@ Lets say an unnamed colleague of ours breaks our function:
 // add.js
 
 export function add(x, y) {
-  return x * y;
+	return x * y;
 }
 ```
 
@@ -172,7 +166,6 @@ NavBar          # Wrapping folder
     └── reducer.test.js  # Reducer tests
 ```
 
-
 This boilerplate uses Redux, partially because it turns our data flow into
 testable (pure) functions. Using the `NavBar` component above,
 let's see what testing the actions and the reducer would look like.
@@ -185,7 +178,7 @@ This is what our `NavBar` actions look like:
 import { TOGGLE_NAV } from './constants';
 
 export function toggleNav() {
-  return { type: TOGGLE_NAV };
+	return { type: TOGGLE_NAV };
 }
 ```
 
@@ -197,18 +190,18 @@ with this reducer:
 import { TOGGLE_NAV } from './constants';
 
 const initialState = {
-  open: false,
+	open: false,
 };
 
 function NavBarReducer(state = initialState, action) {
-  switch (action.type) {
-    case TOGGLE_NAV:
-      return Object.assign({}, state, {
-        open: !state.open,
-      });
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case TOGGLE_NAV:
+			return Object.assign({}, state, {
+				open: !state.open,
+			});
+		default:
+			return state;
+	}
 }
 
 export default NavBarReducer;
@@ -232,13 +225,9 @@ initial state and that it handles the `toggleNav` action.
 
 ```javascript
 describe('NavBarReducer', () => {
-  it('returns the initial state', () => {
+	it('returns the initial state', () => {});
 
-  });
-
-  it('handles the toggleNav action', () => {
-
-  });
+	it('handles the toggleNav action', () => {});
 });
 ```
 
@@ -259,15 +248,13 @@ Lets put that into practice:
 
 ```javascript
 describe('NavBarReducer', () => {
-  it('returns the initial state', () => {
-    expect(NavBarReducer(undefined, {})).toEqual({
-      open: false,
-    });
-  });
+	it('returns the initial state', () => {
+		expect(NavBarReducer(undefined, {})).toEqual({
+			open: false,
+		});
+	});
 
-  it('handles the toggleNav action', () => {
-
-  });
+	it('handles the toggleNav action', () => {});
 });
 ```
 
@@ -284,13 +271,11 @@ We can write the test like
 
 ```javascript
 describe('NavBarReducer', () => {
-  it('returns the initial state', () => {
-    expect(NavBarReducer(undefined, {})).toMatchSnapshot();
-  });
+	it('returns the initial state', () => {
+		expect(NavBarReducer(undefined, {})).toMatchSnapshot();
+	});
 
-  it('handles the toggleNav action', () => {
-
-  });
+	it('handles the toggleNav action', () => {});
 });
 ```
 
@@ -307,13 +292,13 @@ import NavBarReducer from '../NavBar.reducer';
 import { toggleNav } from '../NavBar.actions';
 
 describe('NavBarReducer', () => {
-  it('returns the initial state', () => {
-    expect(NavBarReducer(undefined, {})).toMatchSnapshot();
-  });
+	it('returns the initial state', () => {
+		expect(NavBarReducer(undefined, {})).toMatchSnapshot();
+	});
 
-  it('handles the toggleNav action', () => {
-    expect(NavBarReducer({}, toggleNav())).toMatchSnapshot();
-  });
+	it('handles the toggleNav action', () => {
+		expect(NavBarReducer({}, toggleNav())).toMatchSnapshot();
+	});
 });
 ```
 
@@ -334,18 +319,15 @@ return and `expect`:
 
 import { toggleNav } from '../actions';
 import { TOGGLE_NAV } from '../constants';
-
 ```
 
 Then we `describe` the actions:
 
 ```javascript
 describe('NavBar actions', () => {
-  describe('toggleNav', () => {
-    it('should return the correct constant', () => {
-
-    });
-  });
+	describe('toggleNav', () => {
+		it('should return the correct constant', () => {});
+	});
 });
 ```
 
@@ -355,9 +337,9 @@ And the last step is to add the assertion:
 
 ```javascript
 it('should return the correct constant', () => {
-  expect(toggleNav()).toEqual({
-    type: TOGGLE_NAV
-  });
+	expect(toggleNav()).toEqual({
+		type: TOGGLE_NAV,
+	});
 });
 ```
 
@@ -371,4 +353,4 @@ NavBar actions
 
 And that's it, we now know when somebody breaks the `toggleNav` action!
 
-*Continue to learn how to test your application with [Component Testing](component-testing.md)!*
+_Continue to learn how to test your application with [Component Testing](component-testing.md)!_

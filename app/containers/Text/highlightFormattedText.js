@@ -5,15 +5,15 @@ const createFormattedHighlights = (
 	DomCreator,
 ) => {
 	/* NOTES
-	* 1. Need to subtract 1 from any addition of highlight_start + highlighted_words, this is because the result is the length not the index
-	* */
+	 * 1. Need to subtract 1 from any addition of highlight_start + highlighted_words, this is because the result is the length not the index
+	 * */
 	/* Notes on Logic for function
-	* Iterate over each verse
-	* Find all the highlights for a single verse
-	* Apply all highlights for that verse
-	* If the highlight goes past the end of the verse
-	* Create a new highlight that has the update range and a start verse of the next verse in line
-	* */
+	 * Iterate over each verse
+	 * Find all the highlights for a single verse
+	 * Apply all highlights for that verse
+	 * If the highlight goes past the end of the verse
+	 * Create a new highlight that has the update range and a start verse of the next verse in line
+	 * */
 
 	// Step 1: Create copy of highlight objects and sort them
 	// Step 2: Create a dom based on the formatted text string
@@ -68,20 +68,25 @@ const createFormattedHighlights = (
 		// Instantiate the string -> html parser
 		const parser = env === 'test' ? () => {} : new DOMParser();
 		// Instantiate the html -> serializer
-		const serializer = env === 'test' ? () => {} : new XMLSerializer();
+		// const serializer = env === 'test' ? () => {} : new XMLSerializer();
 		// Instantiate jsDOM for creating a mock dom (needed for testing)
 		const jsDOM =
 			env === 'test' ? new DomCreator(formattedTextString) : undefined;
 		// Set the xml document based on whether this is live or a test
-		const xmlDoc =
+		// const xmlDoc =
+		// 	env === 'test'
+		// 		? jsDOM.window.document
+		// 		: parser.parseFromString(formattedTextString, 'text/xml');
+		const htmlDoc =
 			env === 'test'
 				? jsDOM.window.document
-				: parser.parseFromString(formattedTextString, 'text/xml');
+				: parser.parseFromString(formattedTextString, 'text/html');
 		let lastVerseNumber = 0; // the verse number of the last verse to have highlights applied
 		let previousHighlightArray = sortedHighlights;
 
 		// Get all verse elements (the first element with data-id is a div which is why I slice at 1)
-		const ad = [...xmlDoc.querySelectorAll('[data-id]')].slice(1);
+		// const ad = [...xmlDoc.querySelectorAll('[data-id]')].slice(1);
+		const ad = [...htmlDoc.body.querySelectorAll('[data-id]')].slice(1);
 
 		// Iterate over all the verses
 		ad.forEach((verseElement) => {
@@ -122,12 +127,11 @@ const createFormattedHighlights = (
 							h.verse_start === verseNumber ||
 							(h.verse_start < verseNumber && h.highlighted_words > 0),
 					)
-					.map(
-						(h) =>
-							h.verse_start !== verseNumber ||
-							(h.verse_start === verseNumber && sameVerse)
-								? { ...h, verse_start: verseNumber }
-								: h,
+					.map((h) =>
+						h.verse_start !== verseNumber ||
+						(h.verse_start === verseNumber && sameVerse)
+							? { ...h, verse_start: verseNumber }
+							: h,
 					)
 					.sort((a, b) => {
 						// I want the highlight that starts first to be applied first
@@ -200,7 +204,8 @@ const createFormattedHighlights = (
 					}
 				}
 				// Create a blank node to use in the case that the current node is a text node
-				const newNonTextNode = xmlDoc.createElement('span');
+				// const newNonTextNode = xmlDoc.createElement('span');
+				const newNonTextNode = htmlDoc.createElement('span');
 				let verseTextHtml = '';
 				let isNotValidHtml = false;
 
@@ -212,9 +217,19 @@ const createFormattedHighlights = (
 						.getElementsByTagName('body')[0].innerHTML;
 
 					try {
-						xmlDoc.createElement('span').innerHTML = verseTextHtml;
+						// xmlDoc.createElement('span').innerHTML = verseTextHtml;
+						htmlDoc.createElement('span').innerHTML = verseTextHtml;
 					} catch (err) {
 						isNotValidHtml = true;
+
+						if (process.env.NODE_ENV === 'development') {
+							/* eslint-disable no-console */
+							console.error(
+								'Error creating htmlDoc in FormattedHighlights: ',
+								err,
+							);
+							/* eslint-enable no-console */
+						}
 					}
 				}
 
@@ -242,9 +257,10 @@ const createFormattedHighlights = (
 			});
 		});
 
-		return env === 'test'
-			? xmlDoc.querySelectorAll('body')[0].innerHTML
-			: serializer.serializeToString(xmlDoc);
+		// return env === 'test'
+		// 	? xmlDoc.querySelectorAll('body')[0].innerHTML
+		// 	: serializer.serializeToString(xmlDoc);
+		return htmlDoc.body.innerHTML;
 	} catch (error) {
 		if (process.env.NODE_ENV === 'development') {
 			console.warn('Failed applying highlight to formatted text', error); // eslint-disable-line no-console
@@ -262,11 +278,11 @@ function handleNewVerse({ highlightsStartingInVerse, verseText }) {
 	const highlightsToUpdate = {};
 
 	/* Highlighting Process
-	* 1. Start highlight at the starting index
-	* 2. Check if the highlight length is longer than the verse
-	* 3. (Highlight is in this verse) -> insert the closing tag at the appropriate place and then set highlighted_words to 0
-	* 4. (Highlight goes past this verse) -> insert closing tag at the end of the verse then reduce highlighted_words by the amount of characters that were highlighted
-	* */
+	 * 1. Start highlight at the starting index
+	 * 2. Check if the highlight length is longer than the verse
+	 * 3. (Highlight is in this verse) -> insert the closing tag at the appropriate place and then set highlighted_words to 0
+	 * 4. (Highlight goes past this verse) -> insert closing tag at the end of the verse then reduce highlighted_words by the amount of characters that were highlighted
+	 * */
 	highlightsStartingInVerse.forEach((h, i) => {
 		const nextHighlight = highlightsStartingInVerse[i + 1];
 		/* COMMONLY USED VALUES */

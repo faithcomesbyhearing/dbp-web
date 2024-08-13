@@ -1,19 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ReadFullChapter component should match previous snapshot 1`] = `
-<div
-  className="read-chapter-container"
->
-  <button
-    className="read-chapter"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    onTouchStart={[Function]}
-    type="button"
+<DocumentFragment>
+  <div
+    class="read-chapter-container"
   >
-    <span>
-      Read Full Chapter
-    </span>
-  </button>
-</div>
+    <button
+      class="read-chapter"
+      type="button"
+    >
+      <span>
+        Read Full Chapter
+      </span>
+    </button>
+  </div>
+</DocumentFragment>
 `;

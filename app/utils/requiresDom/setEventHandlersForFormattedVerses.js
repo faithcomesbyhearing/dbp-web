@@ -12,17 +12,19 @@ const setEventHandlersForFormattedVerses = (
 		const verses = [...ref.querySelectorAll('[data-id]')].slice(1);
 
 		verses.forEach((verse) => {
-			/* eslint-disable no-param-reassign, no-unused-expressions, jsx-a11y/no-static-element-interactions */
 			verse.onmousedown = (e) => {
+				if (e.target.closest('.note')) return;
 				e.stopPropagation();
 				mouseDown(e);
 			};
 			verse.onmouseup = (e) => {
+				if (e.target.closest('.note')) return;
 				e.stopPropagation();
 				mouseUp(e);
 			};
 			// No-op to get the mouse events to fire on iOS
-			verse.onclick = () => {};
+			//verse.onclick = () => {};
+			verse.addEventListener('click', () => {}, { passive: true });
 		});
 	} catch (err) {
 		if (process.env.NODE_ENV === 'development') {

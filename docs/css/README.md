@@ -34,6 +34,7 @@ We also support the use of CSS [stylesheets](#stylesheet).
 
 There are many ways to style web applications, unfortunately, we cannot support them all.
 However, you can integrate the following by using the guides below:
+
 - [CSS Modules](#css-modules)
 - [Sass](#sass)
 - [LESS](#less)
@@ -50,33 +51,34 @@ import styled from 'styled-components';
 // Create a <Title> react component that renders an <h1> which is
 // centered, palevioletred and sized at 1.5em
 const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
+	font-size: 1.5em;
+	text-align: center;
+	color: palevioletred;
 `;
 
 // Create a <Wrapper> react component that renders a <section> with
 // some padding and a papayawhip background
 const Wrapper = styled.section`
-  padding: 4em;
-  background: papayawhip;
+	padding: 4em;
+	background: papayawhip;
 `;
 
 // Use them like any other React component – except they're styled!
 class Button extends React.Component {
-  render() {
-    return (
-      <Wrapper>
-        <Title>Hello {this.props.name}, this is your first styled component!</Title>
-        ...
-      </Wrapper>
-    );
-  }
+	render() {
+		return (
+			<Wrapper>
+				<Title>
+					Hello {this.props.name}, this is your first styled component!
+				</Title>
+				...
+			</Wrapper>
+		);
+	}
 }
-
 ```
 
-*(The CSS rules are automatically vendor prefixed, so you don't have to think about it!)*
+_(The CSS rules are automatically vendor prefixed, so you don't have to think about it!)_
 
 > For more information about `styled-components` see https://github.com/styled-components/styled-components
 
@@ -87,22 +89,24 @@ Using the [`css-loader`](https://webpack.js.org/loaders/css-loader/) you can imp
 into a JavaScript:
 
 **`Button.css`**
+
 ```css
 .danger {
-  background-color: red;
+	background-color: red;
 }
 ```
 
 **`Button.js`**
+
 ```js
 import React from 'react';
 import './Button.css'; // Tell Webpack that Button.js uses these styles
 
 class Button extends React.Component {
-  render() {
-    // You can use them as regular CSS styles
-    return <button className="danger">Click me</button>;
-  }
+	render() {
+		// You can use them as regular CSS styles
+		return <button className="danger">Click me</button>;
+	}
 }
 ```
 
@@ -139,22 +143,24 @@ and this often catches people out.
 The key difference in CSS Modules is that you import styles to a variable.
 
 **`Button.css`**
+
 ```css
 .danger {
-  background-color: red;
+	background-color: red;
 }
 ```
 
 **`Button.js`**
+
 ```js
 import React from 'react';
 import styles from './Button.css'; // different import compared to stylesheets
 
 class Button extends React.Component {
-  render() {
-    // different usage to stylesheets
-    return <button className={styles.danger}>Click me</button>;
-  }
+	render() {
+		// different usage to stylesheets
+		return <button className={styles.danger}>Click me</button>;
+	}
 }
 ```
 
@@ -168,6 +174,7 @@ it's one or the other unless you include or exclude specific directories.**
 ### Setup
 
 Install `sass-loader` and the `node-sass` dependancy.
+
 ```
 npm i -D sass-loader node-sass
 ```
@@ -188,23 +195,25 @@ to look like:
 ### Usage
 
 **`Button.scss`**
+
 ```scss
 $error-color: red;
 
 .danger {
-  background-color: $error-color;
+	background-color: $error-color;
 }
 ```
 
 **`Button.js`**
+
 ```js
 import React from 'react';
 import './Button.scss';
 
 class Button extends React.Component {
-  render() {
-    return <button className="danger">Click me</button>;
-  }
+	render() {
+		return <button className="danger">Click me</button>;
+	}
 }
 ```
 
@@ -215,6 +224,7 @@ class Button extends React.Component {
 ### Setup
 
 Install `less-loader` and the `less` dependancy.
+
 ```
 npm i -D less-loader less
 ```
@@ -244,26 +254,28 @@ to look like:
 ### Usage
 
 **`Button.less`**
+
 ```less
 @error-color: red;
 
 .danger {
-  background-color: @error-color;
+	background-color: @error-color;
 }
 ```
 
 **`Button.js`**
+
 ```js
 import React from 'react';
 import './Button.less';
 
 class Button extends React.Component {
-  render() {
-    return <button className="danger">Click me</button>;
-  }
+	render() {
+		return <button className="danger">Click me</button>;
+	}
 }
 ```
 
 > For more information about LESS and the `less-loader` see https://github.com/webpack-contrib/less-loader.
 
-[WebpackConfig]: ../../internals/webpack/webpack.base.babel.js "Webpack config"
+[WebpackConfig]: ../../internals/webpack/webpack.base.babel.js 'Webpack config'

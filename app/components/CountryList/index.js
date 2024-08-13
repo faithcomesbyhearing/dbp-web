@@ -12,7 +12,7 @@ import LoadingSpinner from '../LoadingSpinner';
 class CountryList extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			startY: 0,
 			distance: 0,
@@ -32,10 +32,20 @@ class CountryList extends React.PureComponent {
 			getCountry,
 			filterText,
 		} = this.props;
+		let countryArray = [];
+		if (Array.isArray(countries)) {
+			countryArray = countries;
+		} else if (countries && typeof countries === 'object') {
+			countryArray = Object.values(countries);
+		}
+
 		const filteredCountryMap = filterText
-			? countries.filter((country) => this.filterFunction(country, filterText))
+			? countryArray.filter((country) =>
+					this.filterFunction(country, filterText),
+				)
 			: countries;
-		const filteredCountries = filteredCountryMap.valueSeq();
+
+		const filteredCountries = filteredCountryMap;
 
 		if (countries.size === 0) {
 			return (
@@ -47,7 +57,7 @@ class CountryList extends React.PureComponent {
 		}
 
 		const renderARow = ({ index, style, key }) => {
-			const country = filteredCountries.get(index);
+			const country = filteredCountries[index];
 
 			return (
 				<div
@@ -56,14 +66,14 @@ class CountryList extends React.PureComponent {
 					style={style}
 					role="button"
 					tabIndex={0}
-					title={country.get('name')}
+					title={country['name']}
 					onClick={() => {
 						setFromCountry(true);
 						setCountryName({
-							name: country.get('name'),
-							languages: country.get('languages'),
+							name: country['name'],
+							languages: country['languages'],
 						});
-						getCountry({ iso: country.getIn(['codes', 'iso']) });
+						getCountry({ iso: country?.['codes']?.['iso'] });
 						setCountryListState();
 						toggleLanguageList();
 					}}
@@ -71,47 +81,45 @@ class CountryList extends React.PureComponent {
 					<svg className="icon" height="25px" width="25px">
 						<use
 							xmlnsXlink="http://www.w3.org/1999/xlink"
-							xlinkHref={`/flags.svg#${country.getIn([
-								'codes',
-								'iso_a2',
-							])}`}
+							xlinkHref={`/flags.svg#${country?.['codes']?.['iso_a2']}`}
 						/>
 					</svg>
 					<h4
 						className={
-							activeCountryName === country.get('name')
+							activeCountryName === country['name']
 								? 'active-language-name'
 								: 'inactive-country'
 						}
 					>
-						{country.get('name')}
+						{country['name']}
 					</h4>
 				</div>
 			);
 		};
 
-		const getActiveIndex = () => {
-			let activeIndex = 0;
+		const getActiveIndex = () => 
+			// let activeIndex = 0;
 
-			filteredCountries.forEach((l, i) => {
-				if (l.get('name') === activeCountryName) {
-					activeIndex = i;
-				}
-			});
+			// filteredCountries.forEach((l, i) => {
+			// 	if (l['name'] === activeCountryName) {
+			// 		activeIndex = i;
+			// 	}
+			// });
 
-			return activeIndex;
-		};
+			// return activeIndex;
+			 filteredCountries.findIndex((c) => c.name === activeCountryName)
+		;
 
-		return filteredCountries.size ? (
+		return filteredCountries.length ? (
 			<List
 				id={'list-element'}
-				estimatedRowSize={32 * filteredCountries.size}
+				estimatedRowSize={32 * filteredCountries.length}
 				height={height}
 				rowRenderer={renderARow}
-				rowCount={filteredCountries.size}
+				rowCount={filteredCountries.length}
 				overscanRowCount={0}
 				rowHeight={32}
-				scrollToIndex={getActiveIndex()}
+				scrollToIndex={getActiveIndex() || 0}
 				width={width}
 				scrollToAlignment={'start'}
 			/>
@@ -215,19 +223,11 @@ class CountryList extends React.PureComponent {
 	filterFunction = (country, filterText) => {
 		const lowerCaseText = filterText.toLowerCase();
 
-		if (
-			country
-				.getIn(['codes', 'iso_a2'])
-				.toLowerCase()
-				.includes(lowerCaseText)
-		) {
+		if (country?.['codes']?.['iso_a2'].toLowerCase().includes(lowerCaseText)) {
 			return true;
 		} else if (
-			country.get('name') !== '' &&
-			country
-				.get('name')
-				.toLowerCase()
-				.includes(lowerCaseText)
+			country['name'] !== '' &&
+			country['name'].toLowerCase().includes(lowerCaseText)
 		) {
 			return true;
 		}
@@ -241,7 +241,7 @@ class CountryList extends React.PureComponent {
 	render() {
 		const { active, loadingCountries } = this.props;
 		const { distance } = this.state;
-		/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 		if (active) {
 			return (
 				<div className="text-selection-section">
@@ -270,7 +270,8 @@ class CountryList extends React.PureComponent {
 						) : (
 							<AutoSizer>
 								{({ width, height }) =>
-									this.getFilteredCountries(width, height)}
+									this.getFilteredCountries(width, height)
+								}
 							</AutoSizer>
 						)}
 					</div>

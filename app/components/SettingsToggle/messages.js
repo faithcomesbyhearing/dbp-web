@@ -10,9 +10,9 @@ export default defineMessages({
 		id: 'app.components.SettingsToggle.header',
 		defaultMessage: 'This is the SettingsToggle component !',
 	},
-	'READER\'S MODE': {
+	"READER'S MODE": {
 		id: 'app.components.NavigationBar.readersMode',
-		defaultMessage: 'READER\'S MODE',
+		defaultMessage: "READER'S MODE",
 	},
 	'CROSS REFERENCE': {
 		id: 'app.components.NavigationBar.crossReference',

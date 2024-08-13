@@ -12,7 +12,9 @@
 	@include css4 {
 		background: var(--default-header-background-color);
 	}
-	transition: transform 200ms ease-in-out, flex 200ms ease-in-out;
+	transition:
+		transform 200ms ease-in-out,
+		flex 200ms ease-in-out;
 
 	&.closed {
 		transform: translateY(100%);

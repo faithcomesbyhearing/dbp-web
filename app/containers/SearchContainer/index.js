@@ -32,7 +32,7 @@ import Ieerror from '../../components/Ieerror';
 export class SearchContainer extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			filterText: '',
 			firstSearch: true,
@@ -219,12 +219,8 @@ export class SearchContainer extends React.PureComponent {
 	};
 
 	get formattedResults() {
-		const {
-			showError,
-			trySearchOptions,
-			lastFiveSearches,
-			loadingResults,
-		} = this.props.searchcontainer;
+		const { showError, trySearchOptions, lastFiveSearches, loadingResults } =
+			this.props.searchcontainer;
 		const { bibleId, searchResults } = this.props;
 		const { firstSearch } = this.state;
 
@@ -267,16 +263,14 @@ export class SearchContainer extends React.PureComponent {
 			<div className={'search-results'}>
 				{searchResults && searchResults.size && !showError ? (
 					searchResults.toIndexedSeq().map((res) => (
-						<div className={'book-result-section'} key={res.get('name')}>
+						<div className={'book-result-section'} key={res['name']}>
 							<div className={'header'}>
-								<h1>{res.get('name')}</h1>
+								<h1>{res['name']}</h1>
 							</div>
-							{res.get('results').map((r) => (
+							{res['results'].map((r) => (
 								<SearchResult
 									bibleId={bibleId}
-									key={`${r.get('book_id')}${r.get('chapter')}${r.get(
-										'verse_start',
-									)}`}
+									key={`${r['book_id']}${r['chapter']}${r['verse_start']}`}
 									result={r}
 								/>
 							))}
@@ -359,7 +353,7 @@ SearchContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	searchcontainer: makeSelectSearchContainer(),
+	searchcontainer: makeSelectSearchContainer,
 	searchResults: selectSearchResults(),
 });
 
@@ -369,16 +363,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'searchContainer', reducer });
 const withSaga = injectSaga({ key: 'searchContainer', saga });
 
-export default compose(
-	withReducer,
-	withSaga,
-	withConnect,
-)(SearchContainer);
+export default compose(withReducer, withSaga, withConnect)(SearchContainer);

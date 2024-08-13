@@ -1,43 +1,37 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import PlaybackRateSvg from '..';
 
 describe('<PlaybackRateSvg /> component tests', () => {
-  it('Should match snapshot with default props', () => {
-    const tree = renderer.create(<PlaybackRateSvg playbackRate={1} />).toJSON();
+	it('Should match snapshot with default props', () => {
+		const { asFragment } = render(<PlaybackRateSvg playbackRate={1} />);
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('Should match snapshot with 0.75 speed', () => {
-    const tree = renderer
-      .create(<PlaybackRateSvg playbackRate={0.75} />)
-      .toJSON();
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match snapshot with 0.75 speed', () => {
+		const { asFragment } = render(<PlaybackRateSvg playbackRate={0.75} />);
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('Should match snapshot with 1.25 speed', () => {
-    const tree = renderer
-      .create(<PlaybackRateSvg playbackRate={1.25} />)
-      .toJSON();
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match snapshot with 1.25 speed', () => {
+		const { asFragment } = render(<PlaybackRateSvg playbackRate={1.25} />);
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('Should match snapshot with 1.5 speed', () => {
-    const tree = renderer
-      .create(<PlaybackRateSvg playbackRate={1.5} />)
-      .toJSON();
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match snapshot with 1.5 speed', () => {
+		const { asFragment } = render(<PlaybackRateSvg playbackRate={1.5} />);
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('Should match snapshot with 2 speed', () => {
-    const tree = renderer.create(<PlaybackRateSvg playbackRate={2} />).toJSON();
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match snapshot with 2 speed', () => {
+		const { asFragment } = render(<PlaybackRateSvg playbackRate={2} />);
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('Should match snapshot with no playback speed', () => {
-    const tree = renderer.create(<PlaybackRateSvg />).toJSON();
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match snapshot with no playback speed', () => {
+		const { asFragment } = render(<PlaybackRateSvg />);
 
-    expect(tree).toMatchSnapshot();
-  });
+		expect(asFragment()).toMatchSnapshot();
+	});
 });

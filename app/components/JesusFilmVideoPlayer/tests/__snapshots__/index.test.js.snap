@@ -1,268 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<JesusFilmVideoPlayer /> renders fallback UI when no hasVideo 1`] = `
-<div
-  className="video-player-container jesus-film-override"
->
-  <h2>
-    Something went wrong. Please refresh the page or go back to try again!
-  </h2>
-</div>
-`;
-
-exports[`<JesusFilmVideoPlayer /> renders fallback UI when no hlsStream & no hasVideo 1`] = `
-<div
-  className="video-player-container jesus-film-override"
->
-  <h2>
-    Something went wrong. Please refresh the page or go back to try again!
-  </h2>
-</div>
-`;
-
-exports[`<JesusFilmVideoPlayer /> renders fallback UI when no hlsStream 1`] = `
-<div
-  className="video-player-container jesus-film-override"
->
-  <h2>
-    Something went wrong. Please refresh the page or go back to try again!
-  </h2>
-</div>
-`;
-
-exports[`<JesusFilmVideoPlayer /> renders main UI when hasVideo & hlsStream 1`] = `
-<div
-  className="video-player-container jesus-film-override"
->
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders fallback UI when both hasVideo=false and no hlsStream 1`] = `
+<div>
   <div
-    className="video-player"
+    class="video-player-container jesus-film-override"
   >
-    <div
-      className="play-video-container show-control-icon"
-      onClick={[Function]}
-    >
-      <div
-        className="control-button-container"
-        onClick={[Function]}
-      >
-        <span
-          className="play-video-title"
-        >
-          Jesus Film
-        </span>
-        <svg
-          className="play-video"
-          fill="#fff"
-        >
-          <use
-            xlinkHref="/svglist.svg#play_video"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-      </div>
-    </div>
-    <video
-      onClick={[Function]}
-      playsInline={true}
-      style={
-        {
-          "width": "100%",
-        }
-      }
-    />
-    <div
-      className="progress-slider hide-progress-slider"
-      data-value-cur="00:00"
-      data-value-dur="01:36:29"
-    >
-      <div
-        className="progress-bar-buffer"
-        style={
-          {
-            "width": "0%",
-          }
-        }
-      />
-      <div
-        className="rc-slider rc-slider-horizontal"
-        onMouseDown={[Function]}
-      >
-        <div
-          className="rc-slider-rail"
-          style={
-            {
-              "backgroundColor": "rgba(199, 199, 204, 0.95)",
-              "cursor": "pointer",
-              "height": "2px",
-            }
-          }
-        />
-        <div
-          className="rc-slider-track"
-          onMouseDown={[Function]}
-          onTouchStart={[Function]}
-          style={
-            {
-              "backgroundColor": "rgba(98, 177, 130, 1)",
-              "cursor": "pointer",
-              "height": "2px",
-              "left": "0%",
-              "width": "0%",
-            }
-          }
-        />
-        <div
-          className="rc-slider-step"
-        />
-        <div
-          aria-disabled={false}
-          aria-valuemax={100}
-          aria-valuemin={0}
-          aria-valuenow={0}
-          className="rc-slider-handle"
-          onKeyDown={[Function]}
-          onMouseDown={[Function]}
-          onTouchStart={[Function]}
-          role="slider"
-          style={
-            {
-              "backgroundColor": "rgba(98, 177, 130, 1)",
-              "border": "2px solid rgba(98, 177, 130, 1)",
-              "height": "10px",
-              "left": "0%",
-              "top": "6px",
-              "transform": "translateX(-50%)",
-              "width": "10px",
-            }
-          }
-          tabIndex={0}
-        />
-      </div>
-    </div>
-    <div
-      className="controls hide-controls"
-    >
-      <div
-        className="left-controls"
-      >
-        <div
-          className="video-volume-container"
-          onClick={[Function]}
-          onTouchEnd={[Function]}
-        >
-          <div
-            className="video-volume-slider-container"
-          >
-            <div
-              className="video-slider-container"
-            >
-              <div
-                className="rc-slider slider rc-slider-vertical"
-                onMouseDown={[Function]}
-              >
-                <div
-                  className="rc-slider-rail"
-                  style={
-                    {
-                      "backgroundColor": "#000",
-                      "width": "2px",
-                    }
-                  }
-                />
-                <div
-                  className="rc-slider-track"
-                  onMouseDown={[Function]}
-                  onTouchStart={[Function]}
-                  style={
-                    {
-                      "backgroundColor": "rgba(98, 177, 130, 1)",
-                      "bottom": "0%",
-                      "height": "100%",
-                      "width": "2px",
-                    }
-                  }
-                />
-                <div
-                  className="rc-slider-step"
-                />
-                <div
-                  aria-disabled={false}
-                  aria-valuemax={100}
-                  aria-valuemin={0}
-                  aria-valuenow={100}
-                  className="rc-slider-handle"
-                  onKeyDown={[Function]}
-                  onMouseDown={[Function]}
-                  onTouchStart={[Function]}
-                  role="slider"
-                  style={
-                    {
-                      "backgroundColor": "rgba(98, 177, 130, 1)",
-                      "borderColor": "rgba(98, 177, 130, 1)",
-                      "bottom": "100%",
-                      "height": "12.5px",
-                      "left": "5px",
-                      "transform": "translateY(50%)",
-                      "width": "12.5px",
-                    }
-                  }
-                  tabIndex={0}
-                />
-              </div>
-            </div>
-          </div>
-          <svg
-            className="icon"
-            fill="#fff"
-          >
-            <use
-              xlinkHref="/svglist.svg#volume_max"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-            />
-          </svg>
-        </div>
-        <div
-          onClick={[Function]}
-        >
-          <svg
-            fill="#fff"
-          >
-            <use
-              xlinkHref="/svglist.svg#pause"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-            />
-          </svg>
-        </div>
-      </div>
-      <div
-        className="right-controls"
-      >
-        <div>
-          <svg
-            className="video-elipsis"
-            fill="#fff"
-          >
-            <use
-              xlinkHref="/svglist.svg#elipsis"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-            />
-          </svg>
-        </div>
-        <div
-          onClick={[Function]}
-        >
-          <svg
-            className="video-fullscreen"
-            fill="#fff"
-          >
-            <use
-              xlinkHref="/svglist.svg#fullscreen"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-            />
-          </svg>
-        </div>
-      </div>
-    </div>
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
+  </div>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders fallback UI when hasVideo is false 1`] = `
+<div>
+  <div
+    class="video-player-container jesus-film-override"
+  >
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
+  </div>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders fallback UI when no hlsStream 1`] = `
+<div>
+  <div
+    class="video-player-container jesus-film-override"
+  >
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
+  </div>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders main UI when hasVideo & hlsStream 1`] = `
+<div>
+  <div
+    class="video-player-container jesus-film-override"
+  >
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
   </div>
 </div>
 `;

@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
@@ -23,16 +22,17 @@ const ReducerInjector = ({ keyReducer, reducer, children }) => {
 	return children;
 };
 
-export default ({ key, reducer }) => (WrappedComponent) => {
-	function WithReducer(props) {
-  return (
-<ReducerInjector keyReducer={key} reducer={reducer}>
-			<WrappedComponent {...props} />
-</ReducerInjector>
-);
-}
+export default ({ key, reducer }) =>
+	(WrappedComponent) => {
+		function WithReducer(props) {
+			return (
+				<ReducerInjector keyReducer={key} reducer={reducer}>
+					<WrappedComponent {...props} />
+				</ReducerInjector>
+			);
+		}
 
-	WithReducer.displayName = `withReducer(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+		WithReducer.displayName = `withReducer(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
-	return hoistNonReactStatics(WithReducer, WrappedComponent);
-};
+		return hoistNonReactStatics(WithReducer, WrappedComponent);
+	};

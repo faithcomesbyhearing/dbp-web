@@ -107,7 +107,7 @@ const addHighlightUtil = ({
 							...main.querySelectorAll(
 								`[data-id="${activeBookId}${activeChapter}_${verse}"]`,
 							),
-					  ]
+						]
 					: [];
 				const highlightedWords = verseElements
 					.reduce((a, c) => a.concat(c.textContent), '')
@@ -137,7 +137,9 @@ const addHighlightUtil = ({
 				activeVerseInfo: { verse: 0 },
 			});
 		} catch (err) {
-			// do stuff with err
+			/* eslint-disable no-console */
+			console.error('Error adding Highlight', err);
+			/* eslint-enable no-console */
 		}
 	} else {
 		try {
@@ -274,8 +276,8 @@ const addHighlightUtil = ({
 			// Also need to check for class="v" to ensure that this was the first verse
 			if (
 				hasFormattedSource &&
-				!userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
-				!userSettings.getIn(['toggleOptions', 'oneVersePerLine', 'active'])
+				!userSettings?.['toggleOptions']?.['readersMode']?.['active'] &&
+				!userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active']
 			) {
 				// Issue with getting the correct parent node
 				node = getFormattedParentVerseNumber(node, firstVerse);
@@ -308,7 +310,7 @@ const addHighlightUtil = ({
 				// taking off the first 2 spaces and the verse number from the string
 				// This should only be the case for the first highlight within that verse
 				const newText = node.textContent.slice(0);
-				if (userSettings.getIn(['toggleOptions', 'readersMode', 'active'])) {
+				if (userSettings?.['toggleOptions']?.['readersMode']?.['active']) {
 					highlightStart = node.textContent.indexOf(anchorText) + anchorOffset;
 					highlightedWords = selectedText.replace(/\n/g, '').length;
 				} else {

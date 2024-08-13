@@ -16,10 +16,10 @@ const getLastSelectedVerse = (
 	const target = e.target;
 	const isFormatted =
 		!!formattedSourceMain &&
-		(!userSettings.getIn(['toggleOptions', 'readersMode', 'active']) ||
-			!userSettings.getIn(['toggleOptions', 'readersMode', 'available'])) &&
-		(!userSettings.getIn(['toggleOptions', 'oneVersePerLine', 'active']) ||
-			!userSettings.getIn(['toggleOptions', 'oneVersePerLine', 'available']));
+		(!userSettings?.['toggleOptions']?.['readersMode']?.['active'] ||
+			!userSettings?.['toggleOptions']?.['readersMode']?.['available']) &&
+		(!userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'] ||
+			!userSettings?.['toggleOptions']?.['oneVersePerLine']?.['available']);
 	const primaryButton = e.button === 0;
 	const stateObject = {};
 	const selectedText = windowObject.getSelection().toString();

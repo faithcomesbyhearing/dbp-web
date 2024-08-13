@@ -26,12 +26,8 @@ class FormattedText extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const {
-			getFirstVerse,
-			handleMouseUp,
-			handleNoteClick,
-			openFootnote,
-		} = this.props;
+		const { getFirstVerse, handleMouseUp, handleNoteClick, openFootnote } =
+			this.props;
 		if (this.formatRef) {
 			setEventHandlersForFootnotes(this.formatRef, openFootnote);
 			setEventHandlersForFormattedVerses(this.formatRef, {
@@ -85,7 +81,7 @@ class FormattedText extends React.PureComponent {
 			];
 			if (verseNodes.length) {
 				verseNodes.forEach(
-					(n) => (n.className = `${n.className} active-verse`), // eslint-disable-line no-param-reassign
+					(n) => (n.className = `${n.className} active-verse`),
 				);
 			}
 			// Remove the highlight from the old active verse
@@ -98,7 +94,7 @@ class FormattedText extends React.PureComponent {
 			if (prevVerseNodes.length) {
 				// Slicing the classname since the last 13 characters are the highlighted classname that needs to be removed
 				prevVerseNodes.forEach(
-					(n) => (n.className = n.className.slice(0, -13)), // eslint-disable-line no-param-reassign
+					(n) => (n.className = n.className.slice(0, -13)),
 				);
 			}
 		} else if (
@@ -115,7 +111,7 @@ class FormattedText extends React.PureComponent {
 			];
 			if (prevVerseNodes.length) {
 				prevVerseNodes.forEach(
-					(n) => (n.className = n.className.slice(0, -13)), // eslint-disable-line no-param-reassign
+					(n) => (n.className = n.className.slice(0, -13)),
 				);
 			}
 		}
@@ -188,12 +184,9 @@ class FormattedText extends React.PureComponent {
 				noteClick: handleNoteClick,
 			});
 		} else if (
-			prevProps.userSettings.getIn([
-				'toggleOptions',
-				'readersMode',
-				'active',
-			]) !== userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
-			!userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
+			prevProps.userSettings?.['toggleOptions']?.['readersMode']?.['active'] !==
+				userSettings?.['toggleOptions']?.['readersMode']?.['active'] &&
+			!userSettings?.['toggleOptions']?.['readersMode']?.['active'] &&
 			(this.formatHighlightRef || this.formatRef)
 		) {
 			// Need to set event handlers again here because they are removed once the plain text is rendered
@@ -263,10 +256,6 @@ class FormattedText extends React.PureComponent {
 			}, {}) || {};
 
 		this.props.setFootnotes(footnotes);
-		// this.setState({
-		// 	footnoteState: false,
-		// 	footnotes,
-		// });
 	};
 
 	setFormattedRef = (el) => {
@@ -315,15 +304,15 @@ class FormattedText extends React.PureComponent {
 					initialFormattedSource.main,
 					'text/xml',
 				);
+				const activeBookIdUpperCase = String(activeBookId || '').toUpperCase();
 				// Find the verse node by its class name
-				const verseClassName = `${activeBookId.toUpperCase()}${activeChapter}_${verseNumber}`;
+				const verseClassName = `${activeBookIdUpperCase}${activeChapter}_${verseNumber}`;
 				const verseNumberElement = xmlDocText.getElementsByClassName(
 					`verse${verseNumber}`,
 				)[0];
 				// Get the inner text of the verse
-				const verseString = xmlDocText.getElementsByClassName(
-					verseClassName,
-				)[0];
+				const verseString =
+					xmlDocText.getElementsByClassName(verseClassName)[0];
 				// Create a new container for the verse
 				const newXML = xmlDocText.createElement('div');
 				newXML.className = 'single-formatted-verse';
@@ -358,24 +347,15 @@ class FormattedText extends React.PureComponent {
 									),
 								),
 							)[0],
-				  }
+					}
 				: initialFormattedSource;
 		}
-		const readersMode = userSettings.getIn([
-			'toggleOptions',
-			'readersMode',
-			'active',
-		]);
-		const oneVersePerLine = userSettings.getIn([
-			'toggleOptions',
-			'oneVersePerLine',
-			'active',
-		]);
-		const justifiedText = userSettings.getIn([
-			'toggleOptions',
-			'justifiedText',
-			'active',
-		]);
+		const readersMode =
+			userSettings?.['toggleOptions']?.['readersMode']?.['active'];
+		const oneVersePerLine =
+			userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'];
+		const justifiedText =
+			userSettings?.['toggleOptions']?.['justifiedText']?.['active'];
 		// Need to connect to the api and get the highlights object for this chapter
 		// based on whether the highlights object has any data decide whether to
 		// run this function or not
@@ -384,7 +364,9 @@ class FormattedText extends React.PureComponent {
 		if (
 			highlights.length &&
 			userAuthenticated &&
-			(!oneVersePerLine && !readersMode && formattedSource.main) &&
+			!oneVersePerLine &&
+			!readersMode &&
+			formattedSource.main &&
 			createFormattedHighlights
 		) {
 			// Use function for highlighting the formatted formattedText
@@ -403,7 +385,7 @@ class FormattedText extends React.PureComponent {
 					<div
 						ref={this.setFormattedRefHighlight}
 						className={justifiedText ? 'justify' : ''}
-						dangerouslySetInnerHTML={{ __html: formattedText }} // eslint-disable-line react/no-danger
+						dangerouslySetInnerHTML={{ __html: formattedText }}
 					/>
 				);
 			}
@@ -411,7 +393,7 @@ class FormattedText extends React.PureComponent {
 				<div
 					ref={this.setFormattedRef}
 					className={justifiedText ? 'justify' : ''}
-					dangerouslySetInnerHTML={{ __html: formattedSource.main }} // eslint-disable-line react/no-danger
+					dangerouslySetInnerHTML={{ __html: formattedSource.main }}
 				/>
 			);
 		}
