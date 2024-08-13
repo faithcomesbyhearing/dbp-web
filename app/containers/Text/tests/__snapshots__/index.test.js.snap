@@ -70,7 +70,7 @@ exports[`<Text /> Should match previous snapshot with audioPlayerState true 1`] 
     </svg>
   </div>
   <div
-    className="main-wrapper"
+    className="main-wrapper main-text-wrapper"
   />
   <div
     className="arrow-wrapper next"
@@ -209,7 +209,7 @@ exports[`<Text /> Should match previous snapshot with hasVideo true 1`] = `
     </svg>
   </div>
   <div
-    className="main-wrapper"
+    className="main-wrapper main-text-wrapper"
   />
   <div
     className="arrow-wrapper next"
@@ -287,7 +287,7 @@ exports[`<Text /> Should match previous snapshot with menuIsOpen true 1`] = `
     className="arrow-wrapper prev disabled"
   />
   <div
-    className="main-wrapper"
+    className="main-wrapper main-text-wrapper"
   />
   <div
     className="arrow-wrapper next disabled"
@@ -318,7 +318,7 @@ exports[`<Text /> Should match previous snapshot with no options true 1`] = `
     </svg>
   </div>
   <div
-    className="main-wrapper"
+    className="main-wrapper main-text-wrapper"
   />
   <div
     className="arrow-wrapper next"
@@ -363,7 +363,7 @@ exports[`<Text /> Should match previous snapshot with subFooterOpen true 1`] = `
     </svg>
   </div>
   <div
-    className="main-wrapper"
+    className="main-wrapper main-text-wrapper"
   />
   <div
     className="arrow-wrapper next"
@@ -408,7 +408,7 @@ exports[`<Text /> Should match previous snapshot with videoPlayerOpen true 1`] =
     </svg>
   </div>
   <div
-    className="main-wrapper"
+    className="main-wrapper main-text-wrapper"
   />
   <div
     className="arrow-wrapper next"
