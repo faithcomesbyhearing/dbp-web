@@ -62,6 +62,9 @@ import {
   applyFontFamily,
   applyFontSize,
   toggleWordsOfJesus,
+  injectFont,
+  applyFontFamilyToClass,
+  removeFontFamily,
 } from '../Settings/themes';
 import { setAudioType } from '../AudioPlayer/actions';
 
@@ -346,6 +349,14 @@ class HomePage extends React.PureComponent {
         }),
       );
     }
+
+    if (this.props.homepage.bibleFontAvailable && localStorage.getItem('bible_is_bible_fonts')) {
+      const bibleFont = JSON.parse(localStorage.getItem('bible_is_bible_fonts'));
+      injectFont(bibleFont);
+      applyFontFamilyToClass(bibleFont.name, 'main-text-wrapper');
+    } else {
+      removeFontFamily('main-text-wrapper');
+    }
   }
 
   componentWillUnmount() {
@@ -603,6 +614,7 @@ HomePage.propTypes = {
     initialIsoCode: PropTypes.string,
     initialLanguageName: PropTypes.string,
     defaultLanguageCode: PropTypes.number,
+    bibleFontAvailable: PropTypes.bool,
     audioSource: PropTypes.string,
   }).isRequired,
   userSettings: PropTypes.object,

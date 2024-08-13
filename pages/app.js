@@ -390,7 +390,7 @@ AppContainer.getInitialProps = async (context) => {
 
   const singleBibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${
     process.env.DBP_API_KEY
-  }&v=4&include_font=false`;
+  }&v=4&include_font=true`;
 
   // Get active bible data
   const singleBibleRes = await cachedFetch(singleBibleUrl).catch((e) => {
@@ -410,6 +410,13 @@ AppContainer.getInitialProps = async (context) => {
     return { data: {} };
   });
   const bible = singleBibleRes.data;
+  if (typeof document !== 'undefined') {
+    if (bible.fonts) {
+      localStorage.setItem('bible_is_bible_fonts', JSON.stringify(bible.fonts));
+    } else {
+      localStorage.removeItem('bible_is_bible_fonts');
+    }
+  }
 
   // Acceptable fileset types that the site is capable of ingesting and displaying
   const setTypes = {
@@ -674,6 +681,7 @@ AppContainer.getInitialProps = async (context) => {
         activeTextName: bible.vname || bible.name,
         defaultLanguageName: bible.language || 'English: USA',
         defaultLanguageCode: bible.language_id || 17045,
+        bibleFontAvailable: !!bible.fonts,
         textDirection: bible.alphabet ? bible.alphabet.direction : 'ltr',
         activeBookId: bookId.toUpperCase() || '',
         userId,
@@ -712,6 +720,7 @@ AppContainer.getInitialProps = async (context) => {
     defaultLanguageIso: bible.iso || 'eng',
     defaultLanguageName: bible.language || 'English: USA',
     defaultLanguageCode: bible.language_id || 17045,
+    bibleFontAvailable: !!bible.fonts,
     activeTextName: bible.vname || bible.name,
     activeBookId: bookId.toUpperCase(),
     userProfile,
