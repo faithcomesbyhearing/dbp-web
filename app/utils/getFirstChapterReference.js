@@ -49,10 +49,11 @@ const getFirstChapterReference = (
     const videoBooks = bookMetaResponse.find(
       (filesetObject) => filesetObject[video.id],
     );
-
-    reference = `${videoBooks[video.id][0].book_id}/${
-      videoBooks[video.id][0].chapters[0] >= 0
-        ? videoBooks[video.id][0].chapters[0]
+    const firstBookId = videoBooks?.[video.id]?.books?.[0]?.book_id;
+    const firstChapter = videoBooks?.[video.id]?.books?.[0]?.chapters[0];
+    reference = `${firstBookId}/${
+      firstChapter >= 0
+        ? firstChapter
         : '1'
     }`;
   } else if (hasNtText && hasNtAudio) {
@@ -141,10 +142,11 @@ const getFirstChapterReference = (
     const audioBooks = bookMetaResponse.find(
       (filesetObject) => filesetObject[audioId],
     );
-
-    reference = `${audioBooks[audioId][0].book_id}/${
-      audioBooks[audioId][0].chapters[0] >= 0
-        ? audioBooks[audioId][0].chapters[0]
+    const firstBookId = audioBooks?.[audioId]?.books?.[0]?.book_id;
+    const firstChapter = audioBooks?.[audioId]?.books?.[0]?.chapters[0];
+    reference = `${firstBookId}/${
+      firstChapter >= 0
+        ? firstChapter
         : '1'
     }`;
   } else if (hasOtAudio) {
@@ -166,9 +168,11 @@ const getFirstChapterReference = (
     );
 
     // Gets first book id and first chapter number from that book
-    reference = `${audioBooks[audioId][0].book_id}/${
-      audioBooks[audioId][0].chapters[0] >= 0
-        ? audioBooks[audioId][0].chapters[0]
+    const firstBookId = audioBooks?.[audioId]?.books?.[0]?.book_id;
+    const firstChapter = audioBooks?.[audioId]?.books?.[0]?.chapters[0];
+    reference = `${firstBookId}/${
+      firstChapter >= 0
+        ? firstChapter
         : '1'
     }`;
   } else if (hasNtText) {
@@ -190,10 +194,10 @@ const getFirstChapterReference = (
     );
 
     // Gets first book id and first chapter number from that book
-    reference = `${textBooks[textId][0].book_id}/${
-      textBooks[textId][0].chapters[0] >= 0
-        ? textBooks[textId][0].chapters[0]
-        : '1'
+    const firstBookId = textBooks?.[textId]?.books?.[0]?.book_id;
+    const firstChapter = textBooks?.[textId]?.books?.[0]?.chapters[0];
+    reference = `${firstBookId}/${
+      firstChapter >= 0 ? firstChapter : '1'
     }`;
   } else if (hasOtText) {
     // Gets book/chapter for just text in the Old Testament
@@ -218,9 +222,11 @@ const getFirstChapterReference = (
     );
 
     // Gets first book id and first chapter number from that book
-    reference = `${textBooks[textId][0].book_id}/${
-      textBooks[textId][0].chapters[0] >= 0
-        ? textBooks[textId][0].chapters[0]
+    const firstBookId = textBooks?.[textId]?.books?.[0]?.book_id;
+    const firstChapter = textBooks?.[textId]?.books?.[0]?.chapters[0];
+    reference = `${firstBookId}/${
+      firstChapter >= 0
+        ? firstChapter
         : '1'
     }`;
   } else {
