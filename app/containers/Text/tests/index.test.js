@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Text from '..';
+import Text from '../index';
 
 // const Verses = dynamic(import('../Verses'), {
 // 	loading: () => <LoadingSpinner />,

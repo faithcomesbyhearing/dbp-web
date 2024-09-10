@@ -1,25 +1,28 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
+import Router from 'next/router';
 
 import JesusFilmVideoPlayer from '..';
 
 const props = {
-  hlsStream: `https://api-dev.dbp4.org/arclight/jesus-film?key=${process.env.DBP_API_KEY}&v=4&arclight_id=23156`,
+  hlsStream: `https://4.dbt.io/api/arclight/jesus-film?key=${process.env.DBP_API_KEY}&v=4&arclight_id=23156`,
   duration: 5789,
   hasVideo: true,
 };
 
 describe('<JesusFilmVideoPlayer /> component tests', () => {
   it('Should match snapshot with default props', () => {
-    const tree = renderer.create(<JesusFilmVideoPlayer {...props} />).toJSON();
-
-    expect(tree).toMatchSnapshot();
+    const { container } = render(<JesusFilmVideoPlayer {...props} />);
+		expect(container).toMatchSnapshot();
   });
   it('Should match snapshot with no hls stream', () => {
-    const tree = renderer
-      .create(<JesusFilmVideoPlayer {...props} hlsStream={''} />)
-      .toJSON();
+    const { container } = render(<JesusFilmVideoPlayer {...props} hlsStream={''} />);
+		expect(container).toMatchSnapshot();
+  });
 
-    expect(tree).toMatchSnapshot();
+  afterEach(() => {
+    // Ensure that we clean up mocks after each test
+    Router.events.on.mockClear();
+    Router.events.off.mockClear();
   });
 });

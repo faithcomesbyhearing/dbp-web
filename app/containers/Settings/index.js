@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import Slider from 'rc-slider';
+import dynamic from 'next/dynamic';
 import injectReducer from '../../utils/injectReducer';
 import SettingsToggle from '../../components/SettingsToggle/index';
 import SvgWrapper from '../../components/SvgWrapper';
@@ -28,6 +28,8 @@ import makeSelectSettings from './selectors';
 import reducer from './reducer';
 import { updateTheme, updateFontType, updateFontSize } from './actions';
 import Ieerror from '../../components/Ieerror';
+
+const Slider = dynamic(() => import('rc-slider'), { ssr: false });
 
 // add icon for settings close button
 export class Settings extends React.PureComponent {

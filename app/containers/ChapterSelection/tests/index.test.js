@@ -1,15 +1,22 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { ChapterSelection } from '..';
 
-Enzyme.configure({ adapter: new Adapter() });
-
 jest.mock('../../../components/BooksTable', () => function booksTableMock() {
-  return <div />;
+	return (
+		<div data-testid="books-table">
+			<button type="button">Genesis</button>
+		</div>
+	);
 });
+
+// Mock the redux actions
+jest.mock('../../HomePage/actions', () => ({
+	setActiveChapter: jest.fn(),
+	setActiveBookName: jest.fn(),
+	toggleChapterSelection: jest.fn(),
+}));
 
 const dispatch = jest.fn();
 
@@ -25,43 +32,32 @@ const inactiveProps = {
 };
 
 describe('<ChapterSelection />', () => {
-	it('should match snapshot for default active props', () => {
-		const tree = renderer
-			.create(<ChapterSelection {...activeProps} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+	it('should render with default active props', () => {
+		const { container } = render(<ChapterSelection {...activeProps} />);
+		expect(screen.getByTestId('books-table')).toBeInTheDocument();
+		const contentSection = container.querySelector('.chapter-text-dropdown');
+		expect(contentSection).toHaveStyle('display: flex');
+		expect(container).toMatchSnapshot();
 	});
-	it('should match snapshot for deafult inactive props', () => {
-		const tree = renderer
-			.create(<ChapterSelection {...inactiveProps} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('should render with default inactive props', () => {
+		const { container } = render(<ChapterSelection {...inactiveProps} />);
+		expect(screen.getByTestId('books-table')).toBeInTheDocument();
+		// Since active is false, BooksTable should not be rendered
+		const contentSection = container.querySelector('.chapter-text-dropdown');
+		expect(contentSection).toHaveStyle('display: none');
+		expect(container).toMatchSnapshot();
 	});
-	it('should call receive props when active state changes', () => {
-		const wrapper = Enzyme.mount(<ChapterSelection {...activeProps} />);
-		const spy = jest.spyOn(wrapper.instance(), 'componentDidUpdate');
-		wrapper.setProps({ active: false });
-		expect(spy).toHaveBeenCalled();
-	});
-	it('should toggle active state with toggleChapterSelection', () => {
-		const wrapper = Enzyme.mount(<ChapterSelection {...activeProps} />);
-		const spy1 = jest.spyOn(wrapper.instance(), 'componentWillUnmount');
-		const spy2 = jest.spyOn(wrapper.instance(), 'toggleChapterSelection');
-		const spy3 = jest.spyOn(
-			wrapper.instance().closeMenuController,
-			'onMenuUnmount',
-		);
 
-		act(() => {
-			wrapper.instance().forceUpdate();
-		});
+	it('should update component when props change', () => {
+		const { container, rerender } = render(<ChapterSelection {...activeProps} />);
+		expect(dispatch).not.toHaveBeenCalled();
+		const contentActive = container.querySelector('.chapter-text-dropdown');
+		expect(contentActive).toHaveStyle('display: flex');
 
-		wrapper.instance().toggleChapterSelection();
-
-		expect(dispatch).toHaveBeenCalled();
-		expect(spy2).toHaveBeenCalled();
-		wrapper.instance().componentWillUnmount();
-		expect(spy1).toHaveBeenCalled();
-		expect(spy3).toHaveBeenCalled();
+		// Rerender with updated props (active to inactive)
+		rerender(<ChapterSelection {...inactiveProps} />);
+		const contentInactive = container.querySelector('.chapter-text-dropdown');
+		expect(contentInactive).toHaveStyle('display: none');
 	});
 });

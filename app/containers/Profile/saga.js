@@ -254,7 +254,7 @@ export function* resetPassword({ email }) {
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append(
-		'project_id', process.env.NOTES_PROJECT_ID
+		'project_id', process.env.NOTES_PROJECT_ID,
 	);
 	formData.append('iso', browserLanguage);
 	formData.append('reset_path', resetPath);

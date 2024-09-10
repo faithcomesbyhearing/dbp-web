@@ -8,11 +8,11 @@ import { themes, fonts, sizes } from '../app/containers/Settings/themes';
 /* eslint-disable */
 export default class MyDocument extends Document {
   // Look at applying the theme here - (low priority at this time)
-  static getInitialProps = async ({ req, renderPage }) => {
+  static async getInitialProps ({ req, renderPage }) {
     const page = await renderPage();
     let cookie = {};
 
-    if (req && req.headers && req.headers.cookie) {
+    if (req?.headers?.cookie) {
       cookie = parseCookie(req.headers.cookie);
     } else if (typeof document !== 'undefined') {
       cookie = document.cookie ? parseCookie(document.cookie) : {};
@@ -47,7 +47,7 @@ export default class MyDocument extends Document {
         <Head></ Head>
         <body>
           <noscript>
-            {process.env.NODE_ENV === 'production' ? (
+            {process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? (
               <iframe
                 src="https://www.googletagmanager.com/ns.html?id=GTM-N48RPTL"
                 height="0"

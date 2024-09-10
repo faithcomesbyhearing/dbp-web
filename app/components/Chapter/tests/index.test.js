@@ -1,95 +1,45 @@
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import renderer from 'react-test-renderer';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Chapter from '..';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-const clickMessage = 'click-handler';
-
 describe('<Chapter />', () => {
-	it('Should render', () => {
-		const wrapper = Enzyme.shallow(
-			<Chapter
-				clickHandler={jest.fn(() => clickMessage)}
-				chapter={1}
-				active
-				href={''}
-				as={''}
-			/>,
-		);
-		expect(wrapper.text()).toEqual('1');
+	const clickMessage = 'click-handler';
+	const clickHandler = jest.fn(() => clickMessage);
+
+	it('Should render and display chapter number', () => {
+		render(<Chapter clickHandler={clickHandler} chapter={1} active href={''} as={''} />);
+		expect(screen.getByText('1')).toBeInTheDocument();
 	});
+
 	it('Should render for active chapter', () => {
-		const wrapper = Enzyme.shallow(
-			<Chapter
-				clickHandler={jest.fn(() => clickMessage)}
-				chapter={1}
-				active
-				href={''}
-				as={''}
-			/>,
-		);
-		expect(wrapper.find('.active-chapter').length).toEqual(1);
+		render(<Chapter clickHandler={clickHandler} chapter={1} active href={''} as={''} />);
+		expect(screen.getByText('1')).toHaveClass('active-chapter');
 	});
+
 	it('Should render for inactive chapter', () => {
-		const wrapper = Enzyme.shallow(
-			<Chapter
-				clickHandler={jest.fn(() => clickMessage)}
-				chapter={1}
-				href={''}
-				as={''}
-			/>,
-		);
-		expect(wrapper.find('.active-chapter').length).toEqual(0);
+		render(<Chapter clickHandler={clickHandler} chapter={1} href={''} as={''} />);
+		expect(screen.getByText('1')).not.toHaveClass('active-chapter');
 	});
+
 	it('Should match snapshot for active chapter', () => {
-		const tree = renderer
-			.create(
-				<Chapter
-					clickHandler={jest.fn(() => clickMessage)}
-					chapter={1}
-					active
-					href={''}
-					as={''}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<Chapter clickHandler={clickHandler} chapter={1} active href={''} as={''} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
+
 	it('Should match snapshot for inactive chapter', () => {
-		const tree = renderer
-			.create(
-				<Chapter
-					clickHandler={jest.fn(() => clickMessage)}
-					chapter={1}
-					href={''}
-					as={''}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<Chapter clickHandler={clickHandler} chapter={1} href={''} as={''} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
+
 	it('Should correctly fire click event', () => {
-		const wrapper = Enzyme.shallow(
-			<Chapter
-				clickHandler={jest.fn(() => clickMessage)}
-				chapter={1}
-				active
-				href={''}
-				as={''}
-			/>,
-		);
-		const anchor = wrapper.find('a');
-		const spy = jest.spyOn(anchor.props(), 'onClick');
+		const { container } = render(<Chapter clickHandler={clickHandler} chapter={1} active href={''} as={''} />);
+		// const anchor = screen.getByRole('link', { name: '1' });
+		const anchor = container.querySelector('.chapter-box');
+		fireEvent.click(anchor);
+		expect(clickHandler).toHaveBeenCalledTimes(1);
 
-		anchor.simulate('click');
-		expect(spy).toHaveBeenCalledTimes(1);
-
-		const clickResult = anchor.props().onClick();
-
-		expect(spy).toHaveBeenCalledTimes(2);
+		const clickResult = clickHandler.mock.results[0].value;
 		expect(clickResult).toEqual(clickMessage);
 	});
 });

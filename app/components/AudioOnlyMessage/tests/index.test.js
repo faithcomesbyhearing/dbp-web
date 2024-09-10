@@ -1,10 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import AudioOnlyMessage from '..';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import AudioOnlyMessage from '../index';
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
@@ -18,26 +15,16 @@ const chapter = 8;
 
 describe('AudioOnlyMessage Component', () => {
 	it('Should match previous snapshot', () => {
-		const tree = renderer.create(
-			<AudioOnlyMessage book={book} chapter={chapter} />,
-		);
-
-		expect(tree).toMatchSnapshot();
+		const { container } = render(<AudioOnlyMessage book={book} chapter={chapter} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('Should render a div containing given book and chapter', () => {
-		const wrapper = Enzyme.shallow(<AudioOnlyMessage book={book} chapter={chapter} />);
 
-		expect(
-			wrapper
-				.find('p')
-				.text()
-				.includes(book),
-		).toBe(true);
-		expect(
-			wrapper
-				.find('p')
-				.text()
-				.includes(chapter),
-		).toBe(true);
+	it('Should render a div containing given book and chapter', () => {
+		render(<AudioOnlyMessage book={book} chapter={chapter} />);
+
+		const textContent = screen.getByText(`${book} ${chapter}`);
+		expect(textContent).toBeInTheDocument();
+		expect(textContent.textContent).toContain(book);
+		expect(textContent.textContent).toContain(`${chapter}`);
 	});
 });

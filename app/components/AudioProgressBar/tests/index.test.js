@@ -1,32 +1,43 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import AudioProgressBar from '..';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
+import AudioProgressBar from '../index';
 
-Enzyme.configure({ adapter: new Adapter() });
+jest.mock('next/dynamic', () => ({
+	__esModule: true,
+	default: (...props) => {
+	  const dynamicModule = jest.requireActual('next/dynamic');
+	  const dynamicActualComp = dynamicModule.default;
+	  const RequiredComponent = dynamicActualComp(props[0]);
+	  RequiredComponent.preload
+		? RequiredComponent.preload()
+		: RequiredComponent.render.preload();
+	  return RequiredComponent;
+	},
+}));
 
+// Mock the AudioDramaToggle component
 jest.mock('../../AudioDramaToggle', () => function audioDramaToggleMock() {
-  return (
-<div className={'audio-drama-toggle-container'}>
-		<button
-			type={'button'}
-			id={'drama-button'}
-			className={'audio-drama-toggle-button active'}
-			onClick={jest.fn()}
-		>
-			Drama
-		</button>
-		<button
-			type={'button'}
-			id={'non-drama-button'}
-			className={'audio-drama-toggle-button'}
-			onClick={jest.fn()}
-		>
-			Non-Drama
-		</button>
-</div>
-);
+  	return (
+		<div className={'audio-drama-toggle-container'}>
+				<button
+					type={'button'}
+					id={'drama-button'}
+					className={'audio-drama-toggle-button active'}
+					onClick={jest.fn()}
+				>
+					Drama
+				</button>
+				<button
+					type={'button'}
+					id={'non-drama-button'}
+					className={'audio-drama-toggle-button'}
+					onClick={jest.fn()}
+				>
+					Non-Drama
+				</button>
+		</div>
+	);
 });
 
 const setCurrentTime = jest.fn();
@@ -35,7 +46,18 @@ const currentTime = 0;
 
 describe('AudioProgressBar Component', () => {
 	it('Should match previous snapshot', () => {
-		const tree = renderer.create(
+		const { container } = render(
+			<AudioProgressBar
+				duration={duration}
+				currentTime={currentTime}
+				setCurrentTime={setCurrentTime}
+			/>,
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it('Should render a slider with correct position', () => {
+		const { container } = render(
 			<AudioProgressBar
 				duration={duration}
 				currentTime={currentTime}
@@ -43,35 +65,25 @@ describe('AudioProgressBar Component', () => {
 			/>,
 		);
 
-		expect(tree).toMatchSnapshot();
-	});
-	it('Should render a div containing given duration and currentTime', () => {
-		const wrapper = Enzyme.mount(
-			<AudioProgressBar
-				duration={duration}
-				currentTime={currentTime}
-				setCurrentTime={setCurrentTime}
-			/>,
-		);
-		const style = wrapper.find('.rc-slider-track').get(0).props.style;
-		const expectedWidth = `${(100 * (currentTime / duration)).toFixed(0)}%`;
+		const slider = container.querySelector('.rc-slider-track');
+		expect(slider).toBeInTheDocument();
+		const expectedValue = (100 * (currentTime / duration)).toFixed(0);
 
-		expect(wrapper.find('.rc-slider-track')).toBeTruthy();
-		expect(style).toHaveProperty('width', expectedWidth);
+		expect(slider).toHaveStyle(`width: ${expectedValue}%`);
 	});
-	it('Should render the slider at the correct position', () => {
+
+	it('Should update slider position and call setCurrentTime', async () => {
 		const newCurrentTime = 5;
-		const wrapper = Enzyme.mount(
+		const { container } = render(
 			<AudioProgressBar
 				duration={duration}
 				currentTime={newCurrentTime}
 				setCurrentTime={setCurrentTime}
 			/>,
 		);
-		const style = wrapper.find('.rc-slider-track').get(0).props.style;
-		const expectedWidth = `${(100 * (newCurrentTime / duration)).toFixed(0)}%`;
 
-		expect(wrapper.find('.rc-slider-track')).toBeTruthy();
-		expect(style).toHaveProperty('width', expectedWidth);
+		const sliderTrack = container.querySelector('.rc-slider-track');
+		const expectedWidth = `${(100 * (newCurrentTime / duration)).toFixed(0)}%`;
+		expect(sliderTrack).toHaveStyle(`width: ${expectedWidth}`);
 	});
 });

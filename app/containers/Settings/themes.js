@@ -82,7 +82,7 @@ export const removeFontFamily = (className) => {
       const rules = Array.from(styleSheet.cssRules);
 
       const ruleIndex = rules.findIndex(
-        (rule) => rule.selectorText === `.${className}` && rule.style.fontFamily
+        (rule) => rule.selectorText === `.${className}` && rule.style.fontFamily,
       );
 
       if (ruleIndex !== -1) {

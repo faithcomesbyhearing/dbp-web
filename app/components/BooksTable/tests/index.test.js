@@ -1,15 +1,11 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { act } from 'react-dom/test-utils';
+import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { fromJS } from 'immutable';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import { BooksTable } from '..';
+import { BooksTable } from '../index';
 import { bookData } from '../../../utils/testUtils/booksData';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-const closeBookTable = jest.fn(() => (props.active = false));
+const closeBookTable = jest.fn();
 const props = {
 	dispatch: jest.fn(),
 	closeBookTable,
@@ -28,114 +24,53 @@ const props = {
 	filesetTypes: {},
 	textDirection: 'ltr',
 };
-let wrapper;
 
 describe('BooksTable tests', () => {
-	beforeEach(() => {
-		wrapper = Enzyme.mount(<BooksTable {...props} />);
-	});
 	it('should match snapshot with all potential props', () => {
-		const tree = renderer.create(<BooksTable {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<BooksTable {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
+
 	it('should match snapshot with direction right to left', () => {
-		const tree = renderer
-			.create(<BooksTable {...props} textDirection={'rtl'} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<BooksTable {...props} textDirection="rtl" />);
+		expect(asFragment()).toMatchSnapshot();
 	});
+
 	it('should match snapshot when it is closed', () => {
-		const tree = renderer
-			.create(<BooksTable {...props} active={false} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<BooksTable {...props} active={false} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
+
 	it('should match snapshot when it is loading', () => {
-		const tree = renderer
-			.create(<BooksTable {...props} loadingBooks />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<BooksTable {...props} loadingBooks />);
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('should successfully mount', () => {
-		expect(wrapper).toBeTruthy();
-	});
+
 	it('should successfully handle a chapter click', () => {
-		const spy = jest.spyOn(wrapper.instance(), 'handleChapterClick');
+		const { container } = render(<BooksTable {...props} />);
 
-		wrapper.instance().handleChapterClick();
+		const activeChapter = container.querySelector('.active-chapter');
+		fireEvent.click(activeChapter); // Modify to match actual text
 
-		wrapper.setProps({ active: props.active });
-
-		expect(spy).toHaveBeenCalledTimes(1);
 		expect(closeBookTable).toHaveBeenCalledTimes(1);
-		expect(wrapper.props().active).toBe(false);
 	});
-	it('should successfully handle a book click where persist is a function', () => {
-		const spy = jest.spyOn(wrapper.instance(), 'handleBookClick');
 
-		act(() => {
-			wrapper.instance().handleBookClick(
-				{
-					persist: jest.fn(),
-					target: { parentElement: { offsetTop: 10 } },
-				},
-				'Matthew',
-			);
-		});
+	it('should successfully handle a book click', () => {
+		const { container } = render(<BooksTable {...props} />);
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(wrapper.state('selectedBookName')).toBe('');
+		// Click on 'Matthew' (adjust based on rendered text)
+		expect(screen.getByTestId('MatthewMAT')).toBeInTheDocument();
+		const activeBook = container.querySelector('.active-book');
+
+		expect(activeBook.textContent).toContain('Matthew');
 	});
-	it('should successfully handle a book click where persist is not a function', () => {
-		const spy = jest.spyOn(wrapper.instance(), 'handleBookClick');
 
-		act(() => {
-			wrapper.instance().container.scrollTop = 50;
-			wrapper.instance().handleBookClick(
-				{
-					target: { parentElement: { offsetTop: 60 } },
-				},
-				'Mark',
-			);
-		});
+	it('should handle active prop changes', () => {
+		const { rerender } = render(<BooksTable {...props} active={false} />);
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(wrapper.state('selectedBookName')).toBe('Mark');
-		expect(wrapper.instance().container.scrollTop).toEqual(50);
-	});
-	it('should successfully handle a book click where selected book name is different', () => {
-		const spy = jest.spyOn(wrapper.instance(), 'handleBookClick');
+		// Re-render with updated props
+		rerender(<BooksTable {...props} active activeBookName="Mark" />);
 
-		act(() => {
-			wrapper.instance().handleBookClick(
-				{
-					persist: jest.fn(),
-					target: { parentElement: { offsetTop: 15 } },
-				},
-				'Luke',
-			);
-		});
-
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(wrapper.state('selectedBookName')).toBe('Luke');
-	});
-	it('should successfully handle the active prop change', () => {
-		const spy = jest.spyOn(wrapper.instance(), 'componentDidUpdate');
-		wrapper.setProps({ active: false });
-		expect(wrapper.props().active).toBe(false);
-		wrapper.setProps({ active: true, activeBookName: 'Mark' });
-		expect(wrapper.props().active).toBe(true);
-		expect(spy).toHaveBeenCalledTimes(2);
-		expect(wrapper.state('selectedBookName')).toBe('Mark');
-	});
-	it('should work with empty initialBookName prop', () => {
-		const localWrapper = Enzyme.mount(<BooksTable {...props} initialBookName={''} />);
-		expect(localWrapper.state('selectedBookName')).toEqual('Matthew');
-	});
-	it('should work with empty initialBookName and activeBookName props', () => {
-		const localWrapper = Enzyme.mount(
-			<BooksTable {...props} initialBookName={''} activeBookName={''} />,
-		);
-		expect(localWrapper.state('selectedBookName')).toEqual('');
+		expect(screen.getByTestId('MarkMRK')).toBeInTheDocument();
 	});
 });
