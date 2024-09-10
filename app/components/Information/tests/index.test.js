@@ -1,58 +1,63 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { act } from 'react-dom/test-utils';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import {
-	copyrights,
-	invalidCopyrights,
-	invalidCopyrights2,
-} from '../../../utils/testUtils/copyrightData';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { Information } from '..';
+import {
+  copyrights,
+  invalidCopyrights,
+  invalidCopyrights2,
+} from '../../../utils/testUtils/copyrightData';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
-	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
-	defineMessages: (messages) => messages,
+  	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>, // eslint-disable-line react/prop-types
+  	defineMessages: (messages) => messages,
 }));
-/* eslint-enable react/prop-types */
-
-const props = {
-	copyrights,
-};
 
 describe('<Information /> component tests', () => {
 	it('should match default snapshot', () => {
-		const tree = renderer.create(<Information {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { container } = render(<Information copyrights={copyrights} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should match snapshot with copyrights missing information', () => {
-		const tree = renderer
-			.create(<Information copyrights={invalidCopyrights} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('should match snapshot with missing information', () => {
+		const { container } = render(<Information copyrights={invalidCopyrights} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should match snapshot with copyrights missing organizations', () => {
-		const tree = renderer
-			.create(<Information copyrights={invalidCopyrights2} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('should match snapshot with missing organizations', () => {
+		const { container } = render(<Information copyrights={invalidCopyrights2} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should open and close', () => {
-		const wrapper = Enzyme.mount(<Information copyrights={copyrights} />);
-		const spy = jest.spyOn(wrapper.instance(), 'toggleCopyright');
-		const button = wrapper.find('.information-toggle');
 
-		act(() => {
-			wrapper.instance().forceUpdate();
-		});
+	test('should open and close the information section when the button is clicked', () => {
+		// Render the Information component
+		const { container } = render(<Information copyrights={copyrights} />);
 
-		button.simulate('click');
+		// Query the toggle button by its text (provided by FormattedMessage)
+		const toggleButton = screen.getByRole('button', { name: /learn more/i });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(wrapper.state('opened')).toEqual(true);
-		expect(wrapper.state('height')).toEqual(515);
+		const contentSection = container.querySelector('.copyrights-section');
+		expect(contentSection).toHaveStyle('max-height: 0');
+
+		// Click the button to open the section
+		fireEvent.click(toggleButton);
+
+		// Assert that the content section is now visible with the appropriate height
+		expect(contentSection).toHaveStyle('max-height: 515px');
+
+		// Assert that the arrow icon rotates
+		const icon = container.querySelector('svg');
+		expect(icon).toBeInTheDocument();
+
+		expect(icon).toHaveClass('rotate');
+
+		// Click the button again to close the section
+		fireEvent.click(toggleButton);
+
+		// Assert that the content section is closed again
+		expect(contentSection).toHaveStyle('max-height: 0');
+
+		// Ensure the icon no longer has the 'rotate' class
+		expect(icon).not.toHaveClass('rotate');
 	});
 });

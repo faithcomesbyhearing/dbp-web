@@ -7,12 +7,12 @@ const selectHomepageDomain = (state) => state.get('homepage');
 
 const selectActiveBookName = () => createSelector(
 	selectHomepageDomain,
-	(substate) => substate.get('activeBookName')
+	(substate) => substate.get('activeBookName'),
 );
 
 const selectActiveChapter = () => createSelector(
 	selectHomepageDomain,
-	(substate) => substate.get('activeChapter')
+	(substate) => substate.get('activeChapter'),
 );
 
 export {

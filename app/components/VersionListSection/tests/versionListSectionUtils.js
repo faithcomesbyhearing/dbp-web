@@ -120,8 +120,7 @@ export async function getTexts({ languageCode }) {
 			(text) =>
 				text.iso &&
 				text.abbr &&
-				(text.filesets &&
-					text.filesets.find(
+				(text.filesets?.find(
 						(f) =>
 							f.type === 'audio' ||
 							f.type === 'audio_drama' ||
@@ -145,7 +144,7 @@ export async function getTexts({ languageCode }) {
 								f.type === 'text_format',
 						),
 						...videosMap[text.abbr].filesets,
-				  ] || []
+				  ]
 				: text.filesets.filter(
 						(f) =>
 							f.type === 'audio' ||

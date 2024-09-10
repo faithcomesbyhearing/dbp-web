@@ -1,167 +1,163 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer component tests matches snapshot when closed 1`] = `
-<div
-  className="footer-background closed"
->
+<div>
   <div
-    className="footer-content"
+    class="footer-background closed"
   >
-    <span
-      className="item"
-      id="profile-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Profile"
+    <div
+      class="footer-content"
     >
-      <svg
-        className="icon"
-        fill="#fff"
+      <span
+        class="item"
+        id="profile-button"
+        role="button"
+        tabindex="0"
+        title="Profile"
       >
-        <use
-          xlinkHref="/svglist.svg#profile"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
-    <span
-      className="item"
-      id="search-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Search"
-    >
-      <svg
-        className="icon"
-        fill="#fff"
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#profile"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+      <span
+        class="item"
+        id="search-button"
+        role="button"
+        tabindex="0"
+        title="Search"
       >
-        <use
-          xlinkHref="/svglist.svg#search"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
-    <span
-      className="item"
-      id="notebook-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Notebook"
-    >
-      <svg
-        className="icon"
-        fill="#fff"
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+      <span
+        class="item"
+        id="notebook-button"
+        role="button"
+        tabindex="0"
+        title="Notebook"
       >
-        <use
-          xlinkHref="/svglist.svg#notebook"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
-    <span
-      className="item"
-      id="settings-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Settings"
-    >
-      <svg
-        className="icon"
-        fill="#fff"
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#notebook"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+      <span
+        class="item"
+        id="settings-button"
+        role="button"
+        tabindex="0"
+        title="Settings"
       >
-        <use
-          xlinkHref="/svglist.svg#text_options"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#text_options"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+    </div>
   </div>
 </div>
 `;
 
 exports[`Footer component tests matches snapshot when open 1`] = `
-<div
-  className="footer-background"
->
+<div>
   <div
-    className="footer-content"
+    class="footer-background"
   >
-    <span
-      className="item"
-      id="profile-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Profile"
+    <div
+      class="footer-content"
     >
-      <svg
-        className="icon"
-        fill="#fff"
+      <span
+        class="item"
+        id="profile-button"
+        role="button"
+        tabindex="0"
+        title="Profile"
       >
-        <use
-          xlinkHref="/svglist.svg#profile"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
-    <span
-      className="item"
-      id="search-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Search"
-    >
-      <svg
-        className="icon"
-        fill="#fff"
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#profile"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+      <span
+        class="item"
+        id="search-button"
+        role="button"
+        tabindex="0"
+        title="Search"
       >
-        <use
-          xlinkHref="/svglist.svg#search"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
-    <span
-      className="item"
-      id="notebook-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Notebook"
-    >
-      <svg
-        className="icon"
-        fill="#fff"
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+      <span
+        class="item"
+        id="notebook-button"
+        role="button"
+        tabindex="0"
+        title="Notebook"
       >
-        <use
-          xlinkHref="/svglist.svg#notebook"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
-    <span
-      className="item"
-      id="settings-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
-      title="Settings"
-    >
-      <svg
-        className="icon"
-        fill="#fff"
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#notebook"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+      <span
+        class="item"
+        id="settings-button"
+        role="button"
+        tabindex="0"
+        title="Settings"
       >
-        <use
-          xlinkHref="/svglist.svg#text_options"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-    </span>
+        <svg
+          class="icon"
+          fill="#fff"
+        >
+          <use
+            xlink:href="/svglist.svg#text_options"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </span>
+    </div>
   </div>
 </div>
 `;

@@ -6,12 +6,12 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
     className="highlight-item"
     id={5452296}
   >
-    <a
+    <button
       className="list-item"
-      href="/bible/ENGESV/MAT/1"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      type="button"
     >
       <div
         className="title-text"
@@ -34,12 +34,12 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
           ENGESV
         </p>
       </div>
-    </a>
-    <div
+    </button>
+    <button
       className="delete-highlight"
       onClick={[Function]}
-      role="button"
       tabIndex={0}
+      type="button"
     >
       <svg
         className="icon"
@@ -52,18 +52,18 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
       <span>
         Delete
       </span>
-    </div>
+    </button>
   </div>,
   <div
     className="highlight-item"
     id={5452373}
   >
-    <a
+    <button
       className="list-item"
-      href="/bible/ENGESV/MAT/1"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      type="button"
     >
       <div
         className="title-text"
@@ -86,12 +86,12 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
           ENGESV
         </p>
       </div>
-    </a>
-    <div
+    </button>
+    <button
       className="delete-highlight"
       onClick={[Function]}
-      role="button"
       tabIndex={0}
+      type="button"
     >
       <svg
         className="icon"
@@ -104,18 +104,18 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
       <span>
         Delete
       </span>
-    </div>
+    </button>
   </div>,
   <div
     className="highlight-item"
     id={5574788}
   >
-    <a
+    <button
       className="list-item"
-      href="/bible/ENGESV/MAT/3"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      type="button"
     >
       <div
         className="title-text"
@@ -138,12 +138,12 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
           ENGESV
         </p>
       </div>
-    </a>
-    <div
+    </button>
+    <button
       className="delete-highlight"
       onClick={[Function]}
-      role="button"
       tabIndex={0}
+      type="button"
     >
       <svg
         className="icon"
@@ -156,18 +156,18 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
       <span>
         Delete
       </span>
-    </div>
+    </button>
   </div>,
   <div
     className="highlight-item"
     id={5574789}
   >
-    <a
+    <button
       className="list-item"
-      href="/bible/ENGESV/MRK/16"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      type="button"
     >
       <div
         className="title-text"
@@ -190,12 +190,12 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
           ENGESV
         </p>
       </div>
-    </a>
-    <div
+    </button>
+    <button
       className="delete-highlight"
       onClick={[Function]}
-      role="button"
       tabIndex={0}
+      type="button"
     >
       <svg
         className="icon"
@@ -208,18 +208,18 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
       <span>
         Delete
       </span>
-    </div>
+    </button>
   </div>,
   <div
     className="highlight-item"
     id={5574790}
   >
-    <a
+    <button
       className="list-item"
-      href="/bible/ENGNIV/MAT/11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      type="button"
     >
       <div
         className="title-text"
@@ -242,12 +242,12 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
           ENGNIV
         </p>
       </div>
-    </a>
-    <div
+    </button>
+    <button
       className="delete-highlight"
       onClick={[Function]}
-      role="button"
       tabIndex={0}
+      type="button"
     >
       <svg
         className="icon"
@@ -260,7 +260,7 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
       <span>
         Delete
       </span>
-    </div>
+    </button>
   </div>,
 ]
 `;

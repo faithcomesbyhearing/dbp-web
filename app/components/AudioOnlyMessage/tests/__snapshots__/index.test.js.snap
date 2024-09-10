@@ -1,23 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AudioOnlyMessage Component Should match previous snapshot 1`] = `
-<div
-  className="audio-only"
->
-  <svg>
-    <use
-      xlinkHref="/svglist.svg#audio_only"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+<div>
+  <div
+    class="audio-only"
+  >
+    <svg>
+      <use
+        xlink:href="/svglist.svg#audio_only"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      />
+    </svg>
+    <p>
+      Romans 8
+    </p>
+    <span
+      class="divider"
     />
-  </svg>
-  <p>
-    Romans 8
-  </p>
-  <span
-    className="divider"
-  />
-  <span>
-    Audio Only
-  </span>
+    <span>
+      Audio Only
+    </span>
+  </div>
 </div>
 `;

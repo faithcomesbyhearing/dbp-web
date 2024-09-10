@@ -109,7 +109,7 @@ JesusFilm.getInitialProps = async (context) => {
 	const { req } = context;
 	const routeLocation = context.asPath;
 	const { iso } = context.query;
-	const hasHeaders = req && req.headers;
+	const hasHeaders = req?.headers;
 
 	// Default isIe to false
 	let isIe = false;
@@ -146,7 +146,7 @@ JesusFilm.getInitialProps = async (context) => {
 	const duration = videoObject.duration_in_milliseconds
 		? videoObject.duration_in_milliseconds / 1000
 		: 7673792 / 1000;
-	// const duration = 7673792 / 1000;
+
 	const hlsStream = arclightId
 		? `${process.env.BASE_API_ROUTE}/arclight/jesus-film?key=${
 				process.env.DBP_API_KEY

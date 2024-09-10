@@ -39,7 +39,7 @@ export function* getCountries() {
     }
 
     const countryResponses = yield all(
-      countryRequestList.map((countryRequest) => call(cachedFetch, countryRequest, {}, oneDay))
+      countryRequestList.map((countryRequest) => call(cachedFetch, countryRequest, {}, oneDay)),
     );
 
     countryResponses.forEach((countryResponse) => {
@@ -135,7 +135,7 @@ export function* getTexts({ languageCode, languageIso }) {
     const texts = response.data ? response.data.map((resource) => ({
         ...resource,
         filesets: geFilesetsForBible(resource.filesets),
-      })
+      }),
     ) : [];
 
     // Create map of videos for constant time lookup when iterating through the texts
@@ -224,7 +224,7 @@ export function* getLanguageAltNames() {
     }
 
     const languageResponses = yield all(
-      languageRequestList.map((languageRequest) => call(cachedFetch, languageRequest, {}, oneDay))
+      languageRequestList.map((languageRequest) => call(cachedFetch, languageRequest, {}, oneDay)),
     );
 
     languageResponses.forEach((languageResponse) => {

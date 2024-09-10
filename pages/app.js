@@ -484,7 +484,7 @@ AppContainer.getInitialProps = async (context) => {
   }
 
   // Redirect to the new url if conditions are met
-  if (bookMetaData && bookMetaData.length) {
+  if (bookMetaData?.length) {
     const foundChapter =
       foundBook?.chapters.find((c) => chapter && c === parseInt(chapter, 10));
     // Default book/chapter to matthew 1 to keep it from breaking if there is an error encountered in getFirstChapterReference
@@ -507,7 +507,7 @@ AppContainer.getInitialProps = async (context) => {
 
     // If the book wasn't found and chapter wasn't found
     // Go to the first book and first chapter
-    const foundBookId = foundBook && foundBook.book_id;
+    const foundBookId = foundBook?.book_id;
     const foundChapterId =
       foundBook && (foundBook.chapters[0] || foundBook.chapters[0] === 0 || 1);
     /**

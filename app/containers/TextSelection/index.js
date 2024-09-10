@@ -53,7 +53,7 @@ function TextSelection(props) {
 	useEffect(() => {
 		const closeMenuControllerRef = new CloseMenuFunctions(
 			ref.current,
-			localCloseVersionSelection
+			localCloseVersionSelection,
 		);
 
 		let timer;

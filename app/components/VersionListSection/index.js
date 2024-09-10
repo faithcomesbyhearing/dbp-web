@@ -28,24 +28,24 @@ class VersionListSection extends React.PureComponent {
                   </AccordionItemButton>
                 </AccordionItemHeading>
                 <AccordionItemPanel className="accordion-body-style">
-                  <a
+                  <button
                     key={`${key}_drama`}
-                    role="button"
                     tabIndex={0}
                     className="version-item-button"
                     onClick={() => clickHandler('audio_drama')}
+                    type="button"
                   >
                     Dramatized Version
-                  </a>
-                  <a
+                  </button>
+                  <button
                     key={`${key}_plain`}
-                    role="button"
                     tabIndex={0}
                     className="version-item-button"
                     onClick={() => clickHandler('audio')}
+                    type="button"
                   >
                     Non-Dramatized Version
-                  </a>
+                  </button>
                 </AccordionItemPanel>
               </AccordionItem>
             );
@@ -55,16 +55,16 @@ class VersionListSection extends React.PureComponent {
             <AccordionItem key={key} className="accordion-title-style">
               <AccordionItemHeading aria-level={1}>
                 <AccordionItemButton>
-                  <a
+                  <button
                     key={key}
-                    role="button"
                     tabIndex={0}
                     title={title}
                     className={`${className} top-level-title`}
                     onClick={() => clickHandler('')}
+                    type="button"
                   >
                     {altText ? `${text} (${altText})` : text}
-                  </a>
+                  </button>
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel />
@@ -91,7 +91,7 @@ VersionListSection.propTypes = {
         text_format: PropTypes.bool,
       }).isRequired,
       clickHandler: PropTypes.func.isRequired,
-    })
+    }),
   ),
 };
 

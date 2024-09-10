@@ -6,9 +6,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Slider from 'rc-slider/lib/Slider';
+import dynamic from 'next/dynamic';
 import CloseMenuFunctions from '../../utils/closeMenuFunctions';
 import Colors from '../../../theme_config/javascriptColors';
+
+const Slider = dynamic(() => import('rc-slider/lib/Slider'), { ssr: false });
 
 // rc-slider Slider component doesn't accept classes for styles other than classname
 class VolumeSlider extends React.PureComponent {

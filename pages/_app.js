@@ -13,8 +13,8 @@ class CustomApp extends App {
 	render() {
 		const { Component, pageProps } = this.props;
 		if (
-			process.env.NODE_ENV === 'production' ||
-			process.env.NODE_ENV === 'staging'
+			process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
+			process.env.NEXT_PUBLIC_NODE_ENV === 'staging'
 		) {
 			return (
 				<ErrorBoundary FallbackComponent={Error}>
