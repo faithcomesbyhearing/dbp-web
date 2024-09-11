@@ -8,10 +8,11 @@ if (process.env.NODE_ENV !== 'production') {
  * See lib/config/default.js in the agent distribution for a more complete
  * description of configuration variables and their potential values.
  */
-/* eslint-disable no-nested-ternary */
-const appName = process.env.NEWRELIC_ID ? process.env.NEWRELIC_ID : 'Bible.is Web Development';
 
-/* eslint-enable no-nested-ternary */
+const appName = process.env.NEWRELIC_ID
+	? process.env.NEWRELIC_ID
+	: 'Bible.is Web Development';
+
 exports.config = {
 	/**
 	 * Array of application names.

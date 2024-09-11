@@ -11,7 +11,6 @@ import SvgWrapper from '../SvgWrapper';
 import NoteVerseText from '../NoteVerseText';
 
 class EditNote extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
 	constructor(props) {
 		super(props);
 		// TODO: Can get rid of the const statements below once the tags field is an object
@@ -57,10 +56,7 @@ class EditNote extends React.PureComponent {
 	getCurrentDate = () => {
 		const date = new Date();
 		const day = date.getDate();
-		const year = date
-			.getFullYear()
-			.toFixed()
-			.slice(2);
+		const year = date.getFullYear().toFixed().slice(2);
 		const month = (date.getMonth() + 1).toFixed();
 
 		return `${month.length === 1 ? `0${month}` : month}.${day}.${year}`;
@@ -101,11 +97,10 @@ class EditNote extends React.PureComponent {
 			this.props.readSavedMessage();
 			this.props.clearNoteErrorMessage();
 		}
-		this.setState(
-			(cs) =>
-				cs.readTheMessage
-					? { textarea: e.target.value }
-					: { textarea: e.target.value, readTheMessage: true },
+		this.setState((cs) =>
+			cs.readTheMessage
+				? { textarea: e.target.value }
+				: { textarea: e.target.value, readTheMessage: true },
 		);
 	};
 
@@ -119,11 +114,10 @@ class EditNote extends React.PureComponent {
 			this.props.readSavedMessage();
 			this.props.clearNoteErrorMessage();
 		}
-		this.setState(
-			(cs) =>
-				cs.readTheMessage
-					? { titleText: e.target.value }
-					: { titleText: e.target.value, readTheMessage: true },
+		this.setState((cs) =>
+			cs.readTheMessage
+				? { titleText: e.target.value }
+				: { titleText: e.target.value, readTheMessage: true },
 		);
 	};
 

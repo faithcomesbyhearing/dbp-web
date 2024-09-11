@@ -31,7 +31,6 @@ import { selectTextDirection } from '../../containers/Verses/selectors';
 export class BooksTable extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
 		this.state = {
 			selectedBookName:
 				this.props.initialBookName || this.props.activeBookName || '',
@@ -209,9 +208,6 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(BooksTable);

@@ -3,19 +3,19 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AudioOnlyMessage from '../index';
 
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-/* eslint-enable react/prop-types */
 
 const book = 'Romans';
 const chapter = 8;
 
 describe('AudioOnlyMessage Component', () => {
 	it('Should match previous snapshot', () => {
-		const { container } = render(<AudioOnlyMessage book={book} chapter={chapter} />);
+		const { container } = render(
+			<AudioOnlyMessage book={book} chapter={chapter} />,
+		);
 		expect(container).toMatchSnapshot();
 	});
 

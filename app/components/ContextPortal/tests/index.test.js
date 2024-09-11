@@ -2,41 +2,41 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { ContextPortal } from '..';
 
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
 
-jest.mock('../../PopupMessage', () =>
-	function portalPopupMessageMock({ styles, message, x, y }) {
-		return (
-		<div
-			style={{ top: y - 50, left: x - 87.5, ...styles }}
-			className={'custom-popup'}
-		>
-			{message ? (
-			<p>{message}</p>
-			) : (
-			<p>
-				If you believe this to be an error please{' '}
-				<a
-				className={'logo'}
-				href={'https://support.bible.is/contact'}
-				title={'https://support.bible.is/contact'}
-				target={'_blank'}
-				rel={'noopener'}
+jest.mock(
+	'../../PopupMessage',
+	() =>
+		function portalPopupMessageMock({ styles, message, x, y }) {
+			return (
+				<div
+					style={{ top: y - 50, left: x - 87.5, ...styles }}
+					className={'custom-popup'}
 				>
-				contact support
-				</a>
-				.
-			</p>
-			)}
-		</div>
-		);
-	},
+					{message ? (
+						<p>{message}</p>
+					) : (
+						<p>
+							If you believe this to be an error please{' '}
+							<a
+								className={'logo'}
+								href={'https://support.bible.is/contact'}
+								title={'https://support.bible.is/contact'}
+								target={'_blank'}
+								rel={'noopener'}
+							>
+								contact support
+							</a>
+							.
+						</p>
+					)}
+				</div>
+			);
+		},
 );
-/* eslint-enable react/prop-types */
 
 const props = {
 	selectedText: 'For all have sinned and fallen short of the glory of God.',

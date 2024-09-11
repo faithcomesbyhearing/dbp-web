@@ -55,12 +55,10 @@ export function injectSagaFactory(store, isValid) {
 			!hasSaga ||
 			(hasSaga && mode !== DAEMON && mode !== ONCE_TILL_UNMOUNT)
 		) {
-			/* eslint-disable no-param-reassign */
 			store.injectedSagas[key] = {
 				...newDescriptor,
 				task: store.runSaga(saga, args),
 			};
-			/* eslint-enable no-param-reassign */
 		}
 	};
 }
@@ -81,7 +79,7 @@ export function ejectSagaFactory(store, isValid) {
 					process.env.NODE_ENV === 'staging'
 				) {
 					// Need some value to be able to detect `ONCE_TILL_UNMOUNT` sagas in `injectSaga`
-					store.injectedSagas[key] = 'done'; // eslint-disable-line no-param-reassign
+					store.injectedSagas[key] = 'done';
 				}
 			}
 		}

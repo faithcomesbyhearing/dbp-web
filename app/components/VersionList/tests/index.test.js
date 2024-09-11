@@ -15,7 +15,7 @@ jest.mock('../selectors', () => ({
 }));
 
 jest.mock('react-intl', () => ({
-	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>, // eslint-disable-line react/prop-types
+	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
 

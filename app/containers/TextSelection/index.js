@@ -15,7 +15,11 @@ import LanguageList from '../../components/LanguageList';
 import VersionList from '../../components/VersionList';
 import SvgWrapper from '../../components/SvgWrapper';
 import CloseMenuFunctions from '../../utils/closeMenuFunctions';
-import { setActiveTextId, toggleVersionSelection, closeVersionSelection } from '../HomePage/actions';
+import {
+	setActiveTextId,
+	toggleVersionSelection,
+	closeVersionSelection,
+} from '../HomePage/actions';
 import {
 	setVersionListState,
 	setLanguageListState,
@@ -34,7 +38,7 @@ import makeSelectTextSelection, {
 	selectHomepageData,
 } from './selectors';
 import messages from './messages';
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 function TextSelection(props) {
 	const [filterText, setFilterText] = useState('');
 	const [fromCountry, setFromCountry] = useState(false);
@@ -73,7 +77,8 @@ function TextSelection(props) {
 	useEffect(() => {
 		if (
 			props.textselection?.activeIsoCode !== prevTextselection?.activeIsoCode ||
-			props.textselection?.activeLanguageCode !== prevTextselection?.activeLanguageCode
+			props.textselection?.activeLanguageCode !==
+				prevTextselection?.activeLanguageCode
 		) {
 			props.dispatch(
 				getTexts({
@@ -84,9 +89,12 @@ function TextSelection(props) {
 		}
 
 		if (
-			props.textselection?.versionListActive !== prevTextselection?.versionListActive ||
-			props.textselection?.countryListActive !== prevTextselection?.countryListActive ||
-			props.textselection?.languageListActive !== prevTextselection?.languageListActive
+			props.textselection?.versionListActive !==
+				prevTextselection?.versionListActive ||
+			props.textselection?.countryListActive !==
+				prevTextselection?.countryListActive ||
+			props.textselection?.languageListActive !==
+				prevTextselection?.languageListActive
 		) {
 			setFilterText('');
 		}
@@ -148,10 +156,15 @@ function TextSelection(props) {
 		finishedLoadingCountries,
 	} = props.textselection;
 
-	const { bibles, active, languages, countries, homepageData: { activeTextId } } = props;
+	const {
+		bibles,
+		active,
+		languages,
+		countries,
+		homepageData: { activeTextId },
+	} = props;
 
 	return (
-		// eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
 		<aside
 			style={{ display: active ? 'flex' : 'none' }}
 			ref={ref}
@@ -263,9 +276,6 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(TextSelection);

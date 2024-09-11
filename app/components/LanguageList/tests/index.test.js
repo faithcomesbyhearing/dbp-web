@@ -3,7 +3,6 @@ import renderer from 'react-test-renderer';
 import { languages } from '../../../utils/testUtils/languageData';
 import { LanguageList } from '..';
 
-/* eslint-disable no-plusplus */
 jest.mock('react-virtualized', () => ({
 	List: ({ rowRenderer, rowCount }) => {
 		const components = [];
@@ -14,7 +13,6 @@ jest.mock('react-virtualized', () => ({
 	},
 	AutoSizer: ({ children }) => children({ width: 150, height: 50 }),
 }));
-/* eslint-enable no-plusplus */
 
 const props = {
 	languages,

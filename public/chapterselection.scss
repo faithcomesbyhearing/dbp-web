@@ -127,7 +127,6 @@
 			}
 
 			.accordion-body-style {
-				//padding:15px 0 15px 0;
 				@include css4 {
 					color: var(--text-selection-text-color);
 					background-color: var(--text-selection-accordion-title-background);

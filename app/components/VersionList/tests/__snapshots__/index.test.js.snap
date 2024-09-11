@@ -57,20 +57,22 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
               hidden=""
               id="accordion__panel-:r0:"
             >
-              <button
+              <a
                 class="version-item-button"
+                role="button"
                 tabindex="0"
                 type="button"
               >
                 Dramatized Version
-              </button>
-              <button
+              </a>
+              <a
                 class="version-item-button"
+                role="button"
                 tabindex="0"
                 type="button"
               >
                 Non-Dramatized Version
-              </button>
+              </a>
             </div>
           </div>
         </div>

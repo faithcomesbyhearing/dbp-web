@@ -11,7 +11,6 @@ import SvgWrapper from '../SvgWrapper';
 import LegacyLink from '../LegacyLink';
 
 class MyBookmarks extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
 	render() {
 		const {
 			bookmarks,
@@ -30,7 +29,11 @@ class MyBookmarks extends React.PureComponent {
 						listItem.chapter
 					}`}
 				>
-					<button onClick={toggleNotesModal} className="list-item" type="button">
+					<button
+						onClick={toggleNotesModal}
+						className="list-item"
+						type="button"
+					>
 						<div className="title-text">
 							<h4 className="title">
 								<span className="date">
