@@ -1,15 +1,14 @@
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
 import FootnotePortal from '..';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 // Mocks
 Object.defineProperty(document, 'getElementById', {
 	value: (input) => {
 		const el = document.createElement('div');
 		el.id = input;
+		document.body.appendChild(el);
 		return el;
 	},
 });
@@ -21,8 +20,30 @@ const props = {
 };
 
 describe('FootnotePortal component', () => {
+	beforeEach(() => {
+		// Make sure to have the portal target available in the DOM
+		document.body.innerHTML = '<div id="__next"></div>';
+	});
+
+	afterEach(() => {
+		// Clean up the DOM after each test
+		document.body.innerHTML = '';
+	});
+
 	it('should match snapshot with expected props', () => {
-		const tree = Enzyme.mount(<FootnotePortal {...props} />);
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<FootnotePortal {...props} />);
+		expect(asFragment()).toMatchSnapshot();
+	});
+
+	it('should display the correct message', () => {
+		render(<FootnotePortal {...props} />);
+		expect(screen.getByText('Please Login.')).toBeInTheDocument();
+	});
+
+	it('should call closeFootnote when the close button is clicked', () => {
+		render(<FootnotePortal {...props} />);
+		const closeButton = screen.getByRole('button', { name: /x/i });
+		fireEvent.click(closeButton);
+		expect(props.closeFootnote).toHaveBeenCalledTimes(1);
 	});
 });

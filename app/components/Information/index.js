@@ -25,9 +25,7 @@ export class Information extends React.PureComponent {
 		};
 	}
 
-	// eslint-disable-line react/prefer-stateless-function
 	setRef = (node) => {
-		// eslint-disable-next-line react/no-unused-class-component-methods
 		this.ref = node;
 	};
 
@@ -123,7 +121,4 @@ const mapDispatchToProps = (dispatch) => ({
 	dispatch,
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps(),
-)(Information);
+export default connect(mapStateToProps, mapDispatchToProps())(Information);

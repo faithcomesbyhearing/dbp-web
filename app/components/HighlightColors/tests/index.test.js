@@ -1,113 +1,126 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, fireEvent } from '@testing-library/react';
 import Colors from '../../../../theme_config/javascriptColors';
 import HighlightColors from '..';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-/* eslint-enable react/prop-types */
+
 const options = ['None', 'Yellow', 'Green', 'Pink', 'Purple', 'Blue'];
 const green = Colors.highlightGreen;
 const yellow = Colors.highlightYellow;
 const pink = Colors.highlightPink;
 const purple = Colors.highlightPurple;
 const blue = Colors.highlightBlue;
-let addHighlight = jest.fn(() => {});
-let wrapper;
 
 describe('HighlightColors component', () => {
+	let addHighlight;
+
 	beforeEach(() => {
 		addHighlight = jest.fn(({ color }) => color);
-		wrapper = Enzyme.mount(<HighlightColors addHighlight={addHighlight} />);
 	});
+
 	it('should match snapshot', () => {
-		const tree = renderer.create(
+		const { container } = render(
 			<HighlightColors addHighlight={addHighlight} />,
 		);
-		expect(tree).toMatchSnapshot();
+		expect(container).toMatchSnapshot();
 	});
-	it('should contain yellow highlight option', () => {
-		const colorNode = wrapper.find('.yellow');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick({ clientX: 10, clientY: 10 });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(yellow);
+	it('should handle yellow highlight option click', () => {
+		const { container } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const yellowButton = container.querySelector('.yellow');
 
-		colorNode.simulate('click');
-
-		expect(addHighlight).toHaveBeenCalledTimes(2);
+		fireEvent.click(yellowButton, { clientX: 10, clientY: 10 });
+		expect(addHighlight).toHaveBeenCalledWith({
+			color: yellow,
+			popupCoords: { x: 10, y: 10 },
+		});
+		expect(addHighlight).toHaveBeenCalledTimes(1);
 	});
-	it('should contain green highlight option', () => {
-		const colorNode = wrapper.find('.green');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick({ clientX: 10, clientY: 10 });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(green);
+	it('should handle green highlight option click', () => {
+		const { container } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const greenButton = container.querySelector('.green');
 
-		colorNode.simulate('click');
-
-		expect(addHighlight).toHaveBeenCalledTimes(2);
+		fireEvent.click(greenButton, { clientX: 10, clientY: 10 });
+		expect(addHighlight).toHaveBeenCalledWith({
+			color: green,
+			popupCoords: { x: 10, y: 10 },
+		});
+		expect(addHighlight).toHaveBeenCalledTimes(1);
 	});
-	it('should contain pink highlight option', () => {
-		const colorNode = wrapper.find('.pink');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick({ clientX: 10, clientY: 10 });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(pink);
+	it('should handle pink highlight option click', () => {
+		const { container } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const pinkButton = container.querySelector('.pink');
 
-		colorNode.simulate('click');
-
-		expect(addHighlight).toHaveBeenCalledTimes(2);
+		fireEvent.click(pinkButton, { clientX: 10, clientY: 10 });
+		expect(addHighlight).toHaveBeenCalledWith({
+			color: pink,
+			popupCoords: { x: 10, y: 10 },
+		});
+		expect(addHighlight).toHaveBeenCalledTimes(1);
 	});
-	it('should contain purple highlight option', () => {
-		const colorNode = wrapper.find('.purple');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick({ clientX: 10, clientY: 10 });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(purple);
+	it('should handle purple highlight option click', () => {
+		const { container } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const purpleButton = container.querySelector('.purple');
 
-		colorNode.simulate('click');
-
-		expect(addHighlight).toHaveBeenCalledTimes(2);
+		fireEvent.click(purpleButton, { clientX: 10, clientY: 10 });
+		expect(addHighlight).toHaveBeenCalledWith({
+			color: purple,
+			popupCoords: { x: 10, y: 10 },
+		});
+		expect(addHighlight).toHaveBeenCalledTimes(1);
 	});
-	it('should contain blue highlight option', () => {
-		const colorNode = wrapper.find('.blue');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick({ clientX: 10, clientY: 10 });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual(blue);
+	it('should handle blue highlight option click', () => {
+		const { container } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const blueButton = container.querySelector('.blue');
 
-		colorNode.simulate('click');
-
-		expect(addHighlight).toHaveBeenCalledTimes(2);
+		fireEvent.click(blueButton, { clientX: 10, clientY: 10 });
+		expect(addHighlight).toHaveBeenCalledWith({
+			color: blue,
+			popupCoords: { x: 10, y: 10 },
+		});
+		expect(addHighlight).toHaveBeenCalledTimes(1);
 	});
-	it('should contain blue highlight option', () => {
-		const colorNode = wrapper.find('.none');
-		const spy = jest.spyOn(colorNode.props(), 'onClick');
-		const colorOutput = colorNode.props().onClick({ clientX: 10, clientY: 10 });
 
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(colorOutput).toEqual('none');
+	it('should handle no color highlight option click', () => {
+		const { container } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const noneButton = container.querySelector('.none');
 
-		colorNode.simulate('click');
-
-		expect(addHighlight).toHaveBeenCalledTimes(2);
+		fireEvent.click(noneButton, { clientX: 10, clientY: 10 });
+		expect(addHighlight).toHaveBeenCalledWith({
+			color: 'none',
+			popupCoords: { x: 10, y: 10 },
+		});
+		expect(addHighlight).toHaveBeenCalledTimes(1);
 	});
-	it('should contain all the color options', () => {
-		const nodes = wrapper.find('.color-text');
 
-		nodes.forEach((node, index) => expect(node.text()).toEqual(options[index]));
+	it('should contain all color options', () => {
+		const { getAllByText } = render(
+			<HighlightColors addHighlight={addHighlight} />,
+		);
+		const colorTextNodes = getAllByText(/none|yellow|green|pink|purple|blue/i);
+
+		colorTextNodes.forEach((node, index) =>
+			expect(node.textContent).toEqual(options[index]),
+		);
 	});
 });

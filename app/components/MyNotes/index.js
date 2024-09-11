@@ -91,14 +91,11 @@ class MyNotes extends React.PureComponent {
 
 	getNoteReference = (listItem, isBookmark) => {
 		// Uses the title if it is there
-		if (listItem.tags && listItem.tags.find((tag) => tag.type === 'title')) {
+		if (listItem.tags?.find((tag) => tag.type === 'title')) {
 			return listItem.tags.find((tag) => tag.type === 'title').value;
 		}
 		// Otherwise uses the reference saved at the time of creation
-		if (
-			listItem.tags &&
-			listItem.tags.find((tag) => tag.type === 'reference')
-		) {
+		if (listItem.tags?.find((tag) => tag.type === 'reference')) {
 			return listItem.tags.find((tag) => tag.type === 'reference').value;
 		}
 		let verseRef = '';
@@ -108,7 +105,7 @@ class MyNotes extends React.PureComponent {
 		} else {
 			// As a last resort it tries to generate a sort of reference
 			verseRef =
-				listItem.verse_end && !(listItem.verse_end === listItem.verse_start)
+				listItem.verse_end && listItem.verse_end !== listItem.verse_start
 					? `${listItem.verse_start}-${listItem.verse_end}`
 					: listItem.verse_start;
 		}
@@ -131,7 +128,7 @@ class MyNotes extends React.PureComponent {
 		return matchSorter(pageData, filterText, {
 			keys: [
 				(item) =>
-					item.tags && item.tags.find((tag) => tag.type === 'reference')
+					item.tags?.find((tag) => tag.type === 'reference')
 						? item.tags.find((tag) => tag.type === 'reference').value
 						: item.notes,
 				'notes',

@@ -32,12 +32,12 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
       className="highlight-item"
       id={5452296}
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -60,12 +60,12 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
             ENGESV
           </p>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="delete-highlight"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <svg
           className="icon"
@@ -78,18 +78,18 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         <span>
           Delete
         </span>
-      </div>
+      </button>
     </div>
     <div
       className="highlight-item"
       id={5452373}
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -112,12 +112,12 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
             ENGESV
           </p>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="delete-highlight"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <svg
           className="icon"
@@ -130,18 +130,18 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         <span>
           Delete
         </span>
-      </div>
+      </button>
     </div>
     <div
       className="highlight-item"
       id={5574789}
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MRK/16"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -164,12 +164,12 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
             ENGESV
           </p>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="delete-highlight"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <svg
           className="icon"
@@ -182,18 +182,18 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         <span>
           Delete
         </span>
-      </div>
+      </button>
     </div>
     <div
       className="highlight-item"
       id={5574790}
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGNIV/MAT/11"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -216,12 +216,12 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
             ENGNIV
           </p>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="delete-highlight"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <svg
           className="icon"
@@ -234,18 +234,18 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         <span>
           Delete
         </span>
-      </div>
+      </button>
     </div>
     <div
       className="highlight-item"
       id={5574788}
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/3"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -268,12 +268,12 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
             ENGESV
           </p>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="delete-highlight"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <svg
           className="icon"
@@ -286,7 +286,7 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         <span>
           Delete
         </span>
-      </div>
+      </button>
     </div>
   </section>
   <div
@@ -748,12 +748,12 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
       className="highlight-item"
       id="24440733_rgba(173,221,121,0.7)"
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGNAB/EPH/4"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -769,13 +769,13 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             ENGNAB
           </h4>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="edit-color"
         id="24440733_rgba(173,221,121,0.7)-edit"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <span
           className="color-icon"
@@ -788,7 +788,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span>
           Edit
         </span>
-      </div>
+      </button>
       <div
         className="delete-highlight"
       >
@@ -811,12 +811,12 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
       className="highlight-item"
       id="25827775_rgba(252,230,0,0.5)"
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/3"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -832,13 +832,13 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             ENGESV
           </h4>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="edit-color"
         id="25827775_rgba(252,230,0,0.5)-edit"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <span
           className="color-icon"
@@ -851,7 +851,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span>
           Edit
         </span>
-      </div>
+      </button>
       <div
         className="delete-highlight"
       >
@@ -874,12 +874,12 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
       className="highlight-item"
       id="25827777_rgba(84,185,72,0.5)"
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -895,13 +895,13 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             ENGESV
           </h4>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="edit-color"
         id="25827777_rgba(84,185,72,0.5)-edit"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <span
           className="color-icon"
@@ -914,7 +914,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span>
           Edit
         </span>
-      </div>
+      </button>
       <div
         className="delete-highlight"
       >
@@ -937,12 +937,12 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
       className="highlight-item"
       id="25827778_rgba(80,165,220,0.5)"
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -958,13 +958,13 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             ENGESV
           </h4>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="edit-color"
         id="25827778_rgba(80,165,220,0.5)-edit"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <span
           className="color-icon"
@@ -977,7 +977,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span>
           Edit
         </span>
-      </div>
+      </button>
       <div
         className="delete-highlight"
       >
@@ -1000,12 +1000,12 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
       className="highlight-item"
       id="25827779_rgba(252,230,0,0.5)"
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MAT/1"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -1021,13 +1021,13 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             ENGESV
           </h4>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="edit-color"
         id="25827779_rgba(252,230,0,0.5)-edit"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <span
           className="color-icon"
@@ -1040,7 +1040,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span>
           Edit
         </span>
-      </div>
+      </button>
       <div
         className="delete-highlight"
       >
@@ -1063,12 +1063,12 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
       className="highlight-item"
       id="25827776_rgba(84,185,72,0.5)"
     >
-      <a
+      <button
         className="list-item"
-        href="/bible/ENGESV/MRK/16"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        type="button"
       >
         <div
           className="title-text"
@@ -1084,13 +1084,13 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
             ENGESV
           </h4>
         </div>
-      </a>
-      <div
+      </button>
+      <button
         className="edit-color"
         id="25827776_rgba(84,185,72,0.5)-edit"
         onClick={[Function]}
-        role="button"
         tabIndex={0}
+        type="button"
       >
         <span
           className="color-icon"
@@ -1103,7 +1103,7 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         <span>
           Edit
         </span>
-      </div>
+      </button>
       <div
         className="delete-highlight"
       >

@@ -1,21 +1,18 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { act } from 'react-dom/test-utils';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import AccountSettings from '..';
+import { render, screen, fireEvent } from '@testing-library/react';
+import AccountSettings from '../index';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-jest.mock('../../PopupMessage', () => function accountSettingsPopupMessageMock({ message }) {
-  return <span id={'popup-message'}>{message}</span>;
-});
-/* eslint-enable react/prop-types */
+jest.mock(
+	'../../PopupMessage',
+	() =>
+		function accountSettingsPopupMessageMock({ message }) {
+			return <span id={'popup-message'}>{message}</span>;
+		},
+);
 
 const logout = jest.fn(() => 'Logging out');
 const changePicture = jest.fn(() => 'Changing Picture');
@@ -42,38 +39,46 @@ const incompleteProps = {
 	},
 };
 
-describe('Name of the group', () => {
-	it('should match the old snapshot with a full profile', () => {
-		const tree = renderer
-			.create(<AccountSettings {...completeProps} />)
-			.toJSON();
-
-		expect(tree).toMatchSnapshot();
+describe('AccountSettings component', () => {
+	it('should match the snapshot with a full profile', () => {
+		const { container } = render(<AccountSettings {...completeProps} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should match the old snapshot without a full profile', () => {
-		const tree = renderer
-			.create(<AccountSettings {...incompleteProps} />)
-			.toJSON();
 
-		expect(tree).toMatchSnapshot();
+	it('should match the snapshot without a full profile', () => {
+		const { container } = render(<AccountSettings {...incompleteProps} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should match the old snapshot with the popup open', () => {
-		const tree = renderer
-			.create(<AccountSettings {...completeProps} popupOpen />)
-			.toJSON();
 
-		expect(tree).toMatchSnapshot();
+	it('should match the snapshot with the popup open', () => {
+		const { container } = render(
+			<AccountSettings {...completeProps} popupOpen />,
+		);
+		expect(container).toMatchSnapshot();
 	});
-	it('should use handleEmailChange to handle the changed email', () => {
-		const wrapper = Enzyme.mount(<AccountSettings {...completeProps} />);
-		const spy = jest.spyOn(wrapper.instance(), 'handleEmailChange');
+
+	it('should handle email change', () => {
+		render(<AccountSettings {...completeProps} />);
+
+		const input = screen.getByPlaceholderText('emailaddress@mail.com');
 		const newEmail = 'testemail@change.org';
-		wrapper.find('input').simulate('change', { target: { value: newEmail } });
-		act(() => {
-			wrapper.instance().handleEmailChange({ target: { value: newEmail } });
-		});
-		expect(spy).toHaveBeenCalled();
-		expect(wrapper.state('email')).toEqual(newEmail);
-		expect(wrapper.find('input').props().value).toEqual(newEmail);
+
+		// Simulate changing the input value
+		fireEvent.change(input, { target: { value: newEmail } });
+
+		// Check if the input value has changed
+		expect(input.value).toBe(newEmail);
+	});
+
+	it('should trigger logout function on button click', () => {
+		render(<AccountSettings {...completeProps} />);
+
+		const logoutButton = screen.getByText('Logout'); // Assuming 'Logout' is the button text in your FormattedMessage
+
+		// Simulate a click on the logout button
+		fireEvent.click(logoutButton);
+
+		// Assert that the logout function was called
+		expect(logout).toHaveBeenCalled();
 	});
 });

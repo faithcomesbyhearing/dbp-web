@@ -1,35 +1,41 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Login from '..';
+import Login from '../index';
 
-/* eslint-disable react/prop-types */
-jest.mock('../../../containers/GoogleAuthentication', () => function googleAuthenticationMock(props) {
-  return (
-<div
-		role={'button'}
-		id={'google-login'}
-		tabIndex={0}
-		className={'google'}
-		onClick={props.handleSocialLogin}
->
-		Sign in with Google
-</div>
+jest.mock(
+	'../../../containers/GoogleAuthentication',
+	() =>
+		function googleAuthenticationMock(props) {
+			return (
+				<div
+					role={'button'}
+					id={'google-login'}
+					tabIndex={0}
+					className={'google'}
+					onClick={props.handleSocialLogin}
+				>
+					Sign in with Google
+				</div>
+			);
+		},
 );
-});
-jest.mock('../../../containers/FacebookAuthentication', () => function facebookAuthenticationMock(props) {
-  return (
-<div
-		role={'button'}
-		id={'facebook-login'}
-		tabIndex={0}
-		className={'facebook'}
-		onClick={props.handleSocialLogin}
->
-		Sign in with Facebook
-</div>
+jest.mock(
+	'../../../containers/FacebookAuthentication',
+	() =>
+		function facebookAuthenticationMock(props) {
+			return (
+				<div
+					role={'button'}
+					id={'facebook-login'}
+					tabIndex={0}
+					className={'facebook'}
+					onClick={props.handleSocialLogin}
+				>
+					Sign in with Facebook
+				</div>
+			);
+		},
 );
-});
-/* eslint-enable react/prop-types */
 
 const props = {
 	sendLoginForm: jest.fn(),

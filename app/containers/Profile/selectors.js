@@ -15,7 +15,7 @@ const selectProfileDomain = (state) => state.get('profile');
 
 const makeSelectProfile = () => createSelector(
 	selectProfileDomain,
-	(substate) => substate?.toJS()
+	(substate) => substate?.toJS(),
 );
 
 export default makeSelectProfile;

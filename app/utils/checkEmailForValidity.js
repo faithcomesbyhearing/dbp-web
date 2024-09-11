@@ -1,3 +1,10 @@
 export default function checkEmail(email) {
-	return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email); // eslint-disable-line no-useless-escape
+	// Trim the email input to remove unnecessary whitespaces
+	const trimmedEmail = email.trim();
+
+	// Simple and readable regex for basic email validation
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+	// Test the email against the regex
+	return emailRegex.test(trimmedEmail);
 }

@@ -4,7 +4,6 @@ import SvgWrapper from '../SvgWrapper';
 
 class GooglePlusShare extends React.PureComponent {
 	componentDidMount() {
-		/* eslint-disable no-undef */
 		if (
 			typeof gapi !== 'undefined' &&
 			process.env.GOOGLE_APP_ID &&
@@ -23,7 +22,6 @@ class GooglePlusShare extends React.PureComponent {
 			};
 
 			gapi.interactivepost.render('sharePost', options);
-			/* eslint-enable no-undef */
 		}
 	}
 

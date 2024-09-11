@@ -195,7 +195,9 @@ export function* changePicture({ userId, avatar }) {
 		}
 	} catch (err) {
 		if (process.env.NODE_ENV === 'development') {
-			// console.warn('Error saving picture: ', err);
+			/* eslint-disable no-console */
+			console.error('Error saving picture: ', err);
+			/* eslint-enable no-console */
 		}
 	}
 }
@@ -254,7 +256,7 @@ export function* resetPassword({ email }) {
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append(
-		'project_id', process.env.NOTES_PROJECT_ID
+		'project_id', process.env.NOTES_PROJECT_ID,
 	);
 	formData.append('iso', browserLanguage);
 	formData.append('reset_path', resetPath);

@@ -25,8 +25,8 @@ export default class Error extends React.Component {
 
     if (
       err &&
-      (process.env.NODE_ENV === 'production' ||
-        process.env.NODE_ENV === 'staging') &&
+      (process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
+        process.env.NEXT_PUBLIC_NODE_ENV === 'staging') &&
       process.env.BUGSNAG_API_KEY
     ) {
       bugsnagClient.notify(err);

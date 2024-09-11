@@ -29,6 +29,9 @@ function BooksTestament({
 	books.map((book) => (
 		<div
 			className={'book-button'}
+			data-testid={(book.get('name') || book.get('name_short')).concat(
+				book.get('book_id'),
+			)}
 			ref={
 				(book.get('name') || book.get('name_short')) === selectedBookName
 					? (el) => handleRef(el, 'button')

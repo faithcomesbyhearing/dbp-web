@@ -9,10 +9,12 @@ const convertedTransform = transform.convert({
 const iteratee = (baseObj) => (result, value, key) => {
 	if (!isEqual(value, baseObj[key])) {
 		const valIsObj = isObject(value) && isObject(baseObj[key]);
-		result[key] = valIsObj === true ? differenceObject(value, baseObj[key]) : value; // eslint-disable-line no-param-reassign
+		result[key] =
+			valIsObj === true ? differenceObject(value, baseObj[key]) : value;
 	}
 };
 
-const differenceObject = (targetObj, baseObj) => convertedTransform(iteratee(baseObj), null, targetObj);
+const differenceObject = (targetObj, baseObj) =>
+	convertedTransform(iteratee(baseObj), null, targetObj);
 
 export default differenceObject;

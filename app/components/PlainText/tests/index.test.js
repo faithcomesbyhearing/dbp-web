@@ -1,11 +1,9 @@
 /** eslint-env jest */
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
 import { fromJS } from 'immutable';
 import PlainText from '../index';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 const highlights = [
 	{
@@ -142,13 +140,14 @@ const userSettings = fromJS({
 	autoPlayEnabled: false,
 });
 const activeVerseInfo = { verse: 0 };
-const handleMouseUp = () => {};
-const getFirstVerse = () => {};
-const handleHighlightClick = () => {};
-const handleNoteClick = () => {};
+const handleMouseUp = jest.fn();
+const getFirstVerse = jest.fn();
+const handleHighlightClick = jest.fn();
+const handleNoteClick = jest.fn();
+
 describe('<PlainText />', () => {
-	it('Expect it to render', () => {
-		const text = Enzyme.mount(
+	it('should render without crashing', () => {
+		const { container } = render(
 			<PlainText
 				highlights={highlights}
 				initialText={initialText}
@@ -164,6 +163,8 @@ describe('<PlainText />', () => {
 			/>,
 		);
 
-		expect(text.find('.chapter')).toBeTruthy();
+		// Check if the container renders with a .chapter class
+		const chapterElement = container.querySelector('.chapter');
+		expect(chapterElement).toBeInTheDocument();
 	});
 });
