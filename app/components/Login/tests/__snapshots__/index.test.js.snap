@@ -89,7 +89,7 @@ exports[`<Login /> component should match snapshot with expected props 1`] = `
       <span
         className="error-text"
       >
-         ( Click Below to Reset )
+        Username or Password is incorrect. Please try again.
       </span>
     </div>
     <section

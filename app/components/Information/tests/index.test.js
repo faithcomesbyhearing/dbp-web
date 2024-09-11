@@ -3,14 +3,14 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Information } from '..';
 import {
-  copyrights,
-  invalidCopyrights,
-  invalidCopyrights2,
+	copyrights,
+	invalidCopyrights,
+	invalidCopyrights2,
 } from '../../../utils/testUtils/copyrightData';
 
 jest.mock('react-intl', () => ({
-  	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>, // eslint-disable-line react/prop-types
-  	defineMessages: (messages) => messages,
+	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
+	defineMessages: (messages) => messages,
 }));
 
 describe('<Information /> component tests', () => {
@@ -20,12 +20,16 @@ describe('<Information /> component tests', () => {
 	});
 
 	it('should match snapshot with missing information', () => {
-		const { container } = render(<Information copyrights={invalidCopyrights} />);
+		const { container } = render(
+			<Information copyrights={invalidCopyrights} />,
+		);
 		expect(container).toMatchSnapshot();
 	});
 
 	it('should match snapshot with missing organizations', () => {
-		const { container } = render(<Information copyrights={invalidCopyrights2} />);
+		const { container } = render(
+			<Information copyrights={invalidCopyrights2} />,
+		);
 		expect(container).toMatchSnapshot();
 	});
 

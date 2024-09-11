@@ -1,7 +1,7 @@
 const createHighlights = (highlights, arrayOfVerseObjects) => {
 	/* NOTES
-	* 1. Need to subtract 1 from any addition of highlight_start + highlighted_words, this is because the result is the length not the index
-	* */
+	 * 1. Need to subtract 1 from any addition of highlight_start + highlighted_words, this is because the result is the length not the index
+	 * */
 	// Iterate over each verse
 	// Find all the highlights for a single verse
 	// Apply all highlights for that verse
@@ -53,11 +53,10 @@ const createHighlights = (highlights, arrayOfVerseObjects) => {
 						h.verse_start === verseNumber ||
 						(h.verse_start < verseNumber && h.highlighted_words > 0),
 				)
-				.map(
-					(h) =>
-						h.verse_start !== verseNumber
-							? { ...h, verse_start: verseNumber }
-							: h,
+				.map((h) =>
+					h.verse_start !== verseNumber
+						? { ...h, verse_start: verseNumber }
+						: h,
 				)
 				.sort((a, b) => {
 					// I want the highlight that starts first to be applied first
@@ -123,7 +122,7 @@ const createHighlights = (highlights, arrayOfVerseObjects) => {
 					console.warn('Error in handleNewVerse', e); // eslint-disable-line no-console
 				}
 			}
-			// eslint-disable-line no-param-reassign
+
 			if (verseText.join('') !== verse.verse_text) {
 				newArrayOfVerses.push({
 					...verse,
@@ -149,11 +148,11 @@ function handleNewVerse({ highlightsStartingInVerse, verseText }) {
 	const highlightsToUpdate = {};
 
 	/* Highlighting Process
-	* 1. Start highlight at the starting index
-	* 2. Check if the highlight length is longer than the verse
-	* 3. (Highlight is in this verse) -> insert the closing tag at the appropriate place and then set highlighted_words to 0
-	* 4. (Highlight goes past this verse) -> insert closing tag at the end of the verse then reduce highlighted_words by the amount of characters that were highlighted
-	* */
+	 * 1. Start highlight at the starting index
+	 * 2. Check if the highlight length is longer than the verse
+	 * 3. (Highlight is in this verse) -> insert the closing tag at the appropriate place and then set highlighted_words to 0
+	 * 4. (Highlight goes past this verse) -> insert closing tag at the end of the verse then reduce highlighted_words by the amount of characters that were highlighted
+	 * */
 	highlightsStartingInVerse.forEach((h, i) => {
 		const nextHighlight = highlightsStartingInVerse[i + 1];
 		/* COMMONLY USED VALUES */

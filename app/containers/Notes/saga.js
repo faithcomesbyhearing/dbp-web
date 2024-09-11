@@ -1,5 +1,9 @@
 import { takeLatest, call, fork, put, cancelled } from 'redux-saga/effects';
 import { GET_HIGHLIGHTS, LOAD_HIGHLIGHTS } from '../HomePage/constants';
+import removeStoriesFilesets from '../../../app/utils/removeStoriesFilesets';
+import getBookMetaData from '../../../app/utils/getBookMetaData';
+import getValidFilesetsByBook from '../../../app/utils/getValidFilesetsByBook';
+
 import request from '../../utils/request';
 import geFilesetsForBible from '../../utils/geFilesetsForBible';
 import {
@@ -41,40 +45,59 @@ export function* getChapterForNote({ note }) {
   try {
     const response = yield call(request, bibleUrl);
     const bibleFilesets = response.data.filesets ? geFilesetsForBible(response.data.filesets) : [];
-    const filesets = bibleFilesets.filter(
-      (fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN,
+
+    const setTypes = {
+      audio_drama: true,
+      audio: true,
+      text_plain: true,
+      text_format: true,
+      video_stream: true,
+    };
+
+    const filesetsWithoutStories = removeStoriesFilesets(bibleFilesets, setTypes);
+
+    const idsForBookMetadata = filesetsWithoutStories.map((fileset) => [
+      fileset.type,
+      fileset.id,
+      fileset.size,
+    ]);
+    const [bookMetaData, bookMetaResponse] = yield getBookMetaData({
+      idsForBookMetadata,
+    });
+
+    const foundBook = bookMetaData.find(
+      (book) => bookId && book.book_id === bookId.toUpperCase(),
     );
-    const hasText = !!filesets.length;
+
+    const filesets = foundBook
+      ? getValidFilesetsByBook(
+          foundBook,
+          idsForBookMetadata,
+          filesetsWithoutStories,
+          bookMetaResponse,
+        )
+      : [];
+
+    // Gets only one of the text_plain filesets
+    const activeFilesetId = filesets
+      ? filesets
+          .filter((f) => f.type === FILESET_TYPE_TEXT_PLAIN)
+          .reduce((a, c) => c.id, '')
+      : '';
+
+    const hasText = !!activeFilesetId;
 
     let text = [];
 
     if (hasText) {
-      const idsForBookMetadata = filesets.map((fileset) => ([fileset.type, fileset.id, fileset.size]));
-      const [bookMetaData, bookMetaResponse] = yield getBookMetaData({
-        idsForBookMetadata,
-      });
-
-      const foundBook = bookMetaData.find(
-        (book) => bookId && book.book_id === bookId.toUpperCase(),
+      const res = yield call(
+        request,
+        `${process.env.BASE_API_ROUTE}/bibles/filesets/${
+          activeFilesetId
+        }/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}`,
       );
 
-      // Get the valid filesets for the book and the testaments
-      const validFilesets = foundBook
-        ? getValidFilesetsByBook(foundBook, idsForBookMetadata, filesets, bookMetaResponse)
-        : [];
-
-      const plain = validFilesets.length ? validFilesets[0] : null;
-
-      if (plain) {
-        const res = yield call(
-          request,
-          `${process.env.BASE_API_ROUTE}/bibles/filesets/${
-            plain.id
-          }/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}`,
-        );
-
-        text = res.data;
-      }
+      text = res.data;
     }
 
     yield put({

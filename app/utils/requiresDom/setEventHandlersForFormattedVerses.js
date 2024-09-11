@@ -12,7 +12,6 @@ const setEventHandlersForFormattedVerses = (
 		const verses = [...ref.querySelectorAll('[data-id]')].slice(1);
 
 		verses.forEach((verse) => {
-			/* eslint-disable no-param-reassign, no-unused-expressions, jsx-a11y/no-static-element-interactions */
 			verse.onmousedown = (e) => {
 				e.stopPropagation();
 				mouseDown(e);

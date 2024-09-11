@@ -195,7 +195,9 @@ export function* changePicture({ userId, avatar }) {
 		}
 	} catch (err) {
 		if (process.env.NODE_ENV === 'development') {
-			// console.warn('Error saving picture: ', err);
+			/* eslint-disable no-console */
+			console.error('Error saving picture: ', err);
+			/* eslint-enable no-console */
 		}
 	}
 }

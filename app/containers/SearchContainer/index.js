@@ -32,7 +32,7 @@ import Ieerror from '../../components/Ieerror';
 export class SearchContainer extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			filterText: '',
 			firstSearch: true,
@@ -219,12 +219,8 @@ export class SearchContainer extends React.PureComponent {
 	};
 
 	get formattedResults() {
-		const {
-			showError,
-			trySearchOptions,
-			lastFiveSearches,
-			loadingResults,
-		} = this.props.searchcontainer;
+		const { showError, trySearchOptions, lastFiveSearches, loadingResults } =
+			this.props.searchcontainer;
 		const { bibleId, searchResults } = this.props;
 		const { firstSearch } = this.state;
 
@@ -369,16 +365,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'searchContainer', reducer });
 const withSaga = injectSaga({ key: 'searchContainer', saga });
 
-export default compose(
-	withReducer,
-	withSaga,
-	withConnect,
-)(SearchContainer);
+export default compose(withReducer, withSaga, withConnect)(SearchContainer);

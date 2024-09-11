@@ -61,88 +61,86 @@ class Login extends React.PureComponent {
 	};
 
 	get signInComponent() {
-		const {
-			errorMessageViewed,
-			selectAccountOption,
-			errorMessage,
-		} = this.props;
+		const { errorMessageViewed, selectAccountOption, errorMessage } =
+			this.props;
 
 		return (
 			<form onSubmit={this.handleSendingLogin}>
-					<span className={'sign-in-input'}>
-						<SvgWrapper
-							className="icon"
-							width="30px"
-							height="30px"
-							fill="#fff"
-							svgid="e-mail"
-						/>
-						<input
-							id={'email'}
-							autoComplete={'email'}
-							className={errorMessageViewed ? '' : 'error'}
-							type={'email'}
-							placeholder="E-mail"
-							onChange={this.handleEmailChange}
-							value={this.state.email}
-						/>
-					</span>
-					<span className={'sign-in-input'}>
-						<SvgWrapper
-							className="icon"
-							width="26px"
-							height="26px"
-							fill="#fff"
-							svgid="lock"
-						/>
-						<input
-							id={'password'}
-							autoComplete={'current-password'}
-							className={errorMessageViewed ? '' : 'error'}
-							type="password"
-							placeholder="Password"
-							onChange={this.handlePasswordChange}
-							value={this.state.password}
-						/>
-					</span>
-					<div className="sign-in-button">
-						<input
-							className="login-checkbox"
-							id={'login-checkbox'}
-							type="checkbox"
-							onChange={this.handleStayLoggedInChange}
-						/>
-						<label htmlFor={'login-checkbox'} className="text">
-							Remember Me
-						</label>
-						<button type="submit" className="login-button">
-							Sign In
-						</button>
-					</div>
-					{!errorMessageViewed ? (
-						<div className="login-error-message">
-							<SvgWrapper className={'icon'} svgid={'warning'} />
-							<span className={'error-text'}>
-								{`${errorMessage} ( Click Below to Reset )` ||
-									'Username or Password is incorrect. Please try again.'}
-							</span>
-						</div>
-					) : null}
-					<section className="forgot-password">
-						<span
-							role="button"
-							id={'reset-password-button'}
-							tabIndex={0}
-							className="link"
-							onClick={() => {
-								selectAccountOption('password_reset');
-								this.toggleSignInForm(false);
-							}}
-						>
-							Reset your password.
+				<span className={'sign-in-input'}>
+					<SvgWrapper
+						className="icon"
+						width="30px"
+						height="30px"
+						fill="#fff"
+						svgid="e-mail"
+					/>
+					<input
+						id={'email'}
+						autoComplete={'email'}
+						className={errorMessageViewed ? '' : 'error'}
+						type={'email'}
+						placeholder="E-mail"
+						onChange={this.handleEmailChange}
+						value={this.state.email}
+					/>
+				</span>
+				<span className={'sign-in-input'}>
+					<SvgWrapper
+						className="icon"
+						width="26px"
+						height="26px"
+						fill="#fff"
+						svgid="lock"
+					/>
+					<input
+						id={'password'}
+						autoComplete={'current-password'}
+						className={errorMessageViewed ? '' : 'error'}
+						type="password"
+						placeholder="Password"
+						onChange={this.handlePasswordChange}
+						value={this.state.password}
+					/>
+				</span>
+				<div className="sign-in-button">
+					<input
+						className="login-checkbox"
+						id={'login-checkbox'}
+						type="checkbox"
+						onChange={this.handleStayLoggedInChange}
+					/>
+					<label htmlFor={'login-checkbox'} className="text">
+						Remember Me
+					</label>
+					<button type="submit" className="login-button">
+						Sign In
+					</button>
+				</div>
+				{!errorMessageViewed ? (
+					<div className="login-error-message">
+						<SvgWrapper className={'icon'} svgid={'warning'} />
+						<span className={'error-text'}>
+							{errorMessage
+								? `${errorMessage} ( Click Below to Reset )`
+								: 'Username or Password is incorrect. Please try again.'}
 						</span>
-					</section>
-   </form>
+					</div>
+				) : null}
+				<section className="forgot-password">
+					<span
+						role="button"
+						id={'reset-password-button'}
+						tabIndex={0}
+						className="link"
+						onClick={() => {
+							selectAccountOption('password_reset');
+							this.toggleSignInForm(false);
+						}}
+					>
+						Reset your password.
+					</span>
+				</section>
+			</form>
 		);
 	}
 

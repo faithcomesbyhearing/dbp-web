@@ -12,7 +12,7 @@ import LoadingSpinner from '../LoadingSpinner';
 class CountryList extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			startY: 0,
 			distance: 0,
@@ -71,10 +71,7 @@ class CountryList extends React.PureComponent {
 					<svg className="icon" height="25px" width="25px">
 						<use
 							xmlnsXlink="http://www.w3.org/1999/xlink"
-							xlinkHref={`/flags.svg#${country.getIn([
-								'codes',
-								'iso_a2',
-							])}`}
+							xlinkHref={`/flags.svg#${country.getIn(['codes', 'iso_a2'])}`}
 						/>
 					</svg>
 					<h4
@@ -216,18 +213,12 @@ class CountryList extends React.PureComponent {
 		const lowerCaseText = filterText.toLowerCase();
 
 		if (
-			country
-				.getIn(['codes', 'iso_a2'])
-				.toLowerCase()
-				.includes(lowerCaseText)
+			country.getIn(['codes', 'iso_a2']).toLowerCase().includes(lowerCaseText)
 		) {
 			return true;
 		} else if (
 			country.get('name') !== '' &&
-			country
-				.get('name')
-				.toLowerCase()
-				.includes(lowerCaseText)
+			country.get('name').toLowerCase().includes(lowerCaseText)
 		) {
 			return true;
 		}
@@ -241,7 +232,7 @@ class CountryList extends React.PureComponent {
 	render() {
 		const { active, loadingCountries } = this.props;
 		const { distance } = this.state;
-		/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 		if (active) {
 			return (
 				<div className="text-selection-section">
@@ -270,7 +261,8 @@ class CountryList extends React.PureComponent {
 						) : (
 							<AutoSizer>
 								{({ width, height }) =>
-									this.getFilteredCountries(width, height)}
+									this.getFilteredCountries(width, height)
+								}
 							</AutoSizer>
 						)}
 					</div>
