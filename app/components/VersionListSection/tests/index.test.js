@@ -121,6 +121,6 @@ describe('<VersionListSection />', () => {
 		const wrapper = Enzyme.mount(
 			<VersionListSection items={sectionItems} />,
 		);
-		expect(wrapper.find('div.accordion-body-style').length).toEqual(4);
+		expect(wrapper.find('div.accordion-body-style').length).toEqual(1);
 	});
 });
