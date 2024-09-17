@@ -673,8 +673,8 @@ AppContainer.getInitialProps = async (context) => {
         defaultLanguageIso: bible.iso || 'eng',
         activeLanguageName: bible.language || '',
         activeTextName: bible.vname || bible.name,
-        defaultLanguageName: bible.language || 'English',
-        defaultLanguageCode: bible.language_id || 6414,
+        defaultLanguageName: bible.language || 'English: USA',
+        defaultLanguageCode: bible.language_id || 17045,
         textDirection: bible.alphabet ? bible.alphabet.direction : 'ltr',
         activeBookId: bookId.toUpperCase() || '',
         userId,
@@ -694,12 +694,6 @@ AppContainer.getInitialProps = async (context) => {
     });
   }
 
-  if (typeof document !== 'undefined') {
-    document.cookie = `bible_is_ref_bible_id=${bibleId}`;
-    document.cookie = `bible_is_ref_book_id=${bookId}`;
-    document.cookie = `bible_is_ref_chapter=${chapter}`;
-    document.cookie = `bible_is_ref_verse=${verse}`;
-  }
   return {
     initialVolume,
     initialPlaybackRate,
@@ -717,8 +711,8 @@ AppContainer.getInitialProps = async (context) => {
     textDirection: bible.alphabet ? bible.alphabet.direction : 'ltr',
     activeFilesets: filesets,
     defaultLanguageIso: bible.iso || 'eng',
-    defaultLanguageName: bible.language || 'English',
-    defaultLanguageCode: bible.language_id || 6414,
+    defaultLanguageName: bible.language || 'English: USA',
+    defaultLanguageCode: bible.language_id || 17045,
     activeTextName: bible.vname || bible.name,
     activeBookId: bookId.toUpperCase(),
     userProfile,

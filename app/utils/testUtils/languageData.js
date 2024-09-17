@@ -36,6 +36,7 @@ export const languages = [
       6259: 'Azerbaijan',
       6413: 'azéri',
       6414: 'Azeri',
+      17045: 'Azeri',
       6415: 'Aserbaidschanisch',
       6799: 'አዜርባይጃንኛ',
       6891: 'lea fakaʻasapaisani',
@@ -107,7 +108,7 @@ export const languages = [
     bibles: 3,
   },
   {
-    translations: { 1: 'Aarai', 6414: 'Aari', 8012: 'Shankillinya' },
+    translations: { 1: 'Aarai', 6414: 'Aari', 17045: 'Aari', 8012: 'Shankillinya' },
     iso: 'aiw',
     name: 'Aari',
     filesets: 2,
@@ -120,7 +121,7 @@ export const languages = [
     bibles: 2,
   },
   {
-    translations: { 9: 'Abau', 6414: 'Abau', 8012: 'Green River' },
+    translations: { 9: 'Abau', 6414: 'Abau', 17045: 'Abau', 8012: 'Green River' },
     iso: 'aau',
     name: 'Abau',
     filesets: 3,
@@ -133,7 +134,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 13: 'Abiji', 6414: 'Abidji' },
+    translations: { 13: 'Abiji', 6414: 'Abidji', 17045: 'Abidji' },
     iso: 'abi',
     name: 'Abiji',
     filesets: 4,
@@ -146,7 +147,7 @@ export const languages = [
     bibles: 2,
   },
   {
-    translations: { 24: 'A Nden', 6414: 'Abun', 8012: 'Yimbun' },
+    translations: { 24: 'A Nden', 6414: 'Abun', 17045: 'Abun', 8012: 'Yimbun' },
     iso: 'kgr',
     name: 'Abun',
     filesets: 1,
@@ -214,6 +215,7 @@ export const languages = [
       6412: 'atjeh',
       6413: 'aceh',
       6414: 'Acehnese',
+      17045: 'Acehnese',
       6415: 'Aceh-Sprache',
       6484: 'acehnesiska',
       6589: 'ஆச்சினீஸ்',
@@ -301,7 +303,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 30: 'Ajagua', 6414: 'Achagua', 8012: 'Xagua' },
+    translations: { 30: 'Ajagua', 6414: 'Achagua', 17045: 'Achagua', 8012: 'Xagua' },
     iso: 'aca',
     name: 'Achagua',
     filesets: 3,
@@ -372,6 +374,7 @@ export const languages = [
       6412: 'acoli',
       6413: 'acoli',
       6414: 'Acoli',
+      17045: 'Acoli',
       6415: 'Acholi-Sprache',
       6478: 'Kiakoli',
       6484: 'acholi',
@@ -453,6 +456,7 @@ export const languages = [
     translations: {
       39: 'Achuar-Shiwiar',
       6414: 'Achuar-Shiwiar',
+      17045: 'Achuar-Shiwiar',
       8012: 'Maina',
     },
     iso: 'acu',
@@ -467,7 +471,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 33: 'Ache-Guayaki', 6414: 'Aché', 8012: 'Guoyagui' },
+    translations: { 33: 'Ache-Guayaki', 6414: 'Aché', 17045: 'Aché', 8012: 'Guoyagui' },
     iso: 'guq',
     name: 'Aché',
     filesets: 5,
@@ -480,7 +484,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 34: 'Achí', 6414: 'Achi' },
+    translations: { 34: 'Achí', 6414: 'Achi', 17045: 'Achi' },
     iso: 'acr',
     name: 'Achi',
     filesets: 15,
@@ -493,7 +497,7 @@ export const languages = [
     bibles: 6,
   },
   {
-    translations: { 36: 'Achí, Cubulco', 6414: 'Achi de Cubulco' },
+    translations: { 36: 'Achí, Cubulco', 6414: 'Achi de Cubulco', 17045: 'Achi de Cubulco' },
     iso: 'acc',
     name: 'Achi de Cubulco',
     filesets: 7,
@@ -506,7 +510,7 @@ export const languages = [
     bibles: 2,
   },
   {
-    translations: { 51: 'Bedere', 6414: 'Adele', 8012: 'Gidire' },
+    translations: { 51: 'Bedere', 6414: 'Adele', 17045: 'Adele', 8012: 'Gidire' },
     iso: 'ade',
     name: 'Adele',
     filesets: 3,
@@ -519,7 +523,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 53: 'Adjukru', 6414: 'Adioukrou', 8012: 'Ajukru' },
+    translations: { 53: 'Adjukru', 6414: 'Adioukrou', 17045: 'Adioukrou', 8012: 'Ajukru' },
     iso: 'adj',
     name: 'Adioukrou',
     filesets: 4,
@@ -532,7 +536,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 60: 'Adzera', 6414: 'Adzera', 8012: 'Azera' },
+    translations: { 60: 'Adzera', 6414: 'Adzera', 17045: 'Adzera', 8012: 'Azera' },
     iso: 'adz',
     name: 'Adzera',
     filesets: 3,
@@ -545,7 +549,7 @@ export const languages = [
     bibles: 1,
   },
   {
-    translations: { 71: 'Agarabi', 6414: 'Agarabi', 8012: 'Bare' },
+    translations: { 71: 'Agarabi', 6414: 'Agarabi', 17045: 'Agarabi', 8012: 'Bare' },
     iso: 'agd',
     name: 'Agta, Dupaninan',
     filesets: 3,
@@ -561,6 +565,7 @@ export const languages = [
     translations: {
       1676: 'Dupaningan Agta',
       6414: 'Dupaninan Agta',
+      17045: 'Dupaninan Agta',
       8012: 'Eastern Cagayan Agta',
     },
     iso: 'duo',
@@ -578,6 +583,7 @@ export const languages = [
     translations: {
       82: 'Palanan Agta',
       6414: 'Pahanan Agta',
+      17045: 'Pahanan Agta',
       8012: 'Palanan Agta',
     },
     iso: 'apf',
@@ -595,6 +601,7 @@ export const languages = [
     translations: {
       84: 'Aguacateco',
       6414: 'Awakateko',
+      17045: 'Awakateko',
       8012: 'Aguacateco',
     },
     iso: 'agu',
@@ -704,6 +711,7 @@ export const languages = [
       6412: 'anglès',
       6413: 'anglais',
       6414: 'English',
+      17045: 'English',
       6415: 'Englisch',
       6484: 'engelska',
       6589: 'ஆங்கிலம்',
@@ -841,8 +849,8 @@ export const languages = [
     autonym: 'English',
     glotto_id: 'stan1293',
     vernacular_name: 'English',
-    id: 6414,
-    englishName: 'English',
+    id: 17045,
+    englishName: 'English: USA',
     bibles: 180,
   },
 ];

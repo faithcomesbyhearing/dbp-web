@@ -25,7 +25,7 @@ const props = {
 	filterText: '',
 	active: true,
 	loadingLanguages: false,
-	languageCode: 6414,
+	languageCode: 17045,
 };
 
 describe('LanguageList component', () => {

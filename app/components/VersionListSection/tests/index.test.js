@@ -123,4 +123,22 @@ describe('<VersionListSection />', () => {
 		);
 		expect(wrapper.find('div.accordion-body-style').length).toEqual(1);
 	});
+	it('Should match previous snapshot using data from api and language ID 17045 English: USA', async () => {
+		const apiItems = await getTexts({ languageCode: 17045 });
+
+		const sectionItems = itemsParser(
+			fromJS(apiItems),
+			activeTextId,
+			activeBookId,
+			activeChapter,
+			filterText,
+			filterFunction,
+			(bible, audioType) => `${bible}_${audioType}`,
+		);
+
+		const wrapper = Enzyme.mount(
+			<VersionListSection items={sectionItems} />,
+		);
+		expect(wrapper.find('div.accordion-body-style').length).toEqual(3);
+	});
 });

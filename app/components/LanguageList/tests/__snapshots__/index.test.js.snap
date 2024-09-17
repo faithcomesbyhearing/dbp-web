@@ -310,12 +310,13 @@ exports[`LanguageList component should match snapshot of active list 1`] = `
       role="button"
       style=""
       tabIndex={0}
-      title="English"
+      title="English: USA"
     >
       <h4
         className="active-language-name"
       >
         English
+         - ( English: USA )
       </h4>
     </div>
   </div>
@@ -361,12 +362,13 @@ exports[`LanguageList component should match snapshot of active list with an app
       role="button"
       style=""
       tabIndex={0}
-      title="English"
+      title="English: USA"
     >
       <h4
         className="active-language-name"
       >
         English
+         - ( English: USA )
       </h4>
     </div>
     <div
