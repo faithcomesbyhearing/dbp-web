@@ -14,6 +14,7 @@ import isEqual from 'lodash/isEqual';
 import injectSaga from '../../utils/injectSaga';
 import injectReducer from '../../utils/injectReducer';
 import checkForVideoAsync from '../../utils/checkForVideoAsync';
+import getFontFromBible from '../../utils/getFontFromBible';
 import settingsReducer from '../Settings/reducer';
 import AudioPlayer from '../AudioPlayer';
 import Text from '../Text';
@@ -62,6 +63,9 @@ import {
   applyFontFamily,
   applyFontSize,
   toggleWordsOfJesus,
+  injectFont,
+  applyFontFamilyToClass,
+  removeFontFamily,
 } from '../Settings/themes';
 import { setAudioType } from '../AudioPlayer/actions';
 
@@ -185,6 +189,7 @@ class HomePage extends React.PureComponent {
       addBookmarkSuccess,
       audioSource,
       activeFilesets,
+      bibleFontAvailable,
     } = this.props.homepage;
     const { userSettings, formattedSource, textData } = this.props;
     const {
@@ -199,6 +204,7 @@ class HomePage extends React.PureComponent {
       activeBookId: activeBookIdProps,
       activeChapter: activeChapterProps,
       audioSource: prevAudioSource,
+      bibleFontAvailable: prevBibleFontAvailable,
     } = prevProps.homepage;
     const {
       userId: userIdProps,
@@ -346,6 +352,10 @@ class HomePage extends React.PureComponent {
         }),
       );
     }
+
+    if (bibleFontAvailable || (prevBibleFontAvailable !== bibleFontAvailable)) {
+      this.checkFontForBible(bibleFontAvailable, activeTextId);
+    }
   }
 
   componentWillUnmount() {
@@ -356,6 +366,24 @@ class HomePage extends React.PureComponent {
 
   setTextLoadingState = (props) =>
     this.props.dispatch(setChapterTextLoadingState(props));
+
+  checkFontForBible = async (bibleFontAvailable, bibleId) => {
+    try {
+      if (bibleFontAvailable) {
+          const bibleFont = await getFontFromBible(bibleId);
+          if (bibleFont) {
+            injectFont(bibleFont);
+            await applyFontFamilyToClass(bibleFont.name, 'main-text-wrapper');
+          }
+      } else {
+        removeFontFamily('main-text-wrapper');
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error installing font', 'Bible ID', bibleId, 'error', error); // eslint-disable-line no-console
+      }
+    }
+  };
 
   checkForVideo = async (filesetId, bookId, chapter) => {
     if (!filesetId) {
@@ -603,6 +631,7 @@ HomePage.propTypes = {
     initialIsoCode: PropTypes.string,
     initialLanguageName: PropTypes.string,
     defaultLanguageCode: PropTypes.number,
+    bibleFontAvailable: PropTypes.bool,
     audioSource: PropTypes.string,
   }).isRequired,
   userSettings: PropTypes.object,
