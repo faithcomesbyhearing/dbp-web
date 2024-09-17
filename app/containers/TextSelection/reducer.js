@@ -33,7 +33,7 @@ const initialState = fromJS({
 	activeIsoCode: 'eng',
 	activeLanguageName: '',
 	activeCountryName: 'ANY',
-	activeLanguageCode: 6414,
+	activeLanguageCode: 17045,
 	versionListActive: true,
 	loadingVersions: false,
 	loadingCountries: false,
