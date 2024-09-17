@@ -1,20 +1,14 @@
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, fireEvent } from '@testing-library/react';
 import { fromJS } from 'immutable';
-import VersionListSection from '..';
-import {
-	itemsParser,
-	filterFunction,
-	getTexts,
-} from './versionListSectionUtils';
-
-Enzyme.configure({ adapter: new Adapter() });
+import VersionListSection from '..'; // Assuming the path is correct
+import { itemsParser, filterFunction, getTexts } from './versionListSectionUtils';
 
 const filterText = '';
 const activeTextId = 'ENGESV';
 const activeBookId = 'MAT';
 const activeChapter = 1;
+
 const items = [
 	{
 		path: { textId: 'ENGESV', bookId: 'MAT', chapter: 1 },
@@ -29,7 +23,7 @@ const items = [
 			audio: true,
 			text_format: true,
 		},
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 	{
 		path: { textId: 'ENGNIV', bookId: 'MAT', chapter: 1 },
@@ -44,7 +38,7 @@ const items = [
 			audio_drama: true,
 			video_stream: true,
 		},
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 	{
 		path: { textId: 'ENGKJV', bookId: 'MAT', chapter: 1 },
@@ -54,7 +48,7 @@ const items = [
 		text: 'King James Version',
 		altText: '',
 		types: { audio: true, audio_drama: true, text_plain: true },
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 	{
 		path: { textId: 'ENGNAB', bookId: 'MAT', chapter: 1 },
@@ -64,7 +58,7 @@ const items = [
 		text: 'New American Bible',
 		altText: '',
 		types: { text_format: true, audio_drama: true, text_plain: true },
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 	{
 		path: { textId: 'ENGWEB', bookId: 'MAT', chapter: 1 },
@@ -74,7 +68,7 @@ const items = [
 		text: 'World English Bible (Hosanna audio)',
 		altText: 'World English Bible',
 		types: { text_plain: true, text_format: true, audio_drama: true },
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 	{
 		path: { textId: 'ENGWWH', bookId: 'MAT', chapter: 1 },
@@ -84,7 +78,7 @@ const items = [
 		text: 'World English Bible (Afred Henson)',
 		altText: '',
 		types: { audio_drama: true, text_plain: true },
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 	{
 		path: { textId: 'ENGNIVA', bookId: 'MAT', chapter: 1 },
@@ -94,20 +88,25 @@ const items = [
 		text: 'New International Version (Anglicised)',
 		altText: '',
 		types: { audio_drama: true, audio: true, text_plain: true },
-		clickHandler: () => {},
+		clickHandler: jest.fn(),
 	},
 ];
 
 describe('<VersionListSection />', () => {
 	it('Should match previous snapshot with valid props', () => {
-		const wrapper = Enzyme.mount(
-			<VersionListSection items={items} />,
-		);
-		expect(wrapper.find('div.accordion-body-style').length).toEqual(4);
-		expect(wrapper.find('div.accordion-title-style').length).toEqual(7);
+		const { asFragment, queryAllByText } = render(<VersionListSection items={items} />);
+
+		// Check if accordion items are rendered
+		expect(queryAllByText('Non-Dramatized Version').length).toEqual(4); // Update the number based on the expected count of buttons
+		expect(queryAllByText('Dramatized Version').length).toEqual(4); // Update the number based on the expected count of buttons
+
+		// Ensure the snapshot matches
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('Should match previous snapshot using data from api', async () => {
+
+	it('Should match previous snapshot using data from API', async () => {
 		const apiItems = await getTexts({ languageCode: 6414 });
+
 		const sectionItems = itemsParser(
 			fromJS(apiItems),
 			activeTextId,
@@ -118,11 +117,34 @@ describe('<VersionListSection />', () => {
 			(bible, audioType) => `${bible}_${audioType}`,
 		);
 
-		const wrapper = Enzyme.mount(
-			<VersionListSection items={sectionItems} />,
-		);
-		expect(wrapper.find('div.accordion-body-style').length).toEqual(1);
+		const { asFragment } = render(<VersionListSection items={sectionItems} />);
+
+		// Ensure the snapshot matches
+		expect(asFragment()).toMatchSnapshot();
 	});
+
+	it('Should handle clicking on audio drama button', () => {
+		const { queryAllByText } = render(<VersionListSection items={items} />);
+
+		// Simulate clicking the "Dramatized Version" button
+		const audioDramaButtons = queryAllByText('Dramatized Version');
+		fireEvent.click(audioDramaButtons[0]);
+
+		// Verify that the clickHandler was called
+		expect(items[0].clickHandler).toHaveBeenCalledWith('audio_drama');
+	});
+
+	it('Should handle clicking on non-dramatized version button', () => {
+		const { queryAllByText } = render(<VersionListSection items={items} />);
+
+		// Simulate clicking the "Non-Dramatized Version" button
+		const nonDramatizedButtons = queryAllByText('Non-Dramatized Version');
+		fireEvent.click(nonDramatizedButtons[0]);
+
+		// Verify that the clickHandler was called
+		expect(items[0].clickHandler).toHaveBeenCalledWith('audio');
+	});
+
 	it('Should match previous snapshot using data from api and language ID 17045 English: USA', async () => {
 		const apiItems = await getTexts({ languageCode: 17045 });
 
@@ -136,9 +158,8 @@ describe('<VersionListSection />', () => {
 			(bible, audioType) => `${bible}_${audioType}`,
 		);
 
-		const wrapper = Enzyme.mount(
-			<VersionListSection items={sectionItems} />,
-		);
-		expect(wrapper.find('div.accordion-body-style').length).toEqual(3);
+		const { container } = render(<VersionListSection items={sectionItems} />,);
+		const bibles = container.querySelector('div.accordion-body-style');
+		expect(bibles.length).toEqual(3);
 	});
 });

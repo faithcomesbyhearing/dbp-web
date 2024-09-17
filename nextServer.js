@@ -4,7 +4,7 @@ if (
     process.env.NODE_ENV === 'staging') &&
   process.env.TEST !== 'test'
 ) {
-  require('newrelic'); // eslint-disable-line
+  // require('newrelic'); // eslint-disable-line
 }
 require('core-js');
 require('regenerator-runtime');

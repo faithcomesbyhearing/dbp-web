@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Login from '..';
+import Login from '../index';
 
 /* eslint-disable react/prop-types */
 jest.mock('../../../containers/GoogleAuthentication', () => function googleAuthenticationMock(props) {

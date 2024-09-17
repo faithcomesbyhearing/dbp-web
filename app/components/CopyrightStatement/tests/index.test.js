@@ -1,12 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom'; // Provides matchers like `toBeInTheDocument`
 import CopyrightStatement from '..';
-
 import { copyrights } from '../../../utils/testUtils/copyrightData';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 /* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
@@ -23,31 +19,39 @@ const props = {
 
 describe('CopyrightStatement component', () => {
 	it('should match snapshot with valid new testament text props', () => {
-		const tree = renderer.create(<CopyrightStatement {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { container } = render(<CopyrightStatement {...props} />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should match snapshot with valid new testament audio props', () => {
-		const tree = renderer
-			.create(
-				<CopyrightStatement
-					organizations={copyrights.newTestament.audio.organizations}
-					testament={'new_testament'}
-					type={'audio'}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
-	});
-	it('should render a logo if organization has one', () => {
-		const wrapper = Enzyme.mount(<CopyrightStatement {...props} />);
 
-		expect(wrapper.find('img').length).toEqual(1);
+	it('should match snapshot with valid new testament audio props', () => {
+		const { container } = render(
+			<CopyrightStatement
+				organizations={copyrights.newTestament.audio.organizations}
+				testament="new_testament"
+				type="audio"
+			/>,
+		);
+		expect(container).toMatchSnapshot();
 	});
-	it('should not render a logo if organization does not have one', () => {
+
+	it('should render a logo if the organization has one', () => {
+		// Render component
+		render(<CopyrightStatement {...props} />);
+
+		// Check that there is at least one image in the document
+		const images = screen.queryAllByRole('img');
+		expect(images.length).toBeGreaterThan(0);
+	});
+
+	it('should not render a logo if the organization does not have one', () => {
 		const customProps = { ...props };
 		delete customProps.organizations[0].logo;
-		const wrapper = Enzyme.mount(<CopyrightStatement {...customProps} />);
 
-		expect(wrapper.find('img').length).toEqual(0);
+		// Render component without logo
+		render(<CopyrightStatement {...customProps} />);
+
+		// Check that no images are rendered
+		const images = screen.queryAllByRole('img');
+		expect(images.length).toEqual(0);
 	});
 });

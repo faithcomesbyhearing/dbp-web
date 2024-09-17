@@ -1,11 +1,9 @@
-import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import { fromJS } from 'immutable';
-import renderer from 'react-test-renderer';
-import BooksTestament from '..';
+// BooksTestament.test.js
 
-Enzyme.configure({ adapter: new Adapter() });
+import React from 'react';
+import { render } from '@testing-library/react';
+import { fromJS } from 'immutable';
+import BooksTestament from '..';
 
 const books = fromJS([
 	{
@@ -17,58 +15,7 @@ const books = fromJS([
 		testament_order: 1,
 		book_order: 1,
 		book_group: 'The Law',
-		chapters: [
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
-			28,
-			29,
-			30,
-			31,
-			32,
-			33,
-			34,
-			35,
-			36,
-			37,
-			38,
-			39,
-			40,
-			41,
-			42,
-			43,
-			44,
-			45,
-			46,
-			47,
-			48,
-			49,
-			50,
-		],
+		chapters: Array.from({ length: 50 }, (_, i) => i + 1),
 	},
 	{
 		book_id: 'EXO',
@@ -79,48 +26,7 @@ const books = fromJS([
 		testament_order: 2,
 		book_order: 2,
 		book_group: 'The Law',
-		chapters: [
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
-			28,
-			29,
-			30,
-			31,
-			32,
-			33,
-			34,
-			35,
-			36,
-			37,
-			38,
-			39,
-			40,
-		],
+		chapters: Array.from({ length: 40 }, (_, i) => i + 1),
 	},
 	{
 		book_id: 'LEV',
@@ -131,37 +37,10 @@ const books = fromJS([
 		testament_order: 3,
 		book_order: 3,
 		book_group: 'The Law',
-		chapters: [
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
-		],
+		chapters: Array.from({ length: 27 }, (_, i) => i + 1),
 	},
 ]);
+
 const handleRef = jest.fn();
 const handleBookClick = jest.fn();
 const handleChapterClick = jest.fn();
@@ -175,61 +54,66 @@ const audioType = 'drama';
 
 describe('<BooksTestament />', () => {
 	it('Should match the old snapshot', () => {
-		const tree = renderer
-			.create(
-				<BooksTestament
-					books={books}
-					handleRef={handleRef}
-					handleBookClick={handleBookClick}
-					handleChapterClick={handleChapterClick}
-					activeChapter={activeChapter}
-					testamentPrefix={testamentPrefix}
-					testamentTitle={testamentTitle}
-					selectedBookName={selectedBookName}
-					activeBookName={activeBookName}
-					activeTextId={activeTextId}
-					audioType={audioType}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+		<BooksTestament
+			books={books}
+			handleRef={handleRef}
+			handleBookClick={handleBookClick}
+			handleChapterClick={handleChapterClick}
+			activeChapter={activeChapter}
+			testamentPrefix={testamentPrefix}
+			testamentTitle={testamentTitle}
+			selectedBookName={selectedBookName}
+			activeBookName={activeBookName}
+			activeTextId={activeTextId}
+			audioType={audioType}
+		/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
+
 	it('Should only render one active book', () => {
-		const wrapper = Enzyme.mount(
-			<BooksTestament
-				books={books}
-				handleRef={handleRef}
-				handleBookClick={handleBookClick}
-				handleChapterClick={handleChapterClick}
-				activeChapter={activeChapter}
-				testamentPrefix={testamentPrefix}
-				testamentTitle={testamentTitle}
-				selectedBookName={selectedBookName}
-				activeBookName={activeBookName}
-				activeTextId={activeTextId}
-				audioType={audioType}
-			/>,
+		const { container } = render(
+		<BooksTestament
+			books={books}
+			handleRef={handleRef}
+			handleBookClick={handleBookClick}
+			handleChapterClick={handleChapterClick}
+			activeChapter={activeChapter}
+			testamentPrefix={testamentPrefix}
+			testamentTitle={testamentTitle}
+			selectedBookName={selectedBookName}
+			activeBookName={activeBookName}
+			activeTextId={activeTextId}
+			audioType={audioType}
+		/>,
 		);
-		expect(wrapper.find('.active-book').length).toEqual(1);
+
+		// Query all elements with the 'active-book' class
+		const activeBooks = container.querySelectorAll('.active-book');
+		expect(activeBooks.length).toBe(1);
 	});
+
 	it('Should only render one active chapter and it should match the given prop', () => {
-		const wrapper = Enzyme.mount(
-			<BooksTestament
-				books={books}
-				handleRef={handleRef}
-				handleBookClick={handleBookClick}
-				handleChapterClick={handleChapterClick}
-				activeChapter={activeChapter}
-				testamentPrefix={testamentPrefix}
-				testamentTitle={testamentTitle}
-				selectedBookName={selectedBookName}
-				activeBookName={activeBookName}
-				activeTextId={activeTextId}
-				audioType={audioType}
-			/>,
+		const { container } = render(
+		<BooksTestament
+			books={books}
+			handleRef={handleRef}
+			handleBookClick={handleBookClick}
+			handleChapterClick={handleChapterClick}
+			activeChapter={activeChapter}
+			testamentPrefix={testamentPrefix}
+			testamentTitle={testamentTitle}
+			selectedBookName={selectedBookName}
+			activeBookName={activeBookName}
+			activeTextId={activeTextId}
+			audioType={audioType}
+		/>,
 		);
-		const chapter = wrapper.find('.active-chapter');
-		expect(chapter.length).toEqual(1);
-		expect(chapter.text()).toEqual('1');
+
+		// Query all elements with the 'active-chapter' class
+		const activeChapters = container.querySelectorAll('.active-chapter');
+		expect(activeChapters.length).toBe(1);
+		expect(activeChapters[0].textContent).toBe('1');
 	});
 });

@@ -12,8 +12,7 @@ import PlainTextVerses from '../PlainTextVerses';
 class PlainText extends React.PureComponent {
 	setHighlights = (highlights, userAuthenticated, text, activeChapter) => {
 		if (
-			highlights &&
-			highlights.length &&
+			highlights?.length &&
 			userAuthenticated &&
 			text.length &&
 			createHighlights
@@ -61,7 +60,7 @@ class PlainText extends React.PureComponent {
 		} = this.props;
 		// Needs to be state eventually
 
-		const chapterAlt = initialText[0] && initialText[0].chapter_alt;
+		const chapterAlt = initialText?.[0].chapter_alt;
 		const verseIsActive = activeVerseInfo.verse && activeVerseInfo.isPlain;
 		const activeVerse = activeVerseInfo.verse || 0;
 		const readersMode = userSettings.getIn([

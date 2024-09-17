@@ -916,16 +916,16 @@ export function* getCopyrightSaga({ filesetIds }) {
         (cp) =>
           Object.keys(cp).length
             ? {
-                message: cp.copyright.copyright,
+                message: cp.copyright?.copyright,
                 testament: cp.size || cp.set_size_code,
                 type: cp.type || cp.set_type_code,
-                organizations: cp.copyright.organizations.map((org) => {
+                organizations: cp.copyright?.organizations.map((org) => {
                   // Getting landscape instead of icons
-                  const icon = org.logos.find((l) => !l.icon);
+                  const icon = org.logos?.find((l) => !l.icon);
                   if (org.translations.length) {
                     return {
                       name: org.translations[0].name,
-                      logo: icon || (org.logos && org.logos[0]),
+                      logo: icon || (org.logos?.[0]),
                       isIcon: icon === undefined ? 1 : 0,
                       url: org.url_website,
                     };
