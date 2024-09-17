@@ -2,15 +2,17 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import AccountSettings from '../index';
 
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-jest.mock('../../PopupMessage', () => function accountSettingsPopupMessageMock({ message }) {
-  	return <span id={'popup-message'}>{message}</span>;
-});
-/* eslint-enable react/prop-types */
+jest.mock(
+	'../../PopupMessage',
+	() =>
+		function accountSettingsPopupMessageMock({ message }) {
+			return <span id={'popup-message'}>{message}</span>;
+		},
+);
 
 const logout = jest.fn(() => 'Logging out');
 const changePicture = jest.fn(() => 'Changing Picture');
@@ -49,7 +51,9 @@ describe('AccountSettings component', () => {
 	});
 
 	it('should match the snapshot with the popup open', () => {
-		const { container } = render(<AccountSettings {...completeProps} popupOpen />);
+		const { container } = render(
+			<AccountSettings {...completeProps} popupOpen />,
+		);
 		expect(container).toMatchSnapshot();
 	});
 

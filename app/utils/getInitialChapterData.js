@@ -1,10 +1,10 @@
 import cachedFetch from './cachedFetch';
 
 export default async ({
-  plainFilesetIds,
-  formattedFilesetIds,
-  bookId: lowerCaseBookId,
-  chapter,
+	plainFilesetIds,
+	formattedFilesetIds,
+	bookId: lowerCaseBookId,
+	chapter,
 }) => {
   // Gather all initial data
   const bookId = lowerCaseBookId.toUpperCase();
@@ -30,8 +30,8 @@ export default async ({
         });
     }
 
-    return text || '';
-  });
+		return text || '';
+	});
 
   let plainTextJson = JSON.stringify({});
   // start promise for plain text
@@ -53,32 +53,32 @@ export default async ({
         return { data: [] };
       });
 
-    return res ? res.data : [];
-  });
+		return res ? res.data : [];
+	});
 
-  let plainTextFound = false;
-  let plainText = [];
-  /* eslint-disable */
-  for (const promise of plainPromises) {
-    if (plainTextFound) break;
-    await promise
-      .then((res) => {
-        plainText = res;
-        plainTextFound = true;
-      })
-      .catch((reason) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Reason race threw: ', reason.message); // eslint-disable-line no-console
-        }
-      });
-  }
-  const formattedText = await Promise.all(formattedPromises);
+	let plainTextFound = false;
+	let plainText = [];
+	/* eslint-disable */
+	for (const promise of plainPromises) {
+		if (plainTextFound) break;
+		await promise
+			.then((res) => {
+				plainText = res;
+				plainTextFound = true;
+			})
+			.catch((reason) => {
+				if (process.env.NODE_ENV === 'development') {
+					console.error('Reason race threw: ', reason.message);
+				}
+			});
+	}
+	const formattedText = await Promise.all(formattedPromises);
 
-  /* eslint-enable */
-  // Return a default object in the case that none of the api calls work
-  return {
-    plainText,
-    plainTextJson,
-    formattedText: formattedText[0] || '',
-  };
+	/* eslint-enable */
+	// Return a default object in the case that none of the api calls work
+	return {
+		plainText,
+		plainTextJson,
+		formattedText: formattedText[0] || '',
+	};
 };

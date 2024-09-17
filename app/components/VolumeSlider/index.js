@@ -19,7 +19,6 @@ class VolumeSlider extends React.PureComponent {
 		this.timer = null;
 	}
 
-	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
 			this.ref,

@@ -13,7 +13,7 @@ import LegacyLink from '../LegacyLink';
 class MyHighlights extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			selectedId: '',
 			selectedColor: '',
@@ -49,7 +49,11 @@ class MyHighlights extends React.PureComponent {
 						highlight.chapter
 					}`}
 				>
-					<button onClick={toggleNotesModal} className="list-item" type="button">
+					<button
+						onClick={toggleNotesModal}
+						className="list-item"
+						type="button"
+					>
 						<div className="title-text">
 							<h4 className="title">{getReference(highlight)}</h4>
 							<h4 className={'text'}>{highlight.bible_id}</h4>
@@ -65,7 +69,8 @@ class MyHighlights extends React.PureComponent {
 						startUpdateProcess({
 							id: highlight.id,
 							color: highlight.highlighted_color,
-						})}
+						})
+					}
 				>
 					{this.highlightIcon(highlight.highlighted_color)}
 					<span>Edit</span>

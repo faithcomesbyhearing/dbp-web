@@ -26,12 +26,8 @@ class FormattedText extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const {
-			getFirstVerse,
-			handleMouseUp,
-			handleNoteClick,
-			openFootnote,
-		} = this.props;
+		const { getFirstVerse, handleMouseUp, handleNoteClick, openFootnote } =
+			this.props;
 		if (this.formatRef) {
 			setEventHandlersForFootnotes(this.formatRef, openFootnote);
 			setEventHandlersForFormattedVerses(this.formatRef, {
@@ -85,7 +81,7 @@ class FormattedText extends React.PureComponent {
 			];
 			if (verseNodes.length) {
 				verseNodes.forEach(
-					(n) => (n.className = `${n.className} active-verse`), // eslint-disable-line no-param-reassign
+					(n) => (n.className = `${n.className} active-verse`),
 				);
 			}
 			// Remove the highlight from the old active verse
@@ -98,7 +94,7 @@ class FormattedText extends React.PureComponent {
 			if (prevVerseNodes.length) {
 				// Slicing the classname since the last 13 characters are the highlighted classname that needs to be removed
 				prevVerseNodes.forEach(
-					(n) => (n.className = n.className.slice(0, -13)), // eslint-disable-line no-param-reassign
+					(n) => (n.className = n.className.slice(0, -13)),
 				);
 			}
 		} else if (
@@ -115,7 +111,7 @@ class FormattedText extends React.PureComponent {
 			];
 			if (prevVerseNodes.length) {
 				prevVerseNodes.forEach(
-					(n) => (n.className = n.className.slice(0, -13)), // eslint-disable-line no-param-reassign
+					(n) => (n.className = n.className.slice(0, -13)),
 				);
 			}
 		}
@@ -321,9 +317,8 @@ class FormattedText extends React.PureComponent {
 					`verse${verseNumber}`,
 				)[0];
 				// Get the inner text of the verse
-				const verseString = xmlDocText.getElementsByClassName(
-					verseClassName,
-				)[0];
+				const verseString =
+					xmlDocText.getElementsByClassName(verseClassName)[0];
 				// Create a new container for the verse
 				const newXML = xmlDocText.createElement('div');
 				newXML.className = 'single-formatted-verse';
@@ -358,7 +353,7 @@ class FormattedText extends React.PureComponent {
 									),
 								),
 							)[0],
-				  }
+					}
 				: initialFormattedSource;
 		}
 		const readersMode = userSettings.getIn([
@@ -384,7 +379,9 @@ class FormattedText extends React.PureComponent {
 		if (
 			highlights.length &&
 			userAuthenticated &&
-			(!oneVersePerLine && !readersMode && formattedSource.main) &&
+			!oneVersePerLine &&
+			!readersMode &&
+			formattedSource.main &&
 			createFormattedHighlights
 		) {
 			// Use function for highlighting the formatted formattedText
@@ -403,7 +400,7 @@ class FormattedText extends React.PureComponent {
 					<div
 						ref={this.setFormattedRefHighlight}
 						className={justifiedText ? 'justify' : ''}
-						dangerouslySetInnerHTML={{ __html: formattedText }} // eslint-disable-line react/no-danger
+						dangerouslySetInnerHTML={{ __html: formattedText }}
 					/>
 				);
 			}
@@ -411,7 +408,7 @@ class FormattedText extends React.PureComponent {
 				<div
 					ref={this.setFormattedRef}
 					className={justifiedText ? 'justify' : ''}
-					dangerouslySetInnerHTML={{ __html: formattedSource.main }} // eslint-disable-line react/no-danger
+					dangerouslySetInnerHTML={{ __html: formattedSource.main }}
 				/>
 			);
 		}

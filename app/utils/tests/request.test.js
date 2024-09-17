@@ -21,9 +21,8 @@ jest.mock('axios', () => ({
 						data: mockData['/valid-call'],
 					});
 			} else if (
-				'/valid-call-with-options' &&
-				options &&
-				options.headers &&
+				url === '/valid-call-with-options' &&
+				options?.headers &&
 				options.headers.Authorization === 'somekey'
 			) {
 				return Promise.resolve({

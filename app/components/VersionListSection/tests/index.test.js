@@ -2,7 +2,11 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { fromJS } from 'immutable';
 import VersionListSection from '..'; // Assuming the path is correct
-import { itemsParser, filterFunction, getTexts } from './versionListSectionUtils';
+import {
+	itemsParser,
+	filterFunction,
+	getTexts,
+} from './versionListSectionUtils';
 
 const filterText = '';
 const activeTextId = 'ENGESV';
@@ -158,8 +162,8 @@ describe('<VersionListSection />', () => {
 			(bible, audioType) => `${bible}_${audioType}`,
 		);
 
-		const { container } = render(<VersionListSection items={sectionItems} />,);
-		const bibles = container.querySelector('div.accordion-body-style');
+		const { container } = render(<VersionListSection items={sectionItems} />);
+		const bibles = container.querySelectorAll('.accordion-body-style');
 		expect(bibles.length).toEqual(3);
 	});
 });

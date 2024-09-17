@@ -9,6 +9,12 @@ function languageIsSupported(language) {
 		fs.accessSync(`app/translations/${language}.json`, fs.F_OK);
 		return true;
 	} catch (e) {
+		/* eslint-disable no-console */
+		console.error(
+			`Error to have access app/translations/${language}.json`,
+			e,
+		);
+		/* eslint-enable no-console */
 		return false;
 	}
 }

@@ -38,7 +38,6 @@ export class Settings extends React.PureComponent {
 		this.timer = null;
 	}
 
-	// eslint-disable-line react/prefer-stateless-function
 	componentDidMount() {
 		this.closeMenuController = new CloseMenuFunctions(
 			this.ref,
@@ -195,14 +194,13 @@ export class Settings extends React.PureComponent {
 				<div className={'settings-wrapper'}>
 					<div className={'settings-content'}>
 						<section className="color-schemes">
-							{/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+							{}
 							{activeTheme === 'paper' ? (
 								<SvgWrapper
 									style={{ width: '55px', height: '55px' }}
 									svgid={'light'}
 								/>
 							) : (
-								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'paper-theme-button'}
 									role="button"
@@ -217,7 +215,6 @@ export class Settings extends React.PureComponent {
 									svgid={'dark'}
 								/>
 							) : (
-								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'dark-theme-button'}
 									role="button"
@@ -232,7 +229,6 @@ export class Settings extends React.PureComponent {
 									svgid={'red'}
 								/>
 							) : (
-								// eslint-disable-next-line jsx-a11y/control-has-associated-label
 								<span
 									id={'red-theme-button'}
 									role="button"
@@ -405,14 +401,8 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'settings', reducer });
 
-export default compose(
-	withReducer,
-	withConnect,
-)(Settings);
+export default compose(withReducer, withConnect)(Settings);

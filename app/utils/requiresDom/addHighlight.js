@@ -137,7 +137,12 @@ const addHighlightUtil = ({
 				activeVerseInfo: { verse: 0 },
 			});
 		} catch (err) {
-			// do stuff with err
+			/* eslint-disable no-console */
+			console.error(
+				'Error adding Highlight',
+				err,
+			);
+			/* eslint-enable no-console */
 		}
 	} else {
 		try {

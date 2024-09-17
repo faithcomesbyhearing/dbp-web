@@ -15,7 +15,7 @@ import { createUserWithSocialAccount } from '../HomePage/actions';
 export class FacebookAuthentication extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
+
 		this.state = {
 			popupOpen: false,
 			popupCoords: { x: 0, y: 0 },
@@ -105,9 +105,6 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	null,
-	mapDispatchToProps,
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(withConnect)(FacebookAuthentication);

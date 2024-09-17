@@ -40,20 +40,22 @@ exports[`<VersionListSection /> Should match previous snapshot using data from A
         hidden=""
         id="accordion__panel-:r7:"
       >
-        <button
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Dramatized Version
-        </button>
-        <button
+        </a>
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -100,20 +102,22 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
         hidden=""
         id="accordion__panel-:r0:"
       >
-        <button
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Dramatized Version
-        </button>
-        <button
+        </a>
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </button>
+        </a>
       </div>
     </div>
     <div
@@ -150,20 +154,22 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
         hidden=""
         id="accordion__panel-:r1:"
       >
-        <button
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Dramatized Version
-        </button>
-        <button
+        </a>
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </button>
+        </a>
       </div>
     </div>
     <div
@@ -200,20 +206,22 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
         hidden=""
         id="accordion__panel-:r2:"
       >
-        <button
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Dramatized Version
-        </button>
-        <button
+        </a>
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </button>
+        </a>
       </div>
     </div>
     <div
@@ -236,14 +244,15 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
           role="button"
           tabindex="0"
         >
-          <button
+          <a
             class=" top-level-title"
+            role="button"
             tabindex="0"
             title="New American Bible"
             type="button"
           >
             New American Bible
-          </button>
+          </a>
         </div>
       </div>
       <div
@@ -273,14 +282,15 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
           role="button"
           tabindex="0"
         >
-          <button
+          <a
             class=" top-level-title"
+            role="button"
             tabindex="0"
             title="World English Bible"
             type="button"
           >
             World English Bible (Hosanna audio) (World English Bible)
-          </button>
+          </a>
         </div>
       </div>
       <div
@@ -310,14 +320,15 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
           role="button"
           tabindex="0"
         >
-          <button
+          <a
             class=" top-level-title"
+            role="button"
             tabindex="0"
             title="World English Bible (Afred Henson)"
             type="button"
           >
             World English Bible (Afred Henson)
-          </button>
+          </a>
         </div>
       </div>
       <div
@@ -361,20 +372,22 @@ exports[`<VersionListSection /> Should match previous snapshot with valid props 
         hidden=""
         id="accordion__panel-:r6:"
       >
-        <button
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Dramatized Version
-        </button>
-        <button
+        </a>
+        <a
           class="version-item-button"
+          role="button"
           tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </button>
+        </a>
       </div>
     </div>
   </div>

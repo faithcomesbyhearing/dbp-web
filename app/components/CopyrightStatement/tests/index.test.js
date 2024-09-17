@@ -4,12 +4,10 @@ import '@testing-library/jest-dom'; // Provides matchers like `toBeInTheDocument
 import CopyrightStatement from '..';
 import { copyrights } from '../../../utils/testUtils/copyrightData';
 
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-/* eslint-enable react/prop-types */
 
 const props = {
 	organizations: copyrights.newTestament.text.organizations,

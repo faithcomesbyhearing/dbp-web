@@ -1,29 +1,49 @@
+const CircularDependencyPlugin = require('circular-dependency-plugin');
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE_BUNDLE === 'true',
-  openAnalyzer: false, // Add this if you don't want the analyzer to automatically open in the browser
-  analyzerMode: 'static',
-  reportFilename: process.env.NODE_ENV === 'development' ? '../bundles/server.html' : '../bundles/client.html',
-  analyzeServer: ['server', 'both'].includes(process.env.ANALYZE_BUNDLE),
-  analyzeBrowser: ['browser', 'both'].includes(process.env.ANALYZE_BUNDLE),
+	enabled: process.env.ANALYZE_BUNDLE === 'true',
+	openAnalyzer: false, // Add this if you don't want the analyzer to automatically open in the browser
+	analyzerMode: 'static',
+	reportFilename:
+		process.env.NODE_ENV === 'development'
+			? '../bundles/server.html'
+			: '../bundles/client.html',
+	analyzeServer: ['server', 'both'].includes(process.env.ANALYZE_BUNDLE),
+	analyzeBrowser: ['browser', 'both'].includes(process.env.ANALYZE_BUNDLE),
 });
 
 const fallbackSiteUrl = 'https://live.bible.is';
 
 module.exports = withBundleAnalyzer({
-  webpack: (config, { isServer }) => {
-    // Exclude 'fs' from client-side builds
-    if (!isServer) {
-      config.resolve.fallback = { // eslint-disable-line no-param-reassign
-        fs: false,
-      };
-    }
+	webpack: (config, { isServer }) => {
+		// Exclude 'fs' from client-side builds
+		if (!isServer) {
+			config.resolve.fallback = {
+				fs: false,
+			};
 
-    return config;
-  },
-  experimental: {
-    forceSwcTransforms: true,
-  },
-  env: {
+			if (process.env.NODE_ENV === 'development') {
+				config.plugins.push(
+					new CircularDependencyPlugin({
+						// exclude detection of files based on a RegExp
+						exclude: /node_modules/,
+						// include specific file types to check for circular dependencies
+						include: /app/, // You can adjust this to the folder you want to check
+						// add errors to webpack instead of warnings
+						failOnError: true,
+						// set the current working directory for displaying module paths
+						cwd: process.cwd(),
+					}),
+				);
+			}
+		}
+
+		return config;
+	},
+	experimental: {
+		forceSwcTransforms: true,
+	},
+	env: {
 		BASE_API_ROUTE: process.env.BASE_API_ROUTE,
 		BASE_SITE_URL: process.env.BASE_SITE_URL || fallbackSiteUrl,
 		BUGSNAG_API_KEY: process.env.BUGSNAG_API_KEY,
@@ -38,9 +58,9 @@ module.exports = withBundleAnalyzer({
 		NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
 		NOTES_PROJECT_ID: process.env.NOTES_PROJECT_ID,
 	},
-  compiler: {
-    // Enable support for class properties
-    styledComponents: true,
-  },
-  swcMinify: true,
+	compiler: {
+		// Enable support for class properties
+		styledComponents: true,
+	},
+	swcMinify: true,
 });

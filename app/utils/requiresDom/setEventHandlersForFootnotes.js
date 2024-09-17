@@ -3,7 +3,6 @@
 	@handler is the desired event handler
  */
 
-/* eslint-disable no-param-reassign, no-unused-expressions, jsx-a11y/no-static-element-interactions */
 const setEventHandlersForFootnotes = (ref, handler) => {
 	const notes = [...ref.getElementsByClassName('note')];
 
@@ -30,6 +29,5 @@ const setEventHandlersForFootnotes = (ref, handler) => {
 		};
 	});
 };
-/* eslint-enable no-param-reassign, no-unused-expressions, jsx-a11y/no-static-element-interactions */
 
 export default setEventHandlersForFootnotes;
