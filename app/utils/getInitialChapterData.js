@@ -1,5 +1,4 @@
-import axios from 'axios';
-import request from './request';
+import cachedFetch from './cachedFetch';
 
 export default async ({
   plainFilesetIds,
@@ -14,15 +13,15 @@ export default async ({
     const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
       process.env.DBP_API_KEY
     }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`;
-    const res = await request(url).catch((e) => {
+    const res = await cachedFetch(url).catch((e) => {
       if (process.env.NODE_ENV === 'development') {
-        console.log('Error in request for formatted fileset: ', e.message); // eslint-disable-line no-console
+        console.log('Error in request for formatted fileset: ', e); // eslint-disable-line no-console
       }
     });
     const path = res && res.data && res.data[0] && res.data[0].path;
     let text = '';
     if (path) {
-      text = await axios.get(path)
+      text = await cachedFetch(path)
         .then((textRes) => textRes.data)
         .catch((e) => {
           if (process.env.NODE_ENV === 'development') {
@@ -42,14 +41,14 @@ export default async ({
     }/bibles/filesets/${id}/${bookId}/${chapter}?key=${
       process.env.DBP_API_KEY
     }&v=4`;
-    const res = await request(url)
+    const res = await cachedFetch(url)
       .then((json) => {
         plainTextJson = JSON.stringify(json.data);
         return json;
       })
       .catch((e) => {
         if (process.env.NODE_ENV === 'development') {
-          console.error('Error in request for plain fileset: ', e.message, 'url', url); // eslint-disable-line no-console
+          console.error('Error in request for plain fileset: ', 'url', url, e); // eslint-disable-line no-console
         }
         return { data: [] };
       });

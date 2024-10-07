@@ -30,7 +30,7 @@ const props = {
 let bibles = fromJS([]);
 describe('<VersionList />', () => {
 	beforeEach(async () => {
-		const jsBibles = await getTexts({ languageCode: 6414 });
+		const jsBibles = await getTexts({ languageCode: 17045 });
 		bibles = fromJS(jsBibles);
 	});
 	it('Should match previous snapshot', () => {
