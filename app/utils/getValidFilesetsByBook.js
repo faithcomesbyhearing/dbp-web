@@ -1,4 +1,5 @@
-import { FILESET_SIZE_COMPLETE } from '../constants/bibleFileset';
+import { FILESET_SIZE_COMPLETE, FILESET_SIZE_STORIES } from '../constants/bibleFileset';
+import { BOOK_COVENANT_TESTAMENT } from '../constants/books';
 
 /**
  * Filter the list of plain Fileset Ids to include only those that belong to the same testament as the given book.
@@ -53,9 +54,10 @@ const getValidFilesetsByBook = (
 
     const isCompleteTestament = filesetMetadata.testament === FILESET_SIZE_COMPLETE;
     const isMatchingTestament = filesetMetadata.testament.includes(book.testament);
+    const isCovenantTestament = FILESET_SIZE_STORIES === filesetMetadata.testament && book.testament === BOOK_COVENANT_TESTAMENT;
     const isBookAllowed = filesetMetadata.booksAllowed[book.book_id];
 
-    return (isCompleteTestament || isMatchingTestament) && isBookAllowed;
+    return (isCompleteTestament || isMatchingTestament || isCovenantTestament) && isBookAllowed;
   });
 };
 

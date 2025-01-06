@@ -479,8 +479,7 @@ AppContainer.getInitialProps = async (context) => {
   // Redirect to the new url if conditions are met
   if (bookMetaData && bookMetaData.length) {
     const foundChapter =
-      foundBook &&
-      foundBook.chapters.find((c) => chapter && c === parseInt(chapter, 10));
+      foundBook?.chapters.find((c) => chapter && c === parseInt(chapter, 10));
     // Default book/chapter to matthew 1 to keep it from breaking if there is an error encountered in getFirstChapterReference
     let bookChapterRoute = 'MAT/1';
     // Handles getting the book/chapter that follows Jon Stearley's methodology
