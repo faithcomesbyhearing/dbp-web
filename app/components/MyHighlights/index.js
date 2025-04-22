@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import Router from 'next/router';
 import SvgWrapper from '../SvgWrapper';
 
 class MyHighlights extends React.PureComponent {
@@ -34,6 +35,14 @@ class MyHighlights extends React.PureComponent {
 			startUpdateProcess,
 		} = this.props;
 
+		const handleClick = (newUrl) =>
+			(e) => {
+				if (Router.asPath === newUrl) {
+					e.preventDefault(); // Stop navigation if it's the same URL
+					toggleNotesModal(); // Only toggle modal
+				}
+			};
+
 		return highlights.map((highlight) => (
 			<div
 				key={`${highlight.id}_${highlight.highlighted_color}`}
@@ -49,7 +58,7 @@ class MyHighlights extends React.PureComponent {
 						highlight.chapter
 					}`}
 				>
-					<a onClick={toggleNotesModal} className="list-item">
+					<a onClick={handleClick(`/bible/${highlight.bible_id}/${highlight.book_id}/${highlight.chapter}`)} className="list-item">
 						<div className="title-text">
 							<h4 className="title">{getReference(highlight)}</h4>
 							<h4 className={'text'}>{highlight.bible_id}</h4>
