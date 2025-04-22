@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import Router from 'next/router';
 import SvgWrapper from '../SvgWrapper';
 
 class MyBookmarks extends React.PureComponent {
@@ -19,6 +20,15 @@ class MyBookmarks extends React.PureComponent {
 			toggleNotesModal,
 			getFormattedNoteDate,
 		} = this.props;
+
+		const handleClick = (newUrl) =>
+			(e) => {
+				if (Router.asPath === newUrl) {
+					e.preventDefault(); // Stop navigation if it's the same URL
+					toggleNotesModal(); // Only toggle modal
+				}
+			};
+
 		return bookmarks.map((listItem) => (
 			<div key={listItem.id} id={listItem.id} className={'highlight-item'}>
 				<Link
@@ -30,7 +40,7 @@ class MyBookmarks extends React.PureComponent {
 						listItem.chapter
 					}`}
 				>
-					<a onClick={toggleNotesModal} className="list-item">
+					<a onClick={handleClick(`/bible/${listItem.bible_id}/${listItem.book_id}/${listItem.chapter}`)} className="list-item">
 						<div className="title-text">
 							<h4 className="title">
 								<span className="date">

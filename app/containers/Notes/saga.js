@@ -25,6 +25,8 @@ import {
   LOAD_USER_HIGHLIGHTS,
   UPDATE_HIGHLIGHT,
 } from './constants';
+import getBookMetaData from '../../utils/getBookMetaData';
+import getValidFilesetsByBook from '../../utils/getValidFilesetsByBook';
 
 export function* getChapterForNote({ note }) {
   const chapter =
@@ -43,10 +45,26 @@ export function* getChapterForNote({ note }) {
       (fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN,
     );
     const hasText = !!filesets.length;
-    const plain = filesets.find((fileset) => fileset.type === FILESET_TYPE_TEXT_PLAIN);
+
     let text = [];
 
     if (hasText) {
+      const idsForBookMetadata = filesets.map((fileset) => ([fileset.type, fileset.id, fileset.size]));
+      const [bookMetaData, bookMetaResponse] = yield getBookMetaData({
+        idsForBookMetadata,
+      });
+
+      const foundBook = bookMetaData.find(
+        (book) => bookId && book.book_id === bookId.toUpperCase(),
+      );
+
+      // Get the valid filesets for the book and the testaments
+      const validFilesets = foundBook
+        ? getValidFilesetsByBook(foundBook, idsForBookMetadata, filesets, bookMetaResponse)
+        : [];
+
+      const plain = validFilesets.length ? validFilesets[0] : null;
+
       if (plain) {
         const res = yield call(
           request,

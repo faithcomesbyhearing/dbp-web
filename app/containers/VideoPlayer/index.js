@@ -156,6 +156,7 @@ class VideoPlayer extends React.PureComponent {
               ? `${video.verse_start}-${video.verse_end}`
               : video.verse_start
           }`,
+          verseStart: video.verse_start,
           thumbnail: `${'mark' ||
             video.book_name}_${video.book_id.toLowerCase()}_${index}.jpg`,
         }));
@@ -164,7 +165,7 @@ class VideoPlayer extends React.PureComponent {
         );
         this.setState({
           videos,
-          playlist: playlist.slice(1),
+          playlist: playlist.slice().sort(this.sortPlaylist),
           currentVideo: playlist[0],
           poster: playlist[0] ? playlist[0].thumbnail : '',
         });
@@ -187,31 +188,52 @@ class VideoPlayer extends React.PureComponent {
     }
   };
 
-  get previousVideo() {
+  /**
+   * Finds the index of the current video in the sorted playlist.
+   * Assumes playlist items have a unique identifier, like 'id'.
+   * Returns -1 if not found.
+   */
+  get currentVideoIndex() {
     const { playlist, currentVideo } = this.state;
-    let previousVideo;
-    // Need to find the video directly before the current one
-    playlist.forEach((video) => {
-      if (video.id < currentVideo.id) {
-        previousVideo = video;
-      }
-    });
-    return previousVideo;
+    if (!currentVideo || !playlist || playlist.length === 0) {
+      return -1; // No current video or playlist is empty
+    }
+    // Find the index based on a unique property, assuming 'id' exists
+    return playlist.findIndex((video) => video.id === currentVideo.id);
   }
 
-  get nextVideo() {
-    const { playlist, currentVideo } = this.state;
-    let nextVideo;
-    let foundNext = false;
-    // Need to find the video immediately after the current one
-    playlist.forEach((video) => {
-      if (video.id > currentVideo.id && !foundNext) {
-        nextVideo = video;
-        foundNext = true;
-      }
-    });
+  /**
+   * Gets the video immediately preceding the current one in the sorted playlist.
+   * Returns undefined if the current video is the first one or not found.
+   */
+  get previousVideo() {
+    const { playlist } = this.state;
+    const currentIndex = this.currentVideoIndex;
 
-    return nextVideo;
+    // Check if current video exists and is not the first item
+    if (currentIndex > 0) {
+      return playlist[currentIndex - 1];
+    }
+
+    // Otherwise, there is no previous video
+    return undefined;
+  }
+
+  /**
+   * Gets the video immediately following the current one in the sorted playlist.
+   * Returns undefined if the current video is the last one or not found.
+   */
+  get nextVideo() {
+    const { playlist } = this.state;
+    const currentIndex = this.currentVideoIndex;
+
+    // Check if current video exists and is not the last item
+    if (currentIndex !== -1 && currentIndex < playlist.length - 1) {
+      return playlist[currentIndex + 1];
+    }
+
+    // Otherwise, there is no next video
+    return undefined;
   }
 
   setVideoRef = (el) => {
@@ -265,7 +287,6 @@ class VideoPlayer extends React.PureComponent {
         playlist: state.videos
           .filter(
             (v) =>
-              v.id !== video.id &&
               v.bookId === bookId &&
               v.chapterStart === chapter,
           )
@@ -464,19 +485,17 @@ class VideoPlayer extends React.PureComponent {
   };
 
   sortPlaylist = (a, b) => {
-    // if videos are from the same chapter
-    if (a.chapterStart === b.chapterStart) {
-      return a.verse_start > b.verse_start;
-    } else if (a.chapterStart > b.chapterStart) {
-      // videos are from different chapters and a is after b
-      return false;
-    } else if (a.chapterStart < b.chapterStart) {
-      // a is before b
-      return true;
+    // Compare chapters first
+    if (a.chapterStart !== b.chapterStart) {
+        // If chapters are different, sort by chapter
+        return a.chapterStart - b.chapterStart;
+    } else {
+        // If chapters are the same, compare verses
+        // Returns 0 if verses are also the same
+        return a.verseStart - b.verseStart;
     }
-    // Last resort is to just sort by the ids, this breaks in some cases i.e. mrk_10_12 < mrk_10_2
-    return a.id > b.id;
-  };
+    // Note: Sorting by ID as a last resort is removed as the chapter/verse comparison covers all cases.
+};
 
   playVideo = ({ thumbnailClick }) => {
     const { currentVideo, hlsSupported } = this.state;
@@ -676,7 +695,11 @@ class VideoPlayer extends React.PureComponent {
             elipsisOpen={elipsisOpen}
             toggleElipsis={this.toggleElipsis}
             handleThumbnailClick={this.handleThumbnailClick}
-            playlist={playlist}
+            playlist={playlist.filter(
+              // Remove the current video from the playlist
+              (video) =>
+                video.id !== currentVideo.id,
+            )}
           />
         </div>
         <div onClick={this.closePlayer} className={'black-bar'}>
