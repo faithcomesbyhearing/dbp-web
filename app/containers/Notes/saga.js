@@ -29,8 +29,6 @@ import {
   LOAD_USER_HIGHLIGHTS,
   UPDATE_HIGHLIGHT,
 } from './constants';
-import getBookMetaData from '../../utils/getBookMetaData';
-import getValidFilesetsByBook from '../../utils/getValidFilesetsByBook';
 
 export function* getChapterForNote({ note }) {
   const chapter =
@@ -39,6 +37,11 @@ export function* getChapterForNote({ note }) {
     typeof note.get === 'function' ? note.get('bible_id') : note.bible_id;
   const bookId =
     typeof note.get === 'function' ? note.get('book_id') : note.book_id;
+  const noteVerseEnd =
+    typeof note.get === 'function' ? note.get('verse_end') : note.verse_end;
+  const noteVerseStart =
+    typeof note.get === 'function' ? note.get('verse_start') : note.verse_start;
+
   // TODO: The bibleId here is undefined a lot of the time, find where it gets passed in and fix the issue
   const bibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${process.env.DBP_API_KEY}&v=4`;
   // Need to get the bible filesets
@@ -104,8 +107,8 @@ export function* getChapterForNote({ note }) {
       type: LOAD_CHAPTER_FOR_NOTE,
       text: text.filter(
         (verse) =>
-          verse.verse_start <= note.verse_end &&
-          verse.verse_start >= note.verse_start,
+          verse.verse_start <= noteVerseEnd &&
+          verse.verse_start >= noteVerseStart,
       ),
     });
   } catch (err) {

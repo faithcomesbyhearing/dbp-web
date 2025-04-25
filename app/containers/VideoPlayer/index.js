@@ -159,6 +159,7 @@ class VideoPlayer extends React.PureComponent {
 							? `${video.verse_start}-${video.verse_end}`
 							: video.verse_start
 					}`,
+					verseStart: video.verse_start,
 					thumbnail: `${
 						video.book_name || 'mark'
 					}_${video.book_id.toLowerCase()}_${index}.jpg`,
@@ -168,7 +169,7 @@ class VideoPlayer extends React.PureComponent {
 				);
 				this.setState({
 					videos,
-					playlist: playlist.slice(1),
+					playlist: playlist.slice().sort(this.sortPlaylist),
 					currentVideo: playlist[0],
 					poster: playlist[0] ? playlist[0].thumbnail : '',
 				});

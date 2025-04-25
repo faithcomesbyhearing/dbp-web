@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Link from 'next/link';
 import SvgWrapper from '../SvgWrapper';
 import LegacyLink from '../LegacyLink';
 
@@ -34,14 +33,6 @@ class MyHighlights extends React.PureComponent {
 			toggleNotesModal,
 			startUpdateProcess,
 		} = this.props;
-
-		const handleClick = (newUrl) =>
-			(e) => {
-				if (Router.asPath === newUrl) {
-					e.preventDefault(); // Stop navigation if it's the same URL
-					toggleNotesModal(); // Only toggle modal
-				}
-			};
 
 		return highlights.map((highlight) => (
 			<div
