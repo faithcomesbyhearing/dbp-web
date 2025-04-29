@@ -89,6 +89,7 @@ VersionListSection.propTypes = {
         audio_drama: PropTypes.bool,
         text_plain: PropTypes.bool,
         text_format: PropTypes.bool,
+        text_json: PropTypes.bool,
       }).isRequired,
       clickHandler: PropTypes.func.isRequired,
     })

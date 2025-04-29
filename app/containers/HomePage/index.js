@@ -48,7 +48,7 @@ import {
 } from './actions';
 import makeSelectHomePage, {
   selectSettings,
-  selectFormattedSource,
+  selectChapterJson,
   selectAuthenticationStatus,
   selectUserId,
   selectMenuOpenState,
@@ -228,7 +228,7 @@ class HomePage extends React.PureComponent {
     // If there was a change in the params then make sure loading state is set to false
     if (
       prevVerseNumber !== verseNumber ||
-      formattedSource.main !== prevFormattedSource.main ||
+      formattedSource !== prevFormattedSource ||
       !isEqual(prevTextData.text, textData.text) ||
       audioSource !== prevAudioSource ||
       activeChapter !== activeChapterProps
@@ -618,7 +618,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   homepage: makeSelectHomePage(),
-  formattedSource: selectFormattedSource(),
+  formattedSource: selectChapterJson(),
   userAuthenticated: selectAuthenticationStatus(),
   userId: selectUserId(),
   textData: selectUserNotes(),

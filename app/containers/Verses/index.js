@@ -65,8 +65,13 @@ import makeSelectVerses, {
 	selectNotesMenuState,
 	selectTextDirection,
 } from './selectors';
-import { selectUserNotes, selectFormattedSource } from '../HomePage/selectors';
+import {
+	selectUserNotes,
+	selectChapterJson,
+	selectFormattedSource,
+} from '../HomePage/selectors';
 import FormattedText from '../../components/FormattedText';
+import FormattedJson from '../../components/FormattedJson';
 
 export class Verses extends React.PureComponent {
 	constructor(props) {
@@ -102,6 +107,7 @@ export class Verses extends React.PureComponent {
 			nextProps.activeBookId !== this.props.activeBookId ||
 			nextProps.activeTextId !== this.props.activeTextId ||
 			nextProps.formattedSource.main !== this.props.formattedSource.main ||
+			nextProps.formattedJsonSource !== this.props.formattedJsonSource ||
 			!isEqual(nextProps.textData.text, this.props.textData.text)
 		) {
 			this.props.dispatch(setChapterTextLoadingState({ state: false }));
@@ -109,14 +115,14 @@ export class Verses extends React.PureComponent {
 	}
 
 	getFirstVerse = (e) => {
-		const { userSettings, formattedSource } = this.props;
+		const { userSettings, formattedSource, formattedJsonSource } = this.props;
 		e.stopPropagation();
 		typeof e.persist === 'function' && e.persist(); // eslint-disable-line no-unused-expressions
 
 		const firstVerse = getFirstSelectedVerse({
 			target: e.target,
 			button: e.button === 0,
-			formattedSourceMain: formattedSource.main,
+			formattedSourceMain: formattedJsonSource ?? formattedSource.main,
 			main: this.mainRef,
 			userSettings,
 			getFormattedParentVerse,
@@ -130,6 +136,7 @@ export class Verses extends React.PureComponent {
 	getLastVerse = (e) => {
 		const {
 			formattedSource,
+			formattedJsonSource,
 			userSettings,
 			activeChapter,
 			activeBookId,
@@ -141,7 +148,7 @@ export class Verses extends React.PureComponent {
 		if (typeof this.window === 'undefined') return;
 
 		const lastVerse = getLastSelectedVerse(e, {
-			formattedSourceMain: formattedSource.main,
+			formattedSourceMain: formattedJsonSource ?? formattedSource.main,
 			userSettings,
 			windowObject: this.window,
 			main: this.mainRef,
@@ -313,9 +320,9 @@ export class Verses extends React.PureComponent {
 			.filter(
 				(high) =>
 					high.verse_start === parseInt(highlightObject.verseStart, 10) &&
-					(high.highlight_start <= space &&
-						high.highlight_start + high.highlighted_words >=
-							highlightObject.highlightStart),
+					high.highlight_start <= space &&
+					high.highlight_start + high.highlighted_words >=
+						highlightObject.highlightStart,
 			)
 			.reduce((a, h) => [...a, h.id], []);
 
@@ -441,7 +448,9 @@ export class Verses extends React.PureComponent {
 			userId: this.props.userId,
 			text: this.props.textData.text,
 			highlights: this.props.highlights,
-			formattedSource: this.props.formattedSource,
+			// formattedSource: this.props.formattedSource,
+			formattedSource:
+				!!this.props.formattedJsonSource || !!this.props.formattedSource?.main,
 			userSettings: this.props.userSettings,
 			activeTextId: this.props.activeTextId,
 			activeBookId: this.props.activeBookId,
@@ -512,6 +521,7 @@ export class Verses extends React.PureComponent {
 		const {
 			activeChapter,
 			formattedSource,
+			formattedJsonSource,
 			userSettings,
 			notesActive,
 			textDirection,
@@ -554,15 +564,16 @@ export class Verses extends React.PureComponent {
 				className={getClassNameForMain(textDirection, menuIsOpen)}
 				onScroll={this.handleScrollOnMain}
 			>
-				{!formattedSource.main &&
-					!text.length && (
-						<AudioOnlyMessage
-							key={'no_text'}
-							book={activeBookName}
-							chapter={activeChapter}
-						/>
-					)}
-				{(formattedSource.main && !readersMode && !oneVersePerLine) ||
+				{!formattedSource.main && !formattedJsonSource && !text.length && (
+					<AudioOnlyMessage
+						key={'no_text'}
+						book={activeBookName}
+						chapter={activeChapter}
+					/>
+				)}
+				{((formattedSource.main || !formattedJsonSource) &&
+					!readersMode &&
+					!oneVersePerLine) ||
 				text.length === 0 ||
 				(!readersMode && !oneVersePerLine) ? null : (
 					<div className="active-chapter-title">
@@ -571,54 +582,68 @@ export class Verses extends React.PureComponent {
 						</h1>
 					</div>
 				)}
-				{formattedSource.main &&
-					domMethodsAvailable &&
+				{domMethodsAvailable &&
 					!readersMode &&
-					!oneVersePerLine && (
-						<FormattedText
+					!oneVersePerLine &&
+					(formattedJsonSource ? (
+						<FormattedJson
 							userNotes={userNotes}
 							bookmarks={bookmarks}
 							highlights={highlights}
-							verseNumber={verseNumber}
 							userSettings={userSettings}
-							activeBookId={activeBookId}
-							activeChapter={activeChapter}
-							formattedSource={formattedSource}
 							activeVerseInfo={activeVerseInfo}
-							userAuthenticated={userAuthenticated}
-							domMethodsAvailable={domMethodsAvailable}
-							mainRef={this.mainRef}
-							formatRef={this.format}
+							activeChapter={activeChapter}
+							activeBookId={activeBookId}
+							formattedSource={formattedJsonSource}
 							openFootnote={this.openFootnote}
 							setFootnotes={this.setFootnotes}
 							handleMouseUp={this.handleMouseUp}
 							getFirstVerse={this.getFirstVerse}
 							handleNoteClick={this.handleNoteClick}
-							setFormattedRef={this.setFormattedRef}
-							formatHighlightRef={this.formatHighlight}
-							handleHighlightClick={this.handleHighlightClick}
-							setFormattedRefHighlight={this.setFormattedRefHighlight}
 						/>
-					)}
-				{(!formattedSource.main ||
-					readersMode ||
-					oneVersePerLine ||
-					!domMethodsAvailable) &&
-					!!text.length && (
-						<PlainText
-							initialText={text}
-							highlights={highlights}
-							verseNumber={verseNumber}
-							userSettings={userSettings}
-							activeChapter={activeChapter}
-							activeVerseInfo={activeVerseInfo}
-							handleMouseUp={this.handleMouseUp}
-							getFirstVerse={this.getFirstVerse}
-							userAuthenticated={userAuthenticated}
-							handleNoteClick={this.handleNoteClick}
-							handleHighlightClick={this.handleHighlightClick}
-						/>
-					)}
+					) : (
+						formattedSource.main && (
+							<FormattedText
+								userNotes={userNotes}
+								bookmarks={bookmarks}
+								highlights={highlights}
+								verseNumber={verseNumber}
+								userSettings={userSettings}
+								activeBookId={activeBookId}
+								activeChapter={activeChapter}
+								formattedSource={formattedSource}
+								activeVerseInfo={activeVerseInfo}
+								userAuthenticated={userAuthenticated}
+								domMethodsAvailable={domMethodsAvailable}
+								mainRef={this.mainRef}
+								formatRef={this.format}
+								openFootnote={this.openFootnote}
+								setFootnotes={this.setFootnotes}
+								handleMouseUp={this.handleMouseUp}
+								getFirstVerse={this.getFirstVerse}
+								handleNoteClick={this.handleNoteClick}
+								setFormattedRef={this.setFormattedRef}
+								formatHighlightRef={this.formatHighlight}
+								handleHighlightClick={this.handleHighlightClick}
+								setFormattedRefHighlight={this.setFormattedRefHighlight}
+							/>
+						)
+					))}
+				{(!formattedSource.main && !formattedJsonSource) && !!text.length && (
+					<PlainText
+						initialText={text}
+						highlights={highlights}
+						verseNumber={verseNumber}
+						userSettings={userSettings}
+						activeChapter={activeChapter}
+						activeVerseInfo={activeVerseInfo}
+						handleMouseUp={this.handleMouseUp}
+						getFirstVerse={this.getFirstVerse}
+						userAuthenticated={userAuthenticated}
+						handleNoteClick={this.handleNoteClick}
+						handleHighlightClick={this.handleHighlightClick}
+					/>
+				)}
 				{contextMenuState && (
 					<ContextPortal
 						handleAddBookmark={this.handleAddBookmark}
@@ -661,6 +686,7 @@ Verses.propTypes = {
 	textData: PropTypes.object,
 	highlights: PropTypes.array,
 	formattedSource: PropTypes.object,
+	formattedJsonSource: PropTypes.object,
 	activeChapter: PropTypes.number,
 	activeTextId: PropTypes.string,
 	activeBookId: PropTypes.string,
@@ -689,6 +715,7 @@ const mapStateToProps = createStructuredSelector({
 	notesActive: selectNotesMenuState(),
 	textDirection: selectTextDirection(),
 	formattedSource: selectFormattedSource(),
+	formattedJsonSource: selectChapterJson(),
 	userSettings: selectUserSettings(),
 	userAuthenticated: selectUserAuthenticated(),
 	userId: selectUserId(),
@@ -700,10 +727,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'verses', reducer });
 const withHomeReducer = injectReducer({
@@ -711,8 +735,4 @@ const withHomeReducer = injectReducer({
 	reducer: homeReducer,
 });
 
-export default compose(
-	withHomeReducer,
-	withReducer,
-	withConnect,
-)(Verses);
+export default compose(withHomeReducer, withReducer, withConnect)(Verses);

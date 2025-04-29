@@ -1,8 +1,13 @@
 import cachedFetch from './cachedFetch';
+import {
+  FILESET_TYPE_TEXT_FORMAT,
+  FILESET_TYPE_TEXT_JSON,
+} from '../constants/bibleFileset';
 
 export default async ({
   plainFilesetIds,
   formattedFilesetIds,
+  formattedJsonFilesetIds,
   bookId: lowerCaseBookId,
   chapter,
 }) => {
@@ -12,20 +17,44 @@ export default async ({
   const formattedPromises = formattedFilesetIds.map(async (id) => {
     const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
       process.env.DBP_API_KEY
-    }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`;
+    }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_FORMAT}`;
     const res = await cachedFetch(url).catch((e) => {
       if (process.env.NODE_ENV === 'development') {
         console.log('Error in request for formatted fileset: ', e); // eslint-disable-line no-console
       }
     });
-    const path = res && res.data && res.data[0] && res.data[0].path;
+    const path = res?.data[0]?.path;
     let text = '';
     if (path) {
       text = await cachedFetch(path)
-        .then((textRes) => textRes.data)
+        .then((textRes) => textRes)
         .catch((e) => {
           if (process.env.NODE_ENV === 'development') {
             console.log('Error fetching formatted text: ', e.message, ' path: ', path); // eslint-disable-line no-console
+          }
+        });
+    }
+
+    return text || '';
+  });
+
+  const formattedJsonPromises = formattedJsonFilesetIds.map(async (id) => {
+    const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
+      process.env.DBP_API_KEY
+    }&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_JSON}`;
+    const res = await cachedFetch(url).catch((e) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Error in request for formatted JSON fileset: ', e); // eslint-disable-line no-console
+      }
+    });
+    const path = res?.data[0]?.path;
+    let text = '';
+    if (path) {
+      text = await cachedFetch(path)
+        .then((textRes) => JSON.stringify(textRes))
+        .catch((e) => {
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Error fetching formatted JSON text: ', e.message, ' path: ', path); // eslint-disable-line no-console
           }
         });
     }
@@ -73,6 +102,7 @@ export default async ({
       });
   }
   const formattedText = await Promise.all(formattedPromises);
+  const formattedJsonText = await Promise.all(formattedJsonPromises);
 
   /* eslint-enable */
   // Return a default object in the case that none of the api calls work
@@ -80,5 +110,6 @@ export default async ({
     plainText,
     plainTextJson,
     formattedText: formattedText[0] || '',
+    formattedJsonText: formattedJsonText[0] || '',
   };
 };

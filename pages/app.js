@@ -41,6 +41,7 @@ import hasFilesetVideo from '../app/utils/hasFilesetVideo';
 import removeStoriesFilesets from '../app/utils/removeStoriesFilesets';
 import {
   FILESET_TYPE_TEXT_PLAIN,
+  FILESET_TYPE_TEXT_JSON,
   FILESET_TYPE_TEXT_FORMAT,
   FILESET_TYPE_AUDIO_DRAMA,
   FILESET_TYPE_AUDIO,
@@ -130,8 +131,7 @@ function AppContainer(props) {
     const redLetter =
       !!props.formattedText &&
       !!(
-        props.formattedText.includes('class="wj"') ||
-        props.formattedText.includes("class='wj'")
+        props.formattedText.includes('usfm:wj')
       );
     props.dispatch({
       type: 'GET_INITIAL_ROUTE_STATE_SETTINGS',
@@ -139,8 +139,8 @@ function AppContainer(props) {
       crossReferences:
         !!props.formattedText &&
         !!(
-          props.formattedText.includes('class="ft"') ||
-          props.formattedText.includes('class="xt"')
+          props.formattedText.includes('usfm:ft') ||
+          props.formattedText.includes('usfm:xt')
         ),
     });
     props.dispatch(setChapterTextLoadingState({ state: false }));
@@ -416,6 +416,7 @@ AppContainer.getInitialProps = async (context) => {
     audio_drama: true,
     audio: true,
     text_plain: true,
+    text_json: true,
     text_format: true,
     video_stream: true,
   };
@@ -456,6 +457,12 @@ AppContainer.getInitialProps = async (context) => {
   }, []);
   const formattedFilesetIds = filesets.reduce((formattedFilesetResult, fileset) => {
     if (fileset.type === FILESET_TYPE_TEXT_FORMAT) {
+      formattedFilesetResult.push(fileset.id);
+    }
+    return formattedFilesetResult;
+  }, []);
+  const formattedJsonFilesetIds = filesets.reduce((formattedFilesetResult, fileset) => {
+    if (fileset.type === FILESET_TYPE_TEXT_JSON) {
       formattedFilesetResult.push(fileset.id);
     }
     return formattedFilesetResult;
@@ -561,6 +568,7 @@ AppContainer.getInitialProps = async (context) => {
       chapter,
       plainFilesetIds,
       formattedFilesetIds,
+      formattedJsonFilesetIds,
       audioType,
     }).catch((err) => {
       if (process.env.NODE_ENV === 'development') {
@@ -661,6 +669,7 @@ AppContainer.getInitialProps = async (context) => {
         chapterText,
         testaments,
         formattedSource: initData.formattedText,
+        formattedJsonSource: initData.formattedJsonText,
         activeFilesets: filesets,
         changingVersion: false,
         books: bookData || [],
