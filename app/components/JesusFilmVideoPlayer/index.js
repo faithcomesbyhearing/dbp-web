@@ -4,438 +4,234 @@
  *
  */
 
-import React from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
+import Hls from 'hls.js';
+
 import VideoControls from '../VideoControls';
 import VideoProgressBar from '../VideoProgressBar';
 import VideoOverlay from '../VideoOverlay';
 
-class JesusFilmVideoPlayer extends React.PureComponent {
-	constructor(props) {
-		super(props);
-		// eslint-disable-line react/prefer-stateless-function
-		this.state = {
-			paused: true,
-			volume: 1,
-			currentTime: 0,
-			bufferLength: 0,
-			hlsSupported: true,
+function JesusFilmVideoPlayer({
+	hlsStream,
+	duration,
+	hasVideo,
+	apiKey, // inject via prop instead of hard-coding process.env
+	onError, // optional callback
+}) {
+	const videoRef = useRef(null);
+	const router = useRouter();
+
+	// --- state ---
+	const [paused, setPaused] = useState(true);
+	const [volume, setVolume] = useState(1);
+	const [currentTime, setCurrentTime] = useState(0);
+	const [bufferedEnd, setBufferedEnd] = useState(0);
+	const [hlsSupported, setHlsSupported] = useState(true);
+
+	// --- HLS instance and cleanup ---
+	const hlsRef = useRef(null);
+	const destroyHls = useCallback(() => {
+		if (hlsRef.current) {
+			hlsRef.current.destroy();
+			hlsRef.current = null;
+		}
+	}, []);
+
+	// --- initialize HLS / native src on mount / when hlsStream changes ---
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video) return;
+
+		const srcWithKey = `${hlsStream}?key=${apiKey}&v=4`;
+
+		if (Hls.isSupported()) {
+			const hls = new Hls();
+			hlsRef.current = hls;
+			hls.attachMedia(video);
+			hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+				hls.loadSource(srcWithKey);
+			});
+			hls.on(Hls.Events.MANIFEST_PARSED, () => {
+				// user must tap/click once on mobile before autoplay is allowed
+				video.addEventListener('click', play);
+				video.addEventListener('touchstart', play);
+			});
+		} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+			video.src = srcWithKey;
+			video.addEventListener('loadedmetadata', () => {
+				video.addEventListener('click', play);
+				video.addEventListener('touchstart', play);
+			});
+		} else {
+			setHlsSupported(false);
+		}
+
+		return () => {
+			destroyHls();
+			// remove play listeners in case we added them
+			video.removeEventListener('click', play);
+			video.removeEventListener('touchstart', play);
 		};
-	}
+	}, [hlsStream, apiKey, destroyHls]);
 
-	componentDidMount() {
-		if (this.videoRef) {
-			this.getHls();
-			this.videoRef.addEventListener(
-				'webkitendfullscreen',
-				this.webkitendfullscreen,
-				false,
-			);
-			Router.router.events.on('routeChangeStart', this.handleRouteChange);
-		}
-		document.addEventListener('keypress', this.pauseWithSpacebar);
-	}
+	// --- pause & cleanup on route change ---
+	useEffect(() => {
+		const handleRouteChange = () => {
+			destroyHls();
+			videoRef.current?.pause();
+			setPaused(true);
+		};
+		router.events.on('routeChangeStart', handleRouteChange);
+		return () => {
+			router.events.off('routeChangeStart', handleRouteChange);
+		};
+	}, [router.events, destroyHls]);
 
-	componentWillUnmount() {
-		if (this.hls && this.hls.media) {
-			this.hls.media.removeEventListener(
-				'timeupdate',
-				this.timeUpdateEventListener,
-			);
-			this.hls.media.removeEventListener('seeking', this.seekingEventListener);
-			this.hls.media.removeEventListener('seeked', this.seekedEventListener);
-			this.hls.detachMedia();
-			this.hls.stopLoad();
-			this.hls.destroy();
-		}
-		if (this.videoRef) {
-			this.videoRef.removeEventListener(
-				'timeupdate',
-				this.timeUpdateEventListener,
-			);
-			this.videoRef.removeEventListener('seeking', this.seekingEventListener);
-			this.videoRef.removeEventListener('seeked', this.seekedEventListener);
-			this.videoRef.removeEventListener(
-				'webkitendfullscreen',
-				this.webkitendfullscreen,
-			);
-		}
-
-		document.removeEventListener('keypress', this.pauseWithSpacebar);
-		Router.router.events.off('routeChangeStart', this.handleRouteChange);
-	}
-
-	webkitendfullscreen = () => {
-		this.pauseVideo();
-	};
-
-	getHls = async () => {
-		const hls = await import('hls.js');
-
-		this.Hls = hls.default;
-		this.isSupported = hls.isSupported;
-
-		if (this.videoRef) {
-			this.checkHlsSupport();
-			this.initVideoStream();
-		}
-	};
-
-	setVideoRef = (el) => {
-		this.videoRef = el;
-	};
-
-	setBuffer = () => {
-		// Can accept current time as the first parameter
-		if (this.hls && this.hls.media) {
-			const buf = this.hls.media.buffered;
-			if (buf && buf.length) {
-				this.setState({ bufferLength: buf.end(buf.length - 1) });
+	// --- spacebar toggles play/pause ---
+	useEffect(() => {
+		const onKeydown = (e) => {
+			if (e.code === 'Space' && document.activeElement === videoRef.current) {
+				e.preventDefault();
+				togglePlay();
 			}
+		};
+		window.addEventListener('keydown', onKeydown);
+		return () => window.removeEventListener('keydown', onKeydown);
+	}, [togglePlay]);
+
+	// --- unified time/seek/buffer update ---
+	const onTimeOrBufferUpdate = useCallback(() => {
+		const video = videoRef.current;
+		if (!video) return;
+		setCurrentTime(video.currentTime);
+		const buffered = video.buffered;
+		if (buffered.length) {
+			setBufferedEnd(buffered.end(buffered.length - 1));
 		}
-	};
+	}, []);
 
-	setCurrentTime = (time) => {
-		if (this.hls.media) {
-			this.hls.media.currentTime = time;
-			this.setState({ currentTime: time });
-		} else {
-			this.videoRef.currentTime = time;
-			this.setState({ currentTime: time });
-		}
-	};
-
-	handleRouteChange = () => {
-		if (this.hls) {
-			this.hls.destroy();
-		}
-		if (this.videoRef) {
-			this.pauseVideo();
-		}
-	};
-
-	togglePlayState = () => {
-		const { paused } = this.state;
-
-		if (paused) {
-			this.playVideo();
-		} else {
-			this.pauseVideo();
-		}
-	};
-
-	checkHlsSupport = () => {
-		if (typeof this.isSupported === 'function') {
-			this.setState({
-				hlsSupported: this.isSupported(),
-			});
-		} else {
-			this.setState({
-				hlsSupported: false,
-			});
-		}
-	};
-
-	initHls = () => {
-		// Destroying the old hls stream so that there aren't artifacts leftover in the new stream
-		if (this.hls) {
-			this.hls.destroy();
-		}
-		this.hls = new this.Hls();
-		this.hls.on(this.Hls.Events.ERROR, (event, data) => {
-			if (data.fatal) {
-				switch (data.type) {
-					case this.Hls.ErrorTypes.NETWORK_ERROR:
-						// All retries and media options have been exhausted.
-						// Immediately trying to restart loading could cause loop loading.
-						if (process.env.NODE_ENV === 'development') {
-							console.error('fatal network error encountered', data); // eslint-disable-line no-console
-						}
-						break;
-					case this.Hls.ErrorTypes.MEDIA_ERROR:
-						this.hls.recoverMediaError();
-						break;
-					default:
-						this.hls.destroy();
-						break;
-				}
-			}
-		});
-	};
-
-	initVideoStream = () => {
-		const { hlsSupported } = this.state;
-		const { hlsStream } = this.props;
-
-		if (
-			!hlsSupported ||
-			this.videoRef.canPlayType('application/vnd.apple.mpegurl')
-		) {
-			this.videoRef.src = `${hlsStream}?key=${
-				process.env.DBP_API_KEY
-			}&v=4`;
-			// console.log('initVideo: new source', `${hlsStream}?key=${
-			// 	process.env.DBP_API_KEY
-			// }&v=4`);
-			this.videoRef.addEventListener(
-				'timeupdate',
-				this.timeUpdateEventListener,
-			);
-			this.videoRef.addEventListener('seeking', this.seekingEventListener);
-			this.videoRef.addEventListener('seeked', this.seekedEventListener);
-		} else {
-			// Create the hls stream first
-			this.initHls();
-			try {
-				// Check for the video element
-				if (this.videoRef) {
-					// Make sure that there is a valid source
-					if (hlsStream) {
-						this.hls.attachMedia(this.videoRef);
-						this.hls.loadSource(
-							`${hlsStream}?key=${
-								process.env.DBP_API_KEY
-							}&v=4`,
-						);
-						this.hls.media.addEventListener(
-							'timeupdate',
-							this.timeUpdateEventListener,
-						);
-						this.hls.media.addEventListener(
-							'seeking',
-							this.seekingEventListener,
-						);
-						this.hls.media.addEventListener('seeked', this.seekedEventListener);
-						this.hls.on(this.Hls.Events.MANIFEST_PARSED, () => {
-							this.hls.media.play();
-							const playPromise = this.hls.media.play();
-							if (playPromise) {
-								playPromise
-									.then(() => {
-										// console.log('initVideo: pause false init')
-										this.setState({ paused: false });
-									})
-									.catch((err) => {
-										this.setState({ paused: true });
-										if (process.env.NODE_ENV === 'development') {
-											console.error('initVideo: Error in play promise', err); // eslint-disable-line no-console
-										}
-									});
-							}
-							// this.setState({ paused: false });
-						});
-						this.hls.on(this.Hls.Events.BUFFER_APPENDING, () => {
-							this.setBuffer();
-						});
-					}
-				}
-			} catch (err) {
-				if (process.env.NODE_ENV === 'development') {
-					console.error('initVideo: initVideoStream', err); // eslint-disable-line no-console
-				}
-			}
-		}
-	};
-
-	timeUpdateEventListener = (e) => {
-		this.setState({
-			currentTime: e.target.currentTime,
-		});
-	};
-
-	seekingEventListener = (e) => {
-		this.setState({
-			currentTime: e.target.currentTime,
-		});
-	};
-
-	seekedEventListener = (e) => {
-		this.setState({
-			currentTime: e.target.currentTime,
-		});
-	};
-
-	playVideo = () => {
-		const { hlsSupported } = this.state;
-		const { hlsStream } = this.props;
-
-		if (
-			!hlsSupported ||
-			this.videoRef.canPlayType('application/vnd.apple.mpegurl')
-		) {
-			if (
-				this.videoRef.src ===
-				`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4`
-			) {
-				const playPromise = this.videoRef.play();
-				if (playPromise) {
-					playPromise
-						.then(() => {
-							// console.log('playVideo: pause false no hls')
-							this.setState({ paused: false });
-						})
-						.catch((err) => {
-							this.setState({ paused: true });
-							if (process.env.NODE_ENV === 'development') {
-								console.error('playVideo: no hls error', err); // eslint-disable-line no-console
-							}
-						});
-				}
-				// if the sources didn't match then this is a new video and the hls stream needs to be updated
-			} else {
-				// Init a new hls stream
-				this.initVideoStream();
-			}
-		} else {
-			try {
-				// if the current video has a source (initial load may be an empty object)
-				if (hlsStream) {
-					// if there is already an hls stream and that streams url is equal to this videos source then play the video
-					if (
-						this.hls.media &&
-						this.hls.url ===
-							`${hlsStream}?key=${process.env.DBP_API_KEY}&v=4`
-					) {
-						const playPromise = this.hls.media.play();
-						if (playPromise) {
-							playPromise
-								.then(() => {
-									// console.log('playVideo: playing video');
-									this.setState({ paused: false });
-								})
-								.catch((err) => {
-									this.setState({ paused: true });
-									if (process.env.NODE_ENV === 'development') {
-										console.error('playVideo: hls error', err); // eslint-disable-line no-console
-									}
-								});
-						}
-						// console.log('playVideo: pause false has hls play video')
-						// if the sources didn't match then this is a new video and the hls stream needs to be updated
-					} else {
-						// Stop the current player from loading anymore video
-						this.hls.stopLoad();
-						// Remove the old hls stream
-						this.hls.destroy();
-						// Init a new hls stream
-						this.initVideoStream();
-					}
-				}
-			} catch (err) {
-				if (process.env.NODE_ENV === 'development') {
-					console.error('playVideo: caught in playVideo', err); // eslint-disable-line no-console
-				}
-			}
-		}
-	};
-
-	pauseWithSpacebar = (e) => {
-		if (e.key === ' ') {
-			this.togglePlayState();
-		}
-	};
-
-	pauseVideo = () => {
-		this.videoRef.pause();
-		this.setState({ paused: true });
-	};
-
-	updateVolume = (volume) => {
-		this.videoRef.volume = volume;
-		this.setState({ volume });
-	};
-
-	toggleFullScreen = () => {
-		const isFullScreen = !!(
-			document.fullScreen ||
-			document.webkitIsFullScreen ||
-			document.mozFullScreen ||
-			document.msFullscreenElement ||
-			document.fullscreenElement
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video) return;
+		['timeupdate', 'seeking', 'seeked', 'progress'].forEach((evt) =>
+			video.addEventListener(evt, onTimeOrBufferUpdate),
 		);
-
-		if (isFullScreen) {
-			if (document.exitFullscreen) {
-				document.exitFullscreen();
-			} else if (document.mozCancelFullScreen) {
-				document.mozCancelFullScreen();
-			} else if (document.webkitCancelFullScreen) {
-				document.webkitCancelFullScreen();
-			} else if (document.msExitFullscreen) {
-				document.msExitFullscreen();
-			}
-		} else if (this.videoRef) {
-			if (this.videoRef.requestFullscreen) {
-				this.videoRef.requestFullscreen();
-			} else if (this.videoRef.mozRequestFullScreen) {
-				this.videoRef.mozRequestFullScreen();
-			} else if (this.videoRef.webkitRequestFullScreen) {
-				this.videoRef.webkitRequestFullScreen();
-			} else if (this.videoRef.msRequestFullscreen) {
-				this.videoRef.msRequestFullscreen();
-			}
-		}
-	};
-
-	render() {
-		const { volume, paused, currentTime, bufferLength } = this.state;
-		const { hasVideo, hlsStream, duration } = this.props;
-		// console.log('hlsStream', hlsStream, 'duration', duration);
-		// Don't render anything if there is no video for the chapter
-		if (!hasVideo || !hlsStream) {
-			return (
-				<div
-					key={'video-player-container'}
-					className={'video-player-container jesus-film-override'}
-				>
-					<h2>
-						Something went wrong. Please refresh the page or go back to try
-						again!
-					</h2>
-				</div>
+		return () => {
+			['timeupdate', 'seeking', 'seeked', 'progress'].forEach((evt) =>
+				video.removeEventListener(evt, onTimeOrBufferUpdate),
 			);
+		};
+	}, [onTimeOrBufferUpdate]);
+
+	// --- play/pause controls ---
+	const play = useCallback(() => {
+		const video = videoRef.current;
+		if (!video) return;
+		const promise = video.play();
+		if (promise !== undefined) {
+			promise
+				.then(() => setPaused(false))
+				.catch((err) => {
+					setPaused(true);
+					if (onError) onError(err);
+					// in dev you might still log:
+					if (process.env.NODE_ENV === 'development') {
+						console.warn('Playback error', err); // eslint-disable-line no-console
+					}
+				});
 		}
-		/* eslint-disable jsx-a11y/media-has-caption */
+	}, [onError]);
+
+	const pause = useCallback(() => {
+		videoRef.current?.pause();
+		setPaused(true);
+	}, []);
+
+	const togglePlay = useCallback(() => {
+		paused ? play() : pause();
+	}, [paused, play, pause]);
+
+	// --- volume & seeking API ---
+	const changeVolume = useCallback((vol) => {
+		if (videoRef.current) {
+			videoRef.current.volume = vol;
+			setVolume(vol);
+		}
+	}, []);
+
+	const seekTo = useCallback((time) => {
+		if (videoRef.current) {
+			videoRef.current.currentTime = time;
+			setCurrentTime(time);
+		}
+	}, []);
+
+	// --- fullscreen ---
+	const toggleFullScreen = useCallback(() => {
+		const video = videoRef.current;
+		if (!video) return;
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+		} else if (video.requestFullscreen) {
+			video.requestFullscreen();
+		}
+	}, []);
+
+	// --- render fallback if no HLS support or missing props ---
+	if (!hasVideo || !hlsStream || !hlsSupported) {
 		return (
-			<div
-				key={'video-player-container'}
-				className={'video-player-container jesus-film-override'}
-			>
-				<div className={'video-player'}>
-					<VideoOverlay
-						paused={paused}
-						playFunction={this.playVideo}
-						pauseFunction={this.pauseVideo}
-						togglePlayState={this.togglePlayState}
-						isJesusFilm
-					/>
-					<video ref={this.setVideoRef} onClick={this.togglePlayState} />
-					<VideoProgressBar
-						paused={paused}
-						currentTime={currentTime}
-						duration={duration}
-						setCurrentTime={this.setCurrentTime}
-						bufferLength={bufferLength}
-					/>
-					<VideoControls
-						paused={paused}
-						pauseVideo={this.pauseVideo}
-						toggleFullScreen={this.toggleFullScreen}
-						updateVolume={this.updateVolume}
-						volume={volume}
-					/>
-				</div>
+			<div className="video-player-container jesus-film-override">
+				<h2>
+					Something went wrong. Please refresh the page or go back to try again!
+				</h2>
 			</div>
 		);
-		/* eslint-enable jsx-a11y/media-has-caption */
 	}
+
+	return (
+		<div className="video-player-container jesus-film-override">
+			<div className="video-player">
+				<VideoOverlay
+					paused={paused}
+					playFunction={play}
+					pauseFunction={pause}
+					togglePlayState={togglePlay}
+					isJesusFilm
+				/>
+				{/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+				<video
+					ref={videoRef}
+					onClick={togglePlay}
+					playsInline
+					style={{ width: '100%' }}
+				/>
+				<VideoProgressBar
+					paused={paused}
+					currentTime={currentTime}
+					duration={duration}
+					bufferLength={bufferedEnd}
+					setCurrentTime={seekTo}
+				/>
+				<VideoControls
+					paused={paused}
+					pauseVideo={pause}
+					toggleFullScreen={toggleFullScreen}
+					updateVolume={changeVolume}
+					volume={volume}
+				/>
+			</div>
+		</div>
+	);
 }
 
 JesusFilmVideoPlayer.propTypes = {
 	hlsStream: PropTypes.string.isRequired,
 	duration: PropTypes.number.isRequired,
 	hasVideo: PropTypes.bool.isRequired,
+	apiKey: PropTypes.string.isRequired,
+	onError: PropTypes.func,
 };
 
 export default JesusFilmVideoPlayer;
