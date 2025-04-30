@@ -83,7 +83,7 @@ export class VersionList extends React.PureComponent {
         video.push(b);
       } else if (
         (b.types.audio_drama || b.types.audio) &&
-        (b.types.text_plain || b.types.text_format)
+        (b.types.text_plain || b.types.text_json || b.types.text_format)
       ) {
         audioAndText.push(b);
       } else if (b.types.audio_drama || b.types.audio) {

@@ -13,6 +13,8 @@ const selectHomepageText = (state) => state.getIn(['homepage', 'chapterText']);
 const selectProfilePageDomain = (state) => state.get('profile');
 const selectFormattedTextSource = (state) =>
 	state.getIn(['homepage', 'formattedSource']);
+const selectChapterDataFromState = (state) =>
+	state.getIn(['homepage', 'formattedJsonSource']);
 const selectCrossReferenceState = (state) =>
 	state.getIn([
 		'settings',
@@ -26,7 +28,9 @@ const selectAudioType = () =>
 const selectAvailableAudioTypes = () =>
 	createSelector(selectHomePageDomain, (home) => {
 		const availableAudioTypes = home.get('availableAudioTypes');
-		return Array.isArray(availableAudioTypes) ? availableAudioTypes : availableAudioTypes.toJS();
+		return Array.isArray(availableAudioTypes)
+			? availableAudioTypes
+			: availableAudioTypes.toJS();
 	});
 const selectNotes = (state) => state.get('notes');
 const selectActiveNotesView = () =>
@@ -45,23 +49,25 @@ const selectUserNotes = () =>
 			// TODO: Fix this once the api is functioning properly
 			// Should not need to filter because I am requesting only the notes/bookmarks for this chapter
 			const filteredNotes = notes
-				? notes.get('userNotes')
-					.filter(
-						(note) =>
-							note.get('book_id') === bookId &&
-							note.get('chapter') === chapter &&
-							note.get('bible_id') === activeTextId,
-					)
+				? notes
+						.get('userNotes')
+						.filter(
+							(note) =>
+								note.get('book_id') === bookId &&
+								note.get('chapter') === chapter &&
+								note.get('bible_id') === activeTextId,
+						)
 				: null;
 
 			const filteredBookmarks = notes
-				? notes.get('chapterBookmarks')
-					.filter(
-						(note) =>
-							note.get('book_id') === bookId &&
-							note.get('chapter') === chapter &&
-							note.get('bible_id') === activeTextId,
-					)
+				? notes
+						.get('chapterBookmarks')
+						.filter(
+							(note) =>
+								note.get('book_id') === bookId &&
+								note.get('chapter') === chapter &&
+								note.get('bible_id') === activeTextId,
+						)
 				: null;
 			const bookmarks = filteredBookmarks?.toJS
 				? filteredBookmarks.toJS()
@@ -102,7 +108,9 @@ const selectUserNotes = () =>
 				if (verse) {
 					// Need to change this since the notes will be allowed to be null
 					// Eventually there will be two separate calls so I can have two piece of state
-					const verseTextStart = isImmutable(verse) ? verse.get('verse_start') : verse.verse_start;
+					const verseTextStart = isImmutable(verse)
+						? verse.get('verse_start')
+						: verse.verse_start;
 					if (n.get('notes') && !versesWithNotes[verseTextStart]) {
 						newText = newText.size
 							? newText.setIn([iToSet, 'hasNote'], true)
@@ -118,7 +126,9 @@ const selectUserNotes = () =>
 				let iToSet = 0;
 				const verse = text.find((t, i) => {
 					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
-					const bookmarkVerseStart = bookmark.get ? bookmark.get('verse') : n.verse;
+					const bookmarkVerseStart = bookmark.get
+						? bookmark.get('verse')
+						: n.verse;
 
 					if (parseInt(textVerseStart, 10) === bookmarkVerseStart) {
 						iToSet = i;
@@ -166,6 +176,25 @@ const selectAuthenticationStatus = () =>
 	createDeepEqualSelector(selectProfilePageDomain, (profile) =>
 		profile.get('userAuthenticated'),
 	);
+
+const selectChapterJson = () =>
+	createDeepEqualSelector(selectChapterDataFromState, (rawData) => {
+		// ... (Parsing and validation logic as in previous responses)
+		if (!rawData) return null;
+		try {
+			const jsonData =
+				typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+			// Add validation if needed
+			if (!jsonData?.sequence || !Array.isArray(jsonData.sequence.blocks)) {
+				console.error('Invalid chapter JSON structure:', jsonData); // eslint-disable-line no-console
+				return null;
+			}
+			return jsonData;
+		} catch (error) {
+			console.error('Failed to parse chapter JSON:', error); // eslint-disable-line no-console
+			return null;
+		}
+	});
 // TODO: Reduce the number of times the below function is called
 // I will likely want to put all manipulations to the formatted text into this selector
 const selectFormattedSource = () =>
@@ -241,6 +270,7 @@ export {
 	selectHomePageDomain,
 	selectSettings,
 	selectFormattedSource,
+	selectChapterJson,
 	selectMenuOpenState,
 	selectAuthenticationStatus,
 	selectUserId,
