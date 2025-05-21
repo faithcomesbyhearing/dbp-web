@@ -47,7 +47,7 @@ export function itemsParser(
 	scrubbedBibles.forEach((b) => {
 		if (
 			(b.types.audio_drama || b.types.audio) &&
-			(b.types.text_plain || b.types.text_format)
+			(b.types.text_plain || b.types.text_json || b.types.text_format)
 		) {
 			audioAndText.push(b);
 		} else if (b.types.audio_drama || b.types.audio) {
@@ -120,13 +120,13 @@ export async function getTexts({ languageCode }) {
 			(text) =>
 				text.iso &&
 				text.abbr &&
-				(text.filesets &&
-					text.filesets.find(
+				(text.filesets?.find(
 						(f) =>
 							f.type === 'audio' ||
 							f.type === 'audio_drama' ||
 							f.type === 'text_plain' ||
-							f.type === 'text_format',
+							f.type === 'text_format' ||
+							f.type === 'text_json',
 					)),
 		);
 		// Create map of videos for constant time lookup when iterating through the texts
@@ -137,21 +137,23 @@ export async function getTexts({ languageCode }) {
 			...text,
 			filesets: videosMap[text.abbr]
 				? [
-						...text.filesets.filter(
-							(f) =>
-								f.type === 'audio' ||
-								f.type === 'audio_drama' ||
-								f.type === 'text_plain' ||
-								f.type === 'text_format',
-						),
-						...videosMap[text.abbr].filesets,
+					...text.filesets.filter(
+						(f) =>
+							f.type === 'audio' ||
+							f.type === 'audio_drama' ||
+							f.type === 'text_plain' ||
+							f.type === 'text_format' ||
+							f.type === 'text_json',
+					),
+					...videosMap[text.abbr].filesets,
 				  ] || []
 				: text.filesets.filter(
 						(f) =>
 							f.type === 'audio' ||
 							f.type === 'audio_drama' ||
 							f.type === 'text_plain' ||
-							f.type === 'text_format',
+							f.type === 'text_format' ||
+							f.type === 'text_json',
 				  ) || [],
 		}));
 

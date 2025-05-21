@@ -107,6 +107,7 @@ const initialState = fromJS({
 	audioFilesetId: '',
 	plainTextFilesetId: '',
 	formattedTextFilesetId: '',
+	formattedJsonFilesetId: '',
 	activeBookName: '',
 	activeTextName: '',
 	activeNotesView: 'notes',
@@ -251,6 +252,7 @@ function homePageReducer(state = initialState, action = { type: null }) {
 		case 'loadnewchapter':
 			return state
 				.set('hasFormattedText', fromJS(action.hasFormattedText))
+				.set('hasFormattedJson', fromJS(action.hasFormattedJson))
 				.set('hasTextInDatabase', fromJS(action.hasPlainText))
 				.set('hasAudio', fromJS(action.hasAudio))
 				.set('chapterText', fromJS(action.plainText))
@@ -276,9 +278,11 @@ function homePageReducer(state = initialState, action = { type: null }) {
 					action.hasPlainText,
 				)
 				.set('formattedTextFilesetId', action.formattedTextFilesetId)
+				.set('formattedJsonFilesetId', action.formattedJsonFilesetId)
 				.set('plainTextFilesetId', action.plainTextFilesetId)
 				.set('activeVerse', action.verse)
-				.set('formattedSource', fromJS(action.formattedText));
+				.set('formattedSource', fromJS(action.formattedText))
+				.set('formattedJsonSource', fromJS(action.formattedJson));
 		case 'loadaudio':
 			return state
 				.set('hasAudio', !!action.audioPaths[0])

@@ -99,6 +99,13 @@ function JesusFilm({
 				hlsStream={hlsStream}
 				duration={duration}
 				hasVideo
+				apiKey={process.env.DBP_API_KEY}
+				onError={() => {
+					// eslint-disable-next-line no-alert
+					alert(
+						'There was an error loading the video. Please try again later.',
+					);
+				}}
 			/>
 			<div className={'footer-background'} />
 		</div>

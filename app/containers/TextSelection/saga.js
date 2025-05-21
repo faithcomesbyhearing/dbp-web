@@ -144,6 +144,7 @@ export function* getTexts({ languageCode, languageIso }) {
       audio_drama: true,
       text_plain: true,
       text_format: true,
+      text_json: true,
       video_stream: true,
     };
     // If there is a Jesus film then add it to the array of Bibles

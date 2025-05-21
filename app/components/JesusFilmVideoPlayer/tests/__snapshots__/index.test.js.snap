@@ -1,6 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<JesusFilmVideoPlayer /> component tests Should match snapshot with default props 1`] = `
+exports[`<JesusFilmVideoPlayer /> renders fallback UI when no hasVideo 1`] = `
+<div
+  className="video-player-container jesus-film-override"
+>
+  <h2>
+    Something went wrong. Please refresh the page or go back to try again!
+  </h2>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> renders fallback UI when no hlsStream & no hasVideo 1`] = `
+<div
+  className="video-player-container jesus-film-override"
+>
+  <h2>
+    Something went wrong. Please refresh the page or go back to try again!
+  </h2>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> renders fallback UI when no hlsStream 1`] = `
+<div
+  className="video-player-container jesus-film-override"
+>
+  <h2>
+    Something went wrong. Please refresh the page or go back to try again!
+  </h2>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> renders main UI when hasVideo & hlsStream 1`] = `
 <div
   className="video-player-container jesus-film-override"
 >
@@ -33,6 +63,12 @@ exports[`<JesusFilmVideoPlayer /> component tests Should match snapshot with def
     </div>
     <video
       onClick={[Function]}
+      playsInline={true}
+      style={
+        {
+          "width": "100%",
+        }
+      }
     />
     <div
       className="progress-slider hide-progress-slider"
@@ -228,15 +264,5 @@ exports[`<JesusFilmVideoPlayer /> component tests Should match snapshot with def
       </div>
     </div>
   </div>
-</div>
-`;
-
-exports[`<JesusFilmVideoPlayer /> component tests Should match snapshot with no hls stream 1`] = `
-<div
-  className="video-player-container jesus-film-override"
->
-  <h2>
-    Something went wrong. Please refresh the page or go back to try again!
-  </h2>
 </div>
 `;

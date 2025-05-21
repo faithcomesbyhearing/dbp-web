@@ -33,14 +33,14 @@ const getFirstChapterReference = (
       (fileset.size === 'OT' ||
         fileset.size === 'OTP' ||
         fileset.size === 'C') &&
-      (fileset.type === 'text_plain' || fileset.type === 'text_format'),
+      (fileset.type === 'text_plain' || fileset.type === 'text_json' || fileset.type === 'text_format'),
   );
   const hasNtText = filesets.some(
     (fileset) =>
       (fileset.size === 'NT' ||
         fileset.size === 'NTP' ||
         fileset.size === 'C') &&
-      (fileset.type === 'text_plain' || fileset.type === 'text_format'),
+      (fileset.type === 'text_plain' || fileset.type === 'text_json' || fileset.type === 'text_format'),
   );
   let reference = '';
 
@@ -70,7 +70,7 @@ const getFirstChapterReference = (
     const textFormat = filesets.find(
       (fileset) =>
         (fileset.size === 'NT' || fileset.size === 'NTP' || fileset.size === 'C') &&
-        fileset.type === 'text_format',
+        (fileset.type === 'text_json' || fileset.type === 'text_format'),
     );
     const textPlain = filesets.find(
       (fileset) =>
@@ -105,7 +105,7 @@ const getFirstChapterReference = (
         (fileset.size === 'OT' ||
           fileset.size === 'OTP' ||
           fileset.size === 'C') &&
-        fileset.type === 'text_format',
+        (fileset.type === 'text_json' || fileset.type === 'text_format'),
     );
     const textPlain = filesets.find(
       (fileset) =>
@@ -180,7 +180,7 @@ const getFirstChapterReference = (
     const textFormat = filesets.find(
       (fileset) =>
         (fileset.size === 'NT' || fileset.size === 'NTP' || fileset.size === 'C') &&
-        fileset.type === 'text_format',
+        (fileset.type === 'text_json' || fileset.type === 'text_format'),
     );
     const textPlain = filesets.find(
       (fileset) =>
@@ -206,7 +206,7 @@ const getFirstChapterReference = (
         (fileset.size === 'OT' ||
           fileset.size === 'OTP' ||
           fileset.size === 'C') &&
-        fileset.type === 'text_format',
+        (fileset.type === 'text_json' || fileset.type === 'text_format'),
     );
     const textPlain = filesets.find(
       (fileset) =>

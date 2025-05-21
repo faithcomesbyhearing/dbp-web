@@ -2,6 +2,7 @@ const codes = {
 	audio: true,
 	audio_drama: true,
 	text_plain: true,
+	text_json: true,
 	text_format: true,
 	video_stream: true,
 	NT: true,

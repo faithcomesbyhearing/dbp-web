@@ -23,7 +23,7 @@ const addHighlightUtil = ({
 	userId,
 	text,
 	highlights,
-	formattedSource,
+	hasFormattedSource,
 	userSettings,
 	activeTextId,
 	activeBookId,
@@ -160,7 +160,7 @@ const addHighlightUtil = ({
 			let anchorOffset = offset < focusOffset ? offset : focusOffset;
 			let anchorText = offset < focusOffset ? aText : focusText;
 			let node = aNode;
-			if (formattedSource.main) {
+			if (hasFormattedSource) {
 				if (aText !== focusText) {
 					// if nodes are different
 					// I have access to the parent node
@@ -270,10 +270,10 @@ const addHighlightUtil = ({
 			// Not so sure about this, seems like in theory it should give me the node closest to the beginning but idk
 			let highlightStart = 0;
 			let highlightedWords = 0;
-			const dist = calcDistance(lastVerse, firstVerse, !!formattedSource.main);
+			const dist = calcDistance(lastVerse, firstVerse, hasFormattedSource);
 			// Also need to check for class="v" to ensure that this was the first verse
 			if (
-				formattedSource.main &&
+				hasFormattedSource &&
 				!userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
 				!userSettings.getIn(['toggleOptions', 'oneVersePerLine', 'active'])
 			) {
