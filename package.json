@@ -327,7 +327,7 @@
     "redux-mock-store": "^1.5.3",
     "regenerator-runtime": "^0.13.11",
     "rimraf": "^5.0.0",
-    "sass": "1.63.6",
+    "sass": "1.89.0",
     "sass-loader": "13.3.2",
     "shelljs": "^0.8.3",
     "style-loader": "3.3.3",
