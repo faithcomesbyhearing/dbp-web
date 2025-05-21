@@ -19,8 +19,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import cachedFetch, { overrideCache } from '../app/utils/cachedFetch';
+import { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
 import getValidFilesetsByBook from '../app/utils/getValidFilesetsByBook';
@@ -37,6 +36,7 @@ import reconcilePersistedState from '../app/utils/reconcilePersistedState';
 import REDUX_PERSIST from '../app/utils/reduxPersist';
 import getBookMetaData from '../app/utils/getBookMetaData';
 import geFilesetsForBible from '../app/utils/geFilesetsForBible';
+import fetchBibleData from '../app/utils/fetchBibleData';
 import hasFilesetVideo from '../app/utils/hasFilesetVideo';
 import removeStoriesFilesets from '../app/utils/removeStoriesFilesets';
 import {
@@ -46,7 +46,6 @@ import {
   FILESET_TYPE_AUDIO_DRAMA,
   FILESET_TYPE_AUDIO,
 } from '../app/constants/bibleFileset';
-import Bugsnag from '../app/utils/bugsnagClient';
 
 function AppContainer(props) {
   const router = useRouter();
@@ -388,28 +387,7 @@ AppContainer.getInitialProps = async (context) => {
     initialPlaybackRate = cookieData.bible_is_playbackrate || 1;
   }
 
-  const singleBibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${
-    process.env.DBP_API_KEY
-  }&v=4&include_font=false`;
-
-  // Get active bible data
-  const singleBibleRes = await cachedFetch(singleBibleUrl).catch((e) => {
-    console.error('Error in get initial props single bible: ', e.message); // eslint-disable-line no-console
-    if (axios.isAxiosError(e)) {
-      console.error('Error occurred at URL:', e.config.url); // eslint-disable-line no-console
-      Bugsnag.notify(e, (event) => {
-        event.addMetadata('request', {
-          url: e.config.url,
-          method: e.config.method,
-          headers: e.config.headers,
-          params: e.config.params,
-          message: e.message,
-        });
-      });
-    }
-    return { data: {} };
-  });
-  const bible = singleBibleRes.data;
+  const bible = await fetchBibleData(bibleId);
 
   // Acceptable fileset types that the site is capable of ingesting and displaying
   const setTypes = {
@@ -676,14 +654,15 @@ AppContainer.getInitialProps = async (context) => {
         activeChapter: parseInt(chapter, 10) >= 0 ? parseInt(chapter, 10) : 1,
         activeBookName,
         verseNumber: verse,
-        activeTextId: bible.abbr,
-        activeIsoCode: bible.iso || '',
-        defaultLanguageIso: bible.iso || 'eng',
-        activeLanguageName: bible.language || '',
-        activeTextName: bible.vname || bible.name,
-        defaultLanguageName: bible.language || 'English: USA',
-        defaultLanguageCode: bible.language_id || 17045,
-        textDirection: bible.alphabet ? bible.alphabet.direction : 'ltr',
+        activeTextId: bible?.abbr,
+        activeIsoCode: bible?.iso || '',
+        defaultLanguageIso: bible?.iso || 'eng',
+        activeLanguageName: bible?.language || '',
+        activeTextName: bible?.vname || bible?.name,
+        defaultLanguageName: bible?.language || 'English: USA',
+        defaultLanguageCode: bible?.language_id || 17045,
+        bibleFontAvailable: bible?.custom_font_required === true,
+        textDirection: bible?.alphabet ? bible?.alphabet.direction : 'ltr',
         activeBookId: bookId.toUpperCase() || '',
         userId,
         isIe,
@@ -721,6 +700,7 @@ AppContainer.getInitialProps = async (context) => {
     defaultLanguageIso: bible.iso || 'eng',
     defaultLanguageName: bible.language || 'English: USA',
     defaultLanguageCode: bible.language_id || 17045,
+    bibleFontAvailable: bible?.custom_font_required === true,
     activeTextName: bible.vname || bible.name,
     activeBookId: bookId.toUpperCase(),
     userProfile,
