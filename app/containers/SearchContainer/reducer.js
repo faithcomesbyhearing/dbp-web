@@ -28,24 +28,30 @@ const initialState = structuredClone({
 
 function searchContainerReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
-		case ADD_SEARCH_TERM:
-			if (state['lastFiveSearches'].includes(action.searchText.toLowerCase())) {
+		case ADD_SEARCH_TERM: {
+			const term = action.searchText.toLowerCase();
+
+			if (state.lastFiveSearches.includes(term)) {
 				return {
 					...state,
 					loadingResults: true,
 				};
 			}
 
+			// build a brand-new array (never mutate state)
+			const updated = [...state.lastFiveSearches, term];
+
+			// keep only the last 9 entries
+			if (updated.length > 9) {
+				updated.shift();
+			}
+
 			return {
 				...state,
-
-				lastFiveSearches:
-					state['lastFiveSearches'].size > 9
-						? state['lastFiveSearches']
-								.push(action.searchText.toLowerCase())
-								.shift()
-						: state['lastFiveSearches'].push(action.searchText.toLowerCase()),
+				lastFiveSearches: updated,
+				loadingResults: true,
 			};
+		}
 		case GET_SEARCH_RESULTS:
 			return {
 				...state,

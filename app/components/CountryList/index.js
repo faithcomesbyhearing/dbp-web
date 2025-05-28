@@ -43,11 +43,11 @@ class CountryList extends React.PureComponent {
 			? countryArray.filter((country) =>
 					this.filterFunction(country, filterText),
 				)
-			: countries;
+			: countryArray;
 
 		const filteredCountries = filteredCountryMap;
 
-		if (countries.size === 0) {
+		if (countryArray.length === 0) {
 			return (
 				<div className={'country-error-message'}>
 					There was an error fetching this resource, an Admin has been notified.
@@ -97,17 +97,8 @@ class CountryList extends React.PureComponent {
 			);
 		};
 
-		const getActiveIndex = () => 
-			// let activeIndex = 0;
-
-			// filteredCountries.forEach((l, i) => {
-			// 	if (l['name'] === activeCountryName) {
-			// 		activeIndex = i;
-			// 	}
-			// });
-
-			// return activeIndex;
-			 filteredCountries.findIndex((c) => c.name === activeCountryName)
+		const getActiveIndex = () =>
+			filteredCountries.findIndex((c) => c.name === activeCountryName)
 		;
 
 		return filteredCountries.length ? (
@@ -216,22 +207,16 @@ class CountryList extends React.PureComponent {
 	};
 
 	listScrollTop = () =>
-		document && document.getElementById('list-element')
+		document?.getElementById('list-element')
 			? document.getElementById('list-element').scrollTop
 			: 0;
 
 	filterFunction = (country, filterText) => {
 		const lowerCaseText = filterText.toLowerCase();
-
-		if (country?.['codes']?.['iso_a2'].toLowerCase().includes(lowerCaseText)) {
-			return true;
-		} else if (
-			country['name'] !== '' &&
-			country['name'].toLowerCase().includes(lowerCaseText)
-		) {
-			return true;
-		}
-		return false;
+		return (
+			country?.codes?.iso_a2?.toLowerCase().includes(lowerCaseText) ||
+			country?.name?.toLowerCase().includes(lowerCaseText)
+		);
 	};
 
 	handleRef = (el) => {

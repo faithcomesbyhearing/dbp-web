@@ -18,11 +18,10 @@ function SearchResult({ result: r, bibleId }) {
 		>
 			<h4>
 				<Link
-					legacyBehavior
 					as={`/bible/${bibleId}/${r['book_id']}/${r['chapter']}/${r['verse_start']}`}
 					href={`/bible/${bibleId}/${r['book_id']}/${r['chapter']}/${r['verse_start']}`}
 				>
-					<a>{`${r['chapter']}:${r['verse_start']}`}</a>
+					{`${r['chapter']}:${r['verse_start']}`}
 				</Link>
 			</h4>
 			<p>{r['verse_text']}</p>

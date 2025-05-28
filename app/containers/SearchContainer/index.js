@@ -261,19 +261,25 @@ export class SearchContainer extends React.PureComponent {
 
 		return (
 			<div className={'search-results'}>
-				{searchResults && searchResults.size && !showError ? (
-					searchResults.toIndexedSeq().map((res) => (
+				{Object.keys(searchResults).length > 0 && !showError ? (
+					Object.values(searchResults).map((res) => (
 						<div className={'book-result-section'} key={res['name']}>
 							<div className={'header'}>
 								<h1>{res['name']}</h1>
 							</div>
-							{res['results'].map((r) => (
-								<SearchResult
-									bibleId={bibleId}
-									key={`${r['book_id']}${r['chapter']}${r['verse_start']}`}
-									result={r}
-								/>
-							))}
+							{Array.isArray(res['results']) && res['results'].length > 0 ? (
+								res['results'].map((r) => (
+									<SearchResult
+										bibleId={bibleId}
+										key={`${r['book_id']}${r['chapter']}${r['verse_start']}`}
+										result={r}
+									/>
+								))
+							) : (
+								<section className={'no-matches'}>
+									There were no matches for your search
+								</section>
+							)}
 						</div>
 					))
 				) : (

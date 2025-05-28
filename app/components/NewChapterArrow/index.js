@@ -30,27 +30,6 @@ function NewChapterArrow({
 	}
 
 	return (
-		// <Link
-		//   legacyBehavior
-		//   as={getNewUrl({
-		//     ...urlProps,
-		//     isHref: false,
-		//   })}
-		//   href={getNewUrl({
-		//     ...urlProps,
-		//     isHref: true,
-		//   })}
-		// >
-		//   <div
-		//     onClick={clickHandler}
-		//     className={containerClasses || 'arrow-wrapper'}
-		//     title={title || ''}
-		//     id={id || ''}
-		//   >
-		//     <SvgWrapper className={svgClasses || 'arrow-svg'} svgid={svgid} />
-		//     {!!textProps && <FormattedMessage {...textProps} />}
-		//   </div>
-		// </Link>
 		<Link
 			as={getNewUrl({
 				...urlProps,

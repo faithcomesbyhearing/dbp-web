@@ -38,7 +38,7 @@ const selectActiveNote = () =>
 
 const selectNotePassage = () =>
 	createSelector([selectHomepageDomain, selectNotesDomain], (home, notes) => {
-		if (notes['chapterForNote'].size) {
+		if (notes['chapterForNote'].length > 0) {
 			return notes['chapterForNote'].reduce(
 				(passageText, verse) => passageText.concat(verse['verse_text']),
 				'',

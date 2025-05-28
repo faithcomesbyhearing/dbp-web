@@ -5,14 +5,18 @@ exports[`ReadFullChapter component should match previous snapshot 1`] = `
   <div
     class="read-chapter-container"
   >
-    <button
-      class="read-chapter"
-      type="button"
+    <a
+      href="/bible/engesv/gen/1"
     >
-      <span>
-        Read Full Chapter
-      </span>
-    </button>
+      <button
+        class="read-chapter"
+        type="button"
+      >
+        <span>
+          Read Full Chapter
+        </span>
+      </button>
+    </a>
   </div>
 </DocumentFragment>
 `;

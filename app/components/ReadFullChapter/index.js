@@ -19,7 +19,7 @@ function ReadFullChapter({ activeTextId, activeBookId, activeChapter }) {
 	const as = `/bible/${textId}/${bookId}/${chapter}`;
 	return (
 		<div className={'read-chapter-container'}>
-			<Link legacyBehavior href={href} as={as}>
+			<Link href={href} as={as}>
 				<button type={'button'} className={'read-chapter'}>
 					<FormattedMessage {...messages.readFullChapter} />
 				</button>
