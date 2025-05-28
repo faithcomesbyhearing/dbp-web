@@ -22,6 +22,13 @@ jest.mock('../../HomePage/actions', () => ({
 	toggleChapterSelection: jest.fn(),
 }));
 
+// Mock the redux actions
+jest.mock('../../HomePage/actions', () => ({
+	setActiveChapter: jest.fn(),
+	setActiveBookName: jest.fn(),
+	toggleChapterSelection: jest.fn(),
+}));
+
 const dispatch = jest.fn();
 
 const activeProps = {

@@ -3,15 +3,15 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Footer from '..';
 
 const props = {
-	settingsActive: false,
-	profileActive: false,
-	searchActive: false,
-	notebookActive: false,
-	isScrollingDown: false,
-	toggleNotebook: jest.fn(),
-	toggleSettingsModal: jest.fn(),
-	toggleProfile: jest.fn(),
-	toggleSearch: jest.fn(),
+  settingsActive: false,
+  profileActive: false,
+  searchActive: false,
+  notebookActive: false,
+  isScrollingDown: false,
+  toggleNotebook: jest.fn(),
+  toggleSettingsModal: jest.fn(),
+  toggleProfile: jest.fn(),
+  toggleSearch: jest.fn(),
 };
 
 describe('Footer component tests', () => {
