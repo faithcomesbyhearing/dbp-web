@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
+import { MAIN_TEXT_WRAPPER_CLASS } from '../Settings/themes';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import getPreviousChapterUrl from '../../utils/getPreviousChapterUrl';
 import getNextChapterUrl from '../../utils/getNextChapterUrl';
@@ -18,6 +19,7 @@ import {
 	isStartOfBible,
 } from './textRenderUtils';
 import NewChapterArrow from '../../components/NewChapterArrow';
+
 const Verses = dynamic(import('../Verses'), {
 	loading: () => <LoadingSpinner />,
 });
@@ -134,7 +136,10 @@ class Text extends React.PureComponent {
 					disabledContainerClasses={'arrow-wrapper prev disabled'}
 					containerClasses={'arrow-wrapper prev'}
 				/>
-				<div ref={this.mainWrapperRef} className={'main-wrapper main-text-wrapper'}>
+				<div
+					ref={this.mainWrapperRef}
+					className={`main-wrapper ${MAIN_TEXT_WRAPPER_CLASS}`}
+				>
 					<Verses menuIsOpen={menuIsOpen} />
 				</div>
 				<NewChapterArrow

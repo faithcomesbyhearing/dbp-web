@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import MyNotes from '..';
 import {
 	highlights,
@@ -41,25 +41,23 @@ const props = {
 
 describe('<MyNotes /> container', () => {
 	it('should match snapshot with default props', () => {
-		const tree = renderer.create(<MyNotes {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<MyNotes {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot with highlights active', () => {
-		const tree = renderer
-			.create(<MyNotes {...props} sectionType={'highlights'} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<MyNotes {...props} sectionType={'highlights'} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot with bookmarks active', () => {
-		const tree = renderer
-			.create(<MyNotes {...props} sectionType={'bookmarks'} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<MyNotes {...props} sectionType={'bookmarks'} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot with page selector open', () => {
-		const tree = renderer
-			.create(<MyNotes {...props} pageSelectorState />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<MyNotes {...props} pageSelectorState />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

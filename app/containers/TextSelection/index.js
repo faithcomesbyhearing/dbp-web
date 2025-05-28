@@ -263,7 +263,7 @@ TextSelection.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	textselection: makeSelectTextSelection(),
+	textselection: makeSelectTextSelection,
 	languages: selectLanguages(),
 	bibles: selectTexts(),
 	countries: selectCountries(),

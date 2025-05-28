@@ -4,18 +4,22 @@
  *
  */
 
-import { fromJS } from 'immutable';
-
 import { CHANGE_LOCALE, DEFAULT_LOCALE } from './constants';
 
-const initialState = fromJS({
+const initialState = structuredClone({
 	locale: DEFAULT_LOCALE,
 });
 
-function languageProviderReducer(state = initialState, action = { type: null }) {
+function languageProviderReducer(
+	state = initialState,
+	action = { type: null },
+) {
 	switch (action.type) {
 		case CHANGE_LOCALE:
-			return state.set('locale', action.locale);
+			return {
+				...state,
+				locale: action.locale,
+			};
 		default:
 			return state;
 	}

@@ -2,10 +2,9 @@
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import { fromJS } from 'immutable';
 import BooksTestament from '..';
 
-const books = fromJS([
+const books = structuredClone([
 	{
 		book_id: 'GEN',
 		book_id_usfx: 'GN',
@@ -55,38 +54,38 @@ const audioType = 'drama';
 describe('<BooksTestament />', () => {
 	it('Should match the old snapshot', () => {
 		const { asFragment } = render(
-		<BooksTestament
-			books={books}
-			handleRef={handleRef}
-			handleBookClick={handleBookClick}
-			handleChapterClick={handleChapterClick}
-			activeChapter={activeChapter}
-			testamentPrefix={testamentPrefix}
-			testamentTitle={testamentTitle}
-			selectedBookName={selectedBookName}
-			activeBookName={activeBookName}
-			activeTextId={activeTextId}
-			audioType={audioType}
-		/>,
+			<BooksTestament
+				books={books}
+				handleRef={handleRef}
+				handleBookClick={handleBookClick}
+				handleChapterClick={handleChapterClick}
+				activeChapter={activeChapter}
+				testamentPrefix={testamentPrefix}
+				testamentTitle={testamentTitle}
+				selectedBookName={selectedBookName}
+				activeBookName={activeBookName}
+				activeTextId={activeTextId}
+				audioType={audioType}
+			/>,
 		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('Should only render one active book', () => {
 		const { container } = render(
-		<BooksTestament
-			books={books}
-			handleRef={handleRef}
-			handleBookClick={handleBookClick}
-			handleChapterClick={handleChapterClick}
-			activeChapter={activeChapter}
-			testamentPrefix={testamentPrefix}
-			testamentTitle={testamentTitle}
-			selectedBookName={selectedBookName}
-			activeBookName={activeBookName}
-			activeTextId={activeTextId}
-			audioType={audioType}
-		/>,
+			<BooksTestament
+				books={books}
+				handleRef={handleRef}
+				handleBookClick={handleBookClick}
+				handleChapterClick={handleChapterClick}
+				activeChapter={activeChapter}
+				testamentPrefix={testamentPrefix}
+				testamentTitle={testamentTitle}
+				selectedBookName={selectedBookName}
+				activeBookName={activeBookName}
+				activeTextId={activeTextId}
+				audioType={audioType}
+			/>,
 		);
 
 		// Query all elements with the 'active-book' class
@@ -96,19 +95,19 @@ describe('<BooksTestament />', () => {
 
 	it('Should only render one active chapter and it should match the given prop', () => {
 		const { container } = render(
-		<BooksTestament
-			books={books}
-			handleRef={handleRef}
-			handleBookClick={handleBookClick}
-			handleChapterClick={handleChapterClick}
-			activeChapter={activeChapter}
-			testamentPrefix={testamentPrefix}
-			testamentTitle={testamentTitle}
-			selectedBookName={selectedBookName}
-			activeBookName={activeBookName}
-			activeTextId={activeTextId}
-			audioType={audioType}
-		/>,
+			<BooksTestament
+				books={books}
+				handleRef={handleRef}
+				handleBookClick={handleBookClick}
+				handleChapterClick={handleChapterClick}
+				activeChapter={activeChapter}
+				testamentPrefix={testamentPrefix}
+				testamentTitle={testamentTitle}
+				selectedBookName={selectedBookName}
+				activeBookName={activeBookName}
+				activeTextId={activeTextId}
+				audioType={audioType}
+			/>,
 		);
 
 		// Query all elements with the 'active-chapter' class

@@ -1,27 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<FadeTransition /> component should match snapshot with classNames 1`] = `
-<div
-  id="transition-child-id"
->
-  <h1>
-    Child of the transition
-  </h1>
-  <p>
-    Paragraph child of the transition
-  </p>
-</div>
+<DocumentFragment>
+  <div
+    id="transition-child-id"
+  >
+    <h1>
+      Child of the transition
+    </h1>
+    <p>
+      Paragraph child of the transition
+    </p>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`<FadeTransition /> component should match snapshot without classNames 1`] = `
-<div
-  id="transition-child-id"
->
-  <h1>
-    Child of the transition
-  </h1>
-  <p>
-    Paragraph child of the transition
-  </p>
-</div>
+<DocumentFragment>
+  <div
+    id="transition-child-id"
+  >
+    <h1>
+      Child of the transition
+    </h1>
+    <p>
+      Paragraph child of the transition
+    </p>
+  </div>
+</DocumentFragment>
 `;

@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import MyHighlights from '..';
 import {
 	getHighlightReference,
@@ -16,7 +16,7 @@ const props = {
 
 describe('<MyHighlights /> component', () => {
 	it('should match snapshot with expected props', () => {
-		const tree = renderer.create(<MyHighlights {...props} />);
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<MyHighlights {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

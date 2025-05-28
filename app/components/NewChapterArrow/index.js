@@ -11,61 +11,57 @@ import { FormattedMessage } from 'react-intl';
 import SvgWrapper from '../SvgWrapper';
 
 function NewChapterArrow({
-  clickHandler,
-  getNewUrl,
-  disabled,
-  svgid,
-  svgClasses,
-  containerClasses,
-  urlProps,
-  disabledContainerClasses,
-  title,
-  id,
-  textProps,
+	clickHandler,
+	getNewUrl,
+	disabled,
+	svgid,
+	svgClasses,
+	containerClasses,
+	urlProps,
+	disabledContainerClasses,
+	title,
+	id,
+	textProps,
 }) {
-  if (disabled) {
-    return (
-      <div className={disabledContainerClasses || 'arrow-wrapper disabled'} />
-    );
-  }
+	if (disabled) {
+		return (
+			<div className={disabledContainerClasses || 'arrow-wrapper disabled'} />
+		);
+	}
 
-  return (
-    <Link
-      legacyBehavior
-      as={getNewUrl({
-        ...urlProps,
-        isHref: false,
-      })}
-      href={getNewUrl({
-        ...urlProps,
-        isHref: true,
-      })}
-    >
-      <div
-        onClick={clickHandler}
-        className={containerClasses || 'arrow-wrapper'}
-        title={title || ''}
-        id={id || ''}
-      >
-        <SvgWrapper className={svgClasses || 'arrow-svg'} svgid={svgid} />
-        {!!textProps && <FormattedMessage {...textProps} />}
-      </div>
-    </Link>
-  );
+	return (
+		<Link
+			as={getNewUrl({
+				...urlProps,
+				isHref: false,
+			})}
+			href={getNewUrl({
+				...urlProps,
+				isHref: true,
+			})}
+			onClick={clickHandler}
+			className={containerClasses || 'arrow-wrapper'}
+			title={title || ''}
+			id={id}
+		>
+			<SvgWrapper className={svgClasses || 'arrow-svg'} svgid={svgid} />
+			{!!textProps && <FormattedMessage {...textProps} />}
+		</Link>
+	);
 }
 
 NewChapterArrow.propTypes = {
-  getNewUrl: PropTypes.func,
-  disabled: PropTypes.bool,
-  id: PropTypes.string,
-  title: PropTypes.string,
-  svgid: PropTypes.string,
-  svgClasses: PropTypes.string,
-  containerClasses: PropTypes.string,
-  disabledContainerClasses: PropTypes.string,
-  urlProps: PropTypes.object,
-  textProps: PropTypes.object,
-  clickHandler: PropTypes.func,
+	getNewUrl: PropTypes.func,
+	disabled: PropTypes.bool,
+	id: PropTypes.string,
+	title: PropTypes.string,
+	svgid: PropTypes.string,
+	svgClasses: PropTypes.string,
+	containerClasses: PropTypes.string,
+	disabledContainerClasses: PropTypes.string,
+	urlProps: PropTypes.object,
+	textProps: PropTypes.object,
+	clickHandler: PropTypes.func,
 };
 
 export default NewChapterArrow;

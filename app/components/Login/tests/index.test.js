@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import Login from '../index';
 
 jest.mock(
@@ -53,7 +53,7 @@ const props = {
 
 describe('<Login /> component', () => {
 	it('should match snapshot with expected props', () => {
-		const tree = renderer.create(<Login {...props} />);
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<Login {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

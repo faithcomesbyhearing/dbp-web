@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { fromJS } from 'immutable';
 import { BooksTable } from '../index';
 import { bookData } from '../../../utils/testUtils/booksData';
 
@@ -9,7 +8,7 @@ const closeBookTable = jest.fn();
 const props = {
 	dispatch: jest.fn(),
 	closeBookTable,
-	books: fromJS(bookData),
+	books: structuredClone(bookData),
 	audioObjects: [],
 	userId: 609294,
 	audioType: 'audio_drama',
@@ -32,7 +31,9 @@ describe('BooksTable tests', () => {
 	});
 
 	it('should match snapshot with direction right to left', () => {
-		const { asFragment } = render(<BooksTable {...props} textDirection="rtl" />);
+		const { asFragment } = render(
+			<BooksTable {...props} textDirection="rtl" />,
+		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 

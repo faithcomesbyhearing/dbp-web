@@ -1,9 +1,7 @@
-import { createSelector } from 'reselect';
-
 /**
  * Direct selector to the profile state domain
  */
-const selectProfileDomain = (state) => state.get('profile');
+const selectProfileDomain = (state) => state?.profile;
 
 /**
  * Other specific selectors
@@ -13,12 +11,7 @@ const selectProfileDomain = (state) => state.get('profile');
  * Default selector used by Profile
  */
 
-const makeSelectProfile = () => createSelector(
-	selectProfileDomain,
-	(substate) => substate?.toJS(),
-);
+const makeSelectProfile = selectProfileDomain;
 
 export default makeSelectProfile;
-export {
-	selectProfileDomain,
-};
+export { selectProfileDomain };

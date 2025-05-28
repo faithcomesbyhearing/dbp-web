@@ -1,6 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { fromJS } from 'immutable';
+import { render } from '@testing-library/react';
 import EditNote from '..';
 
 const props = {
@@ -11,7 +10,7 @@ const props = {
 	toggleVerseText: jest.fn(),
 	readSavedMessage: jest.fn(),
 	clearNoteErrorMessage: jest.fn(),
-	note: fromJS({
+	note: structuredClone({
 		notes: 'This is a test note!',
 		bible_id: 'ENGESV',
 		created_at: '2019-02-12 18:44:07',
@@ -64,23 +63,21 @@ describe('EditNote component', () => {
 	});
 
 	it('should match snapshot of edit note with default props', () => {
-		const tree = renderer.create(<EditNote {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<EditNote {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot of edit note when verse text is not visible', () => {
-		const tree = renderer
-			.create(<EditNote {...props} isVerseTextVisible={false} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<EditNote {...props} isVerseTextVisible={false} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot of edit note when it was saved successfully', () => {
-		const tree = renderer.create(<EditNote {...props} savedTheNote />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<EditNote {...props} savedTheNote />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot of edit note when there was an error saving it', () => {
-		const tree = renderer
-			.create(<EditNote {...props} errorSavingNote />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<EditNote {...props} errorSavingNote />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

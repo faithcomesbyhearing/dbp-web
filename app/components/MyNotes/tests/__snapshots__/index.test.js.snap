@@ -1,1551 +1,1423 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] = `
-<div
-  className="list-sections"
->
+<DocumentFragment>
   <div
-    className="searchbar"
+    class="list-sections"
   >
-    <span
-      className="input-wrapper"
+    <div
+      class="searchbar"
     >
-      <svg
-        className="icon"
+      <span
+        class="input-wrapper"
       >
-        <use
-          xlinkHref="/svglist.svg#search"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          placeholder="SEARCH BOOKMARKS"
+          value=""
         />
-      </svg>
-      <input
-        onChange={[Function]}
-        placeholder="SEARCH BOOKMARKS"
-        value=""
-      />
-    </span>
-  </div>
-  <section
-    className="note-list"
-  >
-    <div
-      className="highlight-item"
-      id={5452296}
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              01.18.19
-            </span>
-             
-            | 
-            Matthew 1:2
-          </h4>
-          <p
-            className="text"
-          >
-            ENGESV
-          </p>
-        </div>
-      </button>
-      <button
-        className="delete-highlight"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </button>
+      </span>
     </div>
-    <div
-      className="highlight-item"
-      id={5452373}
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              01.18.19
-            </span>
-             
-            | 
-            Matthew 1:2
-          </h4>
-          <p
-            className="text"
-          >
-            ENGESV
-          </p>
-        </div>
-      </button>
-      <button
-        className="delete-highlight"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </button>
-    </div>
-    <div
-      className="highlight-item"
-      id={5574789}
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.08.19
-            </span>
-             
-            | 
-            Mark 16:3
-          </h4>
-          <p
-            className="text"
-          >
-            ENGESV
-          </p>
-        </div>
-      </button>
-      <button
-        className="delete-highlight"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </button>
-    </div>
-    <div
-      className="highlight-item"
-      id={5574790}
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.12.19
-            </span>
-             
-            | 
-            Matthew 11:7
-          </h4>
-          <p
-            className="text"
-          >
-            ENGNIV
-          </p>
-        </div>
-      </button>
-      <button
-        className="delete-highlight"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </button>
-    </div>
-    <div
-      className="highlight-item"
-      id={5574788}
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.06.19
-            </span>
-             
-            | 
-            Matthew 3:3
-          </h4>
-          <p
-            className="text"
-          >
-            ENGESV
-          </p>
-        </div>
-      </button>
-      <button
-        className="delete-highlight"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </button>
-    </div>
-  </section>
-  <div
-    className="pagination"
-  >
-    <div
-      className="item-list"
+    <section
+      class="note-list"
     >
       <div
-        className="item active"
+        class="highlight-item"
+        id="5452296"
       >
-        <span
-          id="1-button"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
+        <button
+          class="list-item"
+          type="button"
         >
-          1
-        </span>
-      </div>
-    </div>
-    <div
-      className="page-size-selector"
-    >
-      <div
-        className="closed"
-      >
-        <div
-          className="active"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
+          <div
+            class="title-text"
           >
-            10 PER PAGE
-          </span>
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                01.18.19
+              </span>
+               | Matthew 1:2
+            </h4>
+            <p
+              class="text"
+            >
+              ENGESV
+            </p>
+          </div>
+        </button>
+        <button
+          class="delete-highlight"
+          tabindex="0"
+          type="button"
+        >
           <svg
-            height="13px"
-            width="7px"
+            class="icon"
           >
             <use
-              xlinkHref="/svglist.svg#pagination-arrows"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
             />
           </svg>
-        </div>
+          <span>
+            Delete
+          </span>
+        </button>
+      </div>
+      <div
+        class="highlight-item"
+        id="5452373"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                01.18.19
+              </span>
+               | Matthew 1:2
+            </h4>
+            <p
+              class="text"
+            >
+              ENGESV
+            </p>
+          </div>
+        </button>
+        <button
+          class="delete-highlight"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </button>
+      </div>
+      <div
+        class="highlight-item"
+        id="5574789"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.08.19
+              </span>
+               | Mark 16:3
+            </h4>
+            <p
+              class="text"
+            >
+              ENGESV
+            </p>
+          </div>
+        </button>
+        <button
+          class="delete-highlight"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </button>
+      </div>
+      <div
+        class="highlight-item"
+        id="5574790"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.12.19
+              </span>
+               | Matthew 11:7
+            </h4>
+            <p
+              class="text"
+            >
+              ENGNIV
+            </p>
+          </div>
+        </button>
+        <button
+          class="delete-highlight"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </button>
+      </div>
+      <div
+        class="highlight-item"
+        id="5574788"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.06.19
+              </span>
+               | Matthew 3:3
+            </h4>
+            <p
+              class="text"
+            >
+              ENGESV
+            </p>
+          </div>
+        </button>
+        <button
+          class="delete-highlight"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </button>
+      </div>
+    </section>
+    <div
+      class="pagination"
+    >
+      <div
+        class="item-list"
+      >
         <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
+          class="item active"
         >
           <span
-            className="text"
+            id="1-button"
+            role="button"
+            tabindex="0"
           >
-            25 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            50 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            100 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            VIEW ALL
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
+            1
           </span>
         </div>
       </div>
       <div
-        className="per-page-toggle"
-        onClick={[MockFunction]}
-        role="button"
-        tabIndex={0}
+        class="page-size-selector"
       >
-        10 PER PAGE
+        <div
+          class="closed"
+        >
+          <div
+            class="active"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              10 PER PAGE
+            </span>
+            <svg
+              height="13px"
+              width="7px"
+            >
+              <use
+                xlink:href="/svglist.svg#pagination-arrows"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+              />
+            </svg>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              25 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              50 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              100 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              VIEW ALL
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+        </div>
+        <div
+          class="per-page-toggle"
+          role="button"
+          tabindex="0"
+        >
+          10 PER PAGE
+        </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`<MyNotes /> container should match snapshot with default props 1`] = `
-<div
-  className="list-sections"
->
+<DocumentFragment>
   <div
-    className="searchbar"
+    class="list-sections"
   >
-    <span
-      className="input-wrapper"
+    <div
+      class="searchbar"
     >
-      <svg
-        className="icon"
+      <span
+        class="input-wrapper"
       >
-        <use
-          xlinkHref="/svglist.svg#search"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          placeholder="SEARCH NOTES"
+          value=""
         />
-      </svg>
-      <input
-        onChange={[Function]}
-        placeholder="SEARCH NOTES"
-        value=""
-      />
-    </span>
-  </div>
-  <section
-    className="note-list"
-  >
-    <div
-      className="highlight-item"
-      id={403619}
+      </span>
+    </div>
+    <section
+      class="note-list"
     >
       <div
-        className="list-item"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
+        class="highlight-item"
+        id="403619"
       >
         <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.12.19
-            </span>
-             
-            | 
-            new note
-          </h4>
-          <p
-            className="text"
-          >
-            newest note
-          </p>
-        </div>
-      </div>
-      <div
-        className="edit-note"
-        id="403619-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#edit_note"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-        id="403619-delete"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id={403618}
-    >
-      <div
-        className="list-item"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.06.19
-            </span>
-             
-            | 
-            New Note
-          </h4>
-          <p
-            className="text"
-          >
-            Is here
-          </p>
-        </div>
-      </div>
-      <div
-        className="edit-note"
-        id="403618-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#edit_note"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-        id="403618-delete"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-  </section>
-  <div
-    className="pagination"
-  >
-    <div
-      className="item-list"
-    >
-      <div
-        className="item active"
-      >
-        <span
-          id="1-button"
-          onClick={[Function]}
+          class="list-item"
           role="button"
-          tabIndex={0}
+          tabindex="0"
         >
-          1
-        </span>
-      </div>
-    </div>
-    <div
-      className="page-size-selector"
-    >
-      <div
-        className="closed"
-      >
-        <div
-          className="active"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
+          <div
+            class="title-text"
           >
-            10 PER PAGE
-          </span>
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.12.19
+              </span>
+               | new note
+            </h4>
+            <p
+              class="text"
+            >
+              newest note
+            </p>
+          </div>
+        </div>
+        <div
+          class="edit-note"
+          id="403619-edit"
+          role="button"
+          tabindex="0"
+        >
           <svg
-            height="13px"
-            width="7px"
+            class="icon"
           >
             <use
-              xlinkHref="/svglist.svg#pagination-arrows"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
+              xlink:href="/svglist.svg#edit_note"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
             />
           </svg>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            25 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
+          <span>
+            Edit
           </span>
         </div>
         <div
-          className="inactive"
-          onClick={[Function]}
+          class="delete-highlight"
+          id="403619-delete"
           role="button"
-          tabIndex={0}
+          tabindex="0"
         >
-          <span
-            className="text"
+          <svg
+            class="icon"
           >
-            50 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            100 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            VIEW ALL
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
           </span>
         </div>
       </div>
       <div
-        className="per-page-toggle"
-        onClick={[MockFunction]}
-        role="button"
-        tabIndex={0}
+        class="highlight-item"
+        id="403618"
       >
-        10 PER PAGE
+        <div
+          class="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.06.19
+              </span>
+               | New Note
+            </h4>
+            <p
+              class="text"
+            >
+              Is here
+            </p>
+          </div>
+        </div>
+        <div
+          class="edit-note"
+          id="403618-edit"
+          role="button"
+          tabindex="0"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#edit_note"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Edit
+          </span>
+        </div>
+        <div
+          class="delete-highlight"
+          id="403618-delete"
+          role="button"
+          tabindex="0"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+    </section>
+    <div
+      class="pagination"
+    >
+      <div
+        class="item-list"
+      >
+        <div
+          class="item active"
+        >
+          <span
+            id="1-button"
+            role="button"
+            tabindex="0"
+          >
+            1
+          </span>
+        </div>
+      </div>
+      <div
+        class="page-size-selector"
+      >
+        <div
+          class="closed"
+        >
+          <div
+            class="active"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              10 PER PAGE
+            </span>
+            <svg
+              height="13px"
+              width="7px"
+            >
+              <use
+                xlink:href="/svglist.svg#pagination-arrows"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+              />
+            </svg>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              25 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              50 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              100 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              VIEW ALL
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+        </div>
+        <div
+          class="per-page-toggle"
+          role="button"
+          tabindex="0"
+        >
+          10 PER PAGE
+        </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`<MyNotes /> container should match snapshot with highlights active 1`] = `
-<div
-  className="list-sections"
->
+<DocumentFragment>
   <div
-    className="searchbar"
-  >
-    <span
-      className="input-wrapper"
-    >
-      <svg
-        className="icon"
-      >
-        <use
-          xlinkHref="/svglist.svg#search"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        />
-      </svg>
-      <input
-        onChange={[Function]}
-        placeholder="SEARCH HIGHLIGHTS"
-        value=""
-      />
-    </span>
-  </div>
-  <section
-    className="note-list"
+    class="list-sections"
   >
     <div
-      className="highlight-item"
-      id="24440733_rgba(173,221,121,0.7)"
+      class="searchbar"
     >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            EPH - 4:14 - (ENGNAB)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGNAB
-          </h4>
-        </div>
-      </button>
-      <button
-        className="edit-color"
-        id="24440733_rgba(173,221,121,0.7)-edit"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="color-icon"
-          style={
-            {
-              "backgroundColor": "rgba(173,221,121,0.7)",
-            }
-          }
-        />
-        <span>
-          Edit
-        </span>
-      </button>
-      <div
-        className="delete-highlight"
+      <span
+        class="input-wrapper"
       >
         <svg
-          className="icon"
-          id="24440733_rgba(173,221,121,0.7)-delete"
-          onClick={[Function]}
+          class="icon"
         >
           <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
           />
         </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id="25827775_rgba(252,230,0,0.5)"
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            MAT - 3:3 - (ENGESV)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGESV
-          </h4>
-        </div>
-      </button>
-      <button
-        className="edit-color"
-        id="25827775_rgba(252,230,0,0.5)-edit"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="color-icon"
-          style={
-            {
-              "backgroundColor": "rgba(252,230,0,0.5)",
-            }
-          }
+        <input
+          placeholder="SEARCH HIGHLIGHTS"
+          value=""
         />
-        <span>
-          Edit
-        </span>
-      </button>
-      <div
-        className="delete-highlight"
-      >
-        <svg
-          className="icon"
-          id="25827775_rgba(252,230,0,0.5)-delete"
-          onClick={[Function]}
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
+      </span>
     </div>
-    <div
-      className="highlight-item"
-      id="25827777_rgba(84,185,72,0.5)"
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            MAT - 1:4 - (ENGESV)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGESV
-          </h4>
-        </div>
-      </button>
-      <button
-        className="edit-color"
-        id="25827777_rgba(84,185,72,0.5)-edit"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="color-icon"
-          style={
-            {
-              "backgroundColor": "rgba(84,185,72,0.5)",
-            }
-          }
-        />
-        <span>
-          Edit
-        </span>
-      </button>
-      <div
-        className="delete-highlight"
-      >
-        <svg
-          className="icon"
-          id="25827777_rgba(84,185,72,0.5)-delete"
-          onClick={[Function]}
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id="25827778_rgba(80,165,220,0.5)"
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            MAT - 1:17 - (ENGESV)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGESV
-          </h4>
-        </div>
-      </button>
-      <button
-        className="edit-color"
-        id="25827778_rgba(80,165,220,0.5)-edit"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="color-icon"
-          style={
-            {
-              "backgroundColor": "rgba(80,165,220,0.5)",
-            }
-          }
-        />
-        <span>
-          Edit
-        </span>
-      </button>
-      <div
-        className="delete-highlight"
-      >
-        <svg
-          className="icon"
-          id="25827778_rgba(80,165,220,0.5)-delete"
-          onClick={[Function]}
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id="25827779_rgba(252,230,0,0.5)"
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            MAT - 1:6 - (ENGESV)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGESV
-          </h4>
-        </div>
-      </button>
-      <button
-        className="edit-color"
-        id="25827779_rgba(252,230,0,0.5)-edit"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="color-icon"
-          style={
-            {
-              "backgroundColor": "rgba(252,230,0,0.5)",
-            }
-          }
-        />
-        <span>
-          Edit
-        </span>
-      </button>
-      <div
-        className="delete-highlight"
-      >
-        <svg
-          className="icon"
-          id="25827779_rgba(252,230,0,0.5)-delete"
-          onClick={[Function]}
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id="25827776_rgba(84,185,72,0.5)"
-    >
-      <button
-        className="list-item"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-        type="button"
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            MRK - 16:5 - (ENGESV)
-          </h4>
-          <h4
-            className="text"
-          >
-            ENGESV
-          </h4>
-        </div>
-      </button>
-      <button
-        className="edit-color"
-        id="25827776_rgba(84,185,72,0.5)-edit"
-        onClick={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="color-icon"
-          style={
-            {
-              "backgroundColor": "rgba(84,185,72,0.5)",
-            }
-          }
-        />
-        <span>
-          Edit
-        </span>
-      </button>
-      <div
-        className="delete-highlight"
-      >
-        <svg
-          className="icon"
-          id="25827776_rgba(84,185,72,0.5)-delete"
-          onClick={[Function]}
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-  </section>
-  <div
-    className="pagination"
-  >
-    <div
-      className="item-list"
+    <section
+      class="note-list"
     >
       <div
-        className="item active"
+        class="highlight-item"
+        id="24440733_rgba(173,221,121,0.7)"
       >
-        <span
-          id="1-button"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
+        <button
+          class="list-item"
+          type="button"
         >
-          1
-        </span>
-      </div>
-    </div>
-    <div
-      className="page-size-selector"
-    >
-      <div
-        className="closed"
-      >
-        <div
-          className="active"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              EPH - 4:14 - (ENGNAB)
+            </h4>
+            <h4
+              class="text"
+            >
+              ENGNAB
+            </h4>
+          </div>
+        </button>
+        <button
+          class="edit-color"
+          id="24440733_rgba(173,221,121,0.7)-edit"
+          tabindex="0"
+          type="button"
         >
           <span
-            className="text"
-          >
-            10 PER PAGE
+            class="color-icon"
+            style="background-color: rgba(173, 221, 121, 0.7);"
+          />
+          <span>
+            Edit
           </span>
+        </button>
+        <div
+          class="delete-highlight"
+        >
           <svg
-            height="13px"
-            width="7px"
+            class="icon"
+            id="24440733_rgba(173,221,121,0.7)-delete"
           >
             <use
-              xlinkHref="/svglist.svg#pagination-arrows"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
             />
           </svg>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            25 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            50 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            100 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            VIEW ALL
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
+          <span>
+            Delete
           </span>
         </div>
       </div>
       <div
-        className="per-page-toggle"
-        onClick={[MockFunction]}
-        role="button"
-        tabIndex={0}
+        class="highlight-item"
+        id="25827775_rgba(252,230,0,0.5)"
       >
-        10 PER PAGE
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              MAT - 3:3 - (ENGESV)
+            </h4>
+            <h4
+              class="text"
+            >
+              ENGESV
+            </h4>
+          </div>
+        </button>
+        <button
+          class="edit-color"
+          id="25827775_rgba(252,230,0,0.5)-edit"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="color-icon"
+            style="background-color: rgba(252, 230, 0, 0.5);"
+          />
+          <span>
+            Edit
+          </span>
+        </button>
+        <div
+          class="delete-highlight"
+        >
+          <svg
+            class="icon"
+            id="25827775_rgba(252,230,0,0.5)-delete"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+      <div
+        class="highlight-item"
+        id="25827777_rgba(84,185,72,0.5)"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              MAT - 1:4 - (ENGESV)
+            </h4>
+            <h4
+              class="text"
+            >
+              ENGESV
+            </h4>
+          </div>
+        </button>
+        <button
+          class="edit-color"
+          id="25827777_rgba(84,185,72,0.5)-edit"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="color-icon"
+            style="background-color: rgba(84, 185, 72, 0.5);"
+          />
+          <span>
+            Edit
+          </span>
+        </button>
+        <div
+          class="delete-highlight"
+        >
+          <svg
+            class="icon"
+            id="25827777_rgba(84,185,72,0.5)-delete"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+      <div
+        class="highlight-item"
+        id="25827778_rgba(80,165,220,0.5)"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              MAT - 1:17 - (ENGESV)
+            </h4>
+            <h4
+              class="text"
+            >
+              ENGESV
+            </h4>
+          </div>
+        </button>
+        <button
+          class="edit-color"
+          id="25827778_rgba(80,165,220,0.5)-edit"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="color-icon"
+            style="background-color: rgba(80, 165, 220, 0.5);"
+          />
+          <span>
+            Edit
+          </span>
+        </button>
+        <div
+          class="delete-highlight"
+        >
+          <svg
+            class="icon"
+            id="25827778_rgba(80,165,220,0.5)-delete"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+      <div
+        class="highlight-item"
+        id="25827779_rgba(252,230,0,0.5)"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              MAT - 1:6 - (ENGESV)
+            </h4>
+            <h4
+              class="text"
+            >
+              ENGESV
+            </h4>
+          </div>
+        </button>
+        <button
+          class="edit-color"
+          id="25827779_rgba(252,230,0,0.5)-edit"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="color-icon"
+            style="background-color: rgba(252, 230, 0, 0.5);"
+          />
+          <span>
+            Edit
+          </span>
+        </button>
+        <div
+          class="delete-highlight"
+        >
+          <svg
+            class="icon"
+            id="25827779_rgba(252,230,0,0.5)-delete"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+      <div
+        class="highlight-item"
+        id="25827776_rgba(84,185,72,0.5)"
+      >
+        <button
+          class="list-item"
+          type="button"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              MRK - 16:5 - (ENGESV)
+            </h4>
+            <h4
+              class="text"
+            >
+              ENGESV
+            </h4>
+          </div>
+        </button>
+        <button
+          class="edit-color"
+          id="25827776_rgba(84,185,72,0.5)-edit"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="color-icon"
+            style="background-color: rgba(84, 185, 72, 0.5);"
+          />
+          <span>
+            Edit
+          </span>
+        </button>
+        <div
+          class="delete-highlight"
+        >
+          <svg
+            class="icon"
+            id="25827776_rgba(84,185,72,0.5)-delete"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+    </section>
+    <div
+      class="pagination"
+    >
+      <div
+        class="item-list"
+      >
+        <div
+          class="item active"
+        >
+          <span
+            id="1-button"
+            role="button"
+            tabindex="0"
+          >
+            1
+          </span>
+        </div>
+      </div>
+      <div
+        class="page-size-selector"
+      >
+        <div
+          class="closed"
+        >
+          <div
+            class="active"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              10 PER PAGE
+            </span>
+            <svg
+              height="13px"
+              width="7px"
+            >
+              <use
+                xlink:href="/svglist.svg#pagination-arrows"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+              />
+            </svg>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              25 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              50 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              100 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              VIEW ALL
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+        </div>
+        <div
+          class="per-page-toggle"
+          role="button"
+          tabindex="0"
+        >
+          10 PER PAGE
+        </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`<MyNotes /> container should match snapshot with page selector open 1`] = `
-<div
-  className="list-sections"
->
+<DocumentFragment>
   <div
-    className="searchbar"
+    class="list-sections"
   >
-    <span
-      className="input-wrapper"
+    <div
+      class="searchbar"
     >
-      <svg
-        className="icon"
+      <span
+        class="input-wrapper"
       >
-        <use
-          xlinkHref="/svglist.svg#search"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          placeholder="SEARCH NOTES"
+          value=""
         />
-      </svg>
-      <input
-        onChange={[Function]}
-        placeholder="SEARCH NOTES"
-        value=""
-      />
-    </span>
-  </div>
-  <section
-    className="note-list"
-  >
-    <div
-      className="highlight-item"
-      id={403619}
+      </span>
+    </div>
+    <section
+      class="note-list"
     >
       <div
-        className="list-item"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
+        class="highlight-item"
+        id="403619"
       >
         <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.12.19
-            </span>
-             
-            | 
-            new note
-          </h4>
-          <p
-            className="text"
-          >
-            newest note
-          </p>
-        </div>
-      </div>
-      <div
-        className="edit-note"
-        id="403619-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#edit_note"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-        id="403619-delete"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-    <div
-      className="highlight-item"
-      id={403618}
-    >
-      <div
-        className="list-item"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <div
-          className="title-text"
-        >
-          <h4
-            className="title"
-          >
-            <span
-              className="date"
-            >
-              02.06.19
-            </span>
-             
-            | 
-            New Note
-          </h4>
-          <p
-            className="text"
-          >
-            Is here
-          </p>
-        </div>
-      </div>
-      <div
-        className="edit-note"
-        id="403618-edit"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#edit_note"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Edit
-        </span>
-      </div>
-      <div
-        className="delete-highlight"
-        id="403618-delete"
-        onClick={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <svg
-          className="icon"
-        >
-          <use
-            xlinkHref="/svglist.svg#delete"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-          />
-        </svg>
-        <span>
-          Delete
-        </span>
-      </div>
-    </div>
-  </section>
-  <div
-    className="pagination"
-  >
-    <div
-      className="item-list"
-    >
-      <div
-        className="item active"
-      >
-        <span
-          id="1-button"
-          onClick={[Function]}
+          class="list-item"
           role="button"
-          tabIndex={0}
+          tabindex="0"
         >
-          1
-        </span>
-      </div>
-    </div>
-    <div
-      className="page-size-selector"
-    >
-      <div
-        className="open"
-      >
-        <div
-          className="active"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
+          <div
+            class="title-text"
           >
-            10 PER PAGE
-          </span>
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.12.19
+              </span>
+               | new note
+            </h4>
+            <p
+              class="text"
+            >
+              newest note
+            </p>
+          </div>
+        </div>
+        <div
+          class="edit-note"
+          id="403619-edit"
+          role="button"
+          tabindex="0"
+        >
           <svg
-            height="13px"
-            width="7px"
+            class="icon"
           >
             <use
-              xlinkHref="/svglist.svg#pagination-arrows"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
+              xlink:href="/svglist.svg#edit_note"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
             />
           </svg>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            25 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
+          <span>
+            Edit
           </span>
         </div>
         <div
-          className="inactive"
-          onClick={[Function]}
+          class="delete-highlight"
+          id="403619-delete"
           role="button"
-          tabIndex={0}
+          tabindex="0"
         >
-          <span
-            className="text"
+          <svg
+            class="icon"
           >
-            50 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            100 PER PAGE
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
-          </span>
-        </div>
-        <div
-          className="inactive"
-          onClick={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <span
-            className="text"
-          >
-            VIEW ALL
-          </span>
-          <span
-            className="svg-placeholder"
-          >
-             
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
           </span>
         </div>
       </div>
       <div
-        className="closed per-page-toggle"
-        onClick={[MockFunction]}
-        role="button"
-        tabIndex={0}
+        class="highlight-item"
+        id="403618"
       >
-        10 PER PAGE
+        <div
+          class="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="title-text"
+          >
+            <h4
+              class="title"
+            >
+              <span
+                class="date"
+              >
+                02.06.19
+              </span>
+               | New Note
+            </h4>
+            <p
+              class="text"
+            >
+              Is here
+            </p>
+          </div>
+        </div>
+        <div
+          class="edit-note"
+          id="403618-edit"
+          role="button"
+          tabindex="0"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#edit_note"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Edit
+          </span>
+        </div>
+        <div
+          class="delete-highlight"
+          id="403618-delete"
+          role="button"
+          tabindex="0"
+        >
+          <svg
+            class="icon"
+          >
+            <use
+              xlink:href="/svglist.svg#delete"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            />
+          </svg>
+          <span>
+            Delete
+          </span>
+        </div>
+      </div>
+    </section>
+    <div
+      class="pagination"
+    >
+      <div
+        class="item-list"
+      >
+        <div
+          class="item active"
+        >
+          <span
+            id="1-button"
+            role="button"
+            tabindex="0"
+          >
+            1
+          </span>
+        </div>
+      </div>
+      <div
+        class="page-size-selector"
+      >
+        <div
+          class="open"
+        >
+          <div
+            class="active"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              10 PER PAGE
+            </span>
+            <svg
+              height="13px"
+              width="7px"
+            >
+              <use
+                xlink:href="/svglist.svg#pagination-arrows"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+              />
+            </svg>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              25 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              50 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              100 PER PAGE
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+          <div
+            class="inactive"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="text"
+            >
+              VIEW ALL
+            </span>
+            <span
+              class="svg-placeholder"
+            >
+               
+            </span>
+          </div>
+        </div>
+        <div
+          class="closed per-page-toggle"
+          role="button"
+          tabindex="0"
+        >
+          10 PER PAGE
+        </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

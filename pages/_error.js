@@ -20,78 +20,78 @@ import configureStore from '../app/configureStore';
 import bugsnagClient from '../app/utils/bugsnagClient';
 
 export default class Error extends React.Component {
-  static async getInitialProps({ res, err }) {
-    const statusCode = res?.statusCode ?? err?.statusCode ?? null;
+	static async getInitialProps({ res, err }) {
+		const statusCode = res?.statusCode ?? err?.statusCode ?? null;
 
-    if (
-      err &&
-      (process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
-        process.env.NEXT_PUBLIC_NODE_ENV === 'staging') &&
-      process.env.BUGSNAG_API_KEY
-    ) {
-      bugsnagClient.notify(err);
-    }
+		if (
+			err &&
+			(process.env.NEXT_PUBLIC_NODE_ENV === 'production' ||
+				process.env.NEXT_PUBLIC_NODE_ENV === 'staging') &&
+			process.env.BUGSNAG_API_KEY
+		) {
+			bugsnagClient.notify(err);
+		}
 
-    return { statusCode };
-  }
+		return { statusCode };
+	}
 
-  render() {
-    const store = configureStore({}, {}, {});
-    return (
-      <Provider store={store}>
-        <LanguageProvider messages={translationMessages}>
-          <div className={'not-found'}>
-            <div className={'top-bar'}>
-              <a
-                className="logo"
-                href={'http://www.bible.is'}
-                title={'http://www.bible.is'}
-                target={'_blank'}
-                rel={'noopener'}
-              >
-                <SvgWrapper className="svg" svgid={'bible.is_logo'} />
-              </a>
-            </div>
-            <div className={'content'}>
-              <h1 className={'header'}>
-                <FormattedMessage {...messages.headermessage} />
-              </h1>
-              <FormattedMessage {...messages.cause} />
-              <ul>
-                <li>
-                  <FormattedMessage {...messages.technical} />
-                </li>
-                <li>
-                  <FormattedMessage {...messages.moved} />
-                </li>
-                <li>
-                  <FormattedMessage {...messages.clickedOld} />
-                </li>
-                <li>
-                  <FormattedMessage {...messages.accident} />
-                </li>
-              </ul>
-              <FormattedMessage {...messages.youDo} />
-              <ul>
-                <li>
-                  <FormattedMessage {...messages.browser} />
-                </li>
-                <li>
-                  <FormattedMessage {...messages.tryAgain} />
-                </li>
-                <li>
-                  <FormattedMessage {...messages.homePage} />
-                  <a href={'http://www.bible.is'}>
-                    <FormattedMessage {...messages.homePageLink} />
-                  </a>
-                </li>
-              </ul>
-              <FormattedMessage {...messages.weKnow} />
-            </div>
-            <div className={'bottom-bar'} />
-          </div>
-        </LanguageProvider>
-      </Provider>
-    );
-  }
+	render() {
+		const store = configureStore({}, {}, {});
+		return (
+			<Provider store={store}>
+				<LanguageProvider messages={translationMessages}>
+					<div className={'not-found'}>
+						<div className={'top-bar'}>
+							<a
+								className="logo"
+								href={'http://www.bible.is'}
+								title={'http://www.bible.is'}
+								target={'_blank'}
+								rel={'noopener'}
+							>
+								<SvgWrapper className="svg" svgid={'bible.is_logo'} />
+							</a>
+						</div>
+						<div className={'content'}>
+							<h1 className={'header'}>
+								<FormattedMessage {...messages.headermessage} />
+							</h1>
+							<FormattedMessage {...messages.cause} />
+							<ul>
+								<li>
+									<FormattedMessage {...messages.technical} />
+								</li>
+								<li>
+									<FormattedMessage {...messages.moved} />
+								</li>
+								<li>
+									<FormattedMessage {...messages.clickedOld} />
+								</li>
+								<li>
+									<FormattedMessage {...messages.accident} />
+								</li>
+							</ul>
+							<FormattedMessage {...messages.youDo} />
+							<ul>
+								<li>
+									<FormattedMessage {...messages.browser} />
+								</li>
+								<li>
+									<FormattedMessage {...messages.tryAgain} />
+								</li>
+								<li>
+									<FormattedMessage {...messages.homePage} />
+									<a href={'http://www.bible.is'}>
+										<FormattedMessage {...messages.homePageLink} />
+									</a>
+								</li>
+							</ul>
+							<FormattedMessage {...messages.weKnow} />
+						</div>
+						<div className={'bottom-bar'} />
+					</div>
+				</LanguageProvider>
+			</Provider>
+		);
+	}
 }

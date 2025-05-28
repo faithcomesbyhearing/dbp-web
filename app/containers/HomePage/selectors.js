@@ -1,246 +1,309 @@
-import {
-	createSelectorCreator,
-	defaultMemoize,
-	createSelector,
-} from 'reselect';
-import { fromJS, is, isImmutable } from 'immutable';
-// TODO: If there seems to be some state missing check to make sure the equality check isn't failing
-// create a "selector creator" that uses lodash.isEqual instead of ===
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, is);
-const selectHomePageDomain = (state) => state.get('homepage');
-const selectSettingsDomain = (state) => state.get('settings');
-const selectHomepageText = (state) => state.getIn(['homepage', 'chapterText']);
-const selectProfilePageDomain = (state) => state.get('profile');
-const selectFormattedTextSource = (state) =>
-	state.getIn(['homepage', 'formattedSource']);
-const selectCrossReferenceState = (state) =>
-	state.getIn([
-		'settings',
-		'userSettings',
-		'toggleOptions',
-		'crossReferences',
-		'active',
-	]);
-const selectAudioType = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('audioType'));
-const selectAvailableAudioTypes = () =>
-	createSelector(selectHomePageDomain, (home) => {
-		const availableAudioTypes = home.get('availableAudioTypes');
-		return Array.isArray(availableAudioTypes) ? availableAudioTypes : availableAudioTypes.toJS();
-	});
-const selectNotes = (state) => state.get('notes');
-const selectActiveNotesView = () =>
-	createSelector(selectNotes, (notes) => notes?.get('activeChild'));
-const selectUserNotes = () =>
-	createDeepEqualSelector(
-		[selectNotes, selectHomePageDomain, selectProfilePageDomain],
-		(notes, home, profile) => {
-			const activeTextId = home.get('activeTextId');
-			const bookId = home.get('activeBookId');
-			const chapter = home.get('activeChapter');
-			let text = home.get('chapterText');
-			text = text.toJS ? text : fromJS(text);
-			const profAuth = profile.get('userAuthenticated');
-			const profUser = profile.get('userId');
-			// TODO: Fix this once the api is functioning properly
-			// Should not need to filter because I am requesting only the notes/bookmarks for this chapter
-			const filteredNotes = notes
-				? notes.get('userNotes')
-					.filter(
-						(note) =>
-							note.get('book_id') === bookId &&
-							note.get('chapter') === chapter &&
-							note.get('bible_id') === activeTextId,
-					)
-				: null;
+import { createSelector } from 'reselect';
 
-			const filteredBookmarks = notes
-				? notes.get('chapterBookmarks')
-					.filter(
-						(note) =>
-							note.get('book_id') === bookId &&
-							note.get('chapter') === chapter &&
-							note.get('bible_id') === activeTextId,
-					)
-				: null;
-			const bookmarks = filteredBookmarks?.toJS
-				? filteredBookmarks.toJS()
-				: filteredBookmarks;
-			const userNotes = filteredNotes?.toJS
-				? filteredNotes.toJS()
-				: filteredNotes;
+// Basic domain selectors
+const selectHomePageDomain = (state) => state.homepage;
 
-			if (!text) {
-				return {
-					text: [],
-					userNotes,
-					bookmarks,
-				};
-			}
-			// If the user isn't authorized then there will not be any notes or bookmarks and I can just end the function here
-			if (!profAuth && !profUser) {
-				return {
-					text: Array.isArray(text) ? text : text.toJS(),
-					userNotes,
-					bookmarks,
-				};
-			}
-			let newText = [];
-			const versesWithNotes = {};
+// individual domain selectors
+export const selectActiveTextId = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeTextId,
+);
+export const selectActiveBookId = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeBookId,
+);
+export const selectActiveChapter = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeChapter,
+);
+export const selectActiveBookName = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeBookName,
+);
+export const selectActiveFilesets = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeFilesets,
+);
+export const selectActiveTextName = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeTextName,
+);
+export const selectActiveFilesetId = createSelector(
+	selectHomePageDomain,
+	(state) => state.activeFilesetId,
+);
+export const selectIsProfileActive = createSelector(
+	selectHomePageDomain,
+	(state) => state.isProfileActive,
+);
+export const selectBooks = createSelector(
+	selectHomePageDomain,
+	(state) => state.books,
+);
+export const selectAudioPlayerState = createSelector(
+	selectHomePageDomain,
+	(state) => state.audioPlayerState,
+);
+export const selectIsNotesModalActive = createSelector(
+	selectHomePageDomain,
+	(state) => state.isNotesModalActive,
+);
+export const selectIsSearchModalActive = createSelector(
+	selectHomePageDomain,
+	(state) => state.isSearchModalActive,
+);
+export const selectIsSettingsModalActive = createSelector(
+	selectHomePageDomain,
+	(state) => state.isSettingsModalActive,
+);
+export const selectIsVersionSelectionActive = createSelector(
+	selectHomePageDomain,
+	(state) => state.isVersionSelectionActive,
+);
+export const selectIsChapterSelectionActive = createSelector(
+	selectHomePageDomain,
+	(state) => state.isChapterSelectionActive,
+);
+export const selectUserAgent = createSelector(
+	selectHomePageDomain,
+	(state) => state.userAgent,
+);
+export const selectLoadingAudio = createSelector(
+	selectHomePageDomain,
+	(state) => state.loadingAudio,
+);
+export const selectLoadingNewChapterText = createSelector(
+	selectHomePageDomain,
+	(state) => state.loadingNewChapterText,
+);
+export const selectChapterTextLoadingState = createSelector(
+	selectHomePageDomain,
+	(state) => state.chapterTextLoadingState,
+);
+export const selectChangingVersion = createSelector(
+	selectHomePageDomain,
+	(state) => state.changingVersion,
+);
+export const selectVideoPlayerOpen = createSelector(
+	selectHomePageDomain,
+	(state) => state.videoPlayerOpen,
+);
+export const selectHasVideo = createSelector(
+	selectHomePageDomain,
+	(state) => state.hasVideo,
+);
+export const selectTextDirection = createSelector(
+	selectHomePageDomain,
+	(state) => state.textDirection,
+);
+export const selectMatch = createSelector(
+	selectHomePageDomain,
+	(state) => state.match,
+);
+export const selectFirstLoad = createSelector(
+	selectHomePageDomain,
+	(state) => state.firstLoad,
+);
+export const selectAddBookmarkSuccess = createSelector(
+	selectHomePageDomain,
+	(state) => state.addBookmarkSuccess,
+);
+export const selectDefaultLanguageIso = createSelector(
+	selectHomePageDomain,
+	(state) => state.defaultLanguageIso,
+);
+export const selectInitialIsoCode = createSelector(
+	selectHomePageDomain,
+	(state) => state.initialIsoCode,
+);
+export const selectInitialLanguageName = createSelector(
+	selectHomePageDomain,
+	(state) => state.initialLanguageName,
+);
+export const selectDefaultLanguageCode = createSelector(
+	selectHomePageDomain,
+	(state) => state.defaultLanguageCode,
+);
+export const selectBibleFontAvailable = createSelector(
+	selectHomePageDomain,
+	(state) => state.bibleFontAvailable,
+);
+export const selectAudioSource = createSelector(
+	selectHomePageDomain,
+	(state) => state.audioSource,
+);
+//
 
-			filteredNotes?.forEach((n, ni) => {
-				let iToSet = 0;
-				const verse = text.find((t, i) => {
-					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
-					const noteVerseStart = n.get ? n.get('verse_start') : n.verse_start;
+const selectSettingsDomain = (state) => state.settings;
+const selectProfilePageDomain = (state) => state.profile;
+const selectNotesDomain = (state) => state.notes;
 
-					if (parseInt(textVerseStart, 10) === noteVerseStart) {
-						iToSet = i;
-					}
-					return parseInt(textVerseStart, 10) === noteVerseStart;
-				});
-				if (verse) {
-					// Need to change this since the notes will be allowed to be null
-					// Eventually there will be two separate calls so I can have two piece of state
-					const verseTextStart = isImmutable(verse) ? verse.get('verse_start') : verse.verse_start;
-					if (n.get('notes') && !versesWithNotes[verseTextStart]) {
-						newText = newText.size
-							? newText.setIn([iToSet, 'hasNote'], true)
-							: text.setIn([iToSet, 'hasNote'], true);
-						newText = newText.size
-							? newText.setIn([iToSet, 'noteIndex'], ni)
-							: text.setIn([iToSet, 'noteIndex'], ni);
-						versesWithNotes[verseTextStart] = true;
-					}
-				}
-			});
-			filteredBookmarks?.forEach((bookmark, ni) => {
-				let iToSet = 0;
-				const verse = text.find((t, i) => {
-					const textVerseStart = t.get ? t.get('verse_start') : t.verse_start;
-					const bookmarkVerseStart = bookmark.get ? bookmark.get('verse') : n.verse;
+// Simple property selectors
+const selectChapterDataFromState = (state) =>
+	state.homepage.formattedJsonSource;
 
-					if (parseInt(textVerseStart, 10) === bookmarkVerseStart) {
-						iToSet = i;
-					}
-					return parseInt(textVerseStart, 10) === bookmarkVerseStart;
-				});
-				if (verse) {
-					newText = newText.size
-						? newText.setIn([iToSet, 'hasBookmark'], true)
-						: text.setIn([iToSet, 'hasBookmark'], true);
-					newText = newText.size
-						? newText.setIn([iToSet, 'bookmarkIndex'], ni)
-						: text.setIn([iToSet, 'bookmarkIndex'], ni);
-				}
-			});
+// Audio selectors
+const selectAudioType = createSelector(
+	selectHomePageDomain,
+	(home) => home.audioType,
+);
+const selectAvailableAudioTypes = createSelector(
+	selectHomePageDomain,
+	(home) => home.availableAudioTypes,
+);
 
-			const textFinal = text.toJS ? text.toJS() : text;
+// Notes/selectors
+const selectActiveNotesView = createSelector(
+	selectNotesDomain,
+	(notes) => notes?.activeChild,
+);
 
+const selectChapterText = createSelector(selectHomePageDomain, (dm) => {
+	const arr = Array.isArray(dm.chapterText) ? dm.chapterText : [];
+	return arr.map((verse) => ({
+		...verse,
+		verse_text: String(verse.verse_text),
+	}));
+});
+
+const selectUserNotes = createSelector(
+	[
+		selectNotesDomain,
+		selectActiveTextId,
+		selectActiveBookId,
+		selectActiveChapter,
+		selectChapterText, // use the memoized chapterText
+		(state) => state.profile.userAuthenticated,
+		(state) => state.profile.userId,
+	],
+	(notesState, textId, bookId, chapter, chapterText, profAuth, profUser) => {
+		// Ensure we have valid chapterText
+		const rawNotes = Array.isArray(notesState?.userNotes)
+			? notesState.userNotes
+			: [];
+		const rawBookmarks = Array.isArray(notesState?.chapterBookmarks)
+			? notesState.chapterBookmarks
+			: [];
+
+		const filteredNotes = rawNotes.filter(
+			(n) =>
+				n.book_id === bookId && n.chapter === chapter && n.bible_id === textId,
+		);
+		const filteredBookmarks = rawBookmarks.filter(
+			(b) =>
+				b.book_id === bookId && b.chapter === chapter && b.bible_id === textId,
+		);
+
+		// if no text or no auth
+		if (!chapterText.length || (!profAuth && !profUser)) {
 			return {
-				text: newText.size ? newText.toJS() : textFinal,
-				userNotes,
-				bookmarks,
+				text: chapterText,
+				userNotes: filteredNotes,
+				bookmarks: filteredBookmarks,
 			};
-		},
-	);
+		}
 
-const selectMenuOpenState = () =>
-	createDeepEqualSelector(
-		selectHomePageDomain,
-		(home) =>
-			home.get('isChapterSelectionActive') ||
-			home.get('isProfileActive') ||
-			home.get('isSettingsModalActive') ||
-			home.get('isNotesModalActive') ||
-			home.get('isSearchModalActive') ||
-			home.get('isVersionSelectionActive'),
-	);
+		const annotated = chapterText.map((verse) => {
+			const idxN = filteredNotes.findIndex(
+				(n) => n.verse_start === verse.verse_start,
+			);
+			const idxB = filteredBookmarks.findIndex(
+				(b) => b.verse === verse.verse_start,
+			);
+			return {
+				...verse,
+				hasNote: idxN > -1,
+				noteIndex: idxN > -1 ? idxN : undefined,
+				hasBookmark: idxB > -1,
+				bookmarkIndex: idxB > -1 ? idxB : undefined,
+			};
+		});
 
-const selectUserId = () =>
-	createDeepEqualSelector(selectProfilePageDomain, (profile) =>
-		profile.get('userId'),
-	);
+		return {
+			text: annotated,
+			userNotes: filteredNotes,
+			bookmarks: filteredBookmarks,
+		};
+	},
+);
 
-const selectAuthenticationStatus = () =>
-	createDeepEqualSelector(selectProfilePageDomain, (profile) =>
-		profile.get('userAuthenticated'),
-	);
-// TODO: Reduce the number of times the below function is called
-// I will likely want to put all manipulations to the formatted text into this selector
-const selectFormattedSource = () =>
-	createDeepEqualSelector(
-		[selectFormattedTextSource, selectCrossReferenceState],
-		(source, hasCrossReferences) => {
-			// Todo: Get rid of all dom manipulation in this selector because it is really gross
-			// Todo: run all of the parsing in this function once the source is obtained
-			// Todo: Keep the selection of the single verse and the footnotes here
-			// Pushing update with the formatted text working but not the footnotes
-			if (!source) {
-				return { main: '', footnotes: {} };
+// UI state selector
+const selectMenuOpenState = createSelector(
+	selectHomePageDomain,
+	(home) =>
+		home.isChapterSelectionActive ||
+		home.isProfileActive ||
+		home.isSettingsModalActive ||
+		home.isNotesModalActive ||
+		home.isSearchModalActive ||
+		home.isVersionSelectionActive,
+);
+
+// Profile selectors
+const selectUserId = createSelector(
+	selectProfilePageDomain,
+	(profile) => profile.userId,
+);
+const selectAuthenticationStatus = createSelector(
+	selectProfilePageDomain,
+	(profile) => profile.userAuthenticated,
+);
+
+// Chapter JSON parsing
+const selectChapterJson = createSelector(
+	selectChapterDataFromState,
+	(rawData) => {
+		if (!rawData) return null;
+		try {
+			const jsonData =
+				typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+			if (!jsonData.sequence || !Array.isArray(jsonData.sequence.blocks)) {
+				console.error('Invalid chapter JSON structure:', jsonData);
+				return null;
 			}
+			return jsonData;
+		} catch (error) {
+			console.error('Failed to parse chapter JSON:', error);
+			return null;
+		}
+	},
+);
 
-			const sourceWithoutNewlines = source.replace(/[\n\r]/g, '');
-			const chapterStart = sourceWithoutNewlines.indexOf('<div class="chapter');
-			const chapterEnd = sourceWithoutNewlines.indexOf(
-				'<div class="footnotes">',
-				chapterStart,
-			);
-			const footnotesStart = sourceWithoutNewlines.indexOf(
-				'<div class="footnotes">',
-			);
-			const footnotesEnd = sourceWithoutNewlines.indexOf(
-				'<div class="footer">',
-				footnotesStart,
-			);
-			const footnoteSource = sourceWithoutNewlines.slice(
-				footnotesStart,
-				footnotesEnd,
-			);
-			const main = sourceWithoutNewlines
-				.slice(chapterStart, chapterEnd)
-				.replace(/v-num v-[0-9]+">/g, '$&&#160;');
-			if (!hasCrossReferences) {
-				const mainWithoutCRs = main.replace(
-					/<span class=['"]note['"](.*?)<\/span>/g,
-					'',
-				);
+// Formatted source extraction
+const selectFormattedSource = createSelector(
+	[
+		(state) => state.homepage.formattedSource,
+		(state) => state.settings.userSettings.toggleOptions.crossReferences.active,
+	],
+	(source = '', hasCrossRefs) => {
+		const clean = source.replace(/[\n\r]/g, '');
+		const mainMatch = clean.match(
+			/<div class="chapter[\s\S]*?<div class="footnotes">/,
+		);
+		const footnotesMatch = clean.match(
+			/<div class="footnotes">([\s\S]*?)<div class="footer">/,
+		);
+		const main = mainMatch ? mainMatch[0] : '';
+		const footnoteSource = footnotesMatch ? footnotesMatch[1] : '';
+		const finalMain = hasCrossRefs
+			? main
+			: main.replace(/<span class=['"]note['"](.*?)<\/span>/g, '');
+		return { main: finalMain, footnotes: {}, footnoteSource };
+	},
+);
 
-				return { main: mainWithoutCRs, footnotes: {}, footnoteSource };
-			}
-			return { main, footnotes: {}, footnoteSource };
-		},
-	);
+// Settings selector
+const selectSettings = createSelector(
+	selectSettingsDomain,
+	(settings) => settings.userSettings,
+);
 
-/**
- * Other specific selectors
- */
-
-const selectSettings = () =>
-	createDeepEqualSelector(selectSettingsDomain, (substate) =>
-		substate.get('userSettings'),
-	);
-// TODO: May need to remove toJS if the application is showing signs of slowness
-// I dont remember why I was doing this.......... ... .. ... ... -_-
-const selectChapterText = () =>
-	createDeepEqualSelector(selectHomepageText, (text) =>
-		text
-			.map((verse) => verse.set('verse_text', `${verse.get('verse_text')}`))
-			.toJS(),
-	);
-
-/**
- * Default selector used by HomePage
- */
-
-const makeSelectHomePage = () =>
-	createDeepEqualSelector(selectHomePageDomain, (substate) => substate?.toJS());
-
-export default makeSelectHomePage;
+// Default selector
 export {
 	selectHomePageDomain,
 	selectSettings,
 	selectFormattedSource,
+	selectChapterJson,
 	selectMenuOpenState,
 	selectAuthenticationStatus,
 	selectUserId,

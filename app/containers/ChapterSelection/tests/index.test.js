@@ -3,13 +3,24 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ChapterSelection } from '..';
 
-jest.mock('../../../components/BooksTable', () => function booksTableMock() {
-	return (
-		<div data-testid="books-table">
-			<button type="button">Genesis</button>
-		</div>
-	);
-});
+jest.mock(
+	'../../../components/BooksTable',
+	() =>
+		function booksTableMock() {
+			return (
+				<div data-testid="books-table">
+					<button type="button">Genesis</button>
+				</div>
+			);
+		},
+);
+
+// Mock the redux actions
+jest.mock('../../HomePage/actions', () => ({
+	setActiveChapter: jest.fn(),
+	setActiveBookName: jest.fn(),
+	toggleChapterSelection: jest.fn(),
+}));
 
 // Mock the redux actions
 jest.mock('../../HomePage/actions', () => ({
@@ -50,7 +61,9 @@ describe('<ChapterSelection />', () => {
 	});
 
 	it('should update component when props change', () => {
-		const { container, rerender } = render(<ChapterSelection {...activeProps} />);
+		const { container, rerender } = render(
+			<ChapterSelection {...activeProps} />,
+		);
 		expect(dispatch).not.toHaveBeenCalled();
 		const contentActive = container.querySelector('.chapter-text-dropdown');
 		expect(contentActive).toHaveStyle('display: flex');

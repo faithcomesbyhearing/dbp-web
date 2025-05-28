@@ -62,5 +62,17 @@ module.exports = withBundleAnalyzer({
 		// Enable support for class properties
 		styledComponents: true,
 	},
-	swcMinify: true,
+	// swcMinify: true,
+	sassOptions: {
+		// use Dart Sass’s modern compiler API
+		api: 'modern-compiler',
+		quietDeps: true,
+		logger: {
+			warn(message, options) {
+				if (options.deprecation.id !== 'legacy-js-api') {
+					console.warn(message); // eslint-disable-line no-console
+				}
+			},
+		},
+	},
 });

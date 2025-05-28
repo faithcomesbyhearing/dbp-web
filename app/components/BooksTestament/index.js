@@ -22,58 +22,53 @@ function BooksTestament({
 	audioType,
 	testamentTitle,
 }) {
-  return [
-	<div key={`${testamentPrefix}_title_key`} className={'testament-title'}>
-		<h3>{testamentTitle}</h3>
-	</div>,
-	books.map((book) => (
-		<div
-			className={'book-button'}
-			data-testid={(book.get('name') || book.get('name_short')).concat(
-				book.get('book_id'),
-			)}
-			ref={
-				(book.get('name') || book.get('name_short')) === selectedBookName
-					? (el) => handleRef(el, 'button')
-					: null
-			}
-			key={(book.get('name') || book.get('name_short')).concat(
-				book.get('book_id'),
-			)}
-			id={(book.get('name') || book.get('name_short')).concat(
-				book.get('book_id'),
-			)}
-			onClick={(e) =>
-				handleBookClick(e, book.get('name') || book.get('name_short'))}
-		>
-			<h4
-				className={
-					(book.get('name') || book.get('name_short')) === selectedBookName
-						? 'active-book'
-						: ''
-				}
-			>
-				{book.get('name') || book.get('name_short')}
-				{book.get('hasVideo') && (
-					<SvgWrapper className={'gospel-films'} svgid={'gospel_films'} />
+	return [
+		<div key={`${testamentPrefix}_title_key`} className={'testament-title'}>
+			<h3>{testamentTitle}</h3>
+		</div>,
+		books.map((book) => (
+			<div
+				className={'book-button'}
+				data-testid={(book['name'] || book['name_short']).concat(
+					book['book_id'],
 				)}
-			</h4>
-			<ChaptersContainer
-				bookName={book.get('name')}
-				audioType={audioType}
-				bookNameShort={book.get('name_short')}
-				activeTextId={activeTextId}
-				activeChapter={activeChapter}
-				handleChapterClick={handleChapterClick}
-				chapters={book.get('chapters')}
-				selectedBookName={selectedBookName}
-				activeBookName={activeBookName}
-				bookId={book.get('book_id')}
-				book={book}
-			/>
-		</div>
-	)),
-];
+				ref={
+					(book['name'] || book['name_short']) === selectedBookName
+						? (el) => handleRef(el, 'button')
+						: null
+				}
+				key={(book['name'] || book['name_short']).concat(book['book_id'])}
+				id={(book['name'] || book['name_short']).concat(book['book_id'])}
+				onClick={(e) => handleBookClick(e, book['name'] || book['name_short'])}
+			>
+				<h4
+					className={
+						(book['name'] || book['name_short']) === selectedBookName
+							? 'active-book'
+							: ''
+					}
+				>
+					{book['name'] || book['name_short']}
+					{book['hasVideo'] && (
+						<SvgWrapper className={'gospel-films'} svgid={'gospel_films'} />
+					)}
+				</h4>
+				<ChaptersContainer
+					bookName={book['name']}
+					audioType={audioType}
+					bookNameShort={book['name_short']}
+					activeTextId={activeTextId}
+					activeChapter={activeChapter}
+					handleChapterClick={handleChapterClick}
+					chapters={book['chapters']}
+					selectedBookName={selectedBookName}
+					activeBookName={activeBookName}
+					bookId={book['book_id']}
+					book={book}
+				/>
+			</div>
+		)),
+	];
 }
 
 BooksTestament.propTypes = {

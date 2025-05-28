@@ -184,12 +184,9 @@ class FormattedText extends React.PureComponent {
 				noteClick: handleNoteClick,
 			});
 		} else if (
-			prevProps.userSettings.getIn([
-				'toggleOptions',
-				'readersMode',
-				'active',
-			]) !== userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
-			!userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
+			prevProps.userSettings?.['toggleOptions']?.['readersMode']?.['active'] !==
+				userSettings?.['toggleOptions']?.['readersMode']?.['active'] &&
+			!userSettings?.['toggleOptions']?.['readersMode']?.['active'] &&
 			(this.formatHighlightRef || this.formatRef)
 		) {
 			// Need to set event handlers again here because they are removed once the plain text is rendered
@@ -259,10 +256,6 @@ class FormattedText extends React.PureComponent {
 			}, {}) || {};
 
 		this.props.setFootnotes(footnotes);
-		// this.setState({
-		// 	footnoteState: false,
-		// 	footnotes,
-		// });
 	};
 
 	setFormattedRef = (el) => {
@@ -311,8 +304,9 @@ class FormattedText extends React.PureComponent {
 					initialFormattedSource.main,
 					'text/xml',
 				);
+				const activeBookIdUpperCase = String(activeBookId || '').toUpperCase();
 				// Find the verse node by its class name
-				const verseClassName = `${activeBookId.toUpperCase()}${activeChapter}_${verseNumber}`;
+				const verseClassName = `${activeBookIdUpperCase}${activeChapter}_${verseNumber}`;
 				const verseNumberElement = xmlDocText.getElementsByClassName(
 					`verse${verseNumber}`,
 				)[0];
@@ -356,21 +350,12 @@ class FormattedText extends React.PureComponent {
 					}
 				: initialFormattedSource;
 		}
-		const readersMode = userSettings.getIn([
-			'toggleOptions',
-			'readersMode',
-			'active',
-		]);
-		const oneVersePerLine = userSettings.getIn([
-			'toggleOptions',
-			'oneVersePerLine',
-			'active',
-		]);
-		const justifiedText = userSettings.getIn([
-			'toggleOptions',
-			'justifiedText',
-			'active',
-		]);
+		const readersMode =
+			userSettings?.['toggleOptions']?.['readersMode']?.['active'];
+		const oneVersePerLine =
+			userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'];
+		const justifiedText =
+			userSettings?.['toggleOptions']?.['justifiedText']?.['active'];
 		// Need to connect to the api and get the highlights object for this chapter
 		// based on whether the highlights object has any data decide whether to
 		// run this function or not

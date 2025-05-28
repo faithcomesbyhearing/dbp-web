@@ -42,8 +42,8 @@ copyProps(window, global);
 // Need to use require instead of import here and pass through all the props given.
 jest.mock('next/dynamic', () => () => {
 	function DynamicComponent() {
-  return null;
-}
+		return null;
+	}
 	DynamicComponent.displayName = 'LoadableComponent';
 	DynamicComponent.preload = jest.fn();
 	return DynamicComponent;

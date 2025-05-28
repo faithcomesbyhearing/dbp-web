@@ -1,63 +1,205 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<VersionListSection /> Should match previous snapshot using data from API 1`] = `
+exports[`<VersionListSection /> Should match previous snapshot using data from api and language ID 17045 English: USA 1`] = `
 <DocumentFragment>
   <div
-    class="accordion"
-    data-accordion-component="Accordion"
+    class="version-list-section"
   >
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="3"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style top-level-title"
       >
-        <div
-          aria-controls="accordion__panel-:r7:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r7:"
-          role="button"
-          tabindex="0"
+        <button
+          class=""
+          title="English Standard Version® - Hear the Word Audio Bible"
+          type="button"
         >
-          <h4
-            class=""
-            title="New Life Version (Easy to Read)"
-          >
-            New Life Version (Easy to Read)
-          </h4>
-        </div>
-      </div>
+          English Standard Version® - Hear the Word Audio Bible
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style"
+      >
+        <h4
+          class="active-version"
+          title="English Standard Version®"
+        >
+          English Standard Version®
+        </h4>
+      </summary>
       <div
         class="accordion-body-style"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r7:"
       >
-        <a
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Dramatized Version
-        </a>
-        <a
+        </button>
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </a>
+        </button>
       </div>
-    </div>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style"
+      >
+        <h4
+          class=""
+          title="King James Version"
+        >
+          King James Version
+        </h4>
+      </summary>
+      <div
+        class="accordion-body-style"
+      >
+        <button
+          class="version-item-button"
+          type="button"
+        >
+          Dramatized Version
+        </button>
+        <button
+          class="version-item-button"
+          type="button"
+        >
+          Non-Dramatized Version
+        </button>
+      </div>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style top-level-title"
+      >
+        <button
+          class=""
+          title="New American Bible, revised edition (NABRE)"
+          type="button"
+        >
+          New American Bible, revised edition (NABRE)
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style"
+      >
+        <h4
+          class=""
+          title="Holy Bible, New International Version®"
+        >
+          Holy Bible, New International Version®
+        </h4>
+      </summary>
+      <div
+        class="accordion-body-style"
+      >
+        <button
+          class="version-item-button"
+          type="button"
+        >
+          Dramatized Version
+        </button>
+        <button
+          class="version-item-button"
+          type="button"
+        >
+          Non-Dramatized Version
+        </button>
+      </div>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style top-level-title"
+      >
+        <button
+          class=""
+          title="New King James Version"
+          type="button"
+        >
+          New King James Version
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style top-level-title"
+      >
+        <button
+          class=""
+          title="New Living Translation® - her.BIBLE (women’s voices)"
+          type="button"
+        >
+          New Living Translation® - her.BIBLE (women’s voices)
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style top-level-title"
+      >
+        <button
+          class=""
+          title="New Living Translation®, Holy Sanctuary version"
+          type="button"
+        >
+          New Living Translation®, Holy Sanctuary version
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style top-level-title"
+      >
+        <button
+          class=""
+          title="World English Bible"
+          type="button"
+        >
+          World English Bible
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
+        class="accordion-title-style top-level-title"
+      >
+        <button
+          class=""
+          title="World English Bible - Winfred Henson"
+          type="button"
+        >
+          World English Bible - Winfred Henson
+        </button>
+      </summary>
+    </details>
   </div>
 </DocumentFragment>
 `;
@@ -65,331 +207,173 @@ exports[`<VersionListSection /> Should match previous snapshot using data from A
 exports[`<VersionListSection /> Should match previous snapshot with valid props 1`] = `
 <DocumentFragment>
   <div
-    class="accordion"
-    data-accordion-component="Accordion"
+    class="version-list-section"
   >
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="3"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style"
       >
-        <div
-          aria-controls="accordion__panel-:r0:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r0:"
-          role="button"
-          tabindex="0"
+        <h4
+          class=""
+          title="English Standard Version"
         >
-          <h4
-            class=""
-            title="English Standard Version"
-          >
-            English Standard Version
-          </h4>
-        </div>
-      </div>
+          English Standard Version
+        </h4>
+      </summary>
       <div
         class="accordion-body-style"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r0:"
       >
-        <a
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Dramatized Version
-        </a>
-        <a
+        </button>
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </a>
+        </button>
       </div>
-    </div>
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+    </details>
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="3"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style"
       >
-        <div
-          aria-controls="accordion__panel-:r1:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r1:"
-          role="button"
-          tabindex="0"
+        <h4
+          class="active-version"
+          title="New International Version"
         >
-          <h4
-            class="active-version"
-            title="New International Version"
-          >
-            New International Version
-          </h4>
-        </div>
-      </div>
+          New International Version
+        </h4>
+      </summary>
       <div
         class="accordion-body-style"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r1:"
       >
-        <a
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Dramatized Version
-        </a>
-        <a
+        </button>
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </a>
+        </button>
       </div>
-    </div>
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+    </details>
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="3"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style"
       >
-        <div
-          aria-controls="accordion__panel-:r2:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r2:"
-          role="button"
-          tabindex="0"
+        <h4
+          class=""
+          title="King James Version"
         >
-          <h4
-            class=""
-            title="King James Version"
-          >
-            King James Version
-          </h4>
-        </div>
-      </div>
+          King James Version
+        </h4>
+      </summary>
       <div
         class="accordion-body-style"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r2:"
       >
-        <a
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Dramatized Version
-        </a>
-        <a
+        </button>
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </a>
+        </button>
       </div>
-    </div>
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+    </details>
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="1"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style top-level-title"
       >
-        <div
-          aria-controls="accordion__panel-:r3:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r3:"
-          role="button"
-          tabindex="0"
+        <button
+          class=""
+          title="New American Bible"
+          type="button"
         >
-          <a
-            class=" top-level-title"
-            role="button"
-            tabindex="0"
-            title="New American Bible"
-            type="button"
-          >
-            New American Bible
-          </a>
-        </div>
-      </div>
-      <div
-        class="accordion__panel"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r3:"
-      />
-    </div>
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+          New American Bible
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="1"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style top-level-title"
       >
-        <div
-          aria-controls="accordion__panel-:r4:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r4:"
-          role="button"
-          tabindex="0"
+        <button
+          class=""
+          title="World English Bible"
+          type="button"
         >
-          <a
-            class=" top-level-title"
-            role="button"
-            tabindex="0"
-            title="World English Bible"
-            type="button"
-          >
-            World English Bible (Hosanna audio) (World English Bible)
-          </a>
-        </div>
-      </div>
-      <div
-        class="accordion__panel"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r4:"
-      />
-    </div>
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+          World English Bible (Hosanna audio) (World English Bible)
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="1"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style top-level-title"
       >
-        <div
-          aria-controls="accordion__panel-:r5:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r5:"
-          role="button"
-          tabindex="0"
+        <button
+          class=""
+          title="World English Bible (Afred Henson)"
+          type="button"
         >
-          <a
-            class=" top-level-title"
-            role="button"
-            tabindex="0"
-            title="World English Bible (Afred Henson)"
-            type="button"
-          >
-            World English Bible (Afred Henson)
-          </a>
-        </div>
-      </div>
-      <div
-        class="accordion__panel"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r5:"
-      />
-    </div>
-    <div
-      class="accordion-title-style"
-      data-accordion-component="AccordionItem"
+          World English Bible (Afred Henson)
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
     >
-      <div
-        aria-level="3"
-        class="accordion__heading"
-        data-accordion-component="AccordionItemHeading"
-        role="heading"
+      <summary
+        class="accordion-title-style"
       >
-        <div
-          aria-controls="accordion__panel-:r6:"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="accordion__button"
-          data-accordion-component="AccordionItemButton"
-          id="accordion__heading-:r6:"
-          role="button"
-          tabindex="0"
+        <h4
+          class=""
+          title="New International Version (Anglicised)"
         >
-          <h4
-            class=""
-            title="New International Version (Anglicised)"
-          >
-            New International Version (Anglicised)
-          </h4>
-        </div>
-      </div>
+          New International Version (Anglicised)
+        </h4>
+      </summary>
       <div
         class="accordion-body-style"
-        data-accordion-component="AccordionItemPanel"
-        hidden=""
-        id="accordion__panel-:r6:"
       >
-        <a
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Dramatized Version
-        </a>
-        <a
+        </button>
+        <button
           class="version-item-button"
-          role="button"
-          tabindex="0"
           type="button"
         >
           Non-Dramatized Version
-        </a>
+        </button>
       </div>
-    </div>
+    </details>
   </div>
 </DocumentFragment>
 `;

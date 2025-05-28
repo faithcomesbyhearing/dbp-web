@@ -1,58 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<NoteVerseText /> Should match snapshot when loading 1`] = `
-<div
-  className="verse-text"
->
+<DocumentFragment>
   <div
-    className="loading-spinner"
+    class="verse-text"
   >
-    <span
-      className="loading-spinner1 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner2 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner3 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner4 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner5 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner6 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner7 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner8 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner9 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner10 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner11 loading-spinner-child"
-    />
-    <span
-      className="loading-spinner12 loading-spinner-child"
-    />
+    <div
+      class="loading-spinner"
+    >
+      <span
+        class="loading-spinner1 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner2 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner3 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner4 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner5 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner6 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner7 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner8 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner9 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner10 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner11 loading-spinner-child"
+      />
+      <span
+        class="loading-spinner12 loading-spinner-child"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`<NoteVerseText /> Should match snapshot when not loading 1`] = `
-<div
-  className="verse-text"
->
-  " 
-  Salmon the father of Boaz, whose mother was Rahab. Boaz became the father of Obed, whose mother was Ruth. Obed became the father of Jesse,
-   "
-</div>
+<DocumentFragment>
+  <div
+    class="verse-text"
+  >
+    " Salmon the father of Boaz, whose mother was Rahab. Boaz became the father of Obed, whose mother was Ruth. Obed became the father of Jesse, "
+  </div>
+</DocumentFragment>
 `;

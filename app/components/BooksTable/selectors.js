@@ -1,65 +1,65 @@
 import { createSelector } from 'reselect';
-import { fromJS } from 'immutable';
 
-const selectHomepageDomain = (state) => state.get('homepage');
+const selectHomepageDomain = (state) => state['homepage'];
 
 // TODO: Refactor from using toJS() to using immutable maps
-const selectBooks = () =>
-	createSelector(selectHomepageDomain, (substate) => {
-		const splitBooks = {};
-		const books = substate.get('books');
-		const testamentMap = substate.get('testaments').toJS
-			? substate.get('testaments').toJS()
-			: substate.get('testaments');
-		books.forEach((book) => {
-			if (splitBooks[testamentMap[book.get ? book.get('book_id') : book.book_id]]) {
-				splitBooks[testamentMap[book.get ? book.get('book_id') : book.book_id]].push(book);
-			} else {
-				splitBooks[testamentMap[book.get ? book.get('book_id') : book.book_id]] = [book];
-			}
-		});
-
-		if (Object.keys(splitBooks).length) {
-			return fromJS(splitBooks);
+const selectBooks = createSelector(selectHomepageDomain, (substate) => {
+	const splitBooks = {};
+	const books = substate['books'];
+	const testamentMap = substate['testaments'];
+	books.forEach((book) => {
+		if (splitBooks[testamentMap[book.get ? book['book_id'] : book.book_id]]) {
+			splitBooks[testamentMap[book.get ? book['book_id'] : book.book_id]].push(
+				book,
+			);
+		} else {
+			splitBooks[testamentMap[book.get ? book['book_id'] : book.book_id]] = [
+				book,
+			];
 		}
-		// Fallback to try and prevent app from breaking
-		return books;
 	});
 
-const selectActiveTextId = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('activeTextId'),
-	);
+	if (Object.keys(splitBooks).length) {
+		return structuredClone(splitBooks);
+	}
+	// Fallback to try and prevent app from breaking
+	return books;
+});
 
-const selectActiveBookName = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('activeBookName'),
-	);
+const selectActiveTextId = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['activeTextId'],
+);
 
-const selectActiveChapter = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('activeChapter'),
-	);
+const selectActiveBookName = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['activeBookName'],
+);
 
-const selectAudioObjects = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('audioObjects').toJS(),
-	);
+const selectActiveChapter = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['activeChapter'],
+);
 
-const selectHasTextInDatabase = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('hasTextInDatabase'),
-	);
+const selectAudioObjects = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['audioObjects'],
+);
 
-const selectFilesetTypes = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('filesetTypes').toJS(),
-	);
+const selectHasTextInDatabase = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['hasTextInDatabase'],
+);
 
-const selectLoadingBookStatus = () =>
-	createSelector(selectHomepageDomain, (substate) =>
-		substate.get('loadingBooks'),
-	);
+const selectFilesetTypes = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['filesetTypes'],
+);
+
+const selectLoadingBookStatus = createSelector(
+	selectHomepageDomain,
+	(substate) => substate['loadingBooks'],
+);
 
 export {
 	selectActiveTextId,

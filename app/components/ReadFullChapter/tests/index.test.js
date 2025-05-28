@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import ReadFullChapter from '..';
 
 jest.mock('react-intl', () => ({
@@ -15,7 +15,7 @@ const props = {
 
 describe('ReadFullChapter component', () => {
 	it('should match previous snapshot', () => {
-		const tree = renderer.create(<ReadFullChapter {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<ReadFullChapter {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

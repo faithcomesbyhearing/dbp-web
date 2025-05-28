@@ -14,36 +14,35 @@ const mockData = {
 };
 
 jest.mock('axios', () => ({
-		get: async (url, options) => {
-			if (url === '/valid-call') {
-				return Promise.resolve({
-						status: 200,
-						data: mockData['/valid-call'],
-					});
-			} else if (
-				url === '/valid-call-with-options' &&
-				options?.headers &&
-				options.headers.Authorization === 'somekey'
-			) {
-				return Promise.resolve({
-					...options,
-					status: 200,
-					data: mockData['/valid-call-with-options'],
-				});
-			} else if (url === '/reset-password') {
-				return Promise.resolve({ status: 428 });
-			} else if (url === '/invalid-credentials') {
-				return Promise.resolve({ status: 401 });
-			} else if (url === '/redirect') {
-				return Promise.resolve({
-					status: 300,
-					data: mockData['/redirect'],
-				});
-			}
-			return Promise.resolve(mockData.errorResponse);
-		},
-	}),
-);
+	get: async (url, options) => {
+		if (url === '/valid-call') {
+			return Promise.resolve({
+				status: 200,
+				data: mockData['/valid-call'],
+			});
+		} else if (
+			url === '/valid-call-with-options' &&
+			options?.headers &&
+			options.headers.Authorization === 'somekey'
+		) {
+			return Promise.resolve({
+				...options,
+				status: 200,
+				data: mockData['/valid-call-with-options'],
+			});
+		} else if (url === '/reset-password') {
+			return Promise.resolve({ status: 428 });
+		} else if (url === '/invalid-credentials') {
+			return Promise.resolve({ status: 401 });
+		} else if (url === '/redirect') {
+			return Promise.resolve({
+				status: 300,
+				data: mockData['/redirect'],
+			});
+		}
+		return Promise.resolve(mockData.errorResponse);
+	},
+}));
 
 describe('request utility function', () => {
 	it('should return json for valid return', async () => {

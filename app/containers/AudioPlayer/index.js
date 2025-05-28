@@ -18,11 +18,22 @@ import SvgWrapper from '../../components/SvgWrapper';
 import SpeedControl from '../../components/SpeedControl';
 import AudioProgressBar from '../../components/AudioProgressBar';
 import VolumeSlider from '../../components/VolumeSlider';
-import makeSelectAudioPlayer, {
-	selectorGenerator,
+import {
 	selectAutoPlay,
 	selectPlaybackRate,
 	selectVolume,
+	selectHomeBooks,
+	selectHasAudio,
+	selectHasVideo,
+	selectAudioPlayerState,
+	selectAudioSource,
+	selectAudioPaths,
+	selectActiveFilesets,
+	selectActiveBookId,
+	selectActiveTextId,
+	selectActiveChapter,
+	selectChangingVersion,
+	selectVideoPlayerOpen,
 } from './selectors';
 import { selectUserNotes } from '../HomePage/selectors';
 import {
@@ -82,7 +93,14 @@ export class AudioPlayer extends React.Component {
 				this.audioRef.addEventListener('canplay', this.autoPlayListener);
 			}
 		}
-		this.audioRef.playbackRate = this.props.playbackRate;
+		// this.audioRef.playbackRate = this.props.playbackRate;
+
+		const rate = Number(this.props.playbackRate);
+		// only set if it’s a real, finite number
+		if (Number.isFinite(rate)) {
+			this.audioRef.playbackRate = rate;
+		}
+
 		// Add all the event listeners I need for the audio player
 		this.audioRef.addEventListener(
 			'durationchange',
@@ -188,11 +206,19 @@ export class AudioPlayer extends React.Component {
 		// Ensure that the player volume and state volume stay in sync
 		if (this.audioRef) {
 			if (this.audioRef.volume !== prevProps.volume) {
-				this.audioRef.volume = prevProps.volume;
+				// this.audioRef.volume = prevProps.volume;
+				const prevVolume = Number(prevProps.volume);
+				if (Number.isFinite(prevVolume)) {
+					this.audioRef.volume = prevVolume;
+				}
 			}
 			// Ensure that the player playback rate and state playback rate stay in sync
 			if (this.audioRef.playbackRate !== prevProps.playbackRate) {
-				this.audioRef.playbackRate = prevProps.playbackRate;
+				// this.audioRef.playbackRate = prevProps.playbackRate;
+				const prevBackRate = Number(prevProps.playbackRate);
+				if (Number.isFinite(prevBackRate)) {
+					this.audioRef.playbackRate = prevBackRate;
+				}
 			}
 			if (
 				this.state.wasPlaying &&
@@ -849,27 +875,22 @@ AudioPlayer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	// Audio Domain
-	audioplayer: makeSelectAudioPlayer(),
-	// Settings Domain
-	autoPlay: selectAutoPlay(),
-	playbackRate: selectPlaybackRate(),
-	volume: selectVolume(),
-	// Homepage Domain
-	books: selectorGenerator('books', 'homepage'),
-	hasAudio: selectorGenerator('hasAudio', 'homepage'),
-	hasVideo: selectorGenerator('hasVideo', 'homepage'),
-	audioSource: selectorGenerator('audioSource', 'homepage'),
-	audioPaths: selectorGenerator('audioPaths', 'homepage'),
-	activeFilesets: selectorGenerator('activeFilesets', 'homepage'),
-	videoPlayerOpen: selectorGenerator('videoPlayerOpen', 'homepage'),
-	audioPlayerState: selectorGenerator('audioPlayerState', 'homepage'),
-	activeBookId: selectorGenerator('activeBookId', 'homepage'),
-	activeTextId: selectorGenerator('activeTextId', 'homepage'),
-	activeChapter: selectorGenerator('activeChapter', 'homepage'),
-	changingVersion: selectorGenerator('changingVersion', 'homepage'),
-	// Other Selectors
-	textData: selectUserNotes(),
+	audioPlayerState: selectAudioPlayerState, // the whole audioPlayer slice
+	autoPlay: selectAutoPlay,
+	playbackRate: selectPlaybackRate,
+	volume: selectVolume,
+	books: selectHomeBooks,
+	hasAudio: selectHasAudio,
+	hasVideo: selectHasVideo,
+	audioSource: selectAudioSource,
+	audioPaths: selectAudioPaths,
+	activeFilesets: selectActiveFilesets,
+	activeBookId: selectActiveBookId,
+	activeTextId: selectActiveTextId,
+	activeChapter: selectActiveChapter,
+	changingVersion: selectChangingVersion,
+	videoPlayerOpen: selectVideoPlayerOpen,
+	textData: selectUserNotes,
 });
 
 function mapDispatchToProps(dispatch) {

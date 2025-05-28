@@ -17,12 +17,16 @@ describe('ColorPicker tests', () => {
 	});
 
 	it('Should render and match snapshot', () => {
-		const { container } = render(<ColorPicker handlePickedColor={handlePickedColor} />);
+		const { container } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 		expect(container).toMatchSnapshot();
 	});
 
 	it('Should call the handler when the green option is clicked', () => {
-		const { getByLabelText } = render(<ColorPicker handlePickedColor={handlePickedColor} />);
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 		const greenButton = getByLabelText('green');
 
 		fireEvent.click(greenButton);
@@ -31,7 +35,9 @@ describe('ColorPicker tests', () => {
 	});
 
 	it('Should call the handler when the yellow option is clicked', () => {
-		const { getByLabelText } = render(<ColorPicker handlePickedColor={handlePickedColor} />);
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 		const yellowButton = getByLabelText('yellow');
 
 		fireEvent.click(yellowButton);
@@ -40,7 +46,9 @@ describe('ColorPicker tests', () => {
 	});
 
 	it('Should call the handler when the pink option is clicked', () => {
-		const { getByLabelText } = render(<ColorPicker handlePickedColor={handlePickedColor} />);
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 		const pinkButton = getByLabelText('pink');
 
 		fireEvent.click(pinkButton);
@@ -49,7 +57,9 @@ describe('ColorPicker tests', () => {
 	});
 
 	it('Should call the handler when the purple option is clicked', () => {
-		const { getByLabelText } = render(<ColorPicker handlePickedColor={handlePickedColor} />);
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 		const purpleButton = getByLabelText('purple');
 
 		fireEvent.click(purpleButton);
@@ -58,7 +68,9 @@ describe('ColorPicker tests', () => {
 	});
 
 	it('Should call the handler when the blue option is clicked', () => {
-		const { getByLabelText } = render(<ColorPicker handlePickedColor={handlePickedColor} />);
+		const { getByLabelText } = render(
+			<ColorPicker handlePickedColor={handlePickedColor} />,
+		);
 		const blueButton = getByLabelText('blue');
 
 		fireEvent.click(blueButton);

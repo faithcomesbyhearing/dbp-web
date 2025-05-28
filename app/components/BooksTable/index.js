@@ -12,6 +12,13 @@ import PropTypes from 'prop-types';
 import LoadingSpinner from '../LoadingSpinner';
 import BooksTestament from '../BooksTestament';
 import {
+	BOOK_COVENANT_TESTAMENT,
+	BOOK_NEW_TESTAMENT,
+	BOOK_OLD_TESTAMENT,
+	BOOK_AP_TESTAMENT,
+	BOOK_DEU_TESTAMENT,
+} from '../../constants/books';
+import {
 	selectAuthenticationStatus,
 	selectUserId,
 	selectAudioType,
@@ -95,17 +102,30 @@ export class BooksTable extends React.PureComponent {
 		this[name] = el;
 	};
 
-	render() {
-		const {
-			books,
-			audioType,
-			activeTextId,
-			activeChapter,
-			activeBookName,
-			loadingBooks,
-			textDirection,
-		} = this.props;
+	renderBooksTestament = (books, prefix, title) => {
+		const { audioType, activeTextId, activeChapter, activeBookName } =
+			this.props;
 		const { selectedBookName } = this.state;
+
+		return (
+			<BooksTestament
+				books={books}
+				testamentPrefix={prefix}
+				testamentTitle={title}
+				selectedBookName={selectedBookName}
+				handleRef={this.handleRef}
+				handleBookClick={this.handleBookClick}
+				handleChapterClick={this.handleChapterClick}
+				audioType={audioType}
+				activeBookName={activeBookName}
+				activeTextId={activeTextId}
+				activeChapter={activeChapter}
+			/>
+		);
+	};
+
+	render() {
+		const { books, loadingBooks, textDirection } = this.props;
 
 		if (loadingBooks) {
 			return <LoadingSpinner />;
@@ -122,51 +142,30 @@ export class BooksTable extends React.PureComponent {
 					ref={(el) => this.handleRef(el, 'container')}
 					className="book-container"
 				>
-					{!!books.get('OT') && (
-						<BooksTestament
-							books={books.get('OT')}
-							testamentPrefix={'ot'}
-							testamentTitle={'Old Testament'}
-							selectedBookName={selectedBookName}
-							handleRef={this.handleRef}
-							handleBookClick={this.handleBookClick}
-							handleChapterClick={this.handleChapterClick}
-							audioType={audioType}
-							activeBookName={activeBookName}
-							activeTextId={activeTextId}
-							activeChapter={activeChapter}
-						/>
-					)}
-					{!!books.get('NT') && (
-						<BooksTestament
-							books={books.get('NT')}
-							testamentPrefix={'nt'}
-							testamentTitle={'New Testament'}
-							selectedBookName={selectedBookName}
-							handleRef={this.handleRef}
-							handleBookClick={this.handleBookClick}
-							handleChapterClick={this.handleChapterClick}
-							audioType={audioType}
-							activeBookName={activeBookName}
-							activeTextId={activeTextId}
-							activeChapter={activeChapter}
-						/>
-					)}
-					{!!(books.get('AP') || !!books.get('DC')) && (
-						<BooksTestament
-							books={books.get('AP') || books.get('DC')}
-							testamentPrefix={'dc'}
-							testamentTitle={'Deuterocanon'}
-							selectedBookName={selectedBookName}
-							handleRef={this.handleRef}
-							handleBookClick={this.handleBookClick}
-							handleChapterClick={this.handleChapterClick}
-							audioType={audioType}
-							activeBookName={activeBookName}
-							activeTextId={activeTextId}
-							activeChapter={activeChapter}
-						/>
-					)}
+					{books[BOOK_OLD_TESTAMENT] &&
+						this.renderBooksTestament(
+							books[BOOK_OLD_TESTAMENT],
+							'ot',
+							'Old Testament',
+						)}
+					{books[BOOK_NEW_TESTAMENT] &&
+						this.renderBooksTestament(
+							books[BOOK_NEW_TESTAMENT],
+							'nt',
+							'New Testament',
+						)}
+					{(books[BOOK_AP_TESTAMENT] || books[BOOK_DEU_TESTAMENT]) &&
+						this.renderBooksTestament(
+							books[BOOK_AP_TESTAMENT] || books[BOOK_DEU_TESTAMENT],
+							'dc',
+							'Deuterocanon',
+						)}
+					{books[BOOK_COVENANT_TESTAMENT] &&
+						this.renderBooksTestament(
+							books[BOOK_COVENANT_TESTAMENT],
+							'cv',
+							'Covenant Films',
+						)}
 				</div>
 			</div>
 		);
@@ -187,17 +186,17 @@ BooksTable.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	books: selectBooks(),
-	activeTextId: selectActiveTextId(),
-	activeBookName: selectActiveBookName(),
-	activeChapter: selectActiveChapter(),
-	audioObjects: selectAudioObjects(),
-	hasTextInDatabase: selectHasTextInDatabase(),
-	filesetTypes: selectFilesetTypes(),
-	loadingBooks: selectLoadingBookStatus(),
-	userAuthenticated: selectAuthenticationStatus(),
-	userId: selectUserId(),
-	audioType: selectAudioType(),
+	books: selectBooks,
+	activeTextId: selectActiveTextId,
+	activeBookName: selectActiveBookName,
+	activeChapter: selectActiveChapter,
+	audioObjects: selectAudioObjects,
+	hasTextInDatabase: selectHasTextInDatabase,
+	filesetTypes: selectFilesetTypes,
+	loadingBooks: selectLoadingBookStatus,
+	userAuthenticated: selectAuthenticationStatus,
+	userId: selectUserId,
+	audioType: selectAudioType,
 	// Verses selector
 	textDirection: selectTextDirection(),
 });

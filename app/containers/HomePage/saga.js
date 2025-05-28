@@ -21,6 +21,7 @@ import { ADD_BOOKMARK } from '../Notes/constants';
 import {
 	FILESET_TYPE_TEXT_PLAIN,
 	FILESET_TYPE_TEXT_FORMAT,
+	FILESET_TYPE_TEXT_JSON,
 	FILESET_TYPE_AUDIO_DRAMA,
 	FILESET_TYPE_AUDIO,
 	FILESET_TYPE_VIDEO_STREAM,
@@ -302,6 +303,7 @@ export function* getBibleFromUrl({
 					f.type === FILESET_TYPE_AUDIO_DRAMA ||
 					f.type === FILESET_TYPE_TEXT_PLAIN ||
 					f.type === FILESET_TYPE_TEXT_FORMAT ||
+					f.type === FILESET_TYPE_TEXT_JSON ||
 					f.type === FILESET_TYPE_VIDEO_STREAM,
 			);
 
@@ -356,6 +358,10 @@ export function* getChapterFromUrl({
 		filesets,
 		(f) => f.type === FILESET_TYPE_TEXT_FORMAT,
 	);
+	const hasFormattedJson = some(
+		filesets,
+		(f) => f.type === FILESET_TYPE_TEXT_JSON,
+	);
 	// checking for audio but not fetching it as a part of this saga
 	const hasAudio = some(
 		filesets,
@@ -365,6 +371,8 @@ export function* getChapterFromUrl({
 	try {
 		let formattedText = '';
 		let formattedTextFilesetId = '';
+		let formattedJson = '';
+		let formattedJsonFilesetId = '';
 		let plainTextFilesetId = '';
 		let plainText = [];
 		let hasPlainText = some(
@@ -417,7 +425,7 @@ export function* getChapterFromUrl({
 						process.env.BASE_API_ROUTE
 					}/bibles/filesets/${filesetId}?key=${
 						process.env.DBP_API_KEY
-					}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=text_format`; // hard coded since this only ever needs to get formatted text
+					}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_FORMAT}`; // hard coded since this only ever needs to get formatted text
 					const formattedChapterObject = yield call(request, reqUrl);
 					const path = get(formattedChapterObject.data, [0, 'path']);
 					formattedText = yield path
@@ -425,6 +433,35 @@ export function* getChapterFromUrl({
 						: '';
 
 					formattedTextFilesetId = filesetId;
+				}
+			} catch (error) {
+				if (process.env.NODE_ENV === 'development') {
+					console.error('Caught in get formatted text block', error); // eslint-disable-line no-console
+				}
+			}
+		}
+
+		if (hasFormattedJson) {
+			try {
+				// Gets the last fileset id for a formatted text
+				const filesetId =
+					filesets.reduce(
+						(a, c) => (c.type === FILESET_TYPE_TEXT_JSON ? c.id : a),
+						'',
+					) || bibleId;
+				if (filesetId) {
+					const reqUrl = `${
+						process.env.BASE_API_ROUTE
+					}/bibles/filesets/${filesetId}?key=${
+						process.env.DBP_API_KEY
+					}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_JSON}`; // hard coded since this only ever needs to get formatted text
+					const formattedChapterObject = yield call(request, reqUrl);
+					const path = get(formattedChapterObject.data, [0, 'path']);
+					formattedJson = yield path
+						? axios.get(path).then((res) => res.data)
+						: '';
+
+					formattedJsonFilesetId = filesetId;
 				}
 			} catch (error) {
 				if (process.env.NODE_ENV === 'development') {
@@ -489,8 +526,11 @@ export function* getChapterFromUrl({
 			plainTextFilesetId,
 			formattedText,
 			formattedTextFilesetId,
+			formattedJson,
+			formattedJsonFilesetId,
 			hasPlainText,
 			hasFormattedText,
+			hasFormattedJson,
 			hasAudio,
 			bookId,
 			chapter,
@@ -500,8 +540,10 @@ export function* getChapterFromUrl({
 		return {
 			plainText,
 			formattedText,
+			formattedJson,
 			hasPlainText,
 			hasFormattedText,
+			hasFormattedJson,
 			hasAudio,
 		};
 	} catch (error) {
@@ -515,6 +557,7 @@ export function* getChapterFromUrl({
 		plainText: [],
 		formattedText: '',
 		hasFormattedText: false,
+		hasFormattedJson: false,
 		hasPlainText: false,
 		hasAudio: false,
 	};
@@ -938,7 +981,7 @@ export function* getCopyrightSaga({ filesetIds }) {
 							message: cp.copyright?.copyright,
 							testament: cp.size || cp.set_size_code,
 							type: cp.type || cp.set_type_code,
-							organizations: cp.copyright?.organizations.map((org) => {
+							organizations: cp.copyright?.organizations?.map((org) => {
 								// Getting landscape instead of icons
 								const icon = org.logos?.find((l) => !l.icon);
 								if (org.translations.length) {
@@ -963,10 +1006,10 @@ export function* getCopyrightSaga({ filesetIds }) {
 			vidRes.map((cp) =>
 				Object.keys(cp).length
 					? {
-							message: cp.copyright.copyright,
+							message: cp.copyright?.copyright,
 							testament: cp.size || cp.set_size_code,
 							type: cp.type || cp.set_type_code,
-							organizations: cp.copyright.organizations.map((org) => {
+							organizations: cp.copyright?.organizations?.map((org) => {
 								// Getting landscape instead of icons
 								const icon = org.logos.find((l) => !l.icon);
 								if (org.translations.length) {
@@ -992,14 +1035,16 @@ export function* getCopyrightSaga({ filesetIds }) {
 			(c) =>
 				c.testament === FILESET_SIZE_COMPLETE &&
 				(c.type === FILESET_TYPE_TEXT_PLAIN ||
-					c.type === FILESET_TYPE_TEXT_FORMAT),
+					c.type === FILESET_TYPE_TEXT_FORMAT ||
+					c.type === FILESET_TYPE_TEXT_JSON),
 		)[0];
 		const ntText = !cText
 			? copyrights.filter(
 					(c) =>
 						ntCodes[c.testament] &&
 						(c.type === FILESET_TYPE_TEXT_PLAIN ||
-							c.type === FILESET_TYPE_TEXT_FORMAT),
+							c.type === FILESET_TYPE_TEXT_FORMAT ||
+							c.type === FILESET_TYPE_TEXT_JSON),
 				)[0]
 			: {};
 		const otText = !cText
@@ -1007,14 +1052,16 @@ export function* getCopyrightSaga({ filesetIds }) {
 					(c) =>
 						otCodes[c.testament] &&
 						(c.type === FILESET_TYPE_TEXT_PLAIN ||
-							c.type === FILESET_TYPE_TEXT_FORMAT),
+							c.type === FILESET_TYPE_TEXT_FORMAT ||
+							c.type === FILESET_TYPE_TEXT_JSON),
 				)[0]
 			: {};
 		const partialText = copyrights.filter(
 			(c) =>
 				c.testament === FILESET_SIZE_PORTION &&
 				(c.type === FILESET_TYPE_TEXT_PLAIN ||
-					c.type === FILESET_TYPE_TEXT_FORMAT),
+					c.type === FILESET_TYPE_TEXT_FORMAT ||
+					c.type === FILESET_TYPE_TEXT_JSON),
 		)[0];
 
 		const cAudio = copyrights.filter(

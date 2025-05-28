@@ -96,10 +96,7 @@ export class ContextPortal extends React.PureComponent {
 	};
 
 	handleMouseEnter = (e) => {
-		this.clonedRange = window
-			.getSelection()
-			.getRangeAt(0)
-			.cloneRange();
+		this.clonedRange = window.getSelection().getRangeAt(0).cloneRange();
 		if (e.target.id === 'copy-button' || e.target.id === 'copy-container') {
 			// handle the button being the target
 			const textBox = document.getElementById('link-to-copy');
@@ -264,7 +261,9 @@ export class ContextPortal extends React.PureComponent {
 						onClick={addFacebookLike}
 					>
 						<FacebookShareCount url={window.location.href}>
-							{(shareCount) => <span className={'share-count'}>{shareCount}</span>}
+							{(shareCount) => (
+								<span className={'share-count'}>{shareCount}</span>
+							)}
 						</FacebookShareCount>
 						<span className={'like-thumb'}>
 							<SvgWrapper
@@ -325,7 +324,7 @@ ContextPortal.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	isIe: selectIeState(),
+	isIe: selectIeState,
 });
 
 const withConnect = connect(mapStateToProps);
@@ -334,7 +333,4 @@ const withHomepage = injectReducer({
 	reducer: homepageReducer,
 });
 
-export default compose(
-	withConnect,
-	withHomepage,
-)(ContextPortal);
+export default compose(withConnect, withHomepage)(ContextPortal);

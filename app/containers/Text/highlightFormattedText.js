@@ -68,20 +68,25 @@ const createFormattedHighlights = (
 		// Instantiate the string -> html parser
 		const parser = env === 'test' ? () => {} : new DOMParser();
 		// Instantiate the html -> serializer
-		const serializer = env === 'test' ? () => {} : new XMLSerializer();
+		// const serializer = env === 'test' ? () => {} : new XMLSerializer();
 		// Instantiate jsDOM for creating a mock dom (needed for testing)
 		const jsDOM =
 			env === 'test' ? new DomCreator(formattedTextString) : undefined;
 		// Set the xml document based on whether this is live or a test
-		const xmlDoc =
+		// const xmlDoc =
+		// 	env === 'test'
+		// 		? jsDOM.window.document
+		// 		: parser.parseFromString(formattedTextString, 'text/xml');
+		const htmlDoc =
 			env === 'test'
 				? jsDOM.window.document
-				: parser.parseFromString(formattedTextString, 'text/xml');
+				: parser.parseFromString(formattedTextString, 'text/html');
 		let lastVerseNumber = 0; // the verse number of the last verse to have highlights applied
 		let previousHighlightArray = sortedHighlights;
 
 		// Get all verse elements (the first element with data-id is a div which is why I slice at 1)
-		const ad = [...xmlDoc.querySelectorAll('[data-id]')].slice(1);
+		// const ad = [...xmlDoc.querySelectorAll('[data-id]')].slice(1);
+		const ad = [...htmlDoc.body.querySelectorAll('[data-id]')].slice(1);
 
 		// Iterate over all the verses
 		ad.forEach((verseElement) => {
@@ -199,7 +204,8 @@ const createFormattedHighlights = (
 					}
 				}
 				// Create a blank node to use in the case that the current node is a text node
-				const newNonTextNode = xmlDoc.createElement('span');
+				// const newNonTextNode = xmlDoc.createElement('span');
+				const newNonTextNode = htmlDoc.createElement('span');
 				let verseTextHtml = '';
 				let isNotValidHtml = false;
 
@@ -211,14 +217,15 @@ const createFormattedHighlights = (
 						.getElementsByTagName('body')[0].innerHTML;
 
 					try {
-						xmlDoc.createElement('span').innerHTML = verseTextHtml;
+						// xmlDoc.createElement('span').innerHTML = verseTextHtml;
+						htmlDoc.createElement('span').innerHTML = verseTextHtml;
 					} catch (err) {
 						isNotValidHtml = true;
 
 						if (process.env.NODE_ENV === 'development') {
 							/* eslint-disable no-console */
 							console.error(
-								'Error creating xmlDoc in FormattedHighlights: ',
+								'Error creating htmlDoc in FormattedHighlights: ',
 								err,
 							);
 							/* eslint-enable no-console */
@@ -250,9 +257,10 @@ const createFormattedHighlights = (
 			});
 		});
 
-		return env === 'test'
-			? xmlDoc.querySelectorAll('body')[0].innerHTML
-			: serializer.serializeToString(xmlDoc);
+		// return env === 'test'
+		// 	? xmlDoc.querySelectorAll('body')[0].innerHTML
+		// 	: serializer.serializeToString(xmlDoc);
+		return htmlDoc.body.innerHTML;
 	} catch (error) {
 		if (process.env.NODE_ENV === 'development') {
 			console.warn('Failed applying highlight to formatted text', error); // eslint-disable-line no-console

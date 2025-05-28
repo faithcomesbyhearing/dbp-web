@@ -335,8 +335,9 @@ describe('Highlighting utils methods', () => {
 			const firstVerse = 1;
 			const lastVerse = 3;
 			// Got the text of the first three verses
-			const expectedText = 'The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.Abraham was the father of Isaac, and Isaac the father of Jacob, and Jacob the father of Judah and his brothers,and Judah the father of Perez and Zerah by Tamar, and Perez the father of Hezron, and Hezron the father of Ram,'
-				.length;
+			const expectedText =
+				'The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.Abraham was the father of Isaac, and Isaac the father of Jacob, and Jacob the father of Judah and his brothers,and Judah the father of Perez and Zerah by Tamar, and Perez the father of Hezron, and Hezron the father of Ram,'
+					.length;
 
 			expect(
 				utils.getTextInSelectedNodes({

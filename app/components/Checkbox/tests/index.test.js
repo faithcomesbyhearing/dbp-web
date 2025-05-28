@@ -40,14 +40,15 @@ describe('Checkbox component', () => {
 	});
 
 	it('should match snapshot for default props', () => {
-		const { asFragment } = render(<Checkbox {...props} id={''} className={''} />);
+		const { asFragment } = render(
+			<Checkbox {...props} id={''} className={''} />,
+		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('should render in active state', () => {
 		render(<Checkbox {...props} />);
 		const input = screen.getByRole('checkbox');
-		// expect(input.value).toBe(props.toggleState); // Checked when true
 		expect(stringToBoolean(input.value)).toBe(props.toggleState); // Checked when true
 	});
 
@@ -69,6 +70,8 @@ describe('Checkbox component', () => {
 		rerender(<Checkbox {...props} toggleState={props.toggleState} />);
 
 		// Verify the checkbox value after the update
-		expect(stringToBoolean(screen.getByRole('checkbox').value)).toBe(props.toggleState); // Now unchecked
+		expect(stringToBoolean(screen.getByRole('checkbox').value)).toBe(
+			props.toggleState,
+		); // Now unchecked
 	});
 });

@@ -1,84 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	Accordion,
-	AccordionItem,
-	AccordionItemPanel,
-	AccordionItemHeading,
-	AccordionItemButton,
-} from 'react-accessible-accordion';
 
-class VersionListSection extends React.PureComponent {
-	render() {
-		const { items } = this.props;
+/**
+ * A simple, accessible version list using native <details>/<summary>.
+ */
+const VersionListSection = ({ items }) => (
+	<div className="version-list-section">
+		{items.map((item) => {
+			const { key, title, className, text, altText, types, clickHandler } =
+				item;
+			const displayText = altText ? `${text} (${altText})` : text;
 
-		return (
-			<Accordion>
-				{items.map((item) => {
-					const { key, title, className, text, altText, types, clickHandler } =
-						item;
+			// Case: audio with drama and non-drama options
+			if (types.audio && types.audio_drama) {
+				return (
+					<details key={key} className="accordion-item">
+						<summary className="accordion-title-style">
+							<h4 title={title} className={className}>
+								{displayText}
+							</h4>
+						</summary>
+						<div className="accordion-body-style">
+							<button
+								className="version-item-button"
+								onClick={() => clickHandler('audio_drama')}
+								type="button"
+							>
+								Dramatized Version
+							</button>
+							<button
+								className="version-item-button"
+								onClick={() => clickHandler('audio')}
+								type="button"
+							>
+								Non-Dramatized Version
+							</button>
+						</div>
+					</details>
+				);
+			}
 
-					if (types.audio && types.audio_drama) {
-						return (
-							<AccordionItem key={key} className="accordion-title-style">
-								<AccordionItemHeading>
-									<AccordionItemButton>
-										<h4 title={title} className={className}>
-											{altText ? `${text} (${altText})` : text}
-										</h4>
-									</AccordionItemButton>
-								</AccordionItemHeading>
-								<AccordionItemPanel className="accordion-body-style">
-									<a
-										role="button"
-										key={`${key}_drama`}
-										tabIndex={0}
-										className="version-item-button"
-										onClick={() => clickHandler('audio_drama')}
-										type="button"
-									>
-										Dramatized Version
-									</a>
-									<a
-										role="button"
-										key={`${key}_plain`}
-										tabIndex={0}
-										className="version-item-button"
-										onClick={() => clickHandler('audio')}
-										type="button"
-									>
-										Non-Dramatized Version
-									</a>
-								</AccordionItemPanel>
-							</AccordionItem>
-						);
-					}
-
-					return (
-						<AccordionItem key={key} className="accordion-title-style">
-							<AccordionItemHeading aria-level={1}>
-								<AccordionItemButton>
-									<a
-										role="button"
-										key={key}
-										tabIndex={0}
-										title={title}
-										className={`${className} top-level-title`}
-										onClick={() => clickHandler('')}
-										type="button"
-									>
-										{altText ? `${text} (${altText})` : text}
-									</a>
-								</AccordionItemButton>
-							</AccordionItemHeading>
-							<AccordionItemPanel />
-						</AccordionItem>
-					);
-				})}
-			</Accordion>
-		);
-	}
-}
+			// Default case: single link-like button
+			return (
+				<details key={key} className="accordion-item">
+					<summary className="accordion-title-style top-level-title">
+						<button
+							className={className}
+							onClick={() => clickHandler('')}
+							title={title}
+							type="button"
+						>
+							{displayText}
+						</button>
+					</summary>
+				</details>
+			);
+		})}
+	</div>
+);
 
 VersionListSection.propTypes = {
 	items: PropTypes.arrayOf(
@@ -96,7 +75,7 @@ VersionListSection.propTypes = {
 			}).isRequired,
 			clickHandler: PropTypes.func.isRequired,
 		}),
-	),
+	).isRequired,
 };
 
 export default VersionListSection;

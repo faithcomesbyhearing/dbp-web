@@ -1,61 +1,60 @@
+// app/components/CopyrightStatement/tests/index.test.js
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
+import CopyrightStatement from '..';
+
+// mock out react-intl
+jest.mock('react-intl', () => ({
+	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
+	defineMessages: (msgs) => msgs,
+}));
+
 import {
 	copyrights,
 	invalidCopyrights,
 	invalidCopyrights2,
 } from '../../../utils/testUtils/copyrightData';
-import CopyrightStatement from '..';
 
-jest.mock('react-intl', () => ({
-	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
-	defineMessages: (messages) => messages,
-}));
+describe('<CopyrightStatement />', () => {
+	const baseProps = { prefix: 'new', copyrights };
 
-const props = {
-	prefix: 'new',
-	copyrights,
-};
+	it('renders new testament correctly', () => {
+		const { asFragment } = render(<CopyrightStatement {...baseProps} />);
+		expect(asFragment()).toMatchSnapshot();
+	});
 
-describe('CopyrightStatement component', () => {
-	it('should match previous snapshot for new testament', () => {
-		const tree = renderer.create(<CopyrightStatement {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+	it('renders old testament correctly', () => {
+		const { asFragment } = render(
+			<CopyrightStatement {...baseProps} prefix="old" />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('should match previous snapshot for old testament', () => {
-		const tree = renderer
-			.create(<CopyrightStatement {...props} prefix={'old'} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('handles invalid new-testament data', () => {
+		const { asFragment } = render(
+			<CopyrightStatement prefix="new" copyrights={invalidCopyrights} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('should match previous snapshot for new testament invalid data', () => {
-		const tree = renderer
-			.create(
-				<CopyrightStatement prefix={'new'} copyrights={invalidCopyrights} />,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('handles invalid old-testament data', () => {
+		const { asFragment } = render(
+			<CopyrightStatement prefix="old" copyrights={invalidCopyrights} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('should match previous snapshot for old testament invalid data', () => {
-		const tree = renderer
-			.create(
-				<CopyrightStatement prefix={'old'} copyrights={invalidCopyrights} />,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('handles old-testament with no messages', () => {
+		const { asFragment } = render(
+			<CopyrightStatement prefix="old" copyrights={invalidCopyrights2} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('should match previous snapshot for old testament invalid data where there are no messages', () => {
-		const tree = renderer
-			.create(
-				<CopyrightStatement prefix={'old'} copyrights={invalidCopyrights2} />,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
-	});
-	it('should match previous snapshot for no copyright data', () => {
-		const tree = renderer
-			.create(<CopyrightStatement prefix={'old'} copyrights={{}} />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('renders nothing when no copyright data', () => {
+		const { asFragment } = render(
+			<CopyrightStatement prefix="old" copyrights={{}} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

@@ -1,126 +1,120 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Login /> component should match snapshot with expected props 1`] = `
-[
-  <form
-    onSubmit={[Function]}
-  >
+<DocumentFragment>
+  <form>
     <span
-      className="sign-in-input"
+      class="sign-in-input"
     >
       <svg
-        className="icon"
+        class="icon"
         fill="#fff"
         height="30px"
         width="30px"
       >
         <use
-          xlinkHref="/svglist.svg#e-mail"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#e-mail"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <input
-        autoComplete="email"
-        className="error"
+        autocomplete="email"
+        class="error"
         id="email"
-        onChange={[Function]}
         placeholder="E-mail"
         type="email"
         value=""
       />
     </span>
     <span
-      className="sign-in-input"
+      class="sign-in-input"
     >
       <svg
-        className="icon"
+        class="icon"
         fill="#fff"
         height="26px"
         width="26px"
       >
         <use
-          xlinkHref="/svglist.svg#lock"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#lock"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <input
-        autoComplete="current-password"
-        className="error"
+        autocomplete="current-password"
+        class="error"
         id="password"
-        onChange={[Function]}
         placeholder="Password"
         type="password"
         value=""
       />
     </span>
     <div
-      className="sign-in-button"
+      class="sign-in-button"
     >
       <input
-        className="login-checkbox"
+        class="login-checkbox"
         id="login-checkbox"
-        onChange={[Function]}
         type="checkbox"
       />
       <label
-        className="text"
-        htmlFor="login-checkbox"
+        class="text"
+        for="login-checkbox"
       >
         Remember Me
       </label>
       <button
-        className="login-button"
+        class="login-button"
         type="submit"
       >
         Sign In
       </button>
     </div>
     <div
-      className="login-error-message"
+      class="login-error-message"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#warning"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#warning"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span
-        className="error-text"
+        class="error-text"
       >
         Username or Password is incorrect. Please try again.
       </span>
     </div>
     <section
-      className="forgot-password"
+      class="forgot-password"
     >
       <span
-        className="link"
+        class="link"
         id="reset-password-button"
-        onClick={[Function]}
         role="button"
-        tabIndex={0}
+        tabindex="0"
       >
         Reset your password.
       </span>
     </section>
-  </form>,
+  </form>
   <div
-    className="facebook"
+    class="facebook"
     id="facebook-login"
     role="button"
-    tabIndex={0}
+    tabindex="0"
   >
     Sign in with Facebook
-  </div>,
+  </div>
   <div
-    className="google"
+    class="google"
     id="google-login"
     role="button"
-    tabIndex={0}
+    tabindex="0"
   >
     Sign in with Google
-  </div>,
-]
+  </div>
+</DocumentFragment>
 `;

@@ -3,7 +3,6 @@ import {
 	applyMiddleware,
 	compose,
 } from 'redux';
-import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore } from 'redux-persist';
 import createReducer from './reducers';
@@ -35,7 +34,7 @@ export default function configureStore(initialState = {}) {
 	const composeEnhancers = configureEnhancers();
 	const store = createStore(
 		createReducer(),
-		fromJS(initialState),
+		structuredClone(initialState),
 		composeEnhancers(...enhancers),
 	);
 

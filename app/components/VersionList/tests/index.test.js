@@ -1,5 +1,4 @@
 import React from 'react';
-import { fromJS } from 'immutable';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
 import configureMockStore from 'redux-mock-store';
@@ -34,16 +33,16 @@ const props = {
 	loadingVersions: false,
 };
 
-let bibles = fromJS([]);
+let bibles = structuredClone([]);
 
 describe('<VersionList />', () => {
 	beforeEach(async () => {
-		const jsBibles = await getTexts({ languageCode: 6414 });
-		bibles = fromJS(jsBibles);
-	});
+		const jsBibles = await getTexts({ languageCode: 17045 });
+		bibles = structuredClone(jsBibles);
+	}, 10000);
 
 	it('Should match previous snapshot', () => {
-		const initialState = fromJS({
+		const initialState = structuredClone({
 			homepage: {
 				hasVideo: false, // This is where your selector looks for `hasVideo`
 			},
@@ -60,10 +59,10 @@ describe('<VersionList />', () => {
 			</Provider>,
 		);
 		expect(asFragment()).toMatchSnapshot();
-	});
+	}, 10000);
 
 	it('Should render a list of version names', () => {
-		const initialState = fromJS({
+		const initialState = structuredClone({
 			homepage: {
 				hasVideo: false, // This is where your selector looks for `hasVideo`
 			},
@@ -81,10 +80,10 @@ describe('<VersionList />', () => {
 		);
 
 		// Add assertions here if needed.
-	});
+	}, 10000);
 
 	it('Should render all available bibles as accordion titles', () => {
-		const initialState = fromJS({
+		const initialState = structuredClone({
 			homepage: {
 				hasVideo: false, // This is where your selector looks for `hasVideo`
 			},
@@ -105,5 +104,5 @@ describe('<VersionList />', () => {
 
 		expect(versionList).toBeInTheDocument();
 		// Add assertions here if needed.
-	});
-});
+	}, 10000);
+}, 10000);

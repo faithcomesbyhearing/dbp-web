@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Link from 'next/link';
 import SvgWrapper from '../SvgWrapper';
 import LegacyLink from '../LegacyLink';
 
@@ -19,6 +18,7 @@ class MyBookmarks extends React.PureComponent {
 			toggleNotesModal,
 			getFormattedNoteDate,
 		} = this.props;
+
 		return bookmarks.map((listItem) => (
 			<div key={listItem.id} id={listItem.id} className={'highlight-item'}>
 				<LegacyLink

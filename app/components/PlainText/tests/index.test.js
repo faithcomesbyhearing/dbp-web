@@ -2,7 +2,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
-import { fromJS } from 'immutable';
 import PlainText from '../index';
 
 const highlights = [
@@ -101,7 +100,7 @@ const initialText = [
 const activeChapter = 1;
 const verseNumber = '';
 const userAuthenticated = true;
-const userSettings = fromJS({
+const userSettings = structuredClone({
 	activeTheme: 'red',
 	activeFontType: 'sans',
 	activeFontSize: 42,

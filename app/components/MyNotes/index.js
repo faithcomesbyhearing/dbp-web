@@ -327,7 +327,7 @@ class MyNotes extends React.PureComponent {
 										<span>Delete</span>
 									</div>
 								</div>
-						  ))
+							))
 						: null}
 					{sectionType === 'highlights' ? (
 						<MyHighlights

@@ -2,10 +2,12 @@ import React from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import request from '../app/utils/request';
+import Bugsnag from '../app/utils/bugsnagClient';
 import isUserAgentInternetExplorer from '../app/utils/isUserAgentInternetExplorer';
 import parseCookie from '../app/utils/parseCookie';
 import JesusFilmVideoPlayer from '../app/components/JesusFilmVideoPlayer';
 import SvgWrapper from '../app/components/SvgWrapper';
+
 // Most of the components are in this file due to tight deadline
 // hope to refactor and reuse Logo and BackButton
 const goBack = () => {
@@ -13,15 +15,15 @@ const goBack = () => {
 };
 
 function BackButton({ isIe }) {
-  return (
-<button className={'back-button'} type={'button'} onClick={goBack}>
-		<SvgWrapper
-			className={'svg'}
-			fill={isIe ? '#fff' : ''}
-			svgid={'arrow_left'}
-		/>
-</button>
-);
+	return (
+		<button className={'back-button'} type={'button'} onClick={goBack}>
+			<SvgWrapper
+				className={'svg'}
+				fill={isIe ? '#fff' : ''}
+				svgid={'arrow_left'}
+			/>
+		</button>
+	);
 }
 
 BackButton.propTypes = {
@@ -29,26 +31,25 @@ BackButton.propTypes = {
 };
 
 function Logo({ theme, isIe }) {
-  return (
-<a
-		className={'logo'}
-		href={'http://www.bible.is'}
-		title={'http://www.bible.is'}
-		rel={'noopener'}
->
-		{theme === 'paper' &&
-			!isIe && (
+	return (
+		<a
+			className={'logo'}
+			href={'http://www.bible.is'}
+			title={'http://www.bible.is'}
+			rel={'noopener'}
+		>
+			{theme === 'paper' && !isIe && (
 				<svg className={'svg'}>
-				<use xlinkHref={'/light_theme_logo.svg#bible.is_logo_light'} />
+					<use xlinkHref={'/light_theme_logo.svg#bible.is_logo_light'} />
 				</svg>
 			)}
-		{(theme !== 'paper' || isIe) && (
-			<svg className={'svg'} fill={isIe ? '#fff' : ''}>
-				<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
-			</svg>
-		)}
-</a>
-);
+			{(theme !== 'paper' || isIe) && (
+				<svg className={'svg'} fill={isIe ? '#fff' : ''}>
+					<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
+				</svg>
+			)}
+		</a>
+	);
 }
 
 Logo.propTypes = {
@@ -59,14 +60,7 @@ Logo.propTypes = {
 // Basic nav
 // Basic footer
 // Video Player with adjusted styles
-function JesusFilm({
-	iso,
-	routeLocation,
-	hlsStream,
-	theme,
-	isIe,
-	duration,
-}) {
+function JesusFilm({ iso, routeLocation, hlsStream, theme, isIe, duration }) {
 	const titleText = `Jesus Film | ${iso} | Bible.is`;
 
 	return (
@@ -99,6 +93,13 @@ function JesusFilm({
 				hlsStream={hlsStream}
 				duration={duration}
 				hasVideo
+				apiKey={process.env.DBP_API_KEY}
+				onError={() => {
+					 
+					alert(
+						'There was an error loading the video. Please try again later.',
+					);
+				}}
 			/>
 			<div className={'footer-background'} />
 		</div>
@@ -130,37 +131,64 @@ JesusFilm.getInitialProps = async (context) => {
 		theme = parseCookie(document.cookie).bible_is_theme || 'red';
 	}
 
-	// Data fetching
-	const jfResponse = await request(
-		`${process.env.BASE_API_ROUTE}/arclight/jesus-film/languages?key=${
-			process.env.DBP_API_KEY
-		}&v=4&iso=${iso}`,
-	);
-	const arclightId = jfResponse[iso];
-	const videoObject = await request(
-		`${process.env.BASE_API_ROUTE}/arclight/jesus-film/chapters?key=${
-			process.env.DBP_API_KEY
-		}&v=4&arclight_id=${arclightId}`,
-	);
-	// Number from arclight is 7673792 so use that as a default
-	const duration = videoObject.duration_in_milliseconds
-		? videoObject.duration_in_milliseconds / 1000
-		: 7673792 / 1000;
-
-	const hlsStream = arclightId
-		? `${process.env.BASE_API_ROUTE}/arclight/jesus-film?key=${
+	try {
+		// Data fetching
+		const jfResponse = await request(
+			`${process.env.BASE_API_ROUTE}/arclight/jesus-film/languages?key=${
 				process.env.DBP_API_KEY
-		  }&v=4&arclight_id=${arclightId}`
-		: '';
+			}&v=4&iso=${iso}`,
+		);
 
-	return {
-		routeLocation,
-		iso,
-		hlsStream,
-		duration,
-		theme,
-		isIe,
-	};
+		const arclightId = jfResponse[iso];
+		const videoObject = await request(
+			`${process.env.BASE_API_ROUTE}/arclight/jesus-film/chapters?key=${
+				process.env.DBP_API_KEY
+			}&v=4&arclight_id=${arclightId}`,
+		);
+
+		// Number from arclight is 7673792 so use that as a default
+		const duration = videoObject.duration_in_milliseconds
+			? videoObject.duration_in_milliseconds / 1000
+			: 7673792 / 1000;
+
+		const hlsStream = arclightId
+			? `${process.env.BASE_API_ROUTE}/arclight/jesus-film?key=${
+					process.env.DBP_API_KEY
+				}&v=4&arclight_id=${arclightId}`
+			: '';
+
+		return {
+			routeLocation,
+			iso,
+			hlsStream,
+			duration,
+			theme,
+			isIe,
+		};
+	} catch (error) {
+		console.error('Error fetching Jesus Film data:', error);
+		if (axios.isAxiosError(error) && error.config) {
+			Bugsnag.notify(error, (event) => {
+				event.addMetadata('API Request', {
+					url: error.config.url,
+					method: error.config.method,
+					headers: error.config.headers,
+					params: error.config.params,
+					message: error.message,
+				});
+			});
+		} else {
+			Bugsnag.notify(error);
+		}
+		return {
+			iso,
+			routeLocation,
+			hlsStream: '',
+			duration: 7673792 / 1000, // Default duration
+			theme,
+			isIe,
+		};
+	}
 };
 
 JesusFilm.propTypes = {

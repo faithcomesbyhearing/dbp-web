@@ -7,8 +7,15 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 22
     commands:
+      - echo "Installing nvm…"
+      - curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+      - . ~/.nvm/nvm.sh
+      - nvm install 22
+      - nvm use 22
+      - node --version   # ⇒ v22.x
+      - npm --version
       - npm install
   pre_build:
     commands:

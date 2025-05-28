@@ -19,22 +19,23 @@ export function itemsParser(
 			...acc,
 			{
 				path: {
-					textId: bible.get('abbr'),
+					textId: bible['abbr'],
 					bookId: activeBookId,
 					chapter: activeChapter,
 				},
-				key: `${bible.get('abbr')}${bible.get('date')}`,
+				key: `${bible['abbr']}${bible['date']}`,
 				clickHandler: (audioType) => handleVersionListClick(bible, audioType),
-				className: bible.get('abbr') === activeTextId ? 'active-version' : '',
-				title: bible.get('name'),
-				text: bible.get('vname') || bible.get('name') || bible.get('abbr'),
+				className: bible['abbr'] === activeTextId ? 'active-version' : '',
+				title: bible['name'],
+				text: bible['vname'] || bible['name'] || bible['abbr'],
 				altText:
-					bible.get('vname') && bible.get('vname') !== bible.get('name')
-						? bible.get('name')
+					bible['vname'] && bible['vname'] !== bible['name']
+						? bible['name']
 						: '',
-				types: bible
-					.get('filesets')
-					.reduce((a, c) => ({ ...a, [c.get('type')]: true }), {}),
+				types: bible['filesets'].reduce(
+					(a, c) => ({ ...a, [c['type']]: true }),
+					{},
+				),
 			},
 		],
 		[],
@@ -47,7 +48,7 @@ export function itemsParser(
 	scrubbedBibles.forEach((b) => {
 		if (
 			(b.types.audio_drama || b.types.audio) &&
-			(b.types.text_plain || b.types.text_format)
+			(b.types.text_plain || b.types.text_json || b.types.text_format)
 		) {
 			audioAndText.push(b);
 		} else if (b.types.audio_drama || b.types.audio) {
@@ -69,16 +70,14 @@ export function filterFunction(bible) {
 	const properties = ['vname', 'name', 'abbr', 'date'];
 
 	return properties.some((property) => {
-		const propValue = bible.get(property) || '';
+		const propValue = bible[property] || '';
 		return propValue.toLowerCase().includes(lowerCaseText);
 	});
 }
 
 export async function getTexts({ languageCode }) {
 	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
-	const videoRequestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/bibles?key=${
+	const videoRequestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${
 		process.env.DBP_API_KEY
 	}&language_code=${languageCode}&v=4`;
 	// Put logic here for determining what url to direct to when user chooses new version
@@ -120,13 +119,14 @@ export async function getTexts({ languageCode }) {
 			(text) =>
 				text.iso &&
 				text.abbr &&
-				(text.filesets?.find(
-						(f) =>
-							f.type === 'audio' ||
-							f.type === 'audio_drama' ||
-							f.type === 'text_plain' ||
-							f.type === 'text_format',
-					)),
+				text.filesets?.find(
+					(f) =>
+						f.type === 'audio' ||
+						f.type === 'audio_drama' ||
+						f.type === 'text_plain' ||
+						f.type === 'text_format' ||
+						f.type === 'text_json',
+				),
 		);
 		// Create map of videos for constant time lookup when iterating through the texts
 		const videosMap = videos.reduce((a, c) => ({ ...a, [c.abbr]: c }), {});
@@ -141,17 +141,19 @@ export async function getTexts({ languageCode }) {
 								f.type === 'audio' ||
 								f.type === 'audio_drama' ||
 								f.type === 'text_plain' ||
-								f.type === 'text_format',
+								f.type === 'text_format' ||
+								f.type === 'text_json',
 						),
 						...videosMap[text.abbr].filesets,
-				  ]
+					]
 				: text.filesets.filter(
 						(f) =>
 							f.type === 'audio' ||
 							f.type === 'audio_drama' ||
 							f.type === 'text_plain' ||
-							f.type === 'text_format',
-				  ) || [],
+							f.type === 'text_format' ||
+							f.type === 'text_json',
+					),
 		}));
 
 		return mappedTexts;

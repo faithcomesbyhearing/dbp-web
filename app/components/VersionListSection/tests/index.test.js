@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { fromJS } from 'immutable';
 import VersionListSection from '..'; // Assuming the path is correct
 import {
 	itemsParser,
@@ -98,7 +97,6 @@ const items = [
 
 describe('<VersionListSection />', () => {
 	it('Should match previous snapshot with valid props', () => {
-		// const { asFragment, getAllByRole } = render(<VersionListSection items={items} />);
 		const { asFragment, queryAllByText } = render(
 			<VersionListSection items={items} />,
 		);
@@ -111,11 +109,11 @@ describe('<VersionListSection />', () => {
 		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('Should match previous snapshot using data from API', async () => {
-		const apiItems = await getTexts({ languageCode: 6414 });
+	it('Should match previous snapshot using data from api and language ID 17045 English: USA', async () => {
+		const apiItems = await getTexts({ languageCode: 17045 });
 
 		const sectionItems = itemsParser(
-			fromJS(apiItems),
+			structuredClone(apiItems),
 			activeTextId,
 			activeBookId,
 			activeChapter,
@@ -128,7 +126,7 @@ describe('<VersionListSection />', () => {
 
 		// Ensure the snapshot matches
 		expect(asFragment()).toMatchSnapshot();
-	});
+	}, 10000);
 
 	it('Should handle clicking on audio drama button', () => {
 		const { queryAllByText } = render(<VersionListSection items={items} />);
@@ -152,4 +150,4 @@ describe('<VersionListSection />', () => {
 		// Verify that the clickHandler was called
 		expect(items[0].clickHandler).toHaveBeenCalledWith('audio');
 	});
-});
+}, 10000);

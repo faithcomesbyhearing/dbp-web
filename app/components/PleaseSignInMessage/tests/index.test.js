@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { PleaseSignInMessage } from '..';
 
 jest.mock('react-intl', () => ({
@@ -14,7 +14,7 @@ const props = {
 
 describe('<PleaseSignInMessage /> Component', () => {
 	it('Should match the previous snapshot', () => {
-		const tree = renderer.create(<PleaseSignInMessage {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<PleaseSignInMessage {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

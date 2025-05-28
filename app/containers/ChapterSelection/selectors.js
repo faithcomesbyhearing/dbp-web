@@ -3,19 +3,15 @@ import { createSelector } from 'reselect';
 /**
  * Other specific selectors
  */
-const selectHomepageDomain = (state) => state.get('homepage');
+const selectHomepageDomain = (state) => state['homepage'];
 
-const selectActiveBookName = () => createSelector(
-	selectHomepageDomain,
-	(substate) => substate.get('activeBookName'),
-);
+const selectActiveBookName = () =>
+	createSelector(
+		selectHomepageDomain,
+		(substate) => substate['activeBookName'],
+	);
 
-const selectActiveChapter = () => createSelector(
-	selectHomepageDomain,
-	(substate) => substate.get('activeChapter'),
-);
+const selectActiveChapter = () =>
+	createSelector(selectHomepageDomain, (substate) => substate['activeChapter']);
 
-export {
-	selectActiveChapter,
-	selectActiveBookName,
-};
+export { selectActiveChapter, selectActiveBookName };

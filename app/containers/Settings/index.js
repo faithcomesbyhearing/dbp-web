@@ -25,6 +25,7 @@ import {
 	toggleWordsOfJesus,
 } from './themes';
 import makeSelectSettings from './selectors';
+// import makeSelectUserSettings from './selectors';
 import reducer from './reducer';
 import { updateTheme, updateFontType, updateFontSize } from './actions';
 import Ieerror from '../../components/Ieerror';
@@ -49,31 +50,28 @@ export class Settings extends React.PureComponent {
 	}
 
 	componentDidUpdate(nextProps) {
-		const activeTheme = this.props.userSettings.get('activeTheme');
-		const activeFontFamily = this.props.userSettings.get('activeFontType');
-		const activeFontSize = this.props.userSettings.get('activeFontSize');
-		const redLetter = this.props.userSettings.getIn([
-			'toggleOptions',
-			'redLetter',
-			'active',
-		]);
+		const activeTheme = this.props.userSettings['activeTheme'];
+		const activeFontFamily = this.props.userSettings['activeFontType'];
+		const activeFontSize = this.props.userSettings['activeFontSize'];
+		const redLetter =
+			this.props.userSettings?.['toggleOptions']?.['redLetter']?.['active'];
 
 		if (
 			redLetter !==
-			nextProps.userSettings.getIn(['toggleOptions', 'redLetter', 'active'])
+			nextProps.userSettings?.['toggleOptions']?.['redLetter']?.['active']
 		) {
 			toggleWordsOfJesus(redLetter);
 		}
 
-		if (activeTheme !== nextProps.userSettings.get('activeTheme')) {
+		if (activeTheme !== nextProps.userSettings['activeTheme']) {
 			applyTheme(activeTheme);
 		}
 
-		if (activeFontFamily !== nextProps.userSettings.get('activeFontType')) {
+		if (activeFontFamily !== nextProps.userSettings['activeFontType']) {
 			applyFontFamily(activeFontFamily);
 		}
 
-		if (activeFontSize !== nextProps.userSettings.get('activeFontSize')) {
+		if (activeFontSize !== nextProps.userSettings['activeFontSize']) {
 			applyFontSize(activeFontSize);
 		}
 	}
@@ -149,11 +147,19 @@ export class Settings extends React.PureComponent {
 	};
 
 	render() {
-		const activeTheme = this.props.userSettings.get('activeTheme');
-		const activeFontSize = this.props.userSettings.get('activeFontSize');
-		const activeFontType = this.props.userSettings.get('activeFontType');
-		const toggleOptions = this.props.userSettings.get('toggleOptions');
+		const activeTheme = this.props.userSettings['activeTheme'];
+		const activeFontSize = this.props.userSettings['activeFontSize'];
+		const activeFontType = this.props.userSettings['activeFontType'];
+		const toggleOptions = this.props.userSettings['toggleOptions'];
 		const isIe = this.props.isIe;
+
+		const toggleOpts = Object.entries(toggleOptions).map(
+			([_, { name, available, active }]) => ({ // eslint-disable-line no-unused-vars
+				name,
+				available,
+				active,
+			}),
+		);
 
 		if (isIe) {
 			return (
@@ -366,13 +372,14 @@ export class Settings extends React.PureComponent {
 							max={100}
 						/>
 						<section className="option-toggles">
-							{toggleOptions.valueSeq().map((option) => (
+							{/* {toggleOptions.valueSeq().map((option) => ( */}
+							{toggleOpts.map((option) => (
 								<SettingsToggle
-									id={option.get('name')}
-									key={option.get('name')}
-									available={option.get('available')}
-									checked={option.get('active')}
-									name={option.get('name')}
+									id={option['name']}
+									key={option['name']}
+									available={option['available']}
+									checked={option['active']}
+									name={option['name']}
 									action={this.toggleSettingsOption}
 								/>
 							))}
@@ -392,7 +399,9 @@ Settings.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	settings: makeSelectSettings(),
+	settings: makeSelectSettings,
+	// userSettings: makeSelectSettings,
+	// userSettings: makeSelectUserSettings,
 });
 
 function mapDispatchToProps(dispatch) {

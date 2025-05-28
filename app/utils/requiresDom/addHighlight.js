@@ -23,7 +23,7 @@ const addHighlightUtil = ({
 	userId,
 	text,
 	highlights,
-	formattedSource,
+	hasFormattedSource,
 	userSettings,
 	activeTextId,
 	activeBookId,
@@ -107,7 +107,7 @@ const addHighlightUtil = ({
 							...main.querySelectorAll(
 								`[data-id="${activeBookId}${activeChapter}_${verse}"]`,
 							),
-					  ]
+						]
 					: [];
 				const highlightedWords = verseElements
 					.reduce((a, c) => a.concat(c.textContent), '')
@@ -138,10 +138,7 @@ const addHighlightUtil = ({
 			});
 		} catch (err) {
 			/* eslint-disable no-console */
-			console.error(
-				'Error adding Highlight',
-				err,
-			);
+			console.error('Error adding Highlight', err);
 			/* eslint-enable no-console */
 		}
 	} else {
@@ -165,7 +162,7 @@ const addHighlightUtil = ({
 			let anchorOffset = offset < focusOffset ? offset : focusOffset;
 			let anchorText = offset < focusOffset ? aText : focusText;
 			let node = aNode;
-			if (formattedSource.main) {
+			if (hasFormattedSource) {
 				if (aText !== focusText) {
 					// if nodes are different
 					// I have access to the parent node
@@ -275,12 +272,12 @@ const addHighlightUtil = ({
 			// Not so sure about this, seems like in theory it should give me the node closest to the beginning but idk
 			let highlightStart = 0;
 			let highlightedWords = 0;
-			const dist = calcDistance(lastVerse, firstVerse, !!formattedSource.main);
+			const dist = calcDistance(lastVerse, firstVerse, hasFormattedSource);
 			// Also need to check for class="v" to ensure that this was the first verse
 			if (
-				formattedSource.main &&
-				!userSettings.getIn(['toggleOptions', 'readersMode', 'active']) &&
-				!userSettings.getIn(['toggleOptions', 'oneVersePerLine', 'active'])
+				hasFormattedSource &&
+				!userSettings?.['toggleOptions']?.['readersMode']?.['active'] &&
+				!userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active']
 			) {
 				// Issue with getting the correct parent node
 				node = getFormattedParentVerseNumber(node, firstVerse);
@@ -313,7 +310,7 @@ const addHighlightUtil = ({
 				// taking off the first 2 spaces and the verse number from the string
 				// This should only be the case for the first highlight within that verse
 				const newText = node.textContent.slice(0);
-				if (userSettings.getIn(['toggleOptions', 'readersMode', 'active'])) {
+				if (userSettings?.['toggleOptions']?.['readersMode']?.['active']) {
 					highlightStart = node.textContent.indexOf(anchorText) + anchorOffset;
 					highlightedWords = selectedText.replace(/\n/g, '').length;
 				} else {

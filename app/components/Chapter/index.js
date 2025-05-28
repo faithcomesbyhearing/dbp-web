@@ -17,10 +17,8 @@ function Chapter({ as, active, chapter, clickHandler, href }) {
 		);
 	}
 	return (
-		<Link legacyBehavior href={href} as={as}>
-			<a className={'chapter-box'} onClick={clickHandler}>
-				<span>{chapter}</span>
-			</a>
+		<Link className={'chapter-box'} href={href} as={as} onClick={clickHandler}>
+			<span>{chapter}</span>
 		</Link>
 	);
 }

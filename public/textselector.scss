@@ -329,6 +329,20 @@
 					}
 				}
 			}
+
+			// & .summary–no-marker {
+			// 	list-style: none;        /* remove any bullet/numbering */
+			// }
+
+			// /* modern browsers */
+			// & .summary–no-marker::marker {
+			// 	content: none;
+			// }
+
+			// /* webkit/blink (Chrome, Safari) */
+			// & .summary–no-marker::-webkit-details-marker {
+			// 	display: none;
+			// }
 		}
 
 		.accordion-body-style {

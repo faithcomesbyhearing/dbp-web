@@ -4,7 +4,6 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import {
 	TOGGLE_SETTINGS_OPTION,
 	TOGGLE_SETTINGS_OPTION_AVAILABILITY,
@@ -16,7 +15,7 @@ import {
 import { ACTIVE_TEXT_ID } from '../HomePage/constants';
 import { SET_VOLUME, SET_PLAYBACK_RATE } from '../AudioPlayer/constants';
 
-const initialState = fromJS({
+const initialState = structuredClone({
 	userSettings: {
 		activeTheme: 'red',
 		activeFontType: 'sans',
@@ -63,113 +62,199 @@ const initialState = fromJS({
 function settingsReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case SET_VOLUME:
-			return state.setIn(['userSettings', 'volume'], action.value);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					volume: action.value,
+				},
+			};
 		case SET_PLAYBACK_RATE:
-			return state.setIn(['userSettings', 'playbackRate'], action.value);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					playbackRate: action.value,
+				},
+			};
 		case ACTIVE_TEXT_ID:
 			// May need this if settings should change based on active version
 			return state;
 		case UPDATE_THEME:
-			return state.setIn(['userSettings', 'activeTheme'], action.theme);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					activeTheme: action.theme,
+				},
+			};
 		case UPDATE_FONT_TYPE:
-			return state.setIn(['userSettings', 'activeFontType'], action.font);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					activeFontType: action.font,
+				},
+			};
 		case UPDATE_FONT_SIZE:
-			return state.setIn(['userSettings', 'activeFontSize'], action.size);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					activeFontSize: action.size,
+				},
+			};
 		case TOGGLE_AUTOPLAY:
 			if (typeof window !== 'undefined') {
 				document.cookie = `bible_is_autoplay=${action.state};path=/`;
 			}
-			return state.setIn(['userSettings', 'autoPlayEnabled'], action.state);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					autoPlayEnabled: action.state,
+				},
+			};
 		case TOGGLE_SETTINGS_OPTION:
 			if (typeof window !== 'undefined') {
+				console.log('TOGGLE_SETTINGS_OPTION action:', action);
+				console.log('Current state:', state);
 				// Exclusive path is the path to the setting that cannot be active at the same time as this one
 				// action.exclusivePath is the path of the option that cannot have the same state as the one currently being set
 				if (action.exclusivePath) {
 					document.cookie = `bible_is_${action.exclusivePath.join(
 						'_',
 					)}=false;path=/`;
-					document.cookie = `bible_is_${action.path.join('_')}=${!state.getIn(
-						action.path,
-					)};path=/`;
+					document.cookie = `bible_is_${action.path.join('_')}=${!state[action.path]};path=/`;
 
-					return state
-						.setIn(action.exclusivePath, false)
-						.setIn(action.path, !state.getIn(action.path));
+					return {
+						...state,
+						[action.exclusivePath]: false,
+						[action.path]: !state[action.path],
+					};
 				}
 
-				document.cookie = `bible_is_${action.path.join('_')}=${!state.getIn(
-					action.path,
-				)};path=/`;
+				document.cookie = `bible_is_${action.path.join('_')}=${!state[action.path]};path=/`;
 
-				return state.setIn(action.path, !state.getIn(action.path));
+				return {
+					...state,
+					[action.path]: !state[action.path],
+				};
 			}
 			if (action.exclusivePath) {
-				return state
-					.setIn(action.exclusivePath, false)
-					.setIn(action.path, !state.getIn(action.path));
+				return {
+					...state,
+					[action.exclusivePath]: false,
+					[action.path]: !state[action.path],
+				};
 			}
-			return state.setIn(action.path, !state.getIn(action.path));
+			return {
+				...state,
+				[action.path]: !state[action.path],
+			};
 		case TOGGLE_SETTINGS_OPTION_AVAILABILITY:
-			return state.setIn(action.path, !state.getIn(action.path));
+			return {
+				...state,
+				[action.path]: !state[action.path],
+			};
 		case 'GET_INITIAL_ROUTE_STATE_SETTINGS':
-			return state
-				.setIn(
-					['userSettings', 'toggleOptions', 'redLetter', 'available'],
-					action.redLetter,
-				)
-				.setIn(
-					['userSettings', 'toggleOptions', 'crossReferences', 'available'],
-					action.crossReferences,
-				);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+
+					toggleOptions: {
+						...state.userSettings.toggleOptions,
+
+						redLetter: {
+							...state.userSettings.toggleOptions.redLetter,
+							available: action.redLetter,
+						},
+
+						crossReferences: {
+							...state.userSettings.toggleOptions.crossReferences,
+							available: action.crossReferences,
+						},
+					},
+				},
+			};
 		case 'GET_INITIAL_ROUTE_STATE_SETTINGS_FROM_APP':
-			return state
-				.setIn(['userSettings', 'activeTheme'], action.settings.activeTheme)
-				.setIn(['userSettings', 'activeFontType'], action.settings.activeFontType)
-				.setIn(['userSettings', 'activeFontSize'], action.settings.activeFontSize)
-				.setIn(
-					['userSettings', 'toggleOptions', 'readersMode', 'active'],
-					action.settings.readersMode,
-				)
-				.setIn(
-					['userSettings', 'toggleOptions', 'justifiedText', 'active'],
-					action.settings.justifiedText,
-				)
-				.setIn(
-					['userSettings', 'toggleOptions', 'redLetter', 'active'],
-					action.settings.redLetter,
-				)
-				.setIn(
-					['userSettings', 'toggleOptions', 'crossReferences', 'active'],
-					action.settings.crossReferences,
-				)
-				.setIn(
-					['userSettings', 'toggleOptions', 'oneVersePerLine', 'active'],
-					action.settings.oneVersePerLine,
-				);
+			return {
+				...state,
+
+				userSettings: {
+					...state.userSettings,
+					activeTheme: action.settings.activeTheme,
+					activeFontType: action.settings.activeFontType,
+					activeFontSize: action.settings.activeFontSize,
+
+					toggleOptions: {
+						...state.userSettings.toggleOptions,
+
+						readersMode: {
+							...state.userSettings.toggleOptions.readersMode,
+							active: action.settings.readersMode,
+						},
+
+						justifiedText: {
+							...state.userSettings.toggleOptions.justifiedText,
+							active: action.settings.justifiedText,
+						},
+
+						redLetter: {
+							...state.userSettings.toggleOptions.redLetter,
+							active: action.settings.redLetter,
+						},
+
+						crossReferences: {
+							...state.userSettings.toggleOptions.crossReferences,
+							active: action.settings.crossReferences,
+						},
+
+						oneVersePerLine: {
+							...state.userSettings.toggleOptions.oneVersePerLine,
+							active: action.settings.oneVersePerLine,
+						},
+					},
+				},
+			};
 		case 'persist/REHYDRATE':
-			if (
-				action.payload.settings &&
-				typeof action.payload.settings.setIn === 'function'
-			) {
-				return action.payload.settings
-					.setIn(
-						['userSettings', 'toggleOptions', 'redLetter', 'available'],
-						state.getIn([
-							'userSettings',
-							'toggleOptions',
-							'redLetter',
-							'available',
-						]),
-					)
-					.setIn(
-						['userSettings', 'toggleOptions', 'crossReferences', 'available'],
-						state.getIn([
-							'userSettings',
-							'toggleOptions',
-							'crossReferences',
-							'available',
-						]),
-					);
+			if (action.payload.settings) {
+				return {
+					...action.payload.settings,
+
+					userSettings: {
+						...action.payload.settings.userSettings,
+
+						toggleOptions: {
+							...action.payload.settings.userSettings.toggleOptions,
+
+							redLetter: {
+								...action.payload.settings.userSettings.toggleOptions.redLetter,
+								available:
+									state?.['userSettings']?.['toggleOptions']?.['redLetter']?.[
+										'available'
+									],
+							},
+
+							crossReferences: {
+								...action.payload.settings.userSettings.toggleOptions
+									.crossReferences,
+								available:
+									state?.['userSettings']?.['toggleOptions']?.[
+										'crossReferences'
+									]?.['available'],
+							},
+						},
+					},
+				};
 			}
 			return state;
 		default:

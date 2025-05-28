@@ -16,65 +16,417 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
           class="version-list-section-title"
         >
           <span>
+            Includes Video
+          </span>
+        </div>
+        <div
+          class="version-list-section"
+        >
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="English Standard Version® - Hear the Word Audio Bible"
+                type="button"
+              >
+                English Standard Version® - Hear the Word Audio Bible
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style"
+            >
+              <h4
+                class="active-version"
+                title="English Standard Version®"
+              >
+                English Standard Version®
+              </h4>
+            </summary>
+            <div
+              class="accordion-body-style"
+            >
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Dramatized Version
+              </button>
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Non-Dramatized Version
+              </button>
+            </div>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style"
+            >
+              <h4
+                class=""
+                title="King James Version"
+              >
+                King James Version
+              </h4>
+            </summary>
+            <div
+              class="accordion-body-style"
+            >
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Dramatized Version
+              </button>
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Non-Dramatized Version
+              </button>
+            </div>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style"
+            >
+              <h4
+                class=""
+                title="Holy Bible, New International Version®"
+              >
+                Holy Bible, New International Version®
+              </h4>
+            </summary>
+            <div
+              class="accordion-body-style"
+            >
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Dramatized Version
+              </button>
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Non-Dramatized Version
+              </button>
+            </div>
+          </details>
+        </div>
+      </div>
+      <div
+        class="version-list-section"
+      >
+        <div
+          class="version-list-section-title"
+        >
+          <span>
             Audio & Text
           </span>
         </div>
         <div
-          class="accordion"
-          data-accordion-component="Accordion"
+          class="version-list-section"
         >
-          <div
-            class="accordion-title-style"
-            data-accordion-component="AccordionItem"
+          <details
+            class="accordion-item"
           >
-            <div
-              aria-level="3"
-              class="accordion__heading"
-              data-accordion-component="AccordionItemHeading"
-              role="heading"
+            <summary
+              class="accordion-title-style top-level-title"
             >
-              <div
-                aria-controls="accordion__panel-:r0:"
-                aria-disabled="false"
-                aria-expanded="false"
-                class="accordion__button"
-                data-accordion-component="AccordionItemButton"
-                id="accordion__heading-:r0:"
-                role="button"
-                tabindex="0"
+              <button
+                class=""
+                title="New American Bible, revised edition (NABRE)"
+                type="button"
               >
-                <h4
-                  class=""
-                  title="New Life Version (Easy to Read)"
-                >
-                  New Life Version (Easy to Read)
-                </h4>
-              </div>
-            </div>
+                New American Bible, revised edition (NABRE)
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="New King James Version"
+                type="button"
+              >
+                New King James Version
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="New Living Translation® - her.BIBLE (women’s voices)"
+                type="button"
+              >
+                New Living Translation® - her.BIBLE (women’s voices)
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="New Living Translation®, Holy Sanctuary version"
+                type="button"
+              >
+                New Living Translation®, Holy Sanctuary version
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="World English Bible"
+                type="button"
+              >
+                World English Bible
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="World English Bible - Winfred Henson"
+                type="button"
+              >
+                World English Bible - Winfred Henson
+              </button>
+            </summary>
+          </details>
+        </div>
+      </div>
+      <div
+        class="version-list-section"
+      >
+        <div
+          class="version-list-section-title"
+        >
+          <span>
+            Audio Only
+          </span>
+        </div>
+        <div
+          class="version-list-section"
+        >
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="Contemporary English Version - African American"
+                type="button"
+              >
+                Contemporary English Version - African American
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="Contemporary English Version®"
+                type="button"
+              >
+                Contemporary English Version®
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style"
+            >
+              <h4
+                class=""
+                title="New Revised Standard Version"
+              >
+                New Revised Standard Version
+              </h4>
+            </summary>
             <div
               class="accordion-body-style"
-              data-accordion-component="AccordionItemPanel"
-              hidden=""
-              id="accordion__panel-:r0:"
             >
-              <a
+              <button
                 class="version-item-button"
-                role="button"
-                tabindex="0"
                 type="button"
               >
                 Dramatized Version
-              </a>
-              <a
+              </button>
+              <button
                 class="version-item-button"
-                role="button"
-                tabindex="0"
                 type="button"
               >
                 Non-Dramatized Version
-              </a>
+              </button>
             </div>
-          </div>
+          </details>
+        </div>
+      </div>
+      <div
+        class="version-list-section"
+      >
+        <div
+          class="version-list-section-title"
+        >
+          <span>
+            Text Only
+          </span>
+        </div>
+        <div
+          class="version-list-section"
+        >
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="American Standard Bible"
+                type="button"
+              >
+                American Standard Bible
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="English Version for the Deaf"
+                type="button"
+              >
+                English Version for the Deaf
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="New American Standard Bible (NASB)"
+                type="button"
+              >
+                New American Standard Bible (NASB)
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="Revised Version 1885"
+                type="button"
+              >
+                Revised Version 1885
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="Tree of Life Version"
+                type="button"
+              >
+                Tree of Life Version
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="World Messianic Version"
+                type="button"
+              >
+                World Messianic Version
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style top-level-title"
+            >
+              <button
+                class=""
+                title="Wycliffe Modern"
+                type="button"
+              >
+                Wycliffe Modern
+              </button>
+            </summary>
+          </details>
         </div>
       </div>
     </div>

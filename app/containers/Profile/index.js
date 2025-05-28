@@ -320,7 +320,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	profile: makeSelectProfile(),
+	profile: makeSelectProfile,
 });
 
 function mapDispatchToProps(dispatch) {

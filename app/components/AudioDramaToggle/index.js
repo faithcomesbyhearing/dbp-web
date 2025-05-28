@@ -79,15 +79,12 @@ AudioDramaToggle.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	audioType: selectAudioType(),
-	availableAudioTypes: selectAvailableAudioTypes(),
+	audioType: selectAudioType,
+	availableAudioTypes: selectAvailableAudioTypes,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	dispatch,
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(AudioDramaToggle);
+export default connect(mapStateToProps, mapDispatchToProps)(AudioDramaToggle);

@@ -1,116 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<JesusFilmVideoPlayer /> component tests Should match snapshot with default props 1`] = `
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders fallback UI when both hasVideo=false and no hlsStream 1`] = `
 <div>
   <div
     class="video-player-container jesus-film-override"
   >
-    <div
-      class="video-player"
-    >
-      <div
-        class="play-video-container show-control-icon"
-      >
-        <div
-          class="control-button-container"
-        >
-          <span
-            class="play-video-title"
-          >
-            Jesus Film
-          </span>
-          <svg
-            class="play-video"
-            fill="#fff"
-          >
-            <use
-              xlink:href="/svglist.svg#play_video"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            />
-          </svg>
-        </div>
-      </div>
-      <video />
-      <div
-        class="progress-slider hide-progress-slider"
-        data-value-cur="00:00"
-        data-value-dur="01:36:29"
-      >
-        <div
-          class="progress-bar-buffer"
-          style="width: 0%;"
-        />
-      </div>
-      <div
-        class="controls hide-controls"
-      >
-        <div
-          class="left-controls"
-        >
-          <div
-            class="video-volume-container"
-          >
-            <div
-              class="video-volume-slider-container"
-            >
-              <div
-                class="video-slider-container"
-              />
-            </div>
-            <svg
-              class="icon"
-              fill="#fff"
-            >
-              <use
-                xlink:href="/svglist.svg#volume_max"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-              />
-            </svg>
-          </div>
-          <div>
-            <svg
-              fill="#fff"
-            >
-              <use
-                xlink:href="/svglist.svg#pause"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="right-controls"
-        >
-          <div>
-            <svg
-              class="video-elipsis"
-              fill="#fff"
-            >
-              <use
-                xlink:href="/svglist.svg#elipsis"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-              />
-            </svg>
-          </div>
-          <div>
-            <svg
-              class="video-fullscreen"
-              fill="#fff"
-            >
-              <use
-                xlink:href="/svglist.svg#fullscreen"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
   </div>
 </div>
 `;
 
-exports[`<JesusFilmVideoPlayer /> component tests Should match snapshot with no hls stream 1`] = `
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders fallback UI when hasVideo is false 1`] = `
+<div>
+  <div
+    class="video-player-container jesus-film-override"
+  >
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
+  </div>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders fallback UI when no hlsStream 1`] = `
+<div>
+  <div
+    class="video-player-container jesus-film-override"
+  >
+    <h2>
+      Something went wrong. Please refresh the page or go back to try again!
+    </h2>
+  </div>
+</div>
+`;
+
+exports[`<JesusFilmVideoPlayer /> (RTL + snapshots) renders main UI when hasVideo & hlsStream 1`] = `
 <div>
   <div
     class="video-player-container jesus-film-override"

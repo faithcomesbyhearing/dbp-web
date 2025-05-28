@@ -1,0 +1,345 @@
+/**
+ * formattedTextStyles.scss
+ *
+ * SCSS styles for the FormattedText component, translating USFM marker concepts
+ * and functional states into CSS classes for web rendering.
+ * Inspired by React Native styles and provided class mappings.
+ */
+
+// --- Variables (Optional but recommended) ---
+$base-font-size: 16pt; // Example base font size (adjust as needed)
+$text-color: #333;
+$muted-text-color: #555;
+$highlight-bg-color: #accef7; // User text selection
+$playing-bg-color: rgba(255, 255, 0, 0.15); // Faint yellow for playing verse
+$footnote-marker-color: blue;
+$words-of-jesus-color: red;
+$base-line-height: 1.6;
+$base-margin: 0.75em; // Base vertical margin for blocks
+$indent-size: 1.5em; // Base indent size
+
+// --- Base Styling ---
+.bible-chapter-view {
+	font-size: $base-font-size; // Apply base font size here
+	line-height: $base-line-height;
+	color: $text-color;
+
+	// Justification Option
+	&.justify {
+		.verse-paragraph,
+		.verse-paragraph-noindent,
+		.verse-paragraph-indent {
+			text-align: justify;
+		}
+	}
+}
+
+.verse-content-item {
+	// Base styles for all rendered items (spans, divs, etc.)
+	// Most specific styling comes from the subtype classes below.
+}
+
+// --- Paragraphs & Text Blocks ---
+.verse-paragraph {
+	// usfm:p
+	margin-bottom: $base-margin * 0.75;
+	// Standard paragraphs might have a first-line indent depending on design
+}
+
+.verse-paragraph-noindent {
+	// usfm:m
+	margin-top: $base-margin;
+	margin-bottom: $base-margin;
+	text-indent: 0; // Explicitly no indent
+}
+
+.verse-paragraph-indent {
+	// usfm:pi (Assuming level 1)
+	margin-left: $indent-size;
+	margin-bottom: $base-margin * 0.75;
+	text-indent: 0; // Usually no *additional* indent needed
+}
+
+// Add .usfm-pi2, .usfm-pi3 etc. if needed, increasing margin-left
+
+.verse-list-item {
+	// usfm:li (Assuming level 1)
+	display: block;
+	margin-left: $indent-size;
+	margin-bottom: $base-margin * 0.5;
+}
+
+// Add .usfm-li2 etc. if needed
+
+.usfm-pc {
+	// Centered paragraph
+	text-align: center;
+	margin-top: $base-margin;
+	margin-bottom: $base-margin;
+}
+
+.usfm-cls {
+	// Closure paragraph
+	text-align: right; // Often right-aligned
+	margin-top: $base-margin;
+	margin-bottom: $base-margin;
+}
+
+// --- Poetry ---
+.verse-poetry {
+	// usfm:q, usfm:q1 (Base indent)
+	display: block;
+	margin-left: $indent-size * 1.5; // Example base poetry indent
+	margin-bottom: 0.1em; // Tight spacing
+}
+
+.verse-poetry-level2 {
+	// usfm:q2
+	margin-left: $indent-size * 2.5; // Increase indent
+}
+
+// Add .verse-poetry-level3, .verse-poetry-level4 if needed
+
+.usfm-qr {
+	// Poetry right-aligned
+	text-align: right;
+	margin-left: $indent-size * 1.5; // Maintain base indent
+	margin-bottom: 0.1em;
+}
+
+.usfm-qc {
+	// Poetry centered
+	text-align: center;
+	margin-left: 0; // Center within the container
+	margin-bottom: 0.1em;
+}
+
+.usfm-qa {
+	// Poetry attribution
+	display: block;
+	margin-left: $indent-size * 3; // Example indent, or align right
+	font-style: italic;
+	margin-top: $base-margin * 0.75;
+	margin-bottom: 0.1em;
+}
+
+.verse-blank-line {
+	// usfm:b
+	display: block;
+	height: $base-line-height * 0.8em; // Adjust spacing based on line height
+	content: ''; // Ensure it takes up space
+}
+
+.verse-inline-break {
+	// usfm:ib
+	// Often rendered as <br />, but if it's a span, style it:
+	display: block; // Force line break
+	height: 0;
+	margin: 0;
+	padding: 0;
+}
+
+// --- Titles & Headings ---
+.verse-main-title-1 {
+	// usfm:mt, usfm:mt1
+	display: block;
+	font-size: 1.8em; // Relative to base font size
+	font-weight: bold;
+	text-align: center;
+	margin-top: $base-margin * 1.5;
+	margin-bottom: $base-margin * 1.5;
+}
+
+.verse-main-title-2 {
+	// usfm:mt2
+	display: block;
+	font-size: 1.6em;
+	font-weight: bold; // Often still bold
+	text-align: center;
+	margin-top: $base-margin * 1.25;
+	margin-bottom: $base-margin * 1.25;
+}
+
+.verse-main-title-3 {
+	// usfm:mt2
+	display: block;
+	font-size: 1.4em;
+	font-weight: bold; // Often still bold
+	text-align: center;
+	margin-top: $base-margin * 1.25;
+	margin-bottom: $base-margin * 1.25;
+}
+
+.verse-section-heading {
+	// usfm:s, usfm:s1
+	display: block;
+	font-size: 1.3em;
+	font-weight: bold;
+	text-align: center; // Or left, depending on design
+	margin-top: $base-margin * 1.75;
+	margin-bottom: $base-margin;
+}
+
+// Add .usfm-s2 etc. if needed
+
+.verse-major-section-heading {
+	// usfm:ms
+	display: block;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: center; // Or left
+	margin-top: $base-margin * 2.5;
+	margin-bottom: $base-margin * 1.25;
+}
+
+// Add .usfm-ms2 etc. if needed
+
+.usfm-mr {
+	// Major section reference range
+	display: block;
+	font-weight: bold;
+	text-align: center;
+	margin-top: $base-margin * 0.5;
+	margin-bottom: $base-margin * 1.5;
+}
+
+.usfm-r {
+	// Parallel passage reference heading
+	display: block;
+	text-align: right; // Often right-aligned
+	font-style: italic;
+	font-size: 0.9em;
+	margin-bottom: $base-margin;
+}
+
+// --- Character/Inline Styles (Applied as additional classes to spans) ---
+.usfm-bd {
+	font-weight: bold;
+}
+.usfm-it,
+.usfm-em,
+.usfm-bk,
+.usfm-sls,
+.usfm-qs {
+	font-style: italic;
+}
+.usfm-wj {
+	color: $words-of-jesus-color;
+}
+.verse-added-text {
+	// usfm:add
+	font-style: italic; // Example: Make added text italic
+	// Or add a subtle background/color
+}
+.usfm-sc {
+	font-variant: small-caps;
+}
+.usfm-fk {
+	// Footnote keyword
+	font-weight: bold;
+	font-style: italic;
+}
+.usfm-fq,
+.usfm-fqa {
+	// Footnote quotations
+	font-style: italic;
+}
+.usfm-ft {
+	// Base footnote text (applied within footnote display, not here)
+	// Define base style for footnote content if needed
+}
+
+// --- Markers & Labels ---
+.verse-number-label {
+	// verses_label
+	font-weight: bold;
+	color: $muted-text-color;
+	vertical-align: super;
+	font-size: 0.8em;
+	margin-right: 0.2em; // Space after number
+	cursor: pointer; // Indicate interactability
+	user-select: none; // Prevent selecting the number itself easily
+
+	// Styles for icons inside the label
+	.icon-wrapper {
+		display: inline-block; // Or inline-flex
+		vertical-align: middle; // Align icons with text nicely
+		margin-right: 0.25em;
+		cursor: pointer;
+		// Add default icon color, size if needed
+		svg {
+			// Style SVGs directly if used
+			width: 1em;
+			height: 1em;
+			fill: currentColor; // Inherit color
+		}
+		&:hover {
+			opacity: 0.7;
+		}
+	}
+	// Specific icon styles if needed
+	// .bookmark-icon { color: blue; }
+	// .note-icon { color: green; }
+}
+
+.chapter-number-label {
+	// chapter_label
+	display: block; // Rendered usually as a div/h1
+	font-size: 2.5em;
+	font-weight: bold;
+	text-align: center;
+	margin-top: $base-margin;
+	margin-bottom: $base-margin * 1.5;
+	color: $muted-text-color;
+}
+
+.verse-footnote-marker, // footnote
+.verse-crossref-marker {
+	// xref
+	color: $footnote-marker-color;
+	cursor: pointer;
+	vertical-align: super;
+	font-size: 0.8em;
+	margin: 0 0.1em; // Add slight horizontal spacing
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+// --- Functional Styles ---
+.verse-selectable {
+	// Base class for elements that can be part of verse interaction (clicking/selecting)
+	// Might not need specific styles itself, but useful as a hook.
+}
+
+.verse-playing {
+	// Style applied to spans/divs making up the currently playing verse
+	// Use a subtle background, avoiding interference with highlights
+	background-color: $playing-bg-color;
+	border-radius: 3px; // Match highlight radius if desired
+}
+
+.verse-selected {
+	// Style applied during user text selection
+	// Note: Browser default selection style might override this unless carefully managed
+	background-color: $highlight-bg-color;
+	color: #000; // Ensure text is readable over selection background
+}
+
+.verse-highlighted {
+	// Base class when a verse is highlighted (color applied inline)
+	border-radius: 3px;
+	padding: 0 0.1em; // Add slight padding for visual separation
+	// The actual background-color is applied via inline style by the component
+}
+
+// --- Other/Utility ---
+.verse-orphan-tokens, // orphanTokens
+.verse-remark {
+	// remark
+	font-size: 0.8em;
+	color: $muted-text-color;
+	margin-top: $base-margin * 2;
+	text-align: center; // Example styling
+}

@@ -1,430 +1,347 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LanguageList component should match snapshot of active list 1`] = `
-<div
-  className="text-selection-section"
->
+<DocumentFragment>
   <div
-    className="language-name-list"
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
+    class="text-selection-section"
   >
     <div
-      className="pull-down-refresh"
-      style={
-        {
-          "height": 0,
-          "maxHeight": 0,
-        }
-      }
+      class="language-name-list"
     >
-      <span
-        style={
-          {
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
+      <div
+        class="pull-down-refresh"
+        style="height: 0px; max-height: 0;"
       >
-        Pull to Refresh
-      </span>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Azerbaijani, North"
-    >
-      <h4
-        className=""
+        <span
+          style="text-align: center; width: 100%;"
+        >
+          Pull to Refresh
+        </span>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Azerbaijani, North"
       >
-        AZƏRBAYCAN
-         - ( Azerbaijani, North )
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Aari"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          AZƏRBAYCAN - ( Azerbaijani, North )
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Aari"
       >
-        Aari
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Abau"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Aari
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Abau"
       >
-        Abau
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Abiji"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Abau
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Abiji"
       >
-        Abiji
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Abun"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Abiji
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Abun"
       >
-        Abun
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Aceh"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Abun
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Aceh"
       >
-        Aceh
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Achagua"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Aceh
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Achagua"
       >
-        Achagua
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Acholi"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Achagua
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Acholi"
       >
-        Acholi
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Achuar-Shiwiar"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Acholi
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Achuar-Shiwiar"
       >
-        Achuar-Shiwiar
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Aché"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Achuar-Shiwiar
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Aché"
       >
-        Aché
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Achi"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Aché
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Achi"
       >
-        Achí
-         - ( Achi )
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Achi de Cubulco"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Achí - ( Achi )
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Achi de Cubulco"
       >
-        Achí, Cubulco
-         - ( Achi de Cubulco )
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Adele"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Achí, Cubulco - ( Achi de Cubulco )
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Adele"
       >
-        Adele
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Adioukrou"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Adele
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Adioukrou"
       >
-        Adioukrou
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Adzera"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Adioukrou
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Adzera"
       >
-        Adzera
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Agta, Dupaninan"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Adzera
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Agta, Dupaninan"
       >
-        Agarabi
-         - ( Agta, Dupaninan )
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Agta, Dupaninan"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Agarabi - ( Agta, Dupaninan )
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Agta, Dupaninan"
       >
-        Agta, Dupaninan
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Agta, Pahanan"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Agta, Dupaninan
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Agta, Pahanan"
       >
-        Agta, Pahanan
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Awakateko"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Agta, Pahanan
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Awakateko"
       >
-        Aguacateco
-         - ( Awakateko )
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="English"
-    >
-      <h4
-        className="active-language-name"
+        <h4
+          class=""
+        >
+          Aguacateco - ( Awakateko )
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="English: USA"
       >
-        English
-      </h4>
+        <h4
+          class="active-language-name"
+        >
+          English - ( English: USA )
+        </h4>
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`LanguageList component should match snapshot of active list with an applied filter 1`] = `
-<div
-  className="text-selection-section"
->
+<DocumentFragment>
   <div
-    className="language-name-list"
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
+    class="text-selection-section"
   >
     <div
-      className="pull-down-refresh"
-      style={
-        {
-          "height": 0,
-          "maxHeight": 0,
-        }
-      }
+      class="language-name-list"
     >
-      <span
-        style={
-          {
-            "textAlign": "center",
-            "width": "100%",
-          }
-        }
+      <div
+        class="pull-down-refresh"
+        style="height: 0px; max-height: 0;"
       >
-        Pull to Refresh
-      </span>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="English"
-    >
-      <h4
-        className="active-language-name"
+        <span
+          style="text-align: center; width: 100%;"
+        >
+          Pull to Refresh
+        </span>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="English: USA"
       >
-        English
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Abun"
-    >
-      <h4
-        className=""
+        <h4
+          class="active-language-name"
+        >
+          English - ( English: USA )
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Abun"
       >
-        Abun
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Abau"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Abun
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Abau"
       >
-        Abau
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Acholi"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Abau
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Acholi"
       >
-        Acholi
-      </h4>
-    </div>
-    <div
-      className="language-name"
-      onClick={[Function]}
-      role="button"
-      style=""
-      tabIndex={0}
-      title="Aceh"
-    >
-      <h4
-        className=""
+        <h4
+          class=""
+        >
+          Acholi
+        </h4>
+      </div>
+      <div
+        class="language-name"
+        role="button"
+        tabindex="0"
+        title="Aceh"
       >
-        Aceh
-      </h4>
+        <h4
+          class=""
+        >
+          Aceh
+        </h4>
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

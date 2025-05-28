@@ -195,9 +195,10 @@ Disallow: /
 			res.status(200).json(manifestJson),
 		);
 
-		server.get('/dev-sitemap*', (req, res) =>
-			res.status(200).sendFile(req.originalUrl, sitemapOptions),
-		);
+		server.get(/^\/dev-sitemap(.*)$/, (req, res) => {
+			const fileName = req.params[0]; // the “(.*)” capture
+			res.sendFile(fileName, sitemapOptions);
+		});
 
 		const faviconOptions = {
 			root: `${__dirname}/public/`,
@@ -351,7 +352,14 @@ Disallow: /
 			}
 		});
 
-		server.get('*', (req, res) => handle(req, res));
+		server.get(/.*/, (req, res) => handle(req, res));
+
+		// catch-all for Next (including HMR, Fast Refresh, assets)
+		// everything under /_next
+		server.all(/^\/_next\/.*$/, (req, res) => handle(req, res));
+
+		// everything else (including “/”)
+		server.all(/^\/.*$/, (req, res) => handle(req, res));
 
 		server.listen(port, (err) => {
 			if (

@@ -16,20 +16,22 @@ describe('<AudioDramaToggle />', () => {
 	});
 
 	it('Expect to match snapshot for plain audio', () => {
-		const { asFragment } = render(<AudioDramaToggle {...props} audioType="audio" />);
+		const { asFragment } = render(
+			<AudioDramaToggle {...props} audioType="audio" />,
+		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('Expect to match snapshot for only plain audio available', () => {
 		const { asFragment } = render(
-		<AudioDramaToggle {...props} availableAudioTypes={['audio']} />,
+			<AudioDramaToggle {...props} availableAudioTypes={['audio']} />,
 		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('Expect to match snapshot for only drama audio available', () => {
 		const { asFragment } = render(
-		<AudioDramaToggle {...props} availableAudioTypes={['audio_drama']} />,
+			<AudioDramaToggle {...props} availableAudioTypes={['audio_drama']} />,
 		);
 		expect(asFragment()).toMatchSnapshot();
 	});

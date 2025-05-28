@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchContainer actions should render SearchContainer component properly 1`] = `
+<DocumentFragment>
+  <aside
+    class="search-wrapper"
+  >
+    <aside
+      class="search"
+    >
+      <header>
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#search"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          class="input-class"
+          placeholder="Search"
+          value=""
+        />
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#arrow_left"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+      </header>
+      <div
+        class="search-history-wrapper"
+      >
+        <div
+          class="search-history"
+        >
+          <div
+            class="starting"
+          >
+            <h2>
+              Need a place to start? Try Searching:
+            </h2>
+            <button
+              class="search-history-item"
+              type="button"
+            >
+              Jesus
+            </button>
+            <button
+              class="search-history-item"
+              type="button"
+            >
+              love
+            </button>
+            <button
+              class="search-history-item"
+              type="button"
+            >
+              prayer
+            </button>
+          </div>
+          <div
+            class="history"
+          >
+            <div
+              class="header"
+            >
+              <h2>
+                Search History:
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </aside>
+</DocumentFragment>
+`;

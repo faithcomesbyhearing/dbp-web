@@ -7,12 +7,12 @@ function LegacyLink({ href, as, children }) {
 	const router = useRouter();
 
 	const handleClick = (e) => {
-        e.preventDefault();
+		e.preventDefault();
 
 		// Prevent navigation if the user is already on the same path
 		if (router.asPath !== as) {
-            router.push(href, as);
-        }
+			router.push(href, as);
+		}
 	};
 
 	// Merge BibleLink's onClick with the child's existing onClick

@@ -32,12 +32,22 @@ class CountryList extends React.PureComponent {
 			getCountry,
 			filterText,
 		} = this.props;
-		const filteredCountryMap = filterText
-			? countries.filter((country) => this.filterFunction(country, filterText))
-			: countries;
-		const filteredCountries = filteredCountryMap.valueSeq();
+		let countryArray = [];
+		if (Array.isArray(countries)) {
+			countryArray = countries;
+		} else if (countries && typeof countries === 'object') {
+			countryArray = Object.values(countries);
+		}
 
-		if (countries.size === 0) {
+		const filteredCountryMap = filterText
+			? countryArray.filter((country) =>
+					this.filterFunction(country, filterText),
+				)
+			: countryArray;
+
+		const filteredCountries = filteredCountryMap;
+
+		if (countryArray.length === 0) {
 			return (
 				<div className={'country-error-message'}>
 					There was an error fetching this resource, an Admin has been notified.
@@ -47,7 +57,7 @@ class CountryList extends React.PureComponent {
 		}
 
 		const renderARow = ({ index, style, key }) => {
-			const country = filteredCountries.get(index);
+			const country = filteredCountries[index];
 
 			return (
 				<div
@@ -56,14 +66,14 @@ class CountryList extends React.PureComponent {
 					style={style}
 					role="button"
 					tabIndex={0}
-					title={country.get('name')}
+					title={country['name']}
 					onClick={() => {
 						setFromCountry(true);
 						setCountryName({
-							name: country.get('name'),
-							languages: country.get('languages'),
+							name: country['name'],
+							languages: country['languages'],
 						});
-						getCountry({ iso: country.getIn(['codes', 'iso']) });
+						getCountry({ iso: country?.['codes']?.['iso'] });
 						setCountryListState();
 						toggleLanguageList();
 					}}
@@ -71,44 +81,36 @@ class CountryList extends React.PureComponent {
 					<svg className="icon" height="25px" width="25px">
 						<use
 							xmlnsXlink="http://www.w3.org/1999/xlink"
-							xlinkHref={`/flags.svg#${country.getIn(['codes', 'iso_a2'])}`}
+							xlinkHref={`/flags.svg#${country?.['codes']?.['iso_a2']}`}
 						/>
 					</svg>
 					<h4
 						className={
-							activeCountryName === country.get('name')
+							activeCountryName === country['name']
 								? 'active-language-name'
 								: 'inactive-country'
 						}
 					>
-						{country.get('name')}
+						{country['name']}
 					</h4>
 				</div>
 			);
 		};
 
-		const getActiveIndex = () => {
-			let activeIndex = 0;
+		const getActiveIndex = () =>
+			filteredCountries.findIndex((c) => c.name === activeCountryName)
+		;
 
-			filteredCountries.forEach((l, i) => {
-				if (l.get('name') === activeCountryName) {
-					activeIndex = i;
-				}
-			});
-
-			return activeIndex;
-		};
-
-		return filteredCountries.size ? (
+		return filteredCountries.length ? (
 			<List
 				id={'list-element'}
-				estimatedRowSize={32 * filteredCountries.size}
+				estimatedRowSize={32 * filteredCountries.length}
 				height={height}
 				rowRenderer={renderARow}
-				rowCount={filteredCountries.size}
+				rowCount={filteredCountries.length}
 				overscanRowCount={0}
 				rowHeight={32}
-				scrollToIndex={getActiveIndex()}
+				scrollToIndex={getActiveIndex() || 0}
 				width={width}
 				scrollToAlignment={'start'}
 			/>
@@ -205,24 +207,16 @@ class CountryList extends React.PureComponent {
 	};
 
 	listScrollTop = () =>
-		document && document.getElementById('list-element')
+		document?.getElementById('list-element')
 			? document.getElementById('list-element').scrollTop
 			: 0;
 
 	filterFunction = (country, filterText) => {
 		const lowerCaseText = filterText.toLowerCase();
-
-		if (
-			country.getIn(['codes', 'iso_a2']).toLowerCase().includes(lowerCaseText)
-		) {
-			return true;
-		} else if (
-			country.get('name') !== '' &&
-			country.get('name').toLowerCase().includes(lowerCaseText)
-		) {
-			return true;
-		}
-		return false;
+		return (
+			country?.codes?.iso_a2?.toLowerCase().includes(lowerCaseText) ||
+			country?.name?.toLowerCase().includes(lowerCaseText)
+		);
 	};
 
 	handleRef = (el) => {

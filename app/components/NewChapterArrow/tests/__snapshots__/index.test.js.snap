@@ -1,53 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewChapterArrow should match snapshot for next arrow base props 1`] = `
-<div
-  className="arrow-wrapper next"
-  id=""
-  onClick={[Function]}
-  onMouseEnter={[Function]}
-  onTouchStart={[Function]}
-  title=""
->
-  <svg
-    className="next-arrow-svg"
+<DocumentFragment>
+  <a
+    class="arrow-wrapper next"
+    href="/bible/engesv/mat/3?audio_type=audio_drama"
+    title=""
   >
-    <use
-      xlinkHref="/svglist.svg#arrow_left"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-    />
-  </svg>
-</div>
+    <svg
+      class="next-arrow-svg"
+    >
+      <use
+        xlink:href="/svglist.svg#arrow_left"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      />
+    </svg>
+  </a>
+</DocumentFragment>
 `;
 
 exports[`NewChapterArrow should match snapshot for next arrow disabled props 1`] = `
-<div
-  className="arrow-wrapper next disabled"
-/>
+<DocumentFragment>
+  <div
+    class="arrow-wrapper next disabled"
+  />
+</DocumentFragment>
 `;
 
 exports[`NewChapterArrow should match snapshot for previous arrow base props 1`] = `
-<div
-  className="arrow-wrapper prev"
-  id=""
-  onClick={[Function]}
-  onMouseEnter={[Function]}
-  onTouchStart={[Function]}
-  title=""
->
-  <svg
-    className="prev-arrow-svg"
+<DocumentFragment>
+  <a
+    class="arrow-wrapper prev"
+    href="/bible/engesv/mat/1?audio_type=audio_drama"
+    title=""
   >
-    <use
-      xlinkHref="/svglist.svg#arrow_left"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-    />
-  </svg>
-</div>
+    <svg
+      class="prev-arrow-svg"
+    >
+      <use
+        xlink:href="/svglist.svg#arrow_left"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      />
+    </svg>
+  </a>
+</DocumentFragment>
 `;
 
 exports[`NewChapterArrow should match snapshot for previous arrow disabled props 1`] = `
-<div
-  className="arrow-wrapper prev disabled"
-/>
+<DocumentFragment>
+  <div
+    class="arrow-wrapper prev disabled"
+  />
+</DocumentFragment>
 `;

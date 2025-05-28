@@ -208,9 +208,7 @@ export function* sendResetPassword({ password, userAccessToken, email }) {
 	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 	formData.append('email', email);
-	formData.append(
-		'project_id', process.env.NOTES_PROJECT_ID,
-	);
+	formData.append('project_id', process.env.NOTES_PROJECT_ID);
 	formData.append('new_password', password);
 	formData.append('new_password_confirmation', password);
 	formData.append('token_id', userAccessToken);
@@ -255,9 +253,7 @@ export function* resetPassword({ email }) {
 
 	const formData = new FormData();
 	formData.append('email', email);
-	formData.append(
-		'project_id', process.env.NOTES_PROJECT_ID,
-	);
+	formData.append('project_id', process.env.NOTES_PROJECT_ID);
 	formData.append('iso', browserLanguage);
 	formData.append('reset_path', resetPath);
 
@@ -323,8 +319,9 @@ export function* socialMediaLogin({ driver }) {
 	if (process.env.NODE_ENV === 'development') {
 		requestUrl = `${process.env.BASE_API_ROUTE}/login/${driver}?key=${
 			process.env.DBP_API_KEY
-		}&v=4&project_id=${process.env.NOTES_PROJECT_ID}&alt_url=${process.env
-			.NODE_ENV === 'development'}`;
+		}&v=4&project_id=${process.env.NOTES_PROJECT_ID}&alt_url=${
+			process.env.NODE_ENV === 'development'
+		}`;
 	}
 
 	try {

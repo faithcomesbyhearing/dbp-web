@@ -1,36 +1,19 @@
 import { createSelector } from 'reselect';
-import { selectNotesDomain } from '../Notes/selectors';
-
-const selectVideoDomain = (state) => state.get('videoPlayer');
-const selectHomepageDomain = (state) => state.get('homepage');
+const selectVideoDomain = (state) => state.videoPlayer;
+const selectHomepageDomain = (state) => state.homepage;
 
 const selectPlayerOpenState = () =>
-	createSelector(selectHomepageDomain, (home) => home.get('videoPlayerOpen'));
-
-const selectVideoList = () =>
-	createSelector(selectVideoDomain, (videoState) =>
-		videoState
-			.get('videoList')
-			.map((video) => ({
-				title: `${video.get('book_name')} ${video.get('chapter_start')}`,
-				id: `${video.get('book_id')}_${video.get('chapter_start')}_${video.get(
-					'verse_start',
-				)}`,
-				source: video.get('path'),
-				duration: video.get('duration'),
-			}))
-			.toJS(),
+	createSelector(selectHomepageDomain, (homepage) =>
+		Boolean(homepage.videoPlayerOpen),
 	);
 
 const selectHasVideo = () =>
-	createSelector(
-		(state) => state?.get('homepage'),
-		(home) => home.get('hasVideo'),
+	createSelector(selectHomepageDomain, (homepage) =>
+		Boolean(homepage.hasVideo),
 	);
 
-const makeSelectVideo = () =>
-	createSelector(selectNotesDomain, (substate) => substate?.toJS());
+const makeSelectVideoPlayerState = selectVideoDomain;
 
-export default makeSelectVideo;
+export default makeSelectVideoPlayerState;
 
-export { selectVideoList, selectHasVideo, selectPlayerOpenState };
+export { selectHasVideo, selectPlayerOpenState };

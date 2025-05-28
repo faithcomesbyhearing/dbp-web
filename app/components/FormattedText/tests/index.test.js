@@ -2,7 +2,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
-import { fromJS } from 'immutable';
 import FormattedText from '../index';
 
 const highlights = [];
@@ -14,14 +13,13 @@ const setFormattedRef = jest.fn();
 const setFootnotes = jest.fn();
 const setFormattedRefHighlight = jest.fn();
 const formattedSource = {
-	main:
-		'<div class="chapter section ENGESV_70_MAT_1 ENGESV ENG MAT latin" dir="ltr" data-id="ENGESV_70_MAT_1" data-nextid="MAT2" data-previd="MAL4" lang="ENG"><div class="c">1</div><p><span class="verse1 v-num v-1">&#160;1&#160;</span><span class="v MAT1_1" data-id="MAT1_1">The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.</span><span class="verse2 v-num v-2">&#160;2&#160;</span><span class="v MAT1_2" data-id="MAT1_2">Abraham was the father of Isaac, and Isaac the father o..."</span></p></div></div>',
+	main: '<div class="chapter section ENGESV_70_MAT_1 ENGESV ENG MAT latin" dir="ltr" data-id="ENGESV_70_MAT_1" data-nextid="MAT2" data-previd="MAL4" lang="ENG"><div class="c">1</div><p><span class="verse1 v-num v-1">&#160;1&#160;</span><span class="v MAT1_1" data-id="MAT1_1">The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.</span><span class="verse2 v-num v-2">&#160;2&#160;</span><span class="v MAT1_2" data-id="MAT1_2">Abraham was the father of Isaac, and Isaac the father o..."</span></p></div></div>',
 	footnoteSource: '',
 };
 const activeChapter = 1;
 const verseNumber = '';
 const userAuthenticated = true;
-const userSettings = fromJS({
+const userSettings = structuredClone({
 	activeTheme: 'red',
 	activeFontType: 'sans',
 	activeFontSize: 42,

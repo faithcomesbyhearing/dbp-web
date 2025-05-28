@@ -2,6 +2,7 @@ const codes = {
 	audio: true,
 	audio_drama: true,
 	text_plain: true,
+	text_json: true,
 	text_format: true,
 	video_stream: true,
 	NT: true,
@@ -33,13 +34,4 @@ const otCodes = {
 	OTNTP: true,
 };
 
-// const sortSetSize = (a, b) => {
-//
-// };
-
-export {
-	ntCodes,
-	otCodes,
-	codes,
-	// sortSetSize,
-};
+export { ntCodes, otCodes, codes };
