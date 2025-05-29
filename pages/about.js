@@ -5,15 +5,15 @@
  */
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 
 function AboutPage() {
 	return (
 		<div>
-			<Helmet>
+			<Head>
 				<title>About Page</title>
 				<meta name="description" content="About the Koinos App" />
-			</Helmet>
+			</Head>
 
 			<div className="nav-holder">
 				<div className="top-nav">

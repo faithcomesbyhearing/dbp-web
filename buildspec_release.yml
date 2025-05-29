@@ -25,7 +25,6 @@ artifacts:
     - ecosystem.config.js
     - package.json
     - next.config.js
-    - newrelic.js
     - appspec.yml
     - env-config.js
     - .babelrc.js

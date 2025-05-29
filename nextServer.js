@@ -1,11 +1,4 @@
-// Has the test variable for if I run the project locally without newrelic
-if (
-	(process.env.NODE_ENV === 'production' ||
-		process.env.NODE_ENV === 'staging') &&
-	process.env.TEST !== 'test'
-) {
-	require('newrelic');
-}
+// nextServer.js
 require('core-js');
 require('regenerator-runtime');
 const lscache = require('lscache');
