@@ -25,7 +25,6 @@ import {
 	toggleWordsOfJesus,
 } from './themes';
 import makeSelectSettings from './selectors';
-// import makeSelectUserSettings from './selectors';
 import reducer from './reducer';
 import { updateTheme, updateFontType, updateFontSize } from './actions';
 import Ieerror from '../../components/Ieerror';

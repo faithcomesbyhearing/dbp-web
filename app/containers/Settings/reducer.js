@@ -15,6 +15,24 @@ import {
 import { ACTIVE_TEXT_ID } from '../HomePage/constants';
 import { SET_VOLUME, SET_PLAYBACK_RATE } from '../AudioPlayer/constants';
 
+// Helper function to set a value at a specific path in an object.
+const getPath = (obj, keys, defaultValue = undefined) => {
+	const val = keys.reduce(
+		(acc, k) => (acc != null && typeof acc === 'object' ? acc[k] : undefined),
+		obj,
+	);
+	return val === undefined ? defaultValue : val;
+};
+// Returns the value at the specified path in the object, or a default value if the path does not exist.
+const updateAtPath = (obj, path, value) => {
+	if (path.length === 0) return value;
+	const [head, ...rest] = path;
+	return {
+		...obj,
+		[head]: updateAtPath(obj[head] ?? {}, rest, value),
+	};
+};
+
 const initialState = structuredClone({
 	userSettings: {
 		activeTheme: 'red',
@@ -121,48 +139,38 @@ function settingsReducer(state = initialState, action = { type: null }) {
 					autoPlayEnabled: action.state,
 				},
 			};
-		case TOGGLE_SETTINGS_OPTION:
-			if (typeof window !== 'undefined') {
-				console.log('TOGGLE_SETTINGS_OPTION action:', action);
-				console.log('Current state:', state);
-				// Exclusive path is the path to the setting that cannot be active at the same time as this one
-				// action.exclusivePath is the path of the option that cannot have the same state as the one currently being set
-				if (action.exclusivePath) {
-					document.cookie = `bible_is_${action.exclusivePath.join(
-						'_',
-					)}=false;path=/`;
-					document.cookie = `bible_is_${action.path.join('_')}=${!state[action.path]};path=/`;
+		case TOGGLE_SETTINGS_OPTION: {
+			const currentValue = getPath(state, action.path, false);
 
-					return {
-						...state,
-						[action.exclusivePath]: false,
-						[action.path]: !state[action.path],
-					};
+			// 2. (side‐effect) write cookies if running in the browser
+			if (typeof window !== 'undefined') {
+				if (action.exclusivePath) {
+					document.cookie = `bible_is_${action.exclusivePath.join('_')}=false;path=/`;
 				}
 
-				document.cookie = `bible_is_${action.path.join('_')}=${!state[action.path]};path=/`;
+				document.cookie = `bible_is_${action.path.join('_')}=${!currentValue};path=/`;
+			}
 
-				return {
-					...state,
-					[action.path]: !state[action.path],
-				};
-			}
+			// 3. build up the new state by flipping the target,
+			//    then (if needed) clearing the exclusive one
+			let nextState = updateAtPath(state, action.path, !currentValue);
 			if (action.exclusivePath) {
-				return {
-					...state,
-					[action.exclusivePath]: false,
-					[action.path]: !state[action.path],
-				};
+				nextState = updateAtPath(nextState, action.exclusivePath, false);
 			}
-			return {
-				...state,
-				[action.path]: !state[action.path],
-			};
-		case TOGGLE_SETTINGS_OPTION_AVAILABILITY:
-			return {
-				...state,
-				[action.path]: !state[action.path],
-			};
+
+			return nextState;
+		}
+		case TOGGLE_SETTINGS_OPTION_AVAILABILITY: {
+			const currentValue = getPath(state, action.path, false);
+
+			// 2. (side‐effect) write cookies if running in the browser
+			if (typeof window !== 'undefined') {
+				document.cookie = `bible_is_${action.path.join('_')}=${!currentValue};path=/`;
+			}
+
+			// 3. build up the new state by flipping the target
+			return updateAtPath(state, action.path, !currentValue);
+		}
 		case 'GET_INITIAL_ROUTE_STATE_SETTINGS':
 			return {
 				...state,
