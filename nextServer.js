@@ -102,7 +102,7 @@ app
 					}&user_name=${userArray[2]}`,
 				);
 			} else {
-				res.redirect(301, `${redirectPath}`);
+				res.redirect(302, `${redirectPath}`);
 			}
 		});
 
@@ -202,7 +202,7 @@ Disallow: /
 
 		// Jesus Film Page
 		server.get('/jesus-film', (req, res) => {
-			res.redirect(301, '/jesus-film/eng');
+			res.redirect(302, '/jesus-film/eng');
 		});
 
 		server.get('/jesus-film/:iso', (req, res) => {
@@ -246,7 +246,7 @@ Disallow: /
 			const userParams = {};
 
 			if (bookId !== req.params.bookId) {
-				res.redirect(301, `/bible/${req.params.bibleId}/${bookId}/${chapter}`);
+				res.redirect(302, `/bible/${req.params.bibleId}/${bookId}/${chapter}`);
 			} else if (
 				req.query.user_id &&
 				req.query.user_email &&
@@ -317,7 +317,7 @@ Disallow: /
 			};
 
 			if (bookId !== req.params.bookId) {
-				res.redirect(301, `/bible/${req.params.bibleId}/${bookId}/1`);
+				res.redirect(302, `/bible/${req.params.bibleId}/${bookId}/1`);
 			} else if (
 				queryParams.verse !== 'style.css' &&
 				!req.originalUrl.includes('/public')
