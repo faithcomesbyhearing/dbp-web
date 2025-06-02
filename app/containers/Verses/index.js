@@ -472,7 +472,7 @@ export class Verses extends React.PureComponent {
 			main: this.mainRef,
 			format: this.format,
 			openPopup: this.openPopup,
-			setParentState: this.setState,
+			setParentState: this.setState.bind(this),
 			formatHighlight: this.formatHighlight,
 			deleteHighlights: this.deleteHighlights,
 			closeContextMenu: this.closeContextMenu,

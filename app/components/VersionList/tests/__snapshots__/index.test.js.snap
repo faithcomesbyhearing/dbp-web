@@ -26,7 +26,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -41,7 +41,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style"
+              class="accordion-title-style summary-no-marker"
             >
               <h4
                 class="active-version"
@@ -71,7 +71,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style"
+              class="accordion-title-style summary-no-marker"
             >
               <h4
                 class=""
@@ -101,7 +101,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style"
+              class="accordion-title-style summary-no-marker"
             >
               <h4
                 class=""
@@ -146,7 +146,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -161,7 +161,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -176,7 +176,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -191,7 +191,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -206,7 +206,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -221,7 +221,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -251,7 +251,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -266,7 +266,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -281,7 +281,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style"
+              class="accordion-title-style summary-no-marker"
             >
               <h4
                 class=""
@@ -326,7 +326,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -341,7 +341,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -356,7 +356,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -371,7 +371,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -386,7 +386,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -401,7 +401,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
@@ -416,7 +416,7 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
-              class="accordion-title-style top-level-title"
+              class="accordion-title-style summary-no-marker top-level-title"
             >
               <button
                 class=""
