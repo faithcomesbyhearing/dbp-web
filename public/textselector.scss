@@ -283,7 +283,7 @@
 			width: 100%;
 			text-align: center;
 			font-size: 12px;
-			// text-transform: capitalize;
+
 			@include css4 {
 				background-color: var(--text-selection-accordion-title-background);
 			}
@@ -301,7 +301,6 @@
 			}
 			padding-top: 15px;
 			padding-bottom: 15px;
-			// text-transform: uppercase;
 
 			& .accordion__button[aria-expanded='true'] {
 				padding-bottom: 15px;
@@ -330,19 +329,21 @@
 				}
 			}
 
-			// & .summary–no-marker {
-			// 	list-style: none;        /* remove any bullet/numbering */
-			// }
+			&.summary-no-marker {
+				list-style: none;
+				padding-left: 25px;
+				padding-right: 10px;
+			}
 
-			// /* modern browsers */
-			// & .summary–no-marker::marker {
-			// 	content: none;
-			// }
+			/* modern browsers */
+			&.summary-no-marker::marker {
+				content: none;
+			}
 
-			// /* webkit/blink (Chrome, Safari) */
-			// & .summary–no-marker::-webkit-details-marker {
-			// 	display: none;
-			// }
+			/* webkit/blink (Chrome, Safari) */
+			&.summary-no-marker::-webkit-details-marker {
+				display: none;
+			}
 		}
 
 		.accordion-body-style {

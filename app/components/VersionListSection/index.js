@@ -15,7 +15,7 @@ const VersionListSection = ({ items }) => (
 			if (types.audio && types.audio_drama) {
 				return (
 					<details key={key} className="accordion-item">
-						<summary className="accordion-title-style">
+						<summary className="accordion-title-style summary-no-marker">
 							<h4 title={title} className={className}>
 								{displayText}
 							</h4>
@@ -43,7 +43,7 @@ const VersionListSection = ({ items }) => (
 			// Default case: single link-like button
 			return (
 				<details key={key} className="accordion-item">
-					<summary className="accordion-title-style top-level-title">
+					<summary className="accordion-title-style summary-no-marker top-level-title">
 						<button
 							className={className}
 							onClick={() => clickHandler('')}
