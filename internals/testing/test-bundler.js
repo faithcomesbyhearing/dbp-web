@@ -2,6 +2,7 @@
 // (ES7 generator support is required by redux-saga)
 import { XMLSerializer } from '@xmldom/xmldom';
 import { TextDecoder, TextEncoder } from 'util';
+import { useRouter } from 'next/router';
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
@@ -41,9 +42,26 @@ copyProps(window, global);
 // Need to use require instead of import here and pass through all the props given.
 jest.mock('next/dynamic', () => () => {
 	function DynamicComponent() {
-  return null;
-}
+		return null;
+	}
 	DynamicComponent.displayName = 'LoadableComponent';
 	DynamicComponent.preload = jest.fn();
 	return DynamicComponent;
 });
+
+// Mocking the useRouter method globally for all tests
+jest.mock('next/router', () => ({
+	useRouter: jest.fn(),
+	events: {
+		on: jest.fn(),
+		off: jest.fn(),
+	},
+}));
+
+// You can configure the default behavior of useRouter if needed
+useRouter.mockImplementation(() => ({
+	route: '/',
+	pathname: '',
+	query: '',
+	asPath: '',
+}));

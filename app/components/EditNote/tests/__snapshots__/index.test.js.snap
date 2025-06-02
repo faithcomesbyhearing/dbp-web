@@ -1,410 +1,392 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditNote component should match snapshot of edit note when it was saved successfully 1`] = `
-<section
-  className="edit-notes"
->
-  <div
-    className="go-back"
-    onClick={[Function]}
-    role="button"
-    tabIndex={0}
+<DocumentFragment>
+  <section
+    class="edit-notes"
   >
-    <svg
-      className="icon"
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_left"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span>
-      View All Notes
-    </span>
-  </div>
-  <div
-    className="date-title"
-  >
-    <input
-      className="title"
-      onChange={[Function]}
-      placeholder="CLICK TO ADD TITLE"
-      value="My First Test Note"
-    />
-    <span
-      className="date"
-    >
-      02.20.19
-    </span>
-  </div>
-  <div
-    className="verse-dropdown open"
-  >
-    <svg
-      className="icon"
-      onClick={[MockFunction]}
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_right"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span
-      className="text"
-    >
-      Matthew 1:7
-    </span>
-    <span
-      className="version-dropdown"
-    >
-      ENGESV
-    </span>
-  </div>
-  <div
-    className="verse-text"
-  >
-    " 
-    For all have sinned and fallen short of the glory of God.
-     "
-  </div>
-  <textarea
-    className="note-text"
-    onChange={[Function]}
-    placeholder="CLICK TO ADD NOTE"
-    value="This is a test note!"
-  />
-  <div
-    className="delete-note-section"
-  >
-    <span
-      className="delete-button"
-      onClick={[Function]}
+    <div
+      class="go-back"
       role="button"
-      tabIndex={0}
+      tabindex="0"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#arrow_left"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      Delete Note
-    </span>
-    <span
-      className="saved-note"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      <span>
+        View All Notes
+      </span>
+    </div>
+    <div
+      class="date-title"
     >
-      Saved
-    </span>
-  </div>
-</section>
+      <input
+        class="title"
+        placeholder="CLICK TO ADD TITLE"
+        value="My First Test Note"
+      />
+      <span
+        class="date"
+      >
+        02.20.19
+      </span>
+    </div>
+    <div
+      class="verse-dropdown open"
+    >
+      <svg
+        class="icon"
+      >
+        <use
+          xlink:href="/svglist.svg#arrow_right"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        />
+      </svg>
+      <span
+        class="text"
+      >
+        Matthew 1:7
+      </span>
+      <span
+        class="version-dropdown"
+      >
+        ENGESV
+      </span>
+    </div>
+    <div
+      class="verse-text"
+    >
+      " For all have sinned and fallen short of the glory of God. "
+    </div>
+    <textarea
+      class="note-text"
+      placeholder="CLICK TO ADD NOTE"
+    >
+      This is a test note!
+    </textarea>
+    <div
+      class="delete-note-section"
+    >
+      <span
+        class="delete-button"
+        role="button"
+        tabindex="0"
+      >
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#delete"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        Delete Note
+      </span>
+      <span
+        class="saved-note"
+        role="button"
+        tabindex="0"
+      >
+        Saved
+      </span>
+    </div>
+  </section>
+</DocumentFragment>
 `;
 
 exports[`EditNote component should match snapshot of edit note when there was an error saving it 1`] = `
-<section
-  className="edit-notes"
->
-  <div
-    className="go-back"
-    onClick={[Function]}
-    role="button"
-    tabIndex={0}
+<DocumentFragment>
+  <section
+    class="edit-notes"
   >
-    <svg
-      className="icon"
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_left"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span>
-      View All Notes
-    </span>
-  </div>
-  <div
-    className="date-title"
-  >
-    <input
-      className="title"
-      onChange={[Function]}
-      placeholder="CLICK TO ADD TITLE"
-      value="My First Test Note"
-    />
-    <span
-      className="date"
-    >
-      02.20.19
-    </span>
-  </div>
-  <div
-    className="verse-dropdown open"
-  >
-    <svg
-      className="icon"
-      onClick={[MockFunction]}
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_right"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span
-      className="text"
-    >
-      Matthew 1:7
-    </span>
-    <span
-      className="version-dropdown"
-    >
-      ENGESV
-    </span>
-  </div>
-  <div
-    className="verse-text"
-  >
-    " 
-    For all have sinned and fallen short of the glory of God.
-     "
-  </div>
-  <textarea
-    className="note-text"
-    onChange={[Function]}
-    placeholder="CLICK TO ADD NOTE"
-    value="This is a test note!"
-  />
-  <div
-    className="delete-note-section"
-  >
-    <span
-      className="delete-button"
-      onClick={[Function]}
+    <div
+      class="go-back"
       role="button"
-      tabIndex={0}
+      tabindex="0"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#arrow_left"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      Delete Note
-    </span>
-    <span
-      className="save-button failed"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      <span>
+        View All Notes
+      </span>
+    </div>
+    <div
+      class="date-title"
     >
-      Failed
-    </span>
-  </div>
-</section>
+      <input
+        class="title"
+        placeholder="CLICK TO ADD TITLE"
+        value="My First Test Note"
+      />
+      <span
+        class="date"
+      >
+        02.20.19
+      </span>
+    </div>
+    <div
+      class="verse-dropdown open"
+    >
+      <svg
+        class="icon"
+      >
+        <use
+          xlink:href="/svglist.svg#arrow_right"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        />
+      </svg>
+      <span
+        class="text"
+      >
+        Matthew 1:7
+      </span>
+      <span
+        class="version-dropdown"
+      >
+        ENGESV
+      </span>
+    </div>
+    <div
+      class="verse-text"
+    >
+      " For all have sinned and fallen short of the glory of God. "
+    </div>
+    <textarea
+      class="note-text"
+      placeholder="CLICK TO ADD NOTE"
+    >
+      This is a test note!
+    </textarea>
+    <div
+      class="delete-note-section"
+    >
+      <span
+        class="delete-button"
+        role="button"
+        tabindex="0"
+      >
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#delete"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        Delete Note
+      </span>
+      <span
+        class="save-button failed"
+        role="button"
+        tabindex="0"
+      >
+        Failed
+      </span>
+    </div>
+  </section>
+</DocumentFragment>
 `;
 
 exports[`EditNote component should match snapshot of edit note when verse text is not visible 1`] = `
-<section
-  className="edit-notes"
->
-  <div
-    className="go-back"
-    onClick={[Function]}
-    role="button"
-    tabIndex={0}
+<DocumentFragment>
+  <section
+    class="edit-notes"
   >
-    <svg
-      className="icon"
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_left"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span>
-      View All Notes
-    </span>
-  </div>
-  <div
-    className="date-title"
-  >
-    <input
-      className="title"
-      onChange={[Function]}
-      placeholder="CLICK TO ADD TITLE"
-      value="My First Test Note"
-    />
-    <span
-      className="date"
-    >
-      02.20.19
-    </span>
-  </div>
-  <div
-    className="verse-dropdown"
-  >
-    <svg
-      className="icon"
-      onClick={[MockFunction]}
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_right"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span
-      className="text"
-    >
-      Matthew 1:7
-    </span>
-    <span
-      className="version-dropdown"
-    >
-      ENGESV
-    </span>
-  </div>
-  <textarea
-    className="note-text"
-    onChange={[Function]}
-    placeholder="CLICK TO ADD NOTE"
-    value="This is a test note!"
-  />
-  <div
-    className="delete-note-section"
-  >
-    <span
-      className="delete-button"
-      onClick={[Function]}
+    <div
+      class="go-back"
       role="button"
-      tabIndex={0}
+      tabindex="0"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#arrow_left"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      Delete Note
-    </span>
-    <span
-      className="save-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      <span>
+        View All Notes
+      </span>
+    </div>
+    <div
+      class="date-title"
     >
-      Save
-    </span>
-  </div>
-</section>
+      <input
+        class="title"
+        placeholder="CLICK TO ADD TITLE"
+        value="My First Test Note"
+      />
+      <span
+        class="date"
+      >
+        02.20.19
+      </span>
+    </div>
+    <div
+      class="verse-dropdown"
+    >
+      <svg
+        class="icon"
+      >
+        <use
+          xlink:href="/svglist.svg#arrow_right"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        />
+      </svg>
+      <span
+        class="text"
+      >
+        Matthew 1:7
+      </span>
+      <span
+        class="version-dropdown"
+      >
+        ENGESV
+      </span>
+    </div>
+    <textarea
+      class="note-text"
+      placeholder="CLICK TO ADD NOTE"
+    >
+      This is a test note!
+    </textarea>
+    <div
+      class="delete-note-section"
+    >
+      <span
+        class="delete-button"
+        role="button"
+        tabindex="0"
+      >
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#delete"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        Delete Note
+      </span>
+      <span
+        class="save-button"
+        role="button"
+        tabindex="0"
+      >
+        Save
+      </span>
+    </div>
+  </section>
+</DocumentFragment>
 `;
 
 exports[`EditNote component should match snapshot of edit note with default props 1`] = `
-<section
-  className="edit-notes"
->
-  <div
-    className="go-back"
-    onClick={[Function]}
-    role="button"
-    tabIndex={0}
+<DocumentFragment>
+  <section
+    class="edit-notes"
   >
-    <svg
-      className="icon"
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_left"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span>
-      View All Notes
-    </span>
-  </div>
-  <div
-    className="date-title"
-  >
-    <input
-      className="title"
-      onChange={[Function]}
-      placeholder="CLICK TO ADD TITLE"
-      value="My First Test Note"
-    />
-    <span
-      className="date"
-    >
-      02.20.19
-    </span>
-  </div>
-  <div
-    className="verse-dropdown open"
-  >
-    <svg
-      className="icon"
-      onClick={[MockFunction]}
-    >
-      <use
-        xlinkHref="/svglist.svg#arrow_right"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <span
-      className="text"
-    >
-      Matthew 1:7
-    </span>
-    <span
-      className="version-dropdown"
-    >
-      ENGESV
-    </span>
-  </div>
-  <div
-    className="verse-text"
-  >
-    " 
-    For all have sinned and fallen short of the glory of God.
-     "
-  </div>
-  <textarea
-    className="note-text"
-    onChange={[Function]}
-    placeholder="CLICK TO ADD NOTE"
-    value="This is a test note!"
-  />
-  <div
-    className="delete-note-section"
-  >
-    <span
-      className="delete-button"
-      onClick={[Function]}
+    <div
+      class="go-back"
       role="button"
-      tabIndex={0}
+      tabindex="0"
     >
       <svg
-        className="icon"
+        class="icon"
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#arrow_left"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      Delete Note
-    </span>
-    <span
-      className="save-button"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      <span>
+        View All Notes
+      </span>
+    </div>
+    <div
+      class="date-title"
     >
-      Save
-    </span>
-  </div>
-</section>
+      <input
+        class="title"
+        placeholder="CLICK TO ADD TITLE"
+        value="My First Test Note"
+      />
+      <span
+        class="date"
+      >
+        02.20.19
+      </span>
+    </div>
+    <div
+      class="verse-dropdown open"
+    >
+      <svg
+        class="icon"
+      >
+        <use
+          xlink:href="/svglist.svg#arrow_right"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        />
+      </svg>
+      <span
+        class="text"
+      >
+        Matthew 1:7
+      </span>
+      <span
+        class="version-dropdown"
+      >
+        ENGESV
+      </span>
+    </div>
+    <div
+      class="verse-text"
+    >
+      " For all have sinned and fallen short of the glory of God. "
+    </div>
+    <textarea
+      class="note-text"
+      placeholder="CLICK TO ADD NOTE"
+    >
+      This is a test note!
+    </textarea>
+    <div
+      class="delete-note-section"
+    >
+      <span
+        class="delete-button"
+        role="button"
+        tabindex="0"
+      >
+        <svg
+          class="icon"
+        >
+          <use
+            xlink:href="/svglist.svg#delete"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        Delete Note
+      </span>
+      <span
+        class="save-button"
+        role="button"
+        tabindex="0"
+      >
+        Save
+      </span>
+    </div>
+  </section>
+</DocumentFragment>
 `;

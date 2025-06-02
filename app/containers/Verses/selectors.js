@@ -3,9 +3,9 @@ import { selectHomePageDomain } from '../HomePage/selectors';
 /**
  * Direct selector to the verses state domain
  */
-const selectVersesDomain = (state) => state.get('verses');
-const selectSettingsDomain = (state) => state.get('settings');
-const selectProfilePageDomain = (state) => state.get('profile');
+const selectVersesDomain = (state) => state['verses'];
+const selectSettingsDomain = (state) => state['settings'];
+const selectProfilePageDomain = (state) => state['profile'];
 
 /**
  * Other specific selectors
@@ -13,41 +13,37 @@ const selectProfilePageDomain = (state) => state.get('profile');
  */
 // Homepage State
 const selectHighlights = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('highlights')?.toJS ? home.get('highlights').toJS() : home.get('highlights'));
+	createSelector(selectHomePageDomain, (home) => home['highlights']);
 const selectActiveTextId = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('activeTextId'));
+	createSelector(selectHomePageDomain, (home) => home['activeTextId']);
 const selectActiveBookId = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('activeBookId'));
+	createSelector(selectHomePageDomain, (home) => home['activeBookId']);
 const selectActiveBookName = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('activeBookName'));
+	createSelector(selectHomePageDomain, (home) => home['activeBookName']);
 const selectActiveChapter = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('activeChapter'));
+	createSelector(selectHomePageDomain, (home) => home['activeChapter']);
 const selectVerseNumber = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('verseNumber'));
+	createSelector(selectHomePageDomain, (home) => home['verseNumber']);
 const selectNotesMenuState = () =>
-	createSelector(selectHomePageDomain, (home) =>
-		home.get('isNotesModalActive'),
-	);
+	createSelector(selectHomePageDomain, (home) => home['isNotesModalActive']);
 const selectTextDirection = () =>
-	createSelector(selectHomePageDomain, (home) => home.get('textDirection'));
+	createSelector(selectHomePageDomain, (home) => home['textDirection']);
 // Settings State
 const selectUserSettings = () =>
-	createSelector(selectSettingsDomain, (settings) =>
-		settings.get('userSettings'),
-	);
+	createSelector(selectSettingsDomain, (settings) => settings['userSettings']);
 // Profile State
 const selectUserId = () =>
-	createSelector(selectProfilePageDomain, (profile) => profile.get('userId'));
+	createSelector(selectProfilePageDomain, (profile) => profile['userId']);
 const selectUserAuthenticated = () =>
-	createSelector(selectProfilePageDomain, (profile) =>
-		profile?.get('userAuthenticated'),
+	createSelector(
+		selectProfilePageDomain,
+		(profile) => profile['userAuthenticated'],
 	);
 /**
  * Default selector used by Verses
  */
 
-const makeSelectVerses = () =>
-	createSelector(selectVersesDomain, (substate) => substate?.toJS());
+const makeSelectVerses = selectVersesDomain;
 
 export default makeSelectVerses;
 export {

@@ -1,14 +1,8 @@
 import { createSelector } from 'reselect';
 
-const selectHomepage = (state) => state.get('homepage');
+const selectHomepage = (state) => state['homepage'];
 
 const selectCopyrights = () =>
-	createSelector(
-		selectHomepage,
-		(home) =>
-			home.get('copyrights').toJS === 'function'
-				? home.get('copyrights').toJS()
-				: home.get('copyrights'),
-	);
+	createSelector(selectHomepage, (home) => home['copyrights']);
 
 export { selectCopyrights };

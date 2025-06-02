@@ -18,44 +18,42 @@ import messages from '../app/containers/NotFoundPage/messages';
 import configureStore from '../app/configureStore';
 
 export default function Custom404() {
-  const store = useMemo(() => configureStore({}, {}, {}), []);
-  return (
-    <Provider store={store}>
-      <LanguageProvider messages={translationMessages}>
-        <div className={'not-found'}>
-          <div className={'top-bar'}>
-            <a
-              className="logo"
-              href={process.env.BASE_SITE_URL}
-              title={'http://www.bible.is'}
-              target={'_blank'}
-              rel={'noopener'}
-            >
-              <SvgWrapper className="svg" svgid={'bible.is_logo'} />
-            </a>
-          </div>
-          <div className={'content'}>
-            <h1 className={'header'}>
-              404
-            </h1>
-            <h1 className={'header'}>
-              <FormattedMessage {...messages.headermessage} />
-            </h1>
-            <ul>
-              <li>
-                <FormattedMessage {...messages.tryAgain} />
-              </li>
-              <li>
-                <FormattedMessage {...messages.homePage} />
-                <a href={process.env.BASE_SITE_URL}>
-                  <FormattedMessage {...messages.homePageLink} />
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className={'bottom-bar'} />
-        </div>
-      </LanguageProvider>
-    </Provider>
-  );
+	const store = useMemo(() => configureStore({}, {}, {}), []);
+	return (
+		<Provider store={store}>
+			<LanguageProvider messages={translationMessages}>
+				<div className={'not-found'}>
+					<div className={'top-bar'}>
+						<a
+							className="logo"
+							href={process.env.BASE_SITE_URL}
+							title={'http://www.bible.is'}
+							target={'_blank'}
+							rel={'noopener'}
+						>
+							<SvgWrapper className="svg" svgid={'bible.is_logo'} />
+						</a>
+					</div>
+					<div className={'content'}>
+						<h1 className={'header'}>404</h1>
+						<h1 className={'header'}>
+							<FormattedMessage {...messages.headermessage} />
+						</h1>
+						<ul>
+							<li>
+								<FormattedMessage {...messages.tryAgain} />
+							</li>
+							<li>
+								<FormattedMessage {...messages.homePage} />
+								<a href={process.env.BASE_SITE_URL}>
+									<FormattedMessage {...messages.homePageLink} />
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div className={'bottom-bar'} />
+				</div>
+			</LanguageProvider>
+		</Provider>
+	);
 }

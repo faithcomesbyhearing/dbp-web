@@ -1,14 +1,16 @@
+/** eslint-env jest */
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom'; // For better matchers like toBeInTheDocument
 import PlainTextVerse from '../index';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-jest.mock('../../IconsInText', () => function iconsInTextMock() {
-  return <div id="mockIcons">mockIcons</div>;
-});
+jest.mock(
+	'../../IconsInText',
+	() =>
+		function iconsInTextMock() {
+			return <div id="mockIcons">mockIcons</div>;
+		},
+);
 
 const onMouseUp = jest.fn();
 const onMouseDown = jest.fn();
@@ -31,9 +33,9 @@ const activeVerse = 0;
 const verseIsActive = false;
 const oneVerse = false;
 
-describe('PlainTextVerse', () => {
-	it('should return correct component', () => {
-		const wrapper = Enzyme.mount(
+describe('PlainTextVerse Component', () => {
+	it('should render the component and display verse text', () => {
+		render(
 			<PlainTextVerse
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}
@@ -46,45 +48,29 @@ describe('PlainTextVerse', () => {
 			/>,
 		);
 
-		expect(wrapper.find('#mockIcons').length).toEqual(1);
-		expect(wrapper.contains(verse.verse_text)).toEqual(true);
+		// Check for IconsInText and verse text
+		expect(screen.getByText('mockIcons')).toBeInTheDocument();
+		expect(screen.getByText(verse.verse_text)).toBeInTheDocument();
 	});
-	it('Should match the old snapshot', () => {
-		const tree = renderer
-			.create(
-				<PlainTextVerse
-					onMouseUp={onMouseUp}
-					onMouseDown={onMouseDown}
-					onHighlightClick={onHighlightClick}
-					onNoteClick={onNoteClick}
-					verse={verse}
-					activeVerse={activeVerse}
-					verseIsActive={verseIsActive}
-					oneVerse={oneVerse}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+
+	it('should match the old snapshot', () => {
+		const { asFragment } = render(
+			<PlainTextVerse
+				onMouseUp={onMouseUp}
+				onMouseDown={onMouseDown}
+				onHighlightClick={onHighlightClick}
+				onNoteClick={onNoteClick}
+				verse={verse}
+				activeVerse={activeVerse}
+				verseIsActive={verseIsActive}
+				oneVerse={oneVerse}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
-	it('Should match the old snapshot for oneVerse option', () => {
-		const tree = renderer
-			.create(
-				<PlainTextVerse
-					onMouseUp={onMouseUp}
-					onMouseDown={onMouseDown}
-					onHighlightClick={onHighlightClick}
-					onNoteClick={onNoteClick}
-					verse={verse}
-					activeVerse={activeVerse}
-					verseIsActive={verseIsActive}
-					oneVerse
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
-	});
-	it('Should render one verse per line if oneVerse is true', () => {
-		const wrapper = Enzyme.mount(
+
+	it('should match the old snapshot when oneVerse option is true', () => {
+		const { asFragment } = render(
 			<PlainTextVerse
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}
@@ -96,9 +82,27 @@ describe('PlainTextVerse', () => {
 				oneVerse
 			/>,
 		);
-		expect(wrapper.props().oneVerse).toBe(true);
-		expect(wrapper.find('#mockIcons').length).toEqual(1);
-		expect(wrapper.contains(verse.verse_text)).toEqual(true);
-		expect(wrapper.find('br').length).toEqual(1);
+		expect(asFragment()).toMatchSnapshot();
+	});
+
+	it('should render one verse per line when oneVerse is true', () => {
+		const { container } = render(
+			<PlainTextVerse
+				onMouseUp={onMouseUp}
+				onMouseDown={onMouseDown}
+				onHighlightClick={onHighlightClick}
+				onNoteClick={onNoteClick}
+				verse={verse}
+				activeVerse={activeVerse}
+				verseIsActive={verseIsActive}
+				oneVerse
+			/>,
+		);
+
+		// Check if oneVerse prop is applied properly
+		expect(screen.getByText(verse.verse_text)).toBeInTheDocument();
+		expect(screen.getByText('mockIcons')).toBeInTheDocument();
+		// Check if <br /> is rendered when oneVerse is true
+		expect(container.querySelector('br')).toBeInTheDocument();
 	});
 });

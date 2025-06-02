@@ -25,9 +25,7 @@ export class Information extends React.PureComponent {
 		};
 	}
 
-	// eslint-disable-line react/prefer-stateless-function
 	setRef = (node) => {
-		// eslint-disable-next-line react/no-unused-class-component-methods
 		this.ref = node;
 	};
 
@@ -90,10 +88,8 @@ export class Information extends React.PureComponent {
 						&nbsp;
 					</div>
 					<div className={'ministry-terms-support'}>
-						<Link legacyBehavior href={'/terms'}>
-							<a id={'terms-of-service'}>
-								<FormattedMessage {...messages.terms} />
-							</a>
+						<Link href={'/terms'} id={'terms-of-service'}>
+							<FormattedMessage {...messages.terms} />
 						</Link>
 						&nbsp; | &nbsp;
 						<a
@@ -123,7 +119,4 @@ const mapDispatchToProps = (dispatch) => ({
 	dispatch,
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps(),
-)(Information);
+export default connect(mapStateToProps, mapDispatchToProps())(Information);

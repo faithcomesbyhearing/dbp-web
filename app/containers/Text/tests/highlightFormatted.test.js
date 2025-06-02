@@ -1,9 +1,6 @@
-// import { XMLSerializer } from 'xmldom';
 import { JSDOM } from 'jsdom';
 import { getStartingEmAttributes } from '../../../utils/testUtils/getStartingEmAttributes';
 import highlightFormattedText from '../highlightFormattedText';
-// global.XMLSerializer = XMLSerializer;
-// import sampleHighlights from './sampleHighlights.json';
 // Can't test formatted text because of XMLSerializer not being available
 
 describe('highlightFormattedText', () => {

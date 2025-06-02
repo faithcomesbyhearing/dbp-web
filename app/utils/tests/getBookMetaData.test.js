@@ -6,7 +6,6 @@ const idsForBookMetadata = [
 	['audio_drama', 'ENGNIVN2DA'],
 	['audio_drama', 'ENGNIVO2DA'],
 	['text_plain', 'ENGNIV'],
-	// ['text_format', 'ENGNIV'],
 	['video_stream', 'ENGNIVP2DV'],
 ];
 

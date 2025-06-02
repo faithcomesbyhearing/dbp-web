@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import FadeTransition from '..';
 
 const children = (
@@ -11,19 +11,15 @@ const children = (
 
 describe('<FadeTransition /> component', () => {
 	it('should match snapshot with classNames', () => {
-		const tree = renderer
-			.create(
-				<FadeTransition classNames={'slide-from-right'}>
-					{children}
-				</FadeTransition>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<FadeTransition classNames={'slide-from-right'}>
+				{children}
+			</FadeTransition>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('should match snapshot without classNames', () => {
-		const tree = renderer
-			.create(<FadeTransition>{children}</FadeTransition>)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<FadeTransition>{children}</FadeTransition>);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

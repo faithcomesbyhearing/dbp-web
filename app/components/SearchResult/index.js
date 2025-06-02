@@ -13,23 +13,18 @@ function SearchResult({ result: r, bibleId }) {
 	// same word could be in the text, this way at least their index in the array is different
 	return (
 		<div
-			key={`${r.get('book_id')}${r.get('chapter')}${r.get('verse_start')}`}
+			key={`${r['book_id']}${r['chapter']}${r['verse_start']}`}
 			className={'single-result'}
 		>
 			<h4>
 				<Link
-					legacyBehavior
-					as={`/bible/${bibleId}/${r.get('book_id')}/${r.get(
-						'chapter',
-					)}/${r.get('verse_start')}`}
-					href={`/bible/${bibleId}/${r.get('book_id')}/${r.get(
-						'chapter',
-					)}/${r.get('verse_start')}`}
+					as={`/bible/${bibleId}/${r['book_id']}/${r['chapter']}/${r['verse_start']}`}
+					href={`/bible/${bibleId}/${r['book_id']}/${r['chapter']}/${r['verse_start']}`}
 				>
-					<a>{`${r.get('chapter')}:${r.get('verse_start')}`}</a>
+					{`${r['chapter']}:${r['verse_start']}`}
 				</Link>
 			</h4>
-			<p>{r.get('verse_text')}</p>
+			<p>{r['verse_text']}</p>
 		</div>
 	);
 }

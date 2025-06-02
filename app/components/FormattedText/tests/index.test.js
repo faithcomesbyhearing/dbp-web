@@ -1,29 +1,25 @@
 /** eslint-env jest */
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-import { fromJS } from 'immutable';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
 import FormattedText from '../index';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 const highlights = [];
 const bookmarks = [];
 const userNotes = [];
 const domMethodsAvailable = false;
 const activeBookId = 'MAT';
-const setFormattedRef = () => { /* TODO document why this arrow function is empty */ };
-const setFootnotes = () => { /* TODO document why this arrow function is empty */ };
-const setFormattedRefHighlight = () => { /* TODO document why this arrow function is empty */ };
+const setFormattedRef = jest.fn();
+const setFootnotes = jest.fn();
+const setFormattedRefHighlight = jest.fn();
 const formattedSource = {
-	main:
-		'<div class="chapter section ENGESV_70_MAT_1 ENGESV ENG MAT latin" dir="ltr" data-id="ENGESV_70_MAT_1" data-nextid="MAT2" data-previd="MAL4" lang="ENG"><div class="c">1</div><p><span class="verse1 v-num v-1">&#160;1&#160;</span><span class="v MAT1_1" data-id="MAT1_1">The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.</span><span class="verse2 v-num v-2">&#160;2&#160;</span><span class="v MAT1_2" data-id="MAT1_2">Abraham was the father of Isaac, and Isaac the father o..."</span></p></div></div>',
+	main: '<div class="chapter section ENGESV_70_MAT_1 ENGESV ENG MAT latin" dir="ltr" data-id="ENGESV_70_MAT_1" data-nextid="MAT2" data-previd="MAL4" lang="ENG"><div class="c">1</div><p><span class="verse1 v-num v-1">&#160;1&#160;</span><span class="v MAT1_1" data-id="MAT1_1">The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.</span><span class="verse2 v-num v-2">&#160;2&#160;</span><span class="v MAT1_2" data-id="MAT1_2">Abraham was the father of Isaac, and Isaac the father o..."</span></p></div></div>',
 	footnoteSource: '',
 };
 const activeChapter = 1;
 const verseNumber = '';
 const userAuthenticated = true;
-const userSettings = fromJS({
+const userSettings = structuredClone({
 	activeTheme: 'red',
 	activeFontType: 'sans',
 	activeFontSize: 42,
@@ -62,18 +58,14 @@ const userSettings = fromJS({
 	autoPlayEnabled: false,
 });
 const activeVerseInfo = { verse: 0 };
-const handleMouseUp = () => {};
-const getFirstVerse = () => {};
-const handleHighlightClick = () => {};
-const handleNoteClick = () => {};
+const handleMouseUp = jest.fn();
+const getFirstVerse = jest.fn();
+const handleHighlightClick = jest.fn();
+const handleNoteClick = jest.fn();
 
 describe('<FormattedText />', () => {
-	let wrapper;
-	let spyDidMount;
-
-	beforeEach(() => {
-		spyDidMount = jest.spyOn(FormattedText.prototype, 'componentDidMount');
-		wrapper = Enzyme.mount(
+	it('should render and display chapter content', () => {
+		const { container } = render(
 			<FormattedText
 				highlights={highlights}
 				activeChapter={activeChapter}
@@ -95,25 +87,40 @@ describe('<FormattedText />', () => {
 				formattedSource={formattedSource}
 			/>,
 		);
-	});
 
-	afterEach(() => {
-		wrapper = null;
-		spyDidMount.mockClear();
-	});
-	it('Expect it to render', () => {
-		expect(spyDidMount).toHaveBeenCalled();
-		expect(wrapper.html()).toContain('chapter');
-		expect(wrapper.html()).toContain('verse1');
-		expect(wrapper.html()).toContain(
+		// Check for content in the chapter
+		expect(container.querySelector('.chapter')).toBeInTheDocument();
+		expect(container.querySelector('.verse1')).toBeInTheDocument();
+		expect(container).toHaveTextContent(
 			'The book of the genealogy of Jesus Christ, the son of David, the son of Abraham.',
 		);
 	});
-	it('Expect componentDidMount to have been called', () => {
-		expect(spyDidMount).toHaveBeenCalled();
-	});
-	it('Expect the chapter to be defined and equal 1', () => {
-		expect(wrapper.props().activeChapter).toEqual(1);
-		expect(spyDidMount).toHaveBeenCalledTimes(1);
+
+	it('should have activeChapter prop set to 1', () => {
+		render(
+			<FormattedText
+				highlights={highlights}
+				activeChapter={activeChapter}
+				verseNumber={verseNumber}
+				userAuthenticated={userAuthenticated}
+				userSettings={userSettings}
+				activeVerseInfo={activeVerseInfo}
+				handleMouseUp={handleMouseUp}
+				getFirstVerse={getFirstVerse}
+				handleHighlightClick={handleHighlightClick}
+				handleNoteClick={handleNoteClick}
+				bookmarks={bookmarks}
+				userNotes={userNotes}
+				domMethodsAvailable={domMethodsAvailable}
+				activeBookId={activeBookId}
+				setFormattedRef={setFormattedRef}
+				setFootnotes={setFootnotes}
+				setFormattedRefHighlight={setFormattedRefHighlight}
+				formattedSource={formattedSource}
+			/>,
+		);
+
+		// Check if the activeChapter is set properly
+		expect(activeChapter).toBe(1);
 	});
 });

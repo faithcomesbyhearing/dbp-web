@@ -1,13 +1,11 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { PleaseSignInMessage } from '..';
 
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-/* eslint-enable react/prop-types */
 
 const props = {
 	dispatch: jest.fn(),
@@ -16,7 +14,7 @@ const props = {
 
 describe('<PleaseSignInMessage /> Component', () => {
 	it('Should match the previous snapshot', () => {
-		const tree = renderer.create(<PleaseSignInMessage {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(<PleaseSignInMessage {...props} />);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

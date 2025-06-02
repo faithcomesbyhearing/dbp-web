@@ -546,16 +546,10 @@ export class Verses extends React.PureComponent {
 			userSelectedText,
 			domMethodsAvailable,
 		} = this.state;
-		const readersMode = userSettings.getIn([
-			'toggleOptions',
-			'readersMode',
-			'active',
-		]);
-		const oneVersePerLine = userSettings.getIn([
-			'toggleOptions',
-			'oneVersePerLine',
-			'active',
-		]);
+		const readersMode =
+			userSettings?.['toggleOptions']?.['readersMode']?.['active'];
+		const oneVersePerLine =
+			userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'];
 		const chapterAlt = text[0] && text[0].chapter_alt;
 
 		return (
@@ -629,7 +623,7 @@ export class Verses extends React.PureComponent {
 							/>
 						)
 					))}
-				{(!formattedSource.main && !formattedJsonSource) && !!text.length && (
+				{!formattedSource.main && !formattedJsonSource && !!text.length && (
 					<PlainText
 						initialText={text}
 						highlights={highlights}
@@ -704,8 +698,8 @@ Verses.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	verses: makeSelectVerses(),
-	textData: selectUserNotes(),
+	verses: makeSelectVerses,
+	textData: selectUserNotes,
 	highlights: selectHighlights(),
 	activeTextId: selectActiveTextId(),
 	activeBookId: selectActiveBookId(),
@@ -714,8 +708,8 @@ const mapStateToProps = createStructuredSelector({
 	verseNumber: selectVerseNumber(),
 	notesActive: selectNotesMenuState(),
 	textDirection: selectTextDirection(),
-	formattedSource: selectFormattedSource(),
-	formattedJsonSource: selectChapterJson(),
+	formattedSource: selectFormattedSource,
+	formattedJsonSource: selectChapterJson,
 	userSettings: selectUserSettings(),
 	userAuthenticated: selectUserAuthenticated(),
 	userId: selectUserId(),

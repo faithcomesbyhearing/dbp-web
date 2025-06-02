@@ -41,9 +41,6 @@ function mapDispatchToProps(dispatch) {
 		dispatch,
 	};
 }
-const withConnect = connect(
-	null,
-	mapDispatchToProps,
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default withConnect(PleaseSignInMessage);

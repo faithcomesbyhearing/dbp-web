@@ -1,60 +1,77 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom'; // for custom matchers like toBeInTheDocument
 import Checkbox from '..';
 
-Enzyme.configure({ adapter: new Adapter() });
-
 const updater = jest.fn(() => {
-  props.toggleState = !props.toggleState;
+	props.toggleState = !props.toggleState;
 });
 const props = {
-  label: 'autoplay',
-  toggleState: true,
-  className: 'autoplay',
-  id: 'autoplay-checkbox',
-  updater,
+	label: 'autoplay',
+	toggleState: true,
+	className: 'autoplay',
+	id: 'autoplay-checkbox',
+	updater,
 };
-let wrapper;
+
+const stringToBoolean = (input) => {
+	if (input === 'true') {
+		return true;
+	} else if (input === 'false') {
+		return false;
+	} else {
+		return undefined;
+	}
+};
 
 describe('Checkbox component', () => {
-  beforeEach(() => {
-    wrapper = Enzyme.mount(<Checkbox {...props} />);
-    props.toggleState = true;
-  });
-  it('should match previous snapshot for active', () => {
-    const tree = renderer.create(<Checkbox {...props} />).toJSON();
+	beforeEach(() => {
+		props.toggleState = true;
+	});
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('should match previous snapshot for inactive', () => {
-    const tree = renderer
-      .create(<Checkbox {...props} toggleState={false} />)
-      .toJSON();
+	it('should match snapshot for active state', () => {
+		const { asFragment } = render(<Checkbox {...props} />);
+		expect(asFragment()).toMatchSnapshot();
+	});
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('should match previous snapshot for default props', () => {
-    const tree = renderer
-      .create(<Checkbox {...props} id={''} className={''} />)
-      .toJSON();
+	it('should match snapshot for inactive state', () => {
+		const { asFragment } = render(<Checkbox {...props} toggleState={false} />);
+		expect(asFragment()).toMatchSnapshot();
+	});
 
-    expect(tree).toMatchSnapshot();
-  });
-  it('should render in active state', () => {
-    const input = wrapper.find('input');
-    expect(input.props().value).toEqual(props.toggleState);
-  });
-  it('should render in inactive state when toggled', () => {
-    const input = wrapper.find('input');
+	it('should match snapshot for default props', () => {
+		const { asFragment } = render(
+			<Checkbox {...props} id={''} className={''} />,
+		);
+		expect(asFragment()).toMatchSnapshot();
+	});
 
-    input.simulate('change', { target: { value: false } });
+	it('should render in active state', () => {
+		render(<Checkbox {...props} />);
+		const input = screen.getByRole('checkbox');
+		expect(stringToBoolean(input.value)).toBe(props.toggleState); // Checked when true
+	});
 
-    expect(updater).toHaveBeenCalledTimes(1);
-    // Need to set the new props here
-    wrapper.setProps({ toggleState: props.toggleState });
-    // Need to refind the input since enzyme returns immutable objects
-    expect(wrapper.find('input').props().value).toEqual(props.toggleState);
-  });
+	it('should render in inactive state when toggled', () => {
+		const { rerender } = render(<Checkbox {...props} />);
+		const input = screen.getByRole('checkbox');
+
+		expect(props.toggleState).toBe(true); // Now checked
+
+		// Simulate the change event
+		fireEvent.click(input);
+
+		expect(updater).toHaveBeenCalledTimes(1);
+
+		// Verify the checkbox value after click
+		expect(props.toggleState).toBe(false); // Now unchecked
+
+		// Re-render the component with updated props
+		rerender(<Checkbox {...props} toggleState={props.toggleState} />);
+
+		// Verify the checkbox value after the update
+		expect(stringToBoolean(screen.getByRole('checkbox').value)).toBe(
+			props.toggleState,
+		); // Now unchecked
+	});
 });

@@ -44,7 +44,4 @@ const mapStateToProps = createStructuredSelector({
 const withConnect = connect(mapStateToProps);
 const withRedux = injectReducer({ key: 'settings', reducer: settingsReducer });
 
-export default compose(
-	withConnect,
-	withRedux,
-)(DonateButton);
+export default compose(withConnect, withRedux)(DonateButton);

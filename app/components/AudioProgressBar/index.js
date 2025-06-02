@@ -6,10 +6,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Slider from 'rc-slider/lib/Slider';
+import dynamic from 'next/dynamic';
 import getFormattedTimeString from '../../utils/getFormattedTimeString';
 import Colors from '../../../theme_config/javascriptColors';
 import AudioDramaToggle from '../AudioDramaToggle';
+
+const Slider = dynamic(() => import('rc-slider/lib/Slider'), { ssr: false });
 
 class AudioProgressBar extends React.PureComponent {
 	get timeLeft() {

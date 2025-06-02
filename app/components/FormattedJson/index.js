@@ -75,7 +75,7 @@ const RenderContentItem = React.memo(
 				? {
 						chapter: currentChapterNumberInScope,
 						verse: currentVerseNumberInScope,
-				  }
+					}
 				: null;
 
 			return (
@@ -216,8 +216,7 @@ const RenderContentItem = React.memo(
 							<use
 								xmlnsXlink="http://www.w3.org/1999/xlink"
 								xlinkHref="/svglist.svg#bookmark_in_verse"
-							>
-       </use>
+							></use>
 						</svg>
 					)}
 					{item?.atts?.number} {/* Render the number */}
@@ -586,7 +585,8 @@ function FormattedJson({
 					'usfm:q1',
 					'usfm:q2',
 				].includes(blockSubtype)
-			) BlockElementType = 'div';
+			)
+				BlockElementType = 'div';
 			else if (
 				[
 					'usfm:mt1',
@@ -597,7 +597,8 @@ function FormattedJson({
 					'title',
 					'heading',
 				].includes(blockSubtype)
-			) BlockElementType = 'div';
+			)
+				BlockElementType = 'div';
 
 			const blockClasses = getItemClasses(block);
 			const key = `block-${blockIndex}-${block.type}-${

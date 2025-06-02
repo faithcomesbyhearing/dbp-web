@@ -138,7 +138,7 @@ export class Profile extends React.PureComponent {
 	logout = () => {
 		this.props.dispatch(logout());
 		this.props.dispatch(cleanNotebook());
-		/* eslint-disable no-undef */
+
 		if (typeof gapi !== 'undefined' && typeof auth2 !== 'undefined') {
 			auth2.signOut();
 		}
@@ -148,7 +148,6 @@ export class Profile extends React.PureComponent {
 				FB.logout(() => {});
 			});
 		}
-		/* eslint-enable no-undef */
 	};
 
 	openPopup = (coords) => {
@@ -321,7 +320,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	profile: makeSelectProfile(),
+	profile: makeSelectProfile,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -330,14 +329,8 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const withConnect = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'profile', reducer });
 
-export default compose(
-	withReducer,
-	withConnect,
-)(Profile);
+export default compose(withReducer, withConnect)(Profile);

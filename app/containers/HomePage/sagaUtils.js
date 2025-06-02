@@ -34,13 +34,4 @@ const otCodes = {
 	OTNTP: true,
 };
 
-// const sortSetSize = (a, b) => {
-//
-// };
-
-export {
-	ntCodes,
-	otCodes,
-	codes,
-	// sortSetSize,
-};
+export { ntCodes, otCodes, codes };

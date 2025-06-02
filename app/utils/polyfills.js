@@ -1,12 +1,9 @@
-/* eslint-disable */
-
 import entries from 'core-js/fn/object/entries';
 import values from 'core-js/fn/object/values';
 import aIncludes from 'core-js/fn/array/includes';
 import includes from 'core-js/library/fn/string/includes';
 import find from 'core-js/fn/array/find';
 import findIndex from 'core-js/fn/array/find-index';
-import iterator from 'core-js/fn/dom-collections/iterator';
 
 if (!Array.findIndex) {
 	Array.findIndex = findIndex;
@@ -33,4 +30,3 @@ if (
 ) {
 	global.Intl = require('intl');
 }
-/* eslint-enable */

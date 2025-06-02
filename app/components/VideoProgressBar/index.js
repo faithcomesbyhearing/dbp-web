@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Slider from 'rc-slider';
+import dynamic from 'next/dynamic';
 import getFormattedTimeString from '../../utils/getFormattedTimeString';
 import Colors from '../../../theme_config/javascriptColors';
+
+const Slider = dynamic(() => import('rc-slider'), { ssr: false });
 
 class VideoProgressBar extends React.PureComponent {
 	handleChange = (time) => {

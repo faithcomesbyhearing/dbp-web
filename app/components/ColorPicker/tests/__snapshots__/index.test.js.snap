@@ -1,88 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ColorPicker tests Should render 1`] = `
-<div
-  className="color-picker"
->
-  <span
-    className="color-group"
+exports[`ColorPicker tests Should render and match snapshot 1`] = `
+<div>
+  <div
+    class="color-picker"
   >
     <span
-      aria-label="yellow"
-      className="yellow"
-      onClick={[Function]}
-      role="button"
-      style={
-        {
-          "backgroundColor": "rgba(252,230,0,0.5)",
-        }
-      }
-      tabIndex={-1}
-    />
-  </span>
-  <span
-    className="color-group"
-  >
+      class="color-group"
+    >
+      <span
+        aria-label="yellow"
+        class="yellow"
+        role="button"
+        style="background-color: rgba(252, 230, 0, 0.5);"
+        tabindex="-1"
+      />
+    </span>
     <span
-      aria-label="green"
-      className="green"
-      onClick={[Function]}
-      role="button"
-      style={
-        {
-          "backgroundColor": "rgba(84,185,72,0.5)",
-        }
-      }
-      tabIndex={-2}
-    />
-  </span>
-  <span
-    className="color-group"
-  >
+      class="color-group"
+    >
+      <span
+        aria-label="green"
+        class="green"
+        role="button"
+        style="background-color: rgba(84, 185, 72, 0.5);"
+        tabindex="-2"
+      />
+    </span>
     <span
-      aria-label="pink"
-      className="pink"
-      onClick={[Function]}
-      role="button"
-      style={
-        {
-          "backgroundColor": "rgba(208,105,169,0.5)",
-        }
-      }
-      tabIndex={-3}
-    />
-  </span>
-  <span
-    className="color-group"
-  >
+      class="color-group"
+    >
+      <span
+        aria-label="pink"
+        class="pink"
+        role="button"
+        style="background-color: rgba(208, 105, 169, 0.5);"
+        tabindex="-3"
+      />
+    </span>
     <span
-      aria-label="purple"
-      className="purple"
-      onClick={[Function]}
-      role="button"
-      style={
-        {
-          "backgroundColor": "rgba(137,103,172,0.5)",
-        }
-      }
-      tabIndex={-4}
-    />
-  </span>
-  <span
-    className="color-group"
-  >
+      class="color-group"
+    >
+      <span
+        aria-label="purple"
+        class="purple"
+        role="button"
+        style="background-color: rgba(137, 103, 172, 0.5);"
+        tabindex="-4"
+      />
+    </span>
     <span
-      aria-label="blue"
-      className="blue"
-      onClick={[Function]}
-      role="button"
-      style={
-        {
-          "backgroundColor": "rgba(80,165,220,0.5)",
-        }
-      }
-      tabIndex={-5}
-    />
-  </span>
+      class="color-group"
+    >
+      <span
+        aria-label="blue"
+        class="blue"
+        role="button"
+        style="background-color: rgba(80, 165, 220, 0.5);"
+        tabindex="-5"
+      />
+    </span>
+  </div>
 </div>
 `;

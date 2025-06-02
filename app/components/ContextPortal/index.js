@@ -96,36 +96,25 @@ export class ContextPortal extends React.PureComponent {
 	};
 
 	handleMouseEnter = (e) => {
-		this.clonedRange = window
-			.getSelection()
-			.getRangeAt(0)
-			.cloneRange();
-		if (e.target.id === 'copy-button') {
+		this.clonedRange = window.getSelection().getRangeAt(0).cloneRange();
+		if (e.target.id === 'copy-button' || e.target.id === 'copy-container') {
 			// handle the button being the target
 			const textBox = document.getElementById('link-to-copy');
 			textBox.select();
 		} else if (e.target.id === 'link-to-copy') {
 			// handle the link being the target
 			e.target.select();
-		} else if (e.target.id === 'copy-container') {
-			// handle the button being the target
-			const textBox = document.getElementById('link-to-copy');
-			textBox.select();
 		}
 	};
 
 	handleMouseLeave = (e) => {
-		if (e.target.id === 'copy-button') {
+		if (e.target.id === 'copy-button' || e.target.id === 'copy-container') {
 			// handle the button being the target
 			const textBox = document.getElementById('link-to-copy');
 			textBox.setSelectionRange(0, 0);
 		} else if (e.target.id === 'link-to-copy') {
 			// handle the link being the target
 			e.target.setSelectionRange(0, 0);
-		} else if (e.target.id === 'copy-container') {
-			// handle the button being the target
-			const textBox = document.getElementById('link-to-copy');
-			textBox.setSelectionRange(0, 0);
 		}
 		// Doing this so that if the user accidentally hovers over the copy link they won't have to reselect the text
 		window.getSelection().removeAllRanges();
@@ -272,7 +261,9 @@ export class ContextPortal extends React.PureComponent {
 						onClick={addFacebookLike}
 					>
 						<FacebookShareCount url={window.location.href}>
-							{(shareCount) => <span className={'share-count'}>{shareCount}</span>}
+							{(shareCount) => (
+								<span className={'share-count'}>{shareCount}</span>
+							)}
 						</FacebookShareCount>
 						<span className={'like-thumb'}>
 							<SvgWrapper
@@ -333,7 +324,7 @@ ContextPortal.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	isIe: selectIeState(),
+	isIe: selectIeState,
 });
 
 const withConnect = connect(mapStateToProps);
@@ -342,7 +333,4 @@ const withHomepage = injectReducer({
 	reducer: homepageReducer,
 });
 
-export default compose(
-	withConnect,
-	withHomepage,
-)(ContextPortal);
+export default compose(withConnect, withHomepage)(ContextPortal);

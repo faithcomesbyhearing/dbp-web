@@ -11,10 +11,11 @@ This boilerplate includes an `app/.htaccess` file that does three things:
 1. Ensure that sw.js is not cached. This is required for updates to be downloaded in offline-first mode.
 
 > Note: For performance reasons you should probably adapt this to run as a static
-  `.conf` file (typically under `/etc/apache2/sites-enabled` or similar) so that
-  your server doesn't have to apply these rules dynamically per request)
+> `.conf` file (typically under `/etc/apache2/sites-enabled` or similar) so that
+> your server doesn't have to apply these rules dynamically per request)
 
 ### security
+
 `.htaccess` can only provide security by redirecting HTTP to HTTPS
 
 > Note: For a detailled security configuration in apache httpd, a `.conf` file is necessary. You can use [Mozillas TLS Configurator](https://mozilla.github.io/server-side-tls/ssl-config-generator/) to get some examples.

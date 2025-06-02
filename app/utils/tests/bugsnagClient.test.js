@@ -1,11 +1,11 @@
 import bugsnagClient from '../bugsnagClient';
 
 jest.mock('@bugsnag/js', () => ({
-  createClient: () => ({
-    use: jest.fn(),
-    notify: jest.fn(),
-    getPlugin: jest.fn(),
-  }),
+	createClient: () => ({
+		use: jest.fn(),
+		notify: jest.fn(),
+		getPlugin: jest.fn(),
+	}),
 }));
 
 jest.mock('@bugsnag/plugin-react', () => jest.fn());

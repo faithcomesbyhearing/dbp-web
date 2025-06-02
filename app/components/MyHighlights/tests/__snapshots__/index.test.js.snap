@@ -1,384 +1,330 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<MyHighlights /> component should match snapshot with expected props 1`] = `
-[
+<DocumentFragment>
   <div
-    className="highlight-item"
+    class="highlight-item"
     id="24440733_rgba(173,221,121,0.7)"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGNAB/EPH/4"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           EPH - 4:14 - (ENGNAB)
         </h4>
         <h4
-          className="text"
+          class="text"
         >
           ENGNAB
         </h4>
       </div>
-    </a>
-    <div
-      className="edit-color"
+    </button>
+    <button
+      class="edit-color"
       id="24440733_rgba(173,221,121,0.7)-edit"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      tabindex="0"
+      type="button"
     >
       <span
-        className="color-icon"
-        style={
-          {
-            "backgroundColor": "rgba(173,221,121,0.7)",
-          }
-        }
+        class="color-icon"
+        style="background-color: rgba(173, 221, 121, 0.7);"
       />
       <span>
         Edit
       </span>
-    </div>
+    </button>
     <div
-      className="delete-highlight"
+      class="delete-highlight"
     >
       <svg
-        className="icon"
+        class="icon"
         id="24440733_rgba(173,221,121,0.7)-delete"
-        onClick={[Function]}
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
     </div>
-  </div>,
+  </div>
   <div
-    className="highlight-item"
+    class="highlight-item"
     id="25827775_rgba(252,230,0,0.5)"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/3"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           MAT - 3:3 - (ENGESV)
         </h4>
         <h4
-          className="text"
+          class="text"
         >
           ENGESV
         </h4>
       </div>
-    </a>
-    <div
-      className="edit-color"
+    </button>
+    <button
+      class="edit-color"
       id="25827775_rgba(252,230,0,0.5)-edit"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      tabindex="0"
+      type="button"
     >
       <span
-        className="color-icon"
-        style={
-          {
-            "backgroundColor": "rgba(252,230,0,0.5)",
-          }
-        }
+        class="color-icon"
+        style="background-color: rgba(252, 230, 0, 0.5);"
       />
       <span>
         Edit
       </span>
-    </div>
+    </button>
     <div
-      className="delete-highlight"
+      class="delete-highlight"
     >
       <svg
-        className="icon"
+        class="icon"
         id="25827775_rgba(252,230,0,0.5)-delete"
-        onClick={[Function]}
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
     </div>
-  </div>,
+  </div>
   <div
-    className="highlight-item"
+    class="highlight-item"
     id="25827776_rgba(84,185,72,0.5)"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MRK/16"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           MRK - 16:5 - (ENGESV)
         </h4>
         <h4
-          className="text"
+          class="text"
         >
           ENGESV
         </h4>
       </div>
-    </a>
-    <div
-      className="edit-color"
+    </button>
+    <button
+      class="edit-color"
       id="25827776_rgba(84,185,72,0.5)-edit"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      tabindex="0"
+      type="button"
     >
       <span
-        className="color-icon"
-        style={
-          {
-            "backgroundColor": "rgba(84,185,72,0.5)",
-          }
-        }
+        class="color-icon"
+        style="background-color: rgba(84, 185, 72, 0.5);"
       />
       <span>
         Edit
       </span>
-    </div>
+    </button>
     <div
-      className="delete-highlight"
+      class="delete-highlight"
     >
       <svg
-        className="icon"
+        class="icon"
         id="25827776_rgba(84,185,72,0.5)-delete"
-        onClick={[Function]}
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
     </div>
-  </div>,
+  </div>
   <div
-    className="highlight-item"
+    class="highlight-item"
     id="25827777_rgba(84,185,72,0.5)"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/1"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           MAT - 1:4 - (ENGESV)
         </h4>
         <h4
-          className="text"
+          class="text"
         >
           ENGESV
         </h4>
       </div>
-    </a>
-    <div
-      className="edit-color"
+    </button>
+    <button
+      class="edit-color"
       id="25827777_rgba(84,185,72,0.5)-edit"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      tabindex="0"
+      type="button"
     >
       <span
-        className="color-icon"
-        style={
-          {
-            "backgroundColor": "rgba(84,185,72,0.5)",
-          }
-        }
+        class="color-icon"
+        style="background-color: rgba(84, 185, 72, 0.5);"
       />
       <span>
         Edit
       </span>
-    </div>
+    </button>
     <div
-      className="delete-highlight"
+      class="delete-highlight"
     >
       <svg
-        className="icon"
+        class="icon"
         id="25827777_rgba(84,185,72,0.5)-delete"
-        onClick={[Function]}
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
     </div>
-  </div>,
+  </div>
   <div
-    className="highlight-item"
+    class="highlight-item"
     id="25827778_rgba(80,165,220,0.5)"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/1"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           MAT - 1:17 - (ENGESV)
         </h4>
         <h4
-          className="text"
+          class="text"
         >
           ENGESV
         </h4>
       </div>
-    </a>
-    <div
-      className="edit-color"
+    </button>
+    <button
+      class="edit-color"
       id="25827778_rgba(80,165,220,0.5)-edit"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      tabindex="0"
+      type="button"
     >
       <span
-        className="color-icon"
-        style={
-          {
-            "backgroundColor": "rgba(80,165,220,0.5)",
-          }
-        }
+        class="color-icon"
+        style="background-color: rgba(80, 165, 220, 0.5);"
       />
       <span>
         Edit
       </span>
-    </div>
+    </button>
     <div
-      className="delete-highlight"
+      class="delete-highlight"
     >
       <svg
-        className="icon"
+        class="icon"
         id="25827778_rgba(80,165,220,0.5)-delete"
-        onClick={[Function]}
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
     </div>
-  </div>,
+  </div>
   <div
-    className="highlight-item"
+    class="highlight-item"
     id="25827779_rgba(252,230,0,0.5)"
   >
-    <a
-      className="list-item"
-      href="/bible/ENGESV/MAT/1"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
+    <button
+      class="list-item"
+      type="button"
     >
       <div
-        className="title-text"
+        class="title-text"
       >
         <h4
-          className="title"
+          class="title"
         >
           MAT - 1:6 - (ENGESV)
         </h4>
         <h4
-          className="text"
+          class="text"
         >
           ENGESV
         </h4>
       </div>
-    </a>
-    <div
-      className="edit-color"
+    </button>
+    <button
+      class="edit-color"
       id="25827779_rgba(252,230,0,0.5)-edit"
-      onClick={[Function]}
-      role="button"
-      tabIndex={0}
+      tabindex="0"
+      type="button"
     >
       <span
-        className="color-icon"
-        style={
-          {
-            "backgroundColor": "rgba(252,230,0,0.5)",
-          }
-        }
+        class="color-icon"
+        style="background-color: rgba(252, 230, 0, 0.5);"
       />
       <span>
         Edit
       </span>
-    </div>
+    </button>
     <div
-      className="delete-highlight"
+      class="delete-highlight"
     >
       <svg
-        className="icon"
+        class="icon"
         id="25827779_rgba(252,230,0,0.5)-delete"
-        onClick={[Function]}
       >
         <use
-          xlinkHref="/svglist.svg#delete"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#delete"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
       <span>
         Delete
       </span>
     </div>
-  </div>,
-]
+  </div>
+</DocumentFragment>
 `;

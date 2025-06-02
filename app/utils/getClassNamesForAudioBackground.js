@@ -1,27 +1,27 @@
 export default ({
-  audioSource: source,
-  hasAudio,
-  audioPlayerState,
-  videoPlayerOpen,
-  isScrollingDown,
-  hasVideo,
+	audioSource: source,
+	hasAudio,
+	audioPlayerState,
+	videoPlayerOpen,
+	isScrollingDown,
+	hasVideo,
 }) => {
-  let classNames = '';
+	let classNames = '';
 
-  if (
-    audioPlayerState &&
-    hasAudio &&
-    (!videoPlayerOpen || !hasVideo) &&
-    source !== ''
-  ) {
-    classNames += 'audio-player-background';
-  } else {
-    classNames += 'audio-player-background closed';
-  }
+	if (
+		audioPlayerState &&
+		hasAudio &&
+		(!videoPlayerOpen || !hasVideo) &&
+		source !== ''
+	) {
+		classNames += 'audio-player-background';
+	} else {
+		classNames += 'audio-player-background closed';
+	}
 
-  if (isScrollingDown) {
-    classNames += ' scrolled-down';
-  }
+	if (isScrollingDown) {
+		classNames += ' scrolled-down';
+	}
 
-  return classNames;
+	return classNames;
 };

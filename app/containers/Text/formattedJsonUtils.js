@@ -9,7 +9,8 @@
  */
 export const isVerseInRange = (start, targetVerse, end) => {
 	// Ensure inputs are valid numbers before comparison
-	if (typeof start !== 'number' || typeof targetVerse !== 'number') return false;
+	if (typeof start !== 'number' || typeof targetVerse !== 'number')
+		return false;
 	// If end is not a number or null/undefined, treat the range as a single verse (start)
 	const endVerse = typeof end === 'number' ? end : start;
 	return targetVerse >= start && targetVerse <= endVerse;
@@ -173,7 +174,7 @@ function findAndExtractFootnotesRecursiveWithIndex(
 				}`;
 				// Add data to the map object (passed by reference)
 				// No no-param-reassign error here as we modify the object's properties, not the reference itself
-				// eslint-disable-next-line no-param-reassign
+				 
 				footnotesMap[generatedKey] = { text: footnoteText, caller: marker };
 				// Increment local index tracker
 				currentIndex += 1; // Replaced ++

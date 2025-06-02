@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function RecentSearches({ searches, clickHandler }) {
-	return searches.map((s) => (
+	return Array.isArray(searches) ? searches.map((s) => (
 		<button
 			className={'search-history-item'}
 			key={s}
@@ -17,7 +17,7 @@ function RecentSearches({ searches, clickHandler }) {
 		>
 			{s}
 		</button>
-	));
+	)) : null;
 }
 
 RecentSearches.propTypes = {
