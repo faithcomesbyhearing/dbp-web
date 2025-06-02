@@ -9,10 +9,10 @@ const bugsnagClient =
 				getPlugin: () => ({
 					createErrorBoundary: () => (Component) => Component,
 				}),
-		  }
+			}
 		: Bugsnag.createClient({
 				apiKey: process.env.BUGSNAG_API_KEY,
 				plugins: [new BugsnagPluginReact()],
-		  });
+			});
 
 export default bugsnagClient;

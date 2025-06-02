@@ -1,9 +1,7 @@
 import lscache from 'lscache';
 import cachedFetch, { overrideCache, logCache } from '../cachedFetch';
 
-const url = `${
-	process.env.BASE_API_ROUTE
-}/bibles/filesets/ENGESV/MAT/5?key=${
+const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/ENGESV/MAT/5?key=${
 	process.env.DBP_API_KEY
 }&v=4&type=text_plain`;
 

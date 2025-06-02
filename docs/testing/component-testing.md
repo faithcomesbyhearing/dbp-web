@@ -27,12 +27,12 @@ import React from 'react';
 import CheckmarkIcon from './CheckmarkIcon';
 
 function Button(props) {
-  return (
-    <button className="btn" onClick={props.onClick}>
-      <CheckmarkIcon />
-      { React.Children.only(props.children) }
-    </button>
-  );
+	return (
+		<button className="btn" onClick={props.onClick}>
+			<CheckmarkIcon />
+			{React.Children.only(props.children)}
+		</button>
+	);
 }
 
 export default Button;
@@ -48,11 +48,9 @@ It might be used in another component like this:
 import Button from './Button';
 
 class HomePage extends React.Component {
-  render() {
-    return(
-      <Button onClick={this.doSomething}>Click me!</Button>
-    );
-  }
+	render() {
+		return <Button onClick={this.doSomething}>Click me!</Button>;
+	}
 }
 ```
 
@@ -60,23 +58,31 @@ _Note: This is a [state**ful** ("smart") component](../js/README.md#architecture
 
 When rendered normally with the standard `ReactDOM.render` function, this will
 be the HTML output
-(*Comments added in parallel to compare structures in HTML from JSX source*):
+(_Comments added in parallel to compare structures in HTML from JSX source_):
 
 ```html
-<button>                           <!-- <Button>             -->
-  <i class="fa fa-checkmark"></i>  <!--   <CheckmarkIcon />  -->
-  Click Me!                        <!--   { props.children } -->
-</button>                          <!-- </Button>            -->
+<button>
+	<!-- <Button>             -->
+	<i class="fa fa-checkmark"></i>
+	<!--   <CheckmarkIcon />  -->
+	Click Me!
+	<!--   { props.children } -->
+</button>
+<!-- </Button>            -->
 ```
 
 Conversely, when rendered with the shallow renderer, we'll get a String
 containing this "HTML":
 
 ```html
-<button>              <!-- <Button>             -->
-  <CheckmarkIcon />   <!--   NOT RENDERED!      -->
-  Click Me!           <!--   { props.children } -->
-</button>             <!-- </Button>            -->
+<button>
+	<!-- <Button>             -->
+	<CheckmarkIcon />
+	<!--   NOT RENDERED!      -->
+	Click Me!
+	<!--   { props.children } -->
+</button>
+<!-- </Button>            -->
 ```
 
 If we test our `Button` with the normal renderer and there's a problem
@@ -106,11 +112,11 @@ import { shallow } from 'enzyme';
 import Button from '../Button.react';
 
 describe('<Button />', () => {
-  it('renders a <button>', () => {});
+	it('renders a <button>', () => {});
 
-  it('renders its children', () => {});
+	it('renders its children', () => {});
 
-  it('handles clicks', () => {});
+	it('handles clicks', () => {});
 });
 ```
 
@@ -119,12 +125,8 @@ Lets start with testing that it renders a `<button>`. To do that we first
 
 ```javascript
 it('renders a <button>', () => {
-  const renderedComponent = shallow(
-    <Button></Button>
-  );
-  expect(
-    renderedComponent.find('button').node
-  ).toBeDefined();
+	const renderedComponent = shallow(<Button></Button>);
+	expect(renderedComponent.find('button').node).toBeDefined();
 });
 ```
 
@@ -137,13 +139,9 @@ exists:
 
 ```javascript
 it('renders its children', () => {
-  const text = 'Click me!';
-  const renderedComponent = shallow(
-    <Button>{ text }</Button>
-  );
-  expect(
-    renderedComponent.contains(text)
-  ).toEqual(true);
+	const text = 'Click me!';
+	const renderedComponent = shallow(<Button>{text}</Button>);
+	expect(renderedComponent.contains(text)).toEqual(true);
 });
 ```
 
@@ -155,10 +153,10 @@ see that our Spy was called:
 
 ```javascript
 it('handles clicks', () => {
-  const onClickSpy = jest.fn();
-  const renderedComponent = shallow(<Button onClick={onClickSpy} />);
-  renderedComponent.find('button').simulate('click');
-  expect(onClickSpy).toHaveBeenCalled();
+	const onClickSpy = jest.fn();
+	const renderedComponent = shallow(<Button onClick={onClickSpy} />);
+	renderedComponent.find('button').simulate('click');
+	expect(onClickSpy).toHaveBeenCalled();
 });
 ```
 
@@ -170,34 +168,26 @@ import { shallow } from 'enzyme';
 import Button from '../Button.react';
 
 describe('<Button />', () => {
-  it('renders a <button>', () => {
-    const renderedComponent = shallow(
-      <Button></Button>
-    );
-    expect(
-      renderedComponent.find('button').node
-    ).toBeDefined();
-  });
+	it('renders a <button>', () => {
+		const renderedComponent = shallow(<Button></Button>);
+		expect(renderedComponent.find('button').node).toBeDefined();
+	});
 
-  it('renders its children', () => {
-    const text = 'Click me!';
-    const renderedComponent = shallow(
-      <Button>{ text }</Button>
-    );
-    expect(
-      renderedComponent.contains(text)
-    ).toEqual(true);
-  });
+	it('renders its children', () => {
+		const text = 'Click me!';
+		const renderedComponent = shallow(<Button>{text}</Button>);
+		expect(renderedComponent.contains(text)).toEqual(true);
+	});
 
-  it('handles clicks', () => {
-    const onClickSpy = jest.fn();
-    const renderedComponent = shallow(<Button onClick={onClickSpy} />);
-    renderedComponent.find('button').simulate('click');
-    expect(onClickSpy).toHaveBeenCalled();
-  });
+	it('handles clicks', () => {
+		const onClickSpy = jest.fn();
+		const renderedComponent = shallow(<Button onClick={onClickSpy} />);
+		renderedComponent.find('button').simulate('click');
+		expect(onClickSpy).toHaveBeenCalled();
+	});
 });
 ```
 
 And that's how you unit test your components and make sure they work correctly!
 
-*Continue to learn how to test your components [remotely](remote-testing.md)!*
+_Continue to learn how to test your components [remotely](remote-testing.md)!_

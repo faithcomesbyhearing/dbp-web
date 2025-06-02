@@ -16,7 +16,6 @@ const ChapterSelection = dynamic(import('../../containers/ChapterSelection'), {
 });
 
 class NavigationBar extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
 	render() {
 		const {
 			activeTextId,
@@ -41,16 +40,11 @@ class NavigationBar extends React.PureComponent {
 						title={'http://www.bible.is'}
 						rel={'noopener'}
 					>
-						{theme === 'paper' &&
-							userAgent !== 'ms' && (
-								<svg className={'svg'}>
-									<use
-										xlinkHref={
-											'/light_theme_logo.svg#bible.is_logo_light'
-										}
-									/>
-								</svg>
-							)}
+						{theme === 'paper' && userAgent !== 'ms' && (
+							<svg className={'svg'}>
+								<use xlinkHref={'/light_theme_logo.svg#bible.is_logo_light'} />
+							</svg>
+						)}
 						{(theme !== 'paper' || userAgent === 'ms') && (
 							<svg className={'svg'} fill={userAgent === 'ms' ? '#fff' : ''}>
 								<use xlinkHref={'/dark_theme_logo.svg#bible.is_logo'} />
@@ -77,7 +71,7 @@ class NavigationBar extends React.PureComponent {
 										activeTextId.slice(0, 3) === 'ENG'
 											? `${activeTextId.slice(3)} - `
 											: ''
-								  }${activeTextName}`
+									}${activeTextName}`
 								: `${activeTextId} Version`}
 						</h1>
 						{isVersionSelectionActive && (

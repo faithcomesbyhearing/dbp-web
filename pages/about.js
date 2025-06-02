@@ -5,21 +5,15 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-// import { FormattedMessage } from 'react-intl';
-// import { compose } from 'redux';
-
-// import messages from '../app/containers/AboutPage/messages';
+import Head from 'next/head';
 
 function AboutPage() {
 	return (
 		<div>
-			<Helmet>
+			<Head>
 				<title>About Page</title>
 				<meta name="description" content="About the Koinos App" />
-			</Helmet>
+			</Head>
 
 			<div className="nav-holder">
 				<div className="top-nav">
@@ -91,16 +85,5 @@ function AboutPage() {
 AboutPage.propTypes = {
 	// dispatch: PropTypes.func.isRequired,
 };
-
-// function mapDispatchToProps(dispatch) {
-// 	return {
-// 		dispatch,
-// 	};
-// }
-//
-// const withConnect = connect(
-// 	null,
-// 	mapDispatchToProps,
-// );
 
 export default AboutPage;

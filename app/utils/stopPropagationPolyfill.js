@@ -1,13 +1,12 @@
-/* eslint-disable */
-(function() {
+(function () {
 	if (!Event.prototype.preventDefault) {
-		Event.prototype.preventDefault=function() {
-			this.returnValue=false;
+		Event.prototype.preventDefault = function () {
+			this.returnValue = false;
 		};
 	}
 	if (!Event.prototype.stopPropagation) {
-		Event.prototype.stopPropagation=function() {
-			this.cancelBubble=true;
+		Event.prototype.stopPropagation = function () {
+			this.cancelBubble = true;
 		};
 	}
 })();

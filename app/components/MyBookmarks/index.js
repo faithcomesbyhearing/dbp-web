@@ -6,12 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
-import Router from 'next/router';
 import SvgWrapper from '../SvgWrapper';
+import LegacyLink from '../LegacyLink';
 
 class MyBookmarks extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
 	render() {
 		const {
 			bookmarks,
@@ -21,18 +19,9 @@ class MyBookmarks extends React.PureComponent {
 			getFormattedNoteDate,
 		} = this.props;
 
-		const handleClick = (newUrl) =>
-			(e) => {
-				if (Router.asPath === newUrl) {
-					e.preventDefault(); // Stop navigation if it's the same URL
-					toggleNotesModal(); // Only toggle modal
-				}
-			};
-
 		return bookmarks.map((listItem) => (
 			<div key={listItem.id} id={listItem.id} className={'highlight-item'}>
-				<Link
-					legacyBehavior
+				<LegacyLink
 					as={`/bible/${listItem.bible_id}/${listItem.book_id}/${
 						listItem.chapter
 					}`}
@@ -40,7 +29,11 @@ class MyBookmarks extends React.PureComponent {
 						listItem.chapter
 					}`}
 				>
-					<a onClick={handleClick(`/bible/${listItem.bible_id}/${listItem.book_id}/${listItem.chapter}`)} className="list-item">
+					<button
+						onClick={toggleNotesModal}
+						className="list-item"
+						type="button"
+					>
 						<div className="title-text">
 							<h4 className="title">
 								<span className="date">
@@ -50,18 +43,18 @@ class MyBookmarks extends React.PureComponent {
 							</h4>
 							<p className="text">{listItem.bible_id}</p>
 						</div>
-					</a>
-				</Link>
-				<div
+					</button>
+				</LegacyLink>
+				<button
 					key={`${listItem.id}-delete`}
 					onClick={() => deleteNote({ noteId: listItem.id, isBookmark: true })}
 					className={'delete-highlight'}
 					tabIndex={0}
-					role={'button'}
+					type="button"
 				>
 					<SvgWrapper className={'icon'} svgid={'delete'} />
 					<span>Delete</span>
-				</div>
+				</button>
 			</div>
 		));
 	}

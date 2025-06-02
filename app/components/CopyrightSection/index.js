@@ -12,73 +12,73 @@ const copyrightMessage = (message) =>
 		]);
 
 function CopyrightSection({ prefix, copyrights }) {
-  return (
-<div className={prefix === 'old' ? 'ot-copyright' : 'nt-copyright'}>
-		{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ||
-		get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
-			<div className={'cp-section'}>
-				{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ? (
-					<CopyrightStatement
-						organizations={get(copyrights, [
-							`${prefix}Testament`,
-							'audio',
-							'organizations',
-						])}
-						testament={`${prefix}_testament`}
-						type={'audio'}
-					/>
-				) : null}
-				{get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
-					<p>
-						{copyrightMessage(copyrights[`${prefix}Testament`].audio.message)}
-					</p>
-				) : null}
-			</div>
-		) : null}
-		{get(copyrights, [`${prefix}Testament`, 'text', 'organizations']) ||
-		get(copyrights, [`${prefix}Testament`, 'text', 'message']) ? (
-			<div className={'cp-section'}>
-				{get(copyrights, [`${prefix}Testament`, 'text', 'organizations']) ? (
-					<CopyrightStatement
-						organizations={get(copyrights, [
-							`${prefix}Testament`,
-							'text',
-							'organizations',
-						])}
-						testament={`${prefix}_testament`}
-						type={'text'}
-					/>
-				) : null}
-				{get(copyrights, [`${prefix}Testament`, 'text', 'message']) ? (
-					<p>
-						{copyrightMessage(copyrights[`${prefix}Testament`].text.message)}
-					</p>
-				) : null}
-			</div>
-		) : null}
-		{get(copyrights, [`${prefix}Testament`, 'video', 'organizations']) ||
-		get(copyrights, [`${prefix}Testament`, 'video', 'message']) ? (
-			<div className={'cp-section'}>
-				{get(copyrights, [`${prefix}Testament`, 'video', 'organizations']) ? (
-					<CopyrightStatement
-						organizations={get(copyrights, [
-							`${prefix}Testament`,
-							'video',
-							'organizations',
-						])}
-						testament={`${prefix}_testament`}
-						type={'video'}
-					/>
-				) : null}
-				{get(copyrights, [`${prefix}Testament`, 'video', 'message']) ? (
-					<p>
-						{copyrightMessage(copyrights[`${prefix}Testament`].video.message)}
-					</p>
-				) : null}
-			</div>
-		) : null}
-</div>
-);
+	return (
+		<div className={prefix === 'old' ? 'ot-copyright' : 'nt-copyright'}>
+			{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ||
+			get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
+				<div className={'cp-section'}>
+					{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ? (
+						<CopyrightStatement
+							organizations={get(copyrights, [
+								`${prefix}Testament`,
+								'audio',
+								'organizations',
+							])}
+							testament={`${prefix}_testament`}
+							type={'audio'}
+						/>
+					) : null}
+					{get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
+						<p>
+							{copyrightMessage(copyrights[`${prefix}Testament`].audio.message)}
+						</p>
+					) : null}
+				</div>
+			) : null}
+			{get(copyrights, [`${prefix}Testament`, 'text', 'organizations']) ||
+			get(copyrights, [`${prefix}Testament`, 'text', 'message']) ? (
+				<div className={'cp-section'}>
+					{get(copyrights, [`${prefix}Testament`, 'text', 'organizations']) ? (
+						<CopyrightStatement
+							organizations={get(copyrights, [
+								`${prefix}Testament`,
+								'text',
+								'organizations',
+							])}
+							testament={`${prefix}_testament`}
+							type={'text'}
+						/>
+					) : null}
+					{get(copyrights, [`${prefix}Testament`, 'text', 'message']) ? (
+						<p>
+							{copyrightMessage(copyrights[`${prefix}Testament`].text.message)}
+						</p>
+					) : null}
+				</div>
+			) : null}
+			{get(copyrights, [`${prefix}Testament`, 'video', 'organizations']) ||
+			get(copyrights, [`${prefix}Testament`, 'video', 'message']) ? (
+				<div className={'cp-section'}>
+					{get(copyrights, [`${prefix}Testament`, 'video', 'organizations']) ? (
+						<CopyrightStatement
+							organizations={get(copyrights, [
+								`${prefix}Testament`,
+								'video',
+								'organizations',
+							])}
+							testament={`${prefix}_testament`}
+							type={'video'}
+						/>
+					) : null}
+					{get(copyrights, [`${prefix}Testament`, 'video', 'message']) ? (
+						<p>
+							{copyrightMessage(copyrights[`${prefix}Testament`].video.message)}
+						</p>
+					) : null}
+				</div>
+			) : null}
+		</div>
+	);
 }
 
 CopyrightSection.propTypes = {

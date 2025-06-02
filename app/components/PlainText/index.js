@@ -12,8 +12,7 @@ import PlainTextVerses from '../PlainTextVerses';
 class PlainText extends React.PureComponent {
 	setHighlights = (highlights, userAuthenticated, text, activeChapter) => {
 		if (
-			highlights &&
-			highlights.length &&
+			highlights?.length &&
 			userAuthenticated &&
 			text.length &&
 			createHighlights
@@ -61,24 +60,15 @@ class PlainText extends React.PureComponent {
 		} = this.props;
 		// Needs to be state eventually
 
-		const chapterAlt = initialText[0] && initialText[0].chapter_alt;
+		const chapterAlt = initialText?.[0].chapter_alt;
 		const verseIsActive = activeVerseInfo.verse && activeVerseInfo.isPlain;
 		const activeVerse = activeVerseInfo.verse || 0;
-		const readersMode = userSettings.getIn([
-			'toggleOptions',
-			'readersMode',
-			'active',
-		]);
-		const oneVersePerLine = userSettings.getIn([
-			'toggleOptions',
-			'oneVersePerLine',
-			'active',
-		]);
-		const justifiedText = userSettings.getIn([
-			'toggleOptions',
-			'justifiedText',
-			'active',
-		]);
+		const readersMode =
+			userSettings?.['toggleOptions']?.['readersMode']?.['active'];
+		const oneVersePerLine =
+			userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'];
+		const justifiedText =
+			userSettings?.['toggleOptions']?.['justifiedText']?.['active'];
 
 		// Mapping the text again here because I need to apply a class for all highlights with a char count of null
 		const mappedText = this.mapHighlights(

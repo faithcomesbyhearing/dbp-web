@@ -7,7 +7,8 @@ import { FILESET_SIZE_STORIES } from '../constants/bibleFileset';
  * @param {Array} filesets
  * @returns
  */
-const removeStoriesFilesets = (filesets, setTypesAllowed) => filesets.filter(
+const removeStoriesFilesets = (filesets, setTypesAllowed) =>
+	filesets.filter(
 		(file) =>
 			(setTypesAllowed[file.type] &&
 				file.size !== FILESET_SIZE_STORIES &&

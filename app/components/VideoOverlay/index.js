@@ -6,14 +6,14 @@ import getPreviousChapterUrl from '../../utils/getPreviousChapterUrl';
 import getNextChapterUrl from '../../utils/getNextChapterUrl';
 
 function SvgButton({ id, clickHandler, videoObject }) {
-  return (
-<div onClick={clickHandler} className={'control-button-container'}>
-		<span className={'play-video-title'}>
-			{videoObject.reference || 'Loading'}
-		</span>
-		<SvgWrapper className={'play-video'} fill={'#fff'} svgid={id} />
-</div>
-);
+	return (
+		<div onClick={clickHandler} className={'control-button-container'}>
+			<span className={'play-video-title'}>
+				{videoObject.reference || 'Loading'}
+			</span>
+			<SvgWrapper className={'play-video'} fill={'#fff'} svgid={id} />
+		</div>
+	);
 }
 
 SvgButton.propTypes = {

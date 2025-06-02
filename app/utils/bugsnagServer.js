@@ -4,15 +4,15 @@ const BugsnagPluginReact = require('@bugsnag/plugin-react');
 const bugsnagClient =
 	process.env.NODE_ENV === 'development'
 		? {
-        use: () => {},
-        notify: () => {},
-        getPlugin: () => ({
-          createErrorBoundary: () => (Component) => Component, // Return the component unchanged in development mode
-        }),
-      }
+				use: () => {},
+				notify: () => {},
+				getPlugin: () => ({
+					createErrorBoundary: () => (Component) => Component, // Return the component unchanged in development mode
+				}),
+			}
 		: Bugsnag.createClient({
-			apiKey: process.env.BUGSNAG_API_KEY,
-			plugins: [new BugsnagPluginReact()],
-		});
+				apiKey: process.env.BUGSNAG_API_KEY,
+				plugins: [new BugsnagPluginReact()],
+			});
 
 module.exports = bugsnagClient;

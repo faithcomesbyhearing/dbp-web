@@ -40,7 +40,8 @@ export default defineMessages({
 	},
 	passwordError4: {
 		id: 'app.components.PasswordResetVerified.passwordError4',
-		defaultMessage: 'You must have at least one of the following: number, uppercase character, symbol.',
+		defaultMessage:
+			'You must have at least one of the following: number, uppercase character, symbol.',
 	},
 	passwordErrorUnknown: {
 		id: 'app.components.PasswordResetVerified.passwordErrorUnknown',

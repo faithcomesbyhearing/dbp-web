@@ -3,16 +3,16 @@ import chapterText from '../../../utils/testUtils/sampleChapterArray.json';
 import highlightsObject from '../../../utils/testUtils/sampleHighlights.json';
 
 /* Text cases that are needed
-* 1: one highlight - true
-*	2: two overlapping highlights - false
-*	3-4: multi-verse highlight - false
-*	6: two highlights in same verse - false
-*	7-8 & 9-10: multi-verse overlapping highlights - false
-*	13-14 & 14: multi-verse that ends up being two highlights in the same verse - false
-*	15 * 3: highlight overlaps multiple other highlights
-*	Tag to insert
-*	<em class="text-highlighted" style="background:linear-gradient(${sampleHighlights[0].highlighted_color}),${sampleHighlights[0].highlighted_color}))">
-* */
+ * 1: one highlight - true
+ *	2: two overlapping highlights - false
+ *	3-4: multi-verse highlight - false
+ *	6: two highlights in same verse - false
+ *	7-8 & 9-10: multi-verse overlapping highlights - false
+ *	13-14 & 14: multi-verse that ends up being two highlights in the same verse - false
+ *	15 * 3: highlight overlaps multiple other highlights
+ *	Tag to insert
+ *	<em class="text-highlighted" style="background:linear-gradient(${sampleHighlights[0].highlighted_color}),${sampleHighlights[0].highlighted_color}))">
+ * */
 
 describe('highlightPlainText', () => {
 	it('Should be a function', () => {

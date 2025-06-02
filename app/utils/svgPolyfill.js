@@ -1,14 +1,7 @@
 /* eslint-disable */
-export default (function(a, b) {
+export default (function (a, b) {
 	return b();
-	// 'function' == typeof define && define.amd
-	// 	? define([], function() {
-
-	// 	  })
-	// 	: 'object' == typeof module && module.exports
-	// 		? (module.exports = b())
-	// 		: (a.svg4everybody = b())
-})(this, function() {
+})(this, function () {
 	function a(a, b, c) {
 		if (c) {
 			var d = document.createDocumentFragment(),
@@ -20,16 +13,15 @@ export default (function(a, b) {
 		}
 	}
 	function b(b) {
-		(b.onreadystatechange = function() {
+		(b.onreadystatechange = function () {
 			if (4 === b.readyState) {
 				var c = b._cachedDocument;
 				c ||
-					((c = b._cachedDocument = document.implementation.createHTMLDocument(
-						'',
-					)),
+					((c = b._cachedDocument =
+						document.implementation.createHTMLDocument('')),
 					(c.body.innerHTML = b.responseText),
 					(b._cachedTarget = {})),
-					b._embeds.splice(0).map(function(d) {
+					b._embeds.splice(0).map(function (d) {
 						var e = b._cachedTarget[d.id];
 						e || (e = b._cachedTarget[d.id] = c.getElementById(d.id)),
 							a(d.parent, d.svg, e);
@@ -81,9 +73,9 @@ export default (function(a, b) {
 			'polyfill' in g
 				? g.polyfill
 				: h.test(navigator.userAgent) ||
-				  (navigator.userAgent.match(j) || [])[1] < 10547 ||
-				  (navigator.userAgent.match(i) || [])[1] < 537 ||
-				  (k.test(navigator.userAgent) && l);
+					(navigator.userAgent.match(j) || [])[1] < 10547 ||
+					(navigator.userAgent.match(i) || [])[1] < 537 ||
+					(k.test(navigator.userAgent) && l);
 		var m = {},
 			n = window.requestAnimationFrame || setTimeout,
 			o = document.getElementsByTagName('use'),

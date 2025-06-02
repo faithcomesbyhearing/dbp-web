@@ -11,25 +11,21 @@ import SvgWrapper from '../SvgWrapper';
 import NoteVerseText from '../NoteVerseText';
 
 class EditNote extends React.PureComponent {
-	// eslint-disable-line react/prefer-stateless-function
 	constructor(props) {
 		super(props);
 		// TODO: Can get rid of the const statements below once the tags field is an object
 		const hasTitle =
-			this.props.note.get('tags') &&
-			typeof this.props.note.get('tags').find === 'function' &&
-			this.props.note.get('tags').find((t) => t.get('type') === 'title');
+			this.props.note['tags'] &&
+			typeof this.props.note['tags'].find === 'function' &&
+			this.props.note['tags'].find((t) => t['type'] === 'title');
 		const titleText =
 			(hasTitle &&
-				this.props.note
-					.get('tags')
-					.find((t) => t.get('type') === 'title')
-					.get('value')) ||
+				this.props.note['tags'].find((t) => t['type'] === 'title')['value']) ||
 			'';
 
 		this.state = {
-			textarea: this.props.note.get('notes') || '',
-			savedNote: !!this.props.note.get('id'),
+			textarea: this.props.note['notes'] || '',
+			savedNote: !!this.props.note['id'],
 			selectedChapter: '',
 			selectedBookName: '',
 			selectedBookId: '',
@@ -57,10 +53,7 @@ class EditNote extends React.PureComponent {
 	getCurrentDate = () => {
 		const date = new Date();
 		const day = date.getDate();
-		const year = date
-			.getFullYear()
-			.toFixed()
-			.slice(2);
+		const year = date.getFullYear().toFixed().slice(2);
 		const month = (date.getMonth() + 1).toFixed();
 
 		return `${month.length === 1 ? `0${month}` : month}.${day}.${year}`;
@@ -69,18 +62,16 @@ class EditNote extends React.PureComponent {
 	get verseReference() {
 		const { vernacularNamesObject, note } = this.props;
 		if (
-			note.get('tags') &&
-			note.get('tags').find((tag) => tag.get('type') === 'reference')
+			note['tags'] &&
+			note['tags'].find((tag) => tag['type'] === 'reference')
 		) {
-			const ref = note
-				.get('tags')
-				.find((tag) => tag.get('type') === 'reference');
-			return ref.get('value');
+			const ref = note['tags'].find((tag) => tag['type'] === 'reference');
+			return ref['value'];
 		}
-		const book = note.get('book_id');
-		const start = note.get('verse_start');
-		const end = note.get('verse_end');
-		const chapter = note.get('chapter');
+		const book = note['book_id'];
+		const start = note['verse_start'];
+		const end = note['verse_end'];
+		const chapter = note['chapter'];
 		const verses = start === end || !end ? start : `${start}-${end}`;
 
 		if (book && chapter && start) {
@@ -101,11 +92,10 @@ class EditNote extends React.PureComponent {
 			this.props.readSavedMessage();
 			this.props.clearNoteErrorMessage();
 		}
-		this.setState(
-			(cs) =>
-				cs.readTheMessage
-					? { textarea: e.target.value }
-					: { textarea: e.target.value, readTheMessage: true },
+		this.setState((cs) =>
+			cs.readTheMessage
+				? { textarea: e.target.value }
+				: { textarea: e.target.value, readTheMessage: true },
 		);
 	};
 
@@ -119,32 +109,28 @@ class EditNote extends React.PureComponent {
 			this.props.readSavedMessage();
 			this.props.clearNoteErrorMessage();
 		}
-		this.setState(
-			(cs) =>
-				cs.readTheMessage
-					? { titleText: e.target.value }
-					: { titleText: e.target.value, readTheMessage: true },
+		this.setState((cs) =>
+			cs.readTheMessage
+				? { titleText: e.target.value }
+				: { titleText: e.target.value, readTheMessage: true },
 		);
 	};
 
 	handleSave = (e) => {
 		const { note, activeTextId, errorSavingNote } = this.props;
 		const { titleText, textarea } = this.state;
-		const chapter = note.get('chapter');
-		const verseStart = note.get('verse_start');
-		const verseEnd = note.get('verse_end');
-		const bookId = note.get('book_id');
-		const id = note.get('id');
+		const chapter = note['chapter'];
+		const verseStart = note['verse_start'];
+		const verseEnd = note['verse_end'];
+		const bookId = note['book_id'];
+		const id = note['id'];
 		const hasTitle =
-			this.props.note.get('tags') &&
-			typeof this.props.note.get('tags').find === 'function' &&
-			this.props.note.get('tags').find((t) => t.get('type') === 'title');
+			this.props.note['tags'] &&
+			typeof this.props.note['tags'].find === 'function' &&
+			this.props.note['tags'].find((t) => t['type'] === 'title');
 		const prevTitle =
 			(hasTitle &&
-				this.props.note
-					.get('tags')
-					.find((t) => t.get('type') === 'title')
-					.get('value')) ||
+				this.props.note['tags'].find((t) => t['type'] === 'title')['value']) ||
 			'';
 
 		if (!textarea) {
@@ -167,7 +153,7 @@ class EditNote extends React.PureComponent {
 			return;
 		}
 
-		if (note.get('notes') === textarea && prevTitle === titleText) {
+		if (note['notes'] === textarea && prevTitle === titleText) {
 			// If the original text equals the current text then I don't have to do anything
 			// Because the user has not updated their note
 			this.setState({ savingNote: false });
@@ -209,8 +195,8 @@ class EditNote extends React.PureComponent {
 	};
 
 	deleteNote = () => {
-		if (this.props.note.get('id')) {
-			this.props.deleteNote({ noteId: this.props.note.get('id') });
+		if (this.props.note['id']) {
+			this.props.deleteNote({ noteId: this.props.note['id'] });
 			this.props.setActiveChild('notes');
 		}
 	};
@@ -247,9 +233,7 @@ class EditNote extends React.PureComponent {
 						className="title"
 						value={this.state.titleText}
 					/>
-					<span className="date">
-						{note.get('date') || this.getCurrentDate()}
-					</span>
+					<span className="date">{note['date'] || this.getCurrentDate()}</span>
 				</div>
 				<div className={`verse-dropdown${isVerseTextVisible ? ' open' : ''}`}>
 					<SvgWrapper
@@ -259,7 +243,7 @@ class EditNote extends React.PureComponent {
 					/>
 					<span className="text">{this.verseReference}</span>
 					<span className="version-dropdown">
-						{note.get('bible_id') || activeTextId}
+						{note['bible_id'] || activeTextId}
 					</span>
 				</div>
 				{isVerseTextVisible && (

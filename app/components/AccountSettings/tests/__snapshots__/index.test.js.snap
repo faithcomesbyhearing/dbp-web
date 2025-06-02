@@ -1,192 +1,192 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Name of the group should match the old snapshot with a full profile 1`] = `
-<div
-  className="account-settings"
->
+exports[`AccountSettings component should match the snapshot with a full profile 1`] = `
+<div>
   <div
-    className="logout-button"
-    onClick={[MockFunction]}
-    role="button"
-    tabIndex={0}
+    class="account-settings"
   >
-    <span>
-      Logout
-    </span>
-  </div>
-  <section
-    className="personal-info"
-  >
-    <svg
-      className="avatar-placeholder"
+    <div
+      class="logout-button"
+      role="button"
+      tabindex="0"
     >
-      <use
-        xlinkHref="/svglist.svg#avatar_placeholder"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <h3
-      className="name"
-    >
-      J
-    </h3>
-    <span
-      className="name"
-    >
-      Jesse
-    </span>
-  </section>
-  <div
-    className="email-section"
-  >
-    <span
-      className="title"
-    >
-      e-mail
-    </span>
-    <span
-      className="wrapper"
+      <span>
+        Logout
+      </span>
+    </div>
+    <section
+      class="personal-info"
     >
       <svg
-        className="icon"
-        height="26px"
-        width="26px"
+        class="avatar-placeholder"
       >
         <use
-          xlinkHref="/svglist.svg#e-mail"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#avatar_placeholder"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      <input
-        onChange={[Function]}
-        placeholder="emailaddress@mail.com"
-        value="jesse@dbs.org"
-      />
-    </span>
+      <h3
+        class="name"
+      >
+        J
+      </h3>
+      <span
+        class="name"
+      >
+        Jesse
+      </span>
+    </section>
+    <div
+      class="email-section"
+    >
+      <span
+        class="title"
+      >
+        e-mail
+      </span>
+      <span
+        class="wrapper"
+      >
+        <svg
+          class="icon"
+          height="26px"
+          width="26px"
+        >
+          <use
+            xlink:href="/svglist.svg#e-mail"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          placeholder="emailaddress@mail.com"
+          value="jesse@dbs.org"
+        />
+      </span>
+    </div>
   </div>
 </div>
 `;
 
-exports[`Name of the group should match the old snapshot with the popup open 1`] = `
-<div
-  className="account-settings"
->
+exports[`AccountSettings component should match the snapshot with the popup open 1`] = `
+<div>
   <div
-    className="logout-button"
-    onClick={[MockFunction]}
-    role="button"
-    tabIndex={0}
+    class="account-settings"
   >
-    <span>
-      Logout
-    </span>
-  </div>
-  <section
-    className="personal-info"
-  >
-    <svg
-      className="avatar-placeholder"
+    <div
+      class="logout-button"
+      role="button"
+      tabindex="0"
     >
-      <use
-        xlinkHref="/svglist.svg#avatar_placeholder"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-    <h3
-      className="name"
-    >
-      J
-    </h3>
-    <span
-      className="name"
-    >
-      Jesse
-    </span>
-  </section>
-  <div
-    className="email-section"
-  >
-    <span
-      className="title"
-    >
-      e-mail
-    </span>
-    <span
-      className="wrapper"
+      <span>
+        Logout
+      </span>
+    </div>
+    <section
+      class="personal-info"
     >
       <svg
-        className="icon"
-        height="26px"
-        width="26px"
+        class="avatar-placeholder"
       >
         <use
-          xlinkHref="/svglist.svg#e-mail"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#avatar_placeholder"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      <input
-        onChange={[Function]}
-        placeholder="emailaddress@mail.com"
-        value="jesse@dbs.org"
-      />
-    </span>
+      <h3
+        class="name"
+      >
+        J
+      </h3>
+      <span
+        class="name"
+      >
+        Jesse
+      </span>
+    </section>
+    <div
+      class="email-section"
+    >
+      <span
+        class="title"
+      >
+        e-mail
+      </span>
+      <span
+        class="wrapper"
+      >
+        <svg
+          class="icon"
+          height="26px"
+          width="26px"
+        >
+          <use
+            xlink:href="/svglist.svg#e-mail"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          placeholder="emailaddress@mail.com"
+          value="jesse@dbs.org"
+        />
+      </span>
+    </div>
   </div>
 </div>
 `;
 
-exports[`Name of the group should match the old snapshot without a full profile 1`] = `
-<div
-  className="account-settings"
->
+exports[`AccountSettings component should match the snapshot without a full profile 1`] = `
+<div>
   <div
-    className="logout-button"
-    onClick={[MockFunction]}
-    role="button"
-    tabIndex={0}
+    class="account-settings"
   >
-    <span>
-      Logout
-    </span>
-  </div>
-  <section
-    className="personal-info"
-  >
-    <svg
-      className="avatar-placeholder"
+    <div
+      class="logout-button"
+      role="button"
+      tabindex="0"
     >
-      <use
-        xlinkHref="/svglist.svg#avatar_placeholder"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-      />
-    </svg>
-  </section>
-  <div
-    className="email-section"
-  >
-    <span
-      className="title"
-    >
-      e-mail
-    </span>
-    <span
-      className="wrapper"
+      <span>
+        Logout
+      </span>
+    </div>
+    <section
+      class="personal-info"
     >
       <svg
-        className="icon"
-        height="26px"
-        width="26px"
+        class="avatar-placeholder"
       >
         <use
-          xlinkHref="/svglist.svg#e-mail"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xlink:href="/svglist.svg#avatar_placeholder"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         />
       </svg>
-      <input
-        onChange={[Function]}
-        placeholder="emailaddress@mail.com"
-        value=""
-      />
-    </span>
+    </section>
+    <div
+      class="email-section"
+    >
+      <span
+        class="title"
+      >
+        e-mail
+      </span>
+      <span
+        class="wrapper"
+      >
+        <svg
+          class="icon"
+          height="26px"
+          width="26px"
+        >
+          <use
+            xlink:href="/svglist.svg#e-mail"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          />
+        </svg>
+        <input
+          placeholder="emailaddress@mail.com"
+          value=""
+        />
+      </span>
+    </div>
   </div>
 </div>
 `;

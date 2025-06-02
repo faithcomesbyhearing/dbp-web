@@ -4,9 +4,7 @@
  *
  */
 
-import { fromJS } from 'immutable';
-
-const initialState = fromJS({});
+const initialState = structuredClone({});
 
 function audioPlayerReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {

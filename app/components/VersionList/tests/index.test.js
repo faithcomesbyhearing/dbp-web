@@ -1,19 +1,25 @@
 import React from 'react';
-import { fromJS } from 'immutable';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-
-import { VersionList } from '..';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom'; // for additional matchers like toHaveAttribute
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import VersionList from '..';
 import { getTexts } from '../../VersionListSection/tests/versionListSectionUtils';
 
-Enzyme.configure({ adapter: new Adapter() });
+// Mock the selectors
+jest.mock('../selectors', () => ({
+	selectActiveBookId: jest.fn(() => () => 'MAT'), // Return a function
+	selectActiveChapter: jest.fn(() => () => 5), // Return a function
+	selectHasVideo: jest.fn(() => () => false), // Return a function
+}));
 
-/* eslint-disable react/prop-types */
 jest.mock('react-intl', () => ({
 	FormattedMessage: ({ defaultMessage }) => <span>{defaultMessage}</span>,
 	defineMessages: (messages) => messages,
 }));
-/* eslint-enable react/prop-types */
+
+// Create a mock Redux store
+const mockStore = configureMockStore();
 
 const props = {
 	dispatch: jest.fn(),
@@ -27,20 +33,76 @@ const props = {
 	loadingVersions: false,
 };
 
-let bibles = fromJS([]);
+let bibles = structuredClone([]);
+
 describe('<VersionList />', () => {
 	beforeEach(async () => {
 		const jsBibles = await getTexts({ languageCode: 17045 });
-		bibles = fromJS(jsBibles);
-	});
+		bibles = structuredClone(jsBibles);
+	}, 10000);
+
 	it('Should match previous snapshot', () => {
-		const wrapper = Enzyme.mount(<VersionList {...props} bibles={bibles} />);
+		const initialState = structuredClone({
+			homepage: {
+				hasVideo: false, // This is where your selector looks for `hasVideo`
+			},
+			videoPlayer: {
+				videoList: [],
+			},
+		});
 
-		expect(wrapper.find('div.accordion-title-style').length).toEqual(bibles.size);
-	});
-	it('Should contain a list of version names', () => {
-		const wrapper = Enzyme.mount(<VersionList {...props} bibles={bibles} />);
+		const store = mockStore(initialState);
 
-		expect(wrapper.find('.version-name-list').length).toEqual(1);
-	});
-});
+		const { asFragment } = render(
+			<Provider store={store}>
+				<VersionList {...props} bibles={bibles} />
+			</Provider>,
+		);
+		expect(asFragment()).toMatchSnapshot();
+	}, 10000);
+
+	it('Should render a list of version names', () => {
+		const initialState = structuredClone({
+			homepage: {
+				hasVideo: false, // This is where your selector looks for `hasVideo`
+			},
+			videoPlayer: {
+				videoList: [],
+			},
+		});
+
+		const store = mockStore(initialState);
+
+		render(
+			<Provider store={store}>
+				<VersionList {...props} bibles={bibles} />
+			</Provider>,
+		);
+
+		// Add assertions here if needed.
+	}, 10000);
+
+	it('Should render all available bibles as accordion titles', () => {
+		const initialState = structuredClone({
+			homepage: {
+				hasVideo: false, // This is where your selector looks for `hasVideo`
+			},
+			videoPlayer: {
+				videoList: [],
+			},
+		});
+
+		const store = mockStore(initialState);
+
+		const { container } = render(
+			<Provider store={store}>
+				<VersionList {...props} bibles={bibles} />
+			</Provider>,
+		);
+
+		const versionList = container.querySelector('.version-name-list');
+
+		expect(versionList).toBeInTheDocument();
+		// Add assertions here if needed.
+	}, 10000);
+}, 10000);

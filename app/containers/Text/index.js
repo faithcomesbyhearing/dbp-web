@@ -136,7 +136,10 @@ class Text extends React.PureComponent {
 					disabledContainerClasses={'arrow-wrapper prev disabled'}
 					containerClasses={'arrow-wrapper prev'}
 				/>
-				<div ref={this.mainWrapperRef} className={`main-wrapper ${MAIN_TEXT_WRAPPER_CLASS}`}>
+				<div
+					ref={this.mainWrapperRef}
+					className={`main-wrapper ${MAIN_TEXT_WRAPPER_CLASS}`}
+				>
 					<Verses menuIsOpen={menuIsOpen} />
 				</div>
 				<NewChapterArrow

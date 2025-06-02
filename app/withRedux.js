@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-/* eslint-disable */
+
 const isServer = typeof window === 'undefined';
 const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__';
 
@@ -22,7 +22,7 @@ export const withRedux = (WrappedComponent) => {
 	const WithRedux = ({ initialReduxState, ...props }) => {
 		const reduxStore = getOrCreateStore(initialReduxState);
 
-		return (	
+		return (
 			<Provider store={reduxStore}>
 				<WrappedComponent {...props} />
 			</Provider>
@@ -48,4 +48,3 @@ export const withRedux = (WrappedComponent) => {
 
 	return WithRedux;
 };
-/* eslint-enable */

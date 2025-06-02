@@ -6,10 +6,12 @@ const shareHighlightToFacebook = (quote, callbackFunction) => {
 			{
 				method: 'share',
 				quote,
-				href: `${window.location.href ||
+				href: `${
+					window.location.href ||
 					`${window.location.protocol}//${window.location.hostname}${
 						window.location.pathname
-					}`}`,
+					}`
+				}`,
 			},
 			(res) => res,
 		);

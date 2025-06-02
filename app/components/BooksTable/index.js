@@ -38,7 +38,6 @@ import { selectTextDirection } from '../../containers/Verses/selectors';
 export class BooksTable extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// eslint-disable-line react/prefer-stateless-function
 		this.state = {
 			selectedBookName:
 				this.props.initialBookName || this.props.activeBookName || '',
@@ -143,27 +142,27 @@ export class BooksTable extends React.PureComponent {
 					ref={(el) => this.handleRef(el, 'container')}
 					className="book-container"
 				>
-					{books.get(BOOK_OLD_TESTAMENT) &&
+					{books[BOOK_OLD_TESTAMENT] &&
 						this.renderBooksTestament(
-							books.get(BOOK_OLD_TESTAMENT),
+							books[BOOK_OLD_TESTAMENT],
 							'ot',
 							'Old Testament',
 						)}
-					{books.get(BOOK_NEW_TESTAMENT) &&
+					{books[BOOK_NEW_TESTAMENT] &&
 						this.renderBooksTestament(
-							books.get(BOOK_NEW_TESTAMENT),
+							books[BOOK_NEW_TESTAMENT],
 							'nt',
 							'New Testament',
 						)}
-					{(books.get(BOOK_AP_TESTAMENT) || books.get(BOOK_DEU_TESTAMENT)) &&
+					{(books[BOOK_AP_TESTAMENT] || books[BOOK_DEU_TESTAMENT]) &&
 						this.renderBooksTestament(
-							books.get(BOOK_AP_TESTAMENT) || books.get(BOOK_DEU_TESTAMENT),
+							books[BOOK_AP_TESTAMENT] || books[BOOK_DEU_TESTAMENT],
 							'dc',
 							'Deuterocanon',
 						)}
-					{books.get(BOOK_COVENANT_TESTAMENT) &&
+					{books[BOOK_COVENANT_TESTAMENT] &&
 						this.renderBooksTestament(
-							books.get(BOOK_COVENANT_TESTAMENT),
+							books[BOOK_COVENANT_TESTAMENT],
 							'cv',
 							'Covenant Films',
 						)}
@@ -187,17 +186,17 @@ BooksTable.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-	books: selectBooks(),
-	activeTextId: selectActiveTextId(),
-	activeBookName: selectActiveBookName(),
-	activeChapter: selectActiveChapter(),
-	audioObjects: selectAudioObjects(),
-	hasTextInDatabase: selectHasTextInDatabase(),
-	filesetTypes: selectFilesetTypes(),
-	loadingBooks: selectLoadingBookStatus(),
-	userAuthenticated: selectAuthenticationStatus(),
-	userId: selectUserId(),
-	audioType: selectAudioType(),
+	books: selectBooks,
+	activeTextId: selectActiveTextId,
+	activeBookName: selectActiveBookName,
+	activeChapter: selectActiveChapter,
+	audioObjects: selectAudioObjects,
+	hasTextInDatabase: selectHasTextInDatabase,
+	filesetTypes: selectFilesetTypes,
+	loadingBooks: selectLoadingBookStatus,
+	userAuthenticated: selectAuthenticationStatus,
+	userId: selectUserId,
+	audioType: selectAudioType,
 	// Verses selector
 	textDirection: selectTextDirection(),
 });

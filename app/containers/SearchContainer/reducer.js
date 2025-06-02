@@ -4,7 +4,6 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import {
 	ADD_SEARCH_TERM,
 	GET_SEARCH_RESULTS,
@@ -15,7 +14,7 @@ import {
 	START_LOADING,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = structuredClone({
 	searchResults: [],
 	lastFiveSearches: [],
 	trySearchOptions: [
@@ -29,37 +28,63 @@ const initialState = fromJS({
 
 function searchContainerReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
-		case ADD_SEARCH_TERM:
-			if (
-				state.get('lastFiveSearches').includes(action.searchText.toLowerCase())
-			) {
-				return state.set('loadingResults', true);
+		case ADD_SEARCH_TERM: {
+			const term = action.searchText.toLowerCase();
+
+			if (state.lastFiveSearches.includes(term)) {
+				return {
+					...state,
+					loadingResults: true,
+				};
 			}
 
-			return state.set(
-				'lastFiveSearches',
-				state.get('lastFiveSearches').size > 9
-					? state
-							.get('lastFiveSearches')
-							.push(action.searchText.toLowerCase())
-							.shift()
-					: state.get('lastFiveSearches').push(action.searchText.toLowerCase()),
-			);
+			// build a brand-new array (never mutate state)
+			const updated = [...state.lastFiveSearches, term];
+
+			// keep only the last 9 entries
+			if (updated.length > 9) {
+				updated.shift();
+			}
+
+			return {
+				...state,
+				lastFiveSearches: updated,
+				loadingResults: true,
+			};
+		}
 		case GET_SEARCH_RESULTS:
-			return state.set('loadingResults', true);
+			return {
+				...state,
+				loadingResults: true,
+			};
 		case LOAD_SEARCH_RESULTS:
-			return state
-				.set('loadingResults', false)
-				.set('showError', false)
-				.set('searchResults', fromJS(action.searchResults));
+			return {
+				...state,
+				loadingResults: false,
+				showError: false,
+				searchResults: structuredClone(action.searchResults),
+			};
 		case SEARCH_ERROR:
-			return state.set('showError', true).set('loadingResults', false);
+			return {
+				...state,
+				showError: true,
+				loadingResults: false,
+			};
 		case VIEW_ERROR:
-			return state.set('showError', false);
+			return {
+				...state,
+				showError: false,
+			};
 		case STOP_LOADING:
-			return state.set('loadingResults', false);
+			return {
+				...state,
+				loadingResults: false,
+			};
 		case START_LOADING:
-			return state.set('loadingResults', true);
+			return {
+				...state,
+				loadingResults: true,
+			};
 		default:
 			return state;
 	}

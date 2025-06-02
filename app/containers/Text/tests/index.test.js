@@ -1,36 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Text from '..';
+import { render } from '@testing-library/react';
+import Text from '../index';
 
-// const Verses = dynamic(import('../Verses'), {
-// 	loading: () => <LoadingSpinner />,
-// });
-// const NewChapterArrow = dynamic(import('../../components/NewChapterArrow'), {
-// 	loading: () => null,
-// });
-// const newChapterProps = {
-// 	getNewUrl: jest.fn(),
-// disabled: false,
-// svgid: 'next-arrow',
-// svgClasses: string,
-// containerClasses: string,
-// disabledContainerClasses: string,
-// urlProps: {
-// 	books,
-// 	chapter: activeChapter,
-// 	bookId: activeBookId.toLowerCase(),
-// 	textId: activeTextId.toLowerCase(),
-// 	verseNumber,
-// 	text,
-// 	audioType,
-// },
-// clickHandler: jest.fn(),
-// }
-// jest.mock('next/dynamic', () => () => {
-//   const NewChapterArrow = require('../../../components/NewChapterArrow')
-//     .default;
-//   return (props) => <NewChapterArrow {...props} />;
-// });
 // Basic Text Props
 const text = [
 	{
@@ -110,56 +81,9 @@ const books = [
 		book_order: 1,
 		book_group: 'The Law',
 		chapters: [
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
-			28,
-			29,
-			30,
-			31,
-			32,
-			33,
-			34,
-			35,
-			36,
-			37,
-			38,
-			39,
-			40,
-			41,
-			42,
-			43,
-			44,
-			45,
-			46,
-			47,
-			48,
-			49,
-			50,
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+			22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+			40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
 		],
 	},
 	{
@@ -172,45 +96,8 @@ const books = [
 		book_order: 2,
 		book_group: 'The Law',
 		chapters: [
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
-			28,
-			29,
-			30,
-			31,
-			32,
-			33,
-			34,
-			35,
-			36,
-			37,
-			38,
-			39,
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+			22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
 			40,
 		],
 	},
@@ -224,33 +111,8 @@ const books = [
 		book_order: 3,
 		book_group: 'The Law',
 		chapters: [
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-			8,
-			9,
-			10,
-			11,
-			12,
-			13,
-			14,
-			15,
-			16,
-			17,
-			18,
-			19,
-			20,
-			21,
-			22,
-			23,
-			24,
-			25,
-			26,
-			27,
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+			22, 23, 24, 25, 26, 27,
 		],
 	},
 ];
@@ -271,180 +133,190 @@ const activeBookId = 'LEV';
 
 describe('<Text />', () => {
 	it('Should match previous snapshot with all options true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					hasVideo={hasVideo}
-					menuIsOpen={menuIsOpen}
-					subFooterOpen={subFooterOpen}
-					videoPlayerOpen={videoPlayerOpen}
-					changingVersion={changingVersion}
-					isScrollingDown={isScrollingDown}
-					audioPlayerState={audioPlayerState}
-					loadingNewChapterText={loadingNewChapterText}
-					chapterTextLoadingState={chapterTextLoadingState}
-					audioType={audioType}
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				hasVideo={hasVideo}
+				menuIsOpen={menuIsOpen}
+				subFooterOpen={subFooterOpen}
+				videoPlayerOpen={videoPlayerOpen}
+				changingVersion={changingVersion}
+				isScrollingDown={isScrollingDown}
+				audioPlayerState={audioPlayerState}
+				loadingNewChapterText={loadingNewChapterText}
+				chapterTextLoadingState={chapterTextLoadingState}
+				audioType={audioType}
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with no options true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with hasVideo true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					hasVideo
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				hasVideo
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with menuIsOpen true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					menuIsOpen
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				menuIsOpen
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with subFooterOpen true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					subFooterOpen
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				subFooterOpen
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with videoPlayerOpen true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					videoPlayerOpen
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				videoPlayerOpen
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with changingVersion true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					changingVersion
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				changingVersion
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with audioPlayerState true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					audioPlayerState
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				audioPlayerState
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with loadingNewChapterText true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					loadingNewChapterText
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				loadingNewChapterText
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 	it('Should match previous snapshot with chapterTextLoadingState true', () => {
-		const tree = renderer
-			.create(
-				<Text
-					text={text}
-					books={books}
-					activeChapter={activeChapter}
-					audioType={audioType}
-					chapterTextLoadingState
-					verseNumber={verseNumber}
-					activeTextId={activeTextId}
-					activeBookId={activeBookId}
-				/>,
-			)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				chapterTextLoadingState
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match previous snapshot with loadingNewChapterText true', () => {
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				loadingNewChapterText
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
+	});
+	it('Should match previous snapshot with chapterTextLoadingState true', () => {
+		const { asFragment } = render(
+			<Text
+				text={text}
+				books={books}
+				activeChapter={activeChapter}
+				audioType={audioType}
+				chapterTextLoadingState
+				verseNumber={verseNumber}
+				activeTextId={activeTextId}
+				activeBookId={activeBookId}
+			/>,
+		);
+		expect(asFragment()).toMatchSnapshot();
 	});
 });

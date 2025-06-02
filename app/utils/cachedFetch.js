@@ -3,8 +3,10 @@ import axios from 'axios';
 import { LRUCache } from 'lru-cache';
 
 // Define TTL for the server and client separately
-const SERVER_TTL_MINUTES = process.env.NODE_ENV === 'development' ? 1000 * 60 : 1000 * 60 * 60 * 24; // 24 hours in production, 1 minute in development
-const CLIENT_TTL_MINUTES = process.env.NODE_ENV === 'development' ? 1000 * 60 * 5 : 1000 * 60 * 60 * 24; // 24 hours in production, 5 minutes in development
+const SERVER_TTL_MINUTES =
+	process.env.NODE_ENV === 'development' ? 1000 * 60 : 1000 * 60 * 60 * 24; // 24 hours in production, 1 minute in development
+const CLIENT_TTL_MINUTES =
+	process.env.NODE_ENV === 'development' ? 1000 * 60 * 5 : 1000 * 60 * 60 * 24; // 24 hours in production, 5 minutes in development
 
 // Server-side cache using LRUCache
 const cache = new LRUCache({ max: 500, ttl: SERVER_TTL_MINUTES }); // Server-side TTL
@@ -22,7 +24,9 @@ export default async function cachedFetch(url, options, expires) {
 		}
 
 		// If not in cache, make API call and store it in memory cache
-		const apiResponse = await axios.get(url, options).then((response) => response.data);
+		const apiResponse = await axios
+			.get(url, options)
+			.then((response) => response.data);
 		cache.set(url, apiResponse, expires || SERVER_TTL_MINUTES);
 		return apiResponse;
 	}
@@ -31,9 +35,9 @@ export default async function cachedFetch(url, options, expires) {
 	// If there is no cached response,
 	// do the actual call and store the response
 	if (cachedResponse === null) {
-		cachedResponse = await axios.get(url, options).then((response) =>
-			response.data,
-		);
+		cachedResponse = await axios
+			.get(url, options)
+			.then((response) => response.data);
 		lscache.set(url, cachedResponse, expires || CLIENT_TTL_MINUTES);
 	}
 

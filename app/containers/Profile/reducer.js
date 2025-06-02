@@ -4,7 +4,6 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import {
 	SELECT_ACCOUNT_OPTION,
 	USER_LOGGED_IN,
@@ -23,7 +22,7 @@ import {
 	READ_OAUTH_ERROR,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = structuredClone({
 	activeOption: 'login',
 	userAuthenticated: false,
 	userId: '',
@@ -50,15 +49,26 @@ const initialState = fromJS({
 function profileReducer(state = initialState, action = { type: null }) {
 	switch (action.type) {
 		case SOCIAL_MEDIA_LOGIN:
-			return state.set('activeDriver', action.driver);
+			return {
+				...state,
+				activeDriver: action.driver,
+			};
 		case OAUTH_ERROR:
-			return state
-				.set('oauthError', true)
-				.set('oauthErrorMessage', action.message);
+			return {
+				...state,
+				oauthError: true,
+				oauthErrorMessage: action.message,
+			};
 		case READ_OAUTH_ERROR:
-			return state.set('oauthError', false);
+			return {
+				...state,
+				oauthError: false,
+			};
 		case SELECT_ACCOUNT_OPTION:
-			return state.set('activeOption', action.option);
+			return {
+				...state,
+				activeOption: action.option,
+			};
 		case USER_LOGGED_IN:
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem(
@@ -75,10 +85,12 @@ function profileReducer(state = initialState, action = { type: null }) {
 				);
 			}
 
-			return state
-				.set('userId', action.userId)
-				.set('userProfile', action.userProfile)
-				.set('userAuthenticated', true);
+			return {
+				...state,
+				userId: action.userId,
+				userProfile: action.userProfile,
+				userAuthenticated: true,
+			};
 		case LOG_OUT:
 			// Need to remove the user's id from storage when they log out
 			localStorage.removeItem('bible_is_user_id');
@@ -89,32 +101,53 @@ function profileReducer(state = initialState, action = { type: null }) {
 			sessionStorage.removeItem('bible_is_user_email');
 			sessionStorage.removeItem('bible_is_user_name');
 			sessionStorage.removeItem('bible_is_user_nickname');
-			return state.set('userId', '').set('userAuthenticated', false);
+			return {
+				...state,
+				userId: '',
+				userAuthenticated: false,
+			};
 		case SIGNUP_ERROR:
-			return state
-				.set('errorMessageViewed', false)
-				.set('signupErrorMessage', action.message);
+			return {
+				...state,
+				errorMessageViewed: false,
+				signupErrorMessage: action.message,
+			};
 		case LOGIN_ERROR:
-			return state
-				.set('errorMessageViewed', false)
-				.set('loginErrorMessage', action.message);
+			return {
+				...state,
+				errorMessageViewed: false,
+				loginErrorMessage: action.message,
+			};
 		case SOCIAL_MEDIA_LOGIN_SUCCESS:
-			return state.set('socialLoginLink', action.url);
+			return {
+				...state,
+				socialLoginLink: action.url,
+			};
 		case RESET_PASSWORD_ERROR:
-			return state.set('passwordResetError', action.message);
+			return {
+				...state,
+				passwordResetError: action.message,
+			};
 		case ERROR_MESSAGE_VIEWED:
-			return state
-				.set('errorMessageViewed', true)
-				.set('deleteUserError', false)
-				.set('deleteUserMessage', '');
+			return {
+				...state,
+				errorMessageViewed: true,
+				deleteUserError: false,
+				deleteUserMessage: '',
+			};
 		case RESET_PASSWORD_SUCCESS:
-			return state.set('passwordResetMessage', action.message);
+			return {
+				...state,
+				passwordResetMessage: action.message,
+			};
 		case CLEAR_ERROR_MESSAGE:
-			return state
-				.set('errorMessageViewed', true)
-				.set('signupErrorMessage', '')
-				.set('passwordResetError', '')
-				.set('loginErrorMessage', '');
+			return {
+				...state,
+				errorMessageViewed: true,
+				signupErrorMessage: '',
+				passwordResetError: '',
+				loginErrorMessage: '',
+			};
 		case DELETE_USER_SUCCESS:
 			localStorage.removeItem('bible_is_user_id');
 			localStorage.removeItem('bible_is_user_email');
@@ -124,20 +157,32 @@ function profileReducer(state = initialState, action = { type: null }) {
 			sessionStorage.removeItem('bible_is_user_email');
 			sessionStorage.removeItem('bible_is_user_name');
 			sessionStorage.removeItem('bible_is_user_nickname');
-			return state.set('userAuthenticated', false).set('userId', '');
+			return {
+				...state,
+				userAuthenticated: false,
+				userId: '',
+			};
 		case DELETE_USER_ERROR:
-			return state
-				.set('deleteUserError', true)
-				.set('deleteUserMessage', action.message);
+			return {
+				...state,
+				deleteUserError: true,
+				deleteUserMessage: action.message,
+			};
 		case 'GET_INITIAL_ROUTE_STATE_PROFILE':
-			return state.merge(action.profile);
+			// return state.merge(action.profile);
+			return {
+				...state,
+				...action.profile,
+			};
 		case 'persist/REHYDRATE':
 			// TODO: Ask for Sam's input on this to see if I can get around it
-			if (state.get('userId')) {
-				return action.payload.profile
-					.set('userProfile', state.get('userProfile'))
-					.set('userAuthenticated', state.get('userAuthenticated'))
-					.set('userId', state.get('userId'));
+			if (state['userId']) {
+				return {
+					...action.payload.profile,
+					userProfile: state['userProfile'],
+					userAuthenticated: state['userAuthenticated'],
+					userId: state['userId'],
+				};
 			}
 			return state;
 		default:

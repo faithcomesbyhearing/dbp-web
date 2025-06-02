@@ -34,18 +34,19 @@ const InjectSaga = ({ keySaga, saga, mode, children }) => {
 	return children;
 };
 
-export default ({ key, saga, mode }) => (WrappedComponent) => {
-	function WithSaga(props) {
-  return (
-<InjectSaga keySaga={key} saga={saga} mode={mode}>
-			<WrappedComponent {...props} />
-</InjectSaga>
-);
-}
+export default ({ key, saga, mode }) =>
+	(WrappedComponent) => {
+		function WithSaga(props) {
+			return (
+				<InjectSaga keySaga={key} saga={saga} mode={mode}>
+					<WrappedComponent {...props} />
+				</InjectSaga>
+			);
+		}
 
-	WithSaga.displayName = `withSaga(${WrappedComponent.displayName ||
-	WrappedComponent.name ||
-	'Component'})`;
+		WithSaga.displayName = `withSaga(${
+			WrappedComponent.displayName || WrappedComponent.name || 'Component'
+		})`;
 
-	return hoistNonReactStatics(WithSaga, WrappedComponent);
-};
+		return hoistNonReactStatics(WithSaga, WrappedComponent);
+	};

@@ -1,67 +1,55 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Footer from '..';
 
-Enzyme.configure({ adapter: new Adapter() });
-
 const props = {
-	settingsActive: false,
-	profileActive: false,
-	searchActive: false,
-	notebookActive: false,
-	isScrollingDown: false,
-	toggleNotebook: jest.fn(),
-	toggleSettingsModal: jest.fn(),
-	toggleProfile: jest.fn(),
-	toggleSearch: jest.fn(),
+  settingsActive: false,
+  profileActive: false,
+  searchActive: false,
+  notebookActive: false,
+  isScrollingDown: false,
+  toggleNotebook: jest.fn(),
+  toggleSettingsModal: jest.fn(),
+  toggleProfile: jest.fn(),
+  toggleSearch: jest.fn(),
 };
-let wrapper;
 
 describe('Footer component tests', () => {
 	beforeEach(() => {
-		props.toggleNotebook = jest.fn(toggleNotebook);
-		props.toggleSettingsModal = jest.fn(toggleSettingsModal);
-		props.toggleProfile = jest.fn(toggleProfile);
-		props.toggleSearch = jest.fn(toggleSearch);
-
-		wrapper = Enzyme.mount(<Footer {...props} />);
-
-		function toggleNotebook() {
-			wrapper.setProps({ notebookActive: !wrapper.props().notebookActive });
-		}
-		function toggleSettingsModal() {
-			wrapper.setProps({ settingsActive: !wrapper.props().settingsActive });
-		}
-		function toggleProfile() {
-			wrapper.setProps({ profileActive: !wrapper.props().profileActive });
-		}
-		function toggleSearch() {
-			wrapper.setProps({ searchActive: !wrapper.props().searchActive });
-		}
+		// Reset mock functions before each test
+		props.toggleNotebook.mockClear();
+		props.toggleSettingsModal.mockClear();
+		props.toggleProfile.mockClear();
+		props.toggleSearch.mockClear();
 	});
+
 	it('matches snapshot when open', () => {
-		const tree = renderer.create(<Footer {...props} />).toJSON();
-		expect(tree).toMatchSnapshot();
+		const { container } = render(<Footer {...props} />);
+		expect(container).toMatchSnapshot();
 	});
+
 	it('matches snapshot when closed', () => {
-		const tree = renderer
-			.create(<Footer {...props} isScrollingDown />)
-			.toJSON();
-		expect(tree).toMatchSnapshot();
+		const { container } = render(<Footer {...props} isScrollingDown />);
+		expect(container).toMatchSnapshot();
 	});
-	it('should toggle each setting', () => {
-		wrapper.find('#profile-button').simulate('click');
+
+	it('should toggle each setting when clicked', () => {
+		render(<Footer {...props} />);
+
+		// Simulate profile button click
+		fireEvent.click(screen.getByTitle('Profile'));
 		expect(props.toggleProfile).toHaveBeenCalledTimes(1);
 
-		wrapper.find('#search-button').simulate('click');
+		// Simulate search button click
+		fireEvent.click(screen.getByTitle('Search'));
 		expect(props.toggleSearch).toHaveBeenCalledTimes(1);
 
-		wrapper.find('#notebook-button').simulate('click');
+		// Simulate notebook button click
+		fireEvent.click(screen.getByTitle('Notebook'));
 		expect(props.toggleNotebook).toHaveBeenCalledTimes(1);
 
-		wrapper.find('#settings-button').simulate('click');
+		// Simulate settings button click
+		fireEvent.click(screen.getByTitle('Settings'));
 		expect(props.toggleSettingsModal).toHaveBeenCalledTimes(1);
 	});
 });
