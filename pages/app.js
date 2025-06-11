@@ -196,7 +196,7 @@ function AppContainer(props) {
 	} = props;
 	// Defaulting description text to an empty string since no metadata is better than inaccurate metadata
 	const descriptionText =
-		chapterText && chapterText[0] ? `${chapterText[0].verse_text}...` : '';
+		chapterText?.[0]?.verse_text ? `${chapterText[0].verse_text}...` : '';
 
 	const headTitle = `${activeBookName} ${activeChapter}${
 		props.match?.params?.verse ? `:${props.match.params.verse}` : ''
@@ -259,11 +259,12 @@ AppContainer.getInitialProps = async (context) => {
 		name: userName,
 		nickname: userName,
 	};
+  const defaultChapter = '1';
 	const tempChapter =
 		typeof chapterParam === 'string' && chapterParam.split('?')[0];
-	const chapter = tempChapter || chapter;
+	const chapter = tempChapter || defaultChapter;
 	// Using let here because the cookie data can come from the server or the client
-	let audioParam = req && req.query.audio_type;
+	let audioParam = req?.query.audio_type;
 	let userId = reqUserId || '';
 	let hasVideo = false;
 	let isFromServer = true;
@@ -299,7 +300,7 @@ AppContainer.getInitialProps = async (context) => {
 
 		if (userId) {
 			// Authentication Information
-			isAuthenticated = !!userId;
+			isAuthenticated = userId !== '';
 			// User Profile
 			userProfile.email = userEmail;
 			userProfile.nickname = userName;
@@ -344,7 +345,7 @@ AppContainer.getInitialProps = async (context) => {
 
 		if (userId) {
 			// Authentication Information
-			isAuthenticated = !!userId;
+			isAuthenticated = userId !== '';
 			// User Profile
 			userProfile.email = userEmail;
 			userProfile.nickname = userName;
