@@ -8,47 +8,33 @@ import { persistStore } from 'redux-persist';
 import createReducer from './reducers';
 import REDUX_PERSIST from './utils/reduxPersist';
 
-const sagaMiddleware = createSagaMiddleware();
+export default function configureStore(preloadedState = {}) {
+	const sagaMiddleware = createSagaMiddleware();
+	const isDev = process.env.NODE_ENV !== 'production';
+	const isClient = typeof window !== 'undefined';
 
-const configureMiddleware = () => {
-	const middlewares = [sagaMiddleware];
-	return applyMiddleware(...middlewares);
-};
+	const composeEnhancers =
+		isDev && isClient && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+			? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ shouldHotReload: false })
+			: compose;
 
-const configureEnhancers = () => {
-	const isDevEnvironment = process.env.NODE_ENV !== 'production';
-	const hasReduxDevTools =
-		typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-
-	if (isDevEnvironment && hasReduxDevTools) {
-		return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-			shouldHotReload: false,
-		});
-	}
-
-	return compose;
-};
-
-export default function configureStore(initialState = {}) {
-	const enhancers = [configureMiddleware()];
-	const composeEnhancers = configureEnhancers();
 	const store = createStore(
 		createReducer(),
-		structuredClone(initialState),
-		composeEnhancers(...enhancers),
+		preloadedState,
+		composeEnhancers(applyMiddleware(sagaMiddleware)),
 	);
 
-	if (typeof self === 'object') {
+	if (isClient) {
 		persistStore(store, {
 			stateReconciler: REDUX_PERSIST.storeConfig.stateReconciler,
 		});
 	}
 
 	store.runSaga = sagaMiddleware.run;
-	store.injectedReducers = {}; // Reducer registry
-	store.injectedSagas = {}; // Saga registry
+	store.injectedReducers = {};
+	store.injectedSagas = {};
 
-	if (module.hot) {
+	if (module.hot && isClient) {
 		module.hot.accept('./reducers', () => {
 			store.replaceReducer(createReducer(store.injectedReducers));
 		});

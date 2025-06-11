@@ -719,8 +719,11 @@
 	}
 
 	.highlight-item {
+		a {
+			display: contents;
+		}
+
 		display: flex;
-		//padding: 10px;
 		align-items: flex-end;
 		justify-content: space-between;
 		height: 54px;
