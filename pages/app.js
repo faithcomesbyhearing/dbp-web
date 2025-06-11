@@ -497,9 +497,7 @@ AppContainer.getInitialProps = async (context) => {
 			if (serverRes) {
 				// If there wasn't a book then we need to redirect to mark for video resources and matthew for other resources
 				serverRes.writeHead(301, {
-					Location: `${req.protocol}://${req.get(
-						'host',
-					)}/bible/${bibleId}/${bookChapterRoute}`,
+					Location: `/bible/${bibleId}/${bookChapterRoute}`,
 				});
 				serverRes.end();
 			} else {
@@ -515,13 +513,11 @@ AppContainer.getInitialProps = async (context) => {
 				// if the chapter was not found
 				// go to the book and the first chapter for that book
 				if (serverRes) {
-					serverRes.writeHead(301, {
-						Location: `${req.protocol}://${req.get(
-							'host',
-						)}/bible/${bibleId}/${foundBookId}/${foundChapterId}${
-							audioParam ? `?audio_type=${audioParam}` : ''
-						}`,
-					});
+					let location = `/bible/${bibleId}/${foundBookId}/${foundChapterId}`;
+					if (audioParam) {
+						location += `?audio_type=${audioParam}`;
+					}
+					serverRes.writeHead(301, { Location: location });
 					serverRes.end();
 				} else {
 					triggerRedirect.url = `/app?bibleId=${bibleId}&bookId=${foundBookId}&chapter=${foundChapterId}`;
