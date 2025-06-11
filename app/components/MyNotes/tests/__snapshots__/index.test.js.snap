@@ -32,30 +32,34 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         class="highlight-item"
         id="5452296"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/1"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              <span
-                class="date"
+              <h4
+                class="title"
               >
-                01.18.19
-              </span>
-               | Matthew 1:2
-            </h4>
-            <p
-              class="text"
-            >
-              ENGESV
-            </p>
-          </div>
-        </button>
+                <span
+                  class="date"
+                >
+                  01.18.19
+                </span>
+                 | Matthew 1:2
+              </h4>
+              <p
+                class="text"
+              >
+                ENGESV
+              </p>
+            </div>
+          </button>
+        </a>
         <button
           class="delete-highlight"
           tabindex="0"
@@ -78,30 +82,34 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         class="highlight-item"
         id="5452373"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/1"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              <span
-                class="date"
+              <h4
+                class="title"
               >
-                01.18.19
-              </span>
-               | Matthew 1:2
-            </h4>
-            <p
-              class="text"
-            >
-              ENGESV
-            </p>
-          </div>
-        </button>
+                <span
+                  class="date"
+                >
+                  01.18.19
+                </span>
+                 | Matthew 1:2
+              </h4>
+              <p
+                class="text"
+              >
+                ENGESV
+              </p>
+            </div>
+          </button>
+        </a>
         <button
           class="delete-highlight"
           tabindex="0"
@@ -124,30 +132,34 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         class="highlight-item"
         id="5574789"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MRK/16"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              <span
-                class="date"
+              <h4
+                class="title"
               >
-                02.08.19
-              </span>
-               | Mark 16:3
-            </h4>
-            <p
-              class="text"
-            >
-              ENGESV
-            </p>
-          </div>
-        </button>
+                <span
+                  class="date"
+                >
+                  02.08.19
+                </span>
+                 | Mark 16:3
+              </h4>
+              <p
+                class="text"
+              >
+                ENGESV
+              </p>
+            </div>
+          </button>
+        </a>
         <button
           class="delete-highlight"
           tabindex="0"
@@ -170,30 +182,34 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         class="highlight-item"
         id="5574790"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGNIV/MAT/11"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              <span
-                class="date"
+              <h4
+                class="title"
               >
-                02.12.19
-              </span>
-               | Matthew 11:7
-            </h4>
-            <p
-              class="text"
-            >
-              ENGNIV
-            </p>
-          </div>
-        </button>
+                <span
+                  class="date"
+                >
+                  02.12.19
+                </span>
+                 | Matthew 11:7
+              </h4>
+              <p
+                class="text"
+              >
+                ENGNIV
+              </p>
+            </div>
+          </button>
+        </a>
         <button
           class="delete-highlight"
           tabindex="0"
@@ -216,30 +232,34 @@ exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] =
         class="highlight-item"
         id="5574788"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/3"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              <span
-                class="date"
+              <h4
+                class="title"
               >
-                02.06.19
-              </span>
-               | Matthew 3:3
-            </h4>
-            <p
-              class="text"
-            >
-              ENGESV
-            </p>
-          </div>
-        </button>
+                <span
+                  class="date"
+                >
+                  02.06.19
+                </span>
+                 | Matthew 3:3
+              </h4>
+              <p
+                class="text"
+              >
+                ENGESV
+              </p>
+            </div>
+          </button>
+        </a>
         <button
           class="delete-highlight"
           tabindex="0"
@@ -696,25 +716,29 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         class="highlight-item"
         id="24440733_rgba(173,221,121,0.7)"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGNAB/EPH/4"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              EPH - 4:14 - (ENGNAB)
-            </h4>
-            <h4
-              class="text"
-            >
-              ENGNAB
-            </h4>
-          </div>
-        </button>
+              <h4
+                class="title"
+              >
+                EPH - 4:14 - (ENGNAB)
+              </h4>
+              <h4
+                class="text"
+              >
+                ENGNAB
+              </h4>
+            </div>
+          </button>
+        </a>
         <button
           class="edit-color"
           id="24440733_rgba(173,221,121,0.7)-edit"
@@ -750,25 +774,29 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         class="highlight-item"
         id="25827775_rgba(252,230,0,0.5)"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/3"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              MAT - 3:3 - (ENGESV)
-            </h4>
-            <h4
-              class="text"
-            >
-              ENGESV
-            </h4>
-          </div>
-        </button>
+              <h4
+                class="title"
+              >
+                MAT - 3:3 - (ENGESV)
+              </h4>
+              <h4
+                class="text"
+              >
+                ENGESV
+              </h4>
+            </div>
+          </button>
+        </a>
         <button
           class="edit-color"
           id="25827775_rgba(252,230,0,0.5)-edit"
@@ -804,25 +832,29 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         class="highlight-item"
         id="25827777_rgba(84,185,72,0.5)"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/1"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              MAT - 1:4 - (ENGESV)
-            </h4>
-            <h4
-              class="text"
-            >
-              ENGESV
-            </h4>
-          </div>
-        </button>
+              <h4
+                class="title"
+              >
+                MAT - 1:4 - (ENGESV)
+              </h4>
+              <h4
+                class="text"
+              >
+                ENGESV
+              </h4>
+            </div>
+          </button>
+        </a>
         <button
           class="edit-color"
           id="25827777_rgba(84,185,72,0.5)-edit"
@@ -858,25 +890,29 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         class="highlight-item"
         id="25827778_rgba(80,165,220,0.5)"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/1"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              MAT - 1:17 - (ENGESV)
-            </h4>
-            <h4
-              class="text"
-            >
-              ENGESV
-            </h4>
-          </div>
-        </button>
+              <h4
+                class="title"
+              >
+                MAT - 1:17 - (ENGESV)
+              </h4>
+              <h4
+                class="text"
+              >
+                ENGESV
+              </h4>
+            </div>
+          </button>
+        </a>
         <button
           class="edit-color"
           id="25827778_rgba(80,165,220,0.5)-edit"
@@ -912,25 +948,29 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         class="highlight-item"
         id="25827779_rgba(252,230,0,0.5)"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MAT/1"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              MAT - 1:6 - (ENGESV)
-            </h4>
-            <h4
-              class="text"
-            >
-              ENGESV
-            </h4>
-          </div>
-        </button>
+              <h4
+                class="title"
+              >
+                MAT - 1:6 - (ENGESV)
+              </h4>
+              <h4
+                class="text"
+              >
+                ENGESV
+              </h4>
+            </div>
+          </button>
+        </a>
         <button
           class="edit-color"
           id="25827779_rgba(252,230,0,0.5)-edit"
@@ -966,25 +1006,29 @@ exports[`<MyNotes /> container should match snapshot with highlights active 1`] 
         class="highlight-item"
         id="25827776_rgba(84,185,72,0.5)"
       >
-        <button
-          class="list-item"
-          type="button"
+        <a
+          href="/bible/ENGESV/MRK/16"
         >
-          <div
-            class="title-text"
+          <button
+            class="list-item"
+            type="button"
           >
-            <h4
-              class="title"
+            <div
+              class="title-text"
             >
-              MRK - 16:5 - (ENGESV)
-            </h4>
-            <h4
-              class="text"
-            >
-              ENGESV
-            </h4>
-          </div>
-        </button>
+              <h4
+                class="title"
+              >
+                MRK - 16:5 - (ENGESV)
+              </h4>
+              <h4
+                class="text"
+              >
+                ENGESV
+              </h4>
+            </div>
+          </button>
+        </a>
         <button
           class="edit-color"
           id="25827776_rgba(84,185,72,0.5)-edit"

@@ -125,3 +125,18 @@ via a temporary URL: great for testing on different devices, client demos, etc!
 
 Unit tests live in `test/` directories right next to the components being tested
 and are run with `npm run test`.
+
+#### Build and Deployment testing
+You can test the build and deployment process, simulating a production deployment, by running the following command from the project root:
+```shell
+  docker-compose up --build
+```
+
+This command rebuilds and deploys the application (production mode), making it available in a production environment at http://localhost:3011.
+
+Also, remember to update your .env file with these settings:
+```env
+- NODE_ENV="production"
+- BASE_SITE_URL="http://localhost:3011"
+- PORT=3000 (this is the internal port in the Docker container; externally, use port 3011)
+```

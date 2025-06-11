@@ -6,30 +6,34 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
     class="highlight-item"
     id="5452296"
   >
-    <button
-      class="list-item"
-      type="button"
+    <a
+      href="/bible/ENGESV/MAT/1"
     >
-      <div
-        class="title-text"
+      <button
+        class="list-item"
+        type="button"
       >
-        <h4
-          class="title"
+        <div
+          class="title-text"
         >
-          <span
-            class="date"
+          <h4
+            class="title"
           >
-            01.18.19
-          </span>
-           | Matthew 1:undefined
-        </h4>
-        <p
-          class="text"
-        >
-          ENGESV
-        </p>
-      </div>
-    </button>
+            <span
+              class="date"
+            >
+              01.18.19
+            </span>
+             | Matthew 1:undefined
+          </h4>
+          <p
+            class="text"
+          >
+            ENGESV
+          </p>
+        </div>
+      </button>
+    </a>
     <button
       class="delete-highlight"
       tabindex="0"
@@ -52,30 +56,34 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
     class="highlight-item"
     id="5452373"
   >
-    <button
-      class="list-item"
-      type="button"
+    <a
+      href="/bible/ENGESV/MAT/1"
     >
-      <div
-        class="title-text"
+      <button
+        class="list-item"
+        type="button"
       >
-        <h4
-          class="title"
+        <div
+          class="title-text"
         >
-          <span
-            class="date"
+          <h4
+            class="title"
           >
-            01.18.19
-          </span>
-           | Matthew 1:undefined
-        </h4>
-        <p
-          class="text"
-        >
-          ENGESV
-        </p>
-      </div>
-    </button>
+            <span
+              class="date"
+            >
+              01.18.19
+            </span>
+             | Matthew 1:undefined
+          </h4>
+          <p
+            class="text"
+          >
+            ENGESV
+          </p>
+        </div>
+      </button>
+    </a>
     <button
       class="delete-highlight"
       tabindex="0"
@@ -98,30 +106,34 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
     class="highlight-item"
     id="5574788"
   >
-    <button
-      class="list-item"
-      type="button"
+    <a
+      href="/bible/ENGESV/MAT/3"
     >
-      <div
-        class="title-text"
+      <button
+        class="list-item"
+        type="button"
       >
-        <h4
-          class="title"
+        <div
+          class="title-text"
         >
-          <span
-            class="date"
+          <h4
+            class="title"
           >
-            02.06.19
-          </span>
-           | Matthew 3:3
-        </h4>
-        <p
-          class="text"
-        >
-          ENGESV
-        </p>
-      </div>
-    </button>
+            <span
+              class="date"
+            >
+              02.06.19
+            </span>
+             | Matthew 3:3
+          </h4>
+          <p
+            class="text"
+          >
+            ENGESV
+          </p>
+        </div>
+      </button>
+    </a>
     <button
       class="delete-highlight"
       tabindex="0"
@@ -144,30 +156,34 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
     class="highlight-item"
     id="5574789"
   >
-    <button
-      class="list-item"
-      type="button"
+    <a
+      href="/bible/ENGESV/MRK/16"
     >
-      <div
-        class="title-text"
+      <button
+        class="list-item"
+        type="button"
       >
-        <h4
-          class="title"
+        <div
+          class="title-text"
         >
-          <span
-            class="date"
+          <h4
+            class="title"
           >
-            02.08.19
-          </span>
-           | Mark 16:3
-        </h4>
-        <p
-          class="text"
-        >
-          ENGESV
-        </p>
-      </div>
-    </button>
+            <span
+              class="date"
+            >
+              02.08.19
+            </span>
+             | Mark 16:3
+          </h4>
+          <p
+            class="text"
+          >
+            ENGESV
+          </p>
+        </div>
+      </button>
+    </a>
     <button
       class="delete-highlight"
       tabindex="0"
@@ -190,30 +206,34 @@ exports[`<MyBookmarks /> component should match snapshot with expected props 1`]
     class="highlight-item"
     id="5574790"
   >
-    <button
-      class="list-item"
-      type="button"
+    <a
+      href="/bible/ENGNIV/MAT/11"
     >
-      <div
-        class="title-text"
+      <button
+        class="list-item"
+        type="button"
       >
-        <h4
-          class="title"
+        <div
+          class="title-text"
         >
-          <span
-            class="date"
+          <h4
+            class="title"
           >
-            02.12.19
-          </span>
-           | Matthew 11:7
-        </h4>
-        <p
-          class="text"
-        >
-          ENGNIV
-        </p>
-      </div>
-    </button>
+            <span
+              class="date"
+            >
+              02.12.19
+            </span>
+             | Matthew 11:7
+          </h4>
+          <p
+            class="text"
+          >
+            ENGNIV
+          </p>
+        </div>
+      </button>
+    </a>
     <button
       class="delete-highlight"
       tabindex="0"

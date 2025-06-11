@@ -281,6 +281,21 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             class="accordion-item"
           >
             <summary
+              class="accordion-title-style summary-no-marker top-level-title"
+            >
+              <button
+                class=""
+                title="Contemporary English Version - Native American"
+                type="button"
+              >
+                Contemporary English Version - Native American
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
               class="accordion-title-style summary-no-marker"
             >
               <h4
@@ -306,6 +321,21 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
                 Non-Dramatized Version
               </button>
             </div>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style summary-no-marker top-level-title"
+            >
+              <button
+                class=""
+                title="The Listener’s Bible®: NIV Edition"
+                type="button"
+              >
+                The Listener’s Bible®: NIV Edition
+              </button>
+            </summary>
           </details>
         </div>
       </div>

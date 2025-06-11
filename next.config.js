@@ -60,7 +60,6 @@ module.exports = withBundleAnalyzer({
 		// Enable support for class properties
 		styledComponents: true,
 	},
-	// swcMinify: true,
 	sassOptions: {
 		// use Dart Sass’s modern compiler API
 		api: 'modern-compiler',
