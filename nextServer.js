@@ -96,13 +96,13 @@ app
 				const userArray = userString.split(',');
 
 				res.redirect(
-					301,
+					302,
 					`${redirectPath}?user_id=${userArray[0]}&user_email=${
 						userArray[1]
 					}&user_name=${userArray[2]}`,
 				);
 			} else {
-				res.redirect(302, `${redirectPath}`);
+				res.redirect(302, redirectPath);
 			}
 		});
 
@@ -118,7 +118,7 @@ app
 			);
 			const userArray = userString.split(',');
 			res.redirect(
-				301,
+				302,
 				`/bible/ENGESV/MAT/1?user_id=${userArray[0]}&user_email=${
 					userArray[1]
 				}&user_name=${userArray[2]}`,
@@ -196,16 +196,16 @@ Disallow: /
 		const faviconOptions = {
 			root: `${__dirname}/public/`,
 		};
-		server.get('/favicon.ico', (req, res) =>
+		server.get('/favicon.ico', (_, res) =>
 			res.status(200).sendFile('favicon.ico', faviconOptions),
 		);
 
 		// Jesus Film Page
-		server.get('/jesus-film', (req, res) => {
+		server.get('/jesus-film', (_, res) => {
 			res.redirect(302, '/jesus-film/eng');
 		});
 
-		server.get('/jesus-film/:iso', (req, res) => {
+		server.get('/jesus-film/:iso', (req, res, nextP) => {
 			const actualPage = '/jesusFilm';
 			const iso = req.params.iso;
 
@@ -293,7 +293,7 @@ Disallow: /
 
 			if (bookId !== req.params.bookId) {
 				res.redirect(
-					301,
+					302,
 					`/bible/${req.params.bibleId}/${bookId}/${chapter}/${verse}`,
 				);
 			} else if (
