@@ -111,7 +111,7 @@
 		"@next/bundle-analyzer": "15.3.3",
 		"@reduxjs/toolkit": "2.8.2",
 		"@xmldom/xmldom": "0.9.8",
-		"axios": "1.9.0",
+		"axios": "1.11.0",
 		"chalk": "5.4.1",
 		"compression": "1.8.0",
 		"core-js": "3.42.0",
