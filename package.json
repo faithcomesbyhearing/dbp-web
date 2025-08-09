@@ -162,7 +162,7 @@
 		"jest-cli": "29.7.0",
 		"jest-environment-jsdom": "29.7.0",
 		"jsdom": "26.1.0",
-		"lint-staged": "16.1.0",
+		"lint-staged": "16.1.5",
 		"ngrok": "5.0.0-beta.2",
 		"plop": "4.0.1",
 		"prettier": "3.5.3",
