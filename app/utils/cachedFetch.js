@@ -11,6 +11,45 @@ const CLIENT_TTL_MINUTES =
 // Server-side cache using LRUCache
 const cache = new LRUCache({ max: 500, ttl: SERVER_TTL_MINUTES }); // Server-side TTL
 
+// Retry function for axios calls with exponential backoff
+async function retryAxiosCall(url, options, maxRetries = 3) {
+	for (let attempt = 1; attempt <= maxRetries; attempt++) {
+		try {
+			const response = await axios.get(url, {
+				...options,
+				timeout: 60000,
+				headers: {
+					'User-Agent': 'Mozilla/5.0 (compatible; Node.js)',
+					'Accept': 'application/json, text/plain, */*',
+					'Accept-Encoding': 'gzip, deflate, br',
+					'Connection': 'keep-alive',
+					...options?.headers,
+				},
+				httpsAgent: new (require('https').Agent)({
+					keepAlive: true,
+					timeout: 60000,
+					family: 4, // Force IPv4
+				}),
+			});
+			return response.data;
+		} catch (error) {
+			if (process.env.NODE_ENV === 'development') {
+				console.error(`Attempt ${attempt} failed for URL: ${url}`, error.message, 'code:', error.code);
+			}
+
+			if (attempt === maxRetries || (error.code !== 'ETIMEDOUT' && error.code !== 'ECONNRESET' && error.code !== 'ENOTFOUND')) {
+				if (process.env.NODE_ENV === 'development') {
+					console.error('Final error in server-side cachedFetch:', error.message, 'code:', error.code, 'url:', url);
+				}
+				return { data: [] };
+			}
+
+			// Exponential backoff: wait 2s, 4s, 8s
+			await new Promise((resolve) => setTimeout(resolve, 2000 * Math.pow(2, attempt - 1)));
+		}
+	}
+}
+
 export default async function cachedFetch(url, options, expires) {
 	// On the first load we flush any expired values
 	lscache.flushExpired();
@@ -24,9 +63,7 @@ export default async function cachedFetch(url, options, expires) {
 		}
 
 		// If not in cache, make API call and store it in memory cache
-		const apiResponse = await axios
-			.get(url, options)
-			.then((response) => response.data);
+		const apiResponse = await retryAxiosCall(url, options);
 		cache.set(url, apiResponse, expires || SERVER_TTL_MINUTES);
 		return apiResponse;
 	}

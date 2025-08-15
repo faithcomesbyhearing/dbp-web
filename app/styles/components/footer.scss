@@ -21,13 +21,13 @@
 	}
 }
 .footer-content {
-	@include css4 {
-		color: var(--default-text-color);
-	}
 	display: flex;
 	height: 56px;
 	justify-content: space-between;
 	align-items: center;
+	@include css4 {
+		color: var(--default-text-color);
+	}
 
 	// For if we want something to differentiate the nav icons
 	// with the about us related links in the footer
