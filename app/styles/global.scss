@@ -26,12 +26,12 @@ body {
 		'Noto Sans',
 		Helvetica,
 		sans serif;
+	margin: 0 auto;
 	@include css4 {
 		color: var(--default-text-color);
 		font-family: var(--application-font-family);
 		font-size: var(--application-menu-font-size);
 	}
-	margin: 0 auto;
 }
 div:focus {
 	outline: none;

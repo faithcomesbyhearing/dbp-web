@@ -5,12 +5,12 @@
 	position: fixed;
 	justify-content: center;
 	z-index: 10;
+	//transform: translateY(0);
+	transition: transform 200ms ease-in-out;
 	@include css4 {
 		background-color: var(--default-header-background-color);
 		outline: 1px solid var(--menu-border-color);
 	}
-	//transform: translateY(0);
-	transition: transform 200ms ease-in-out;
 
 	&.closed {
 		transform: translateY(-100%);
@@ -18,16 +18,16 @@
 }
 
 .nav-container {
-	@include css4 {
-		background-color: var(--default-header-background-color);
-		color: var(--default-text-color);
-	}
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 	height: 54px;
 	width: 100%;
 	max-width: 1000px;
+	@include css4 {
+		background-color: var(--default-header-background-color);
+		color: var(--default-text-color);
+	}
 
 	.logo {
 		height: 54px;

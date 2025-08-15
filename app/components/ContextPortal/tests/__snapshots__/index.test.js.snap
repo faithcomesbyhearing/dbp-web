@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`ContextPortal Component Should render and match snapshot 1`] = `
 <div>
@@ -175,7 +175,7 @@ exports[`ContextPortal Component Should render and match snapshot 1`] = `
       <button
         class="react-share__ShareButton menu-item normal email-share"
         id="email-share-button"
-        style="background-color: transparent; padding: 0px; cursor: pointer;"
+        style="background-color: transparent; padding: 0px; color: inherit; cursor: pointer;"
       >
         <svg
           class="icon"
@@ -500,7 +500,7 @@ exports[`ContextPortal Component Should render and match snapshot if highlight m
       <button
         class="react-share__ShareButton menu-item normal email-share"
         id="email-share-button"
-        style="background-color: transparent; padding: 0px; cursor: pointer;"
+        style="background-color: transparent; padding: 0px; color: inherit; cursor: pointer;"
       >
         <svg
           class="icon"
@@ -786,7 +786,7 @@ exports[`ContextPortal Component Should render and match snapshot if notes menu 
       <button
         class="react-share__ShareButton menu-item normal email-share"
         id="email-share-button"
-        style="background-color: transparent; padding: 0px; cursor: pointer;"
+        style="background-color: transparent; padding: 0px; color: inherit; cursor: pointer;"
       >
         <svg
           class="icon"
@@ -1072,7 +1072,7 @@ exports[`ContextPortal Component Should render and match snapshot if popup menu 
       <button
         class="react-share__ShareButton menu-item normal email-share"
         id="email-share-button"
-        style="background-color: transparent; padding: 0px; cursor: pointer;"
+        style="background-color: transparent; padding: 0px; color: inherit; cursor: pointer;"
       >
         <svg
           class="icon"

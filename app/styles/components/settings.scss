@@ -31,14 +31,14 @@
 	text-align: center;
 	height: 54px;
 	line-height: 54px;
-	@include css4 {
-		background-color: var(--menu-header-background-color);
-		color: var(--default-text-color);
-	}
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 	padding: 15px;
+	@include css4 {
+		background-color: var(--menu-header-background-color);
+		color: var(--default-text-color);
+	}
 
 	svg {
 		margin-right: 15px;
@@ -74,14 +74,14 @@
 	margin-top: 10px;
 }
 .color-schemes .option {
+	border-radius: 50%;
+	width: 55px;
+	height: 55px;
 	@include css4 {
 		background-color: var(--dark-theme-primary);
 		// I use this border to keep the elements an even width apart since I am using an svg for the active option
 		border: 7.5px solid var(--menu-body-background-color);
 	}
-	border-radius: 50%;
-	width: 55px;
-	height: 55px;
 }
 .color-schemes .option.red {
 	@include css4 {
@@ -114,13 +114,13 @@
 
 // FONT SETTINGS
 .font-settings .option {
-	@include css4 {
-		color: var(--inactive-font-option);
-	}
 	display: inline-block;
 	text-align: center;
 	font-size: 36px;
 	width: 33%;
+	@include css4 {
+		color: var(--inactive-font-option);
+	}
 }
 .font-settings .option small {
 	display: block;

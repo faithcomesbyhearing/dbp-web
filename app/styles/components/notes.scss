@@ -12,10 +12,6 @@
 }
 .notes header {
 	position: relative;
-	@include css4 {
-		background-color: var(--menu-header-background-color);
-		color: var(--default-text-color);
-	}
 	text-align: center;
 	height: 54px;
 	line-height: 54px;
@@ -24,6 +20,10 @@
 	align-items: center;
 	justify-content: flex-start;
 	padding: 15px;
+	@include css4 {
+		background-color: var(--menu-header-background-color);
+		color: var(--default-text-color);
+	}
 	.book-icon-header {
 		margin-right: 15px;
 	}
@@ -139,24 +139,24 @@
 	outline: none;
 }
 .notes .top-bar .svg.active {
+	opacity: 1;
 	@include css4 {
 		fill: var(--active-color-primary);
 	}
-	opacity: 1;
 }
 .notes .top-bar .svg {
 	opacity: 1;
 	cursor: pointer;
+	margin-left: 15px;
 	@include css4 {
 		fill: var(--default-text-color);
 	}
-	margin-left: 15px;
 }
 .notes .top-bar .text {
+	margin-left: 15px;
 	@include css4 {
 		color: var(--default-text-color);
 	}
-	margin-left: 15px;
 }
 
 // Edit Notes Section
@@ -220,12 +220,12 @@
 		}
 
 		.title {
-			@include css4 {
-				color: var(--default-text-color);
-			}
 			//margin-left:15px;
 			width: 100%;
 			font-weight: 200;
+			@include css4 {
+				color: var(--default-text-color);
+			}
 		}
 	}
 

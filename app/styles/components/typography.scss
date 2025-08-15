@@ -19,15 +19,15 @@
 	}
 }
 .chapter {
-	@include css4 {
-		font-family: var(--application-font-family);
-	}
 	//line-height:1.75;
 	//text-align:justify;
 	max-width: 1000px;
 	margin: 0 auto;
 	overflow-wrap: normal;
 	line-break: auto;
+	@include css4 {
+		font-family: var(--application-font-family);
+	}
 	&.justify {
 		text-align: justify;
 		// Could potentially need the items below but they don't seem to help at this time

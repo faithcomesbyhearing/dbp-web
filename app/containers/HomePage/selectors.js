@@ -258,12 +258,12 @@ const selectChapterJson = createSelector(
 			const jsonData =
 				typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
 			if (!jsonData.sequence || !Array.isArray(jsonData.sequence.blocks)) {
-				console.error('Invalid chapter JSON structure:', jsonData);
+				console.error('Invalid chapter JSON structure:', jsonData); // eslint-disable-line no-console
 				return null;
 			}
 			return jsonData;
 		} catch (error) {
-			console.error('Failed to parse chapter JSON:', error);
+			console.error('Failed to parse chapter JSON:', error); // eslint-disable-line no-console
 			return null;
 		}
 	},

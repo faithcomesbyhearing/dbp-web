@@ -401,7 +401,6 @@ AppContainer.getInitialProps = async (context) => {
 	const foundBook = bookMetaData.find(
 		(book) => bookId && book.book_id === bookId.toUpperCase(),
 	);
-
 	const filesets = foundBook
 		? getValidFilesetsByBook(
 				foundBook,

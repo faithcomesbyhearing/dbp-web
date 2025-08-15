@@ -124,26 +124,118 @@ export const applyTheme = (theme) => {
 	}
 };
 
-export const injectFont = (font) => {
-	// Check if the font has already been injected
-	const existingFontStyle = document.querySelector(
-		`style[${DATA_FONT_NAME_FAMILY_ID}="${font.name}"]`,
-	);
-	if (existingFontStyle) {
-		return;
+
+/**
+ * Injects a base64‐encoded font into the document, but first verifies
+ * that the browser can actually load & render it.
+ *
+ * @param  {object} font
+ * @param  {string} font.name  — the CSS font‐family name
+ * @param  {string} font.type  — the file type (e.g. 'woff2')
+ * @param  {string} font.data  — base64 payload
+ * @returns {Promise<boolean>} — true if the font was injected & loaded
+ */
+export async function injectFont(font) {
+	const { name, type, data } = font;
+	if (!name || !type || !data) return false;
+
+	// 1 Don’t re-inject
+	if (document.querySelector(`style[${DATA_FONT_NAME_FAMILY_ID}="${name}"]`)) {
+		return true;
 	}
 
-	const fontFace = `
-    @font-face {
-    font-family: '${font.name}';
-    src: url(data:font/${font.type};base64,${font.data}) format('${font.type}');
-    font-weight: normal;
-    font-style: normal;
-    }
-  `;
+  	// Pick a more standard MIME for woff2/woff/ttf:
+  	const formatMap = {
+		woff2: "woff2",
+		woff:  "woff",
+		ttf:   "truetype",
+		otf:   "opentype",
+	};
+	const mimeMap = {
+		woff2: "application/font-woff2",
+		woff:  "application/font-woff",
+		ttf:   "font/ttf",
+		otf:   "font/otf",
+	};
 
-	const style = document.createElement('style');
-	style.setAttribute(DATA_FONT_NAME_FAMILY_ID, font.name); // Add a unique identifier to the style element
-	style.appendChild(document.createTextNode(fontFace));
-	document.head.appendChild(style);
-};
+	const mime = mimeMap[type] || `font/${type}`;
+	const fmt  = formatMap[type] || type;
+	// Helper to inject a <style> fallback
+	const css = `
+		@font-face {
+		font-family: '${name}';
+		src: url("data:${mime};base64,${data}") format('${fmt}');
+		font-weight: normal;
+		font-style: normal;
+		}
+	`;
+	const fallbackStyle = () => {
+		const s = document.createElement('style');
+		s.setAttribute(DATA_FONT_NAME_FAMILY_ID, name);
+		s.textContent = css;
+		document.head.appendChild(s);
+		return s;
+	};
+
+  	// 2 Try FontFace API with data URI (correct MIME)
+	if ('FontFace' in window && document.fonts?.add) {
+		try {
+		const face = new FontFace(
+			name,
+			`url("data:${mime};base64,${data}") format('${fmt}')`,
+		);
+		await face.load();
+		document.fonts.add(face);
+
+		if (document.fonts.check(`1em "${name}"`)) {
+			return true;
+		}
+		// If check fails, fall through to binary path
+		} catch (err) {
+			console.warn(`FontFace(data URI) failed for "${name}":`, err); // eslint-disable-line no-console
+			// continue to next strategy
+		}
+
+		// 3 Try FontFace API with raw binary
+		try {
+		// decode base64 to ArrayBuffer
+			const binary = Uint8Array.from(
+				atob(data),
+				(c) => c.charCodeAt(0),
+			);
+			const face = new FontFace(name, binary);
+			await face.load();
+			document.fonts.add(face);
+			if (document.fonts.check(`1em "${name}"`)) {
+				return true;
+			}
+		} catch (err) {
+			console.warn(`FontFace(binary) failed for "${name}":`, err); // eslint-disable-line no-console
+		}
+  	}
+
+	// 4 Final fallback: inject CSS and hope for the best
+	const styleEl = fallbackStyle();
+
+	// give the browser a moment to recognize the @font-face
+	await new Promise((r) => setTimeout(r, 100));
+
+	// quick canvas‐width test
+	const test = 'abcdefghijklmnopqrstuvwxyz';
+	const canvas = document.createElement('canvas');
+	const ctx = canvas.getContext('2d');
+
+	ctx.font = '16px serif';
+	const fallbackWidth = ctx.measureText(test).width;
+
+	ctx.font = `16px "${name}", serif`;
+	const customWidth = ctx.measureText(test).width;
+
+	if (customWidth !== fallbackWidth) {
+		return true;
+	}
+
+	// it didn’t actually load; clean up
+	styleEl.remove();
+	return false;
+}
