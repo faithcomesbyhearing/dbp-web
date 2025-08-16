@@ -1,10 +1,4 @@
 .audio-player-background {
-	@include css4 {
-		background-color: var(--audio-player-background);
-		color: var(--default-text-color);
-		border-bottom: 1px solid var(--menu-border-color);
-		border-top: 1px solid var(--menu-border-color);
-	}
 	//position: fixed;
 	width: 100%;
 	//bottom: 56px;
@@ -12,6 +6,12 @@
 	//flex: 1;
 	z-index: 2;
 	transition: transform 200ms ease-in-out;
+	@include css4 {
+		background-color: var(--audio-player-background);
+		color: var(--default-text-color);
+		border-bottom: 1px solid var(--menu-border-color);
+		border-top: 1px solid var(--menu-border-color);
+	}
 	//transform: translateY(0);
 
 	&.scrolled-down {
@@ -32,9 +32,6 @@
 	//margin-right:18px;
 }
 .audio-player-container {
-	@include css4 {
-		background-color: var(--audio-player-background);
-	}
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -46,6 +43,9 @@
 	//  margin-right:18px;
 	//};
 	font-size: 12px;
+	@include css4 {
+		background-color: var(--audio-player-background);
+	}
 
 	&.closed {
 		display: none;
@@ -63,6 +63,7 @@
 //.audio-player-container .item:hover    {opacity:.65;}
 //.audio-player-container .svgitem:hover {opacity:.65;}
 .audio-player-container .item.active {
+	z-index: 4;
 	@include css4 {
 		border: 1px solid var(--active-color-primary);
 		border-top: 1px solid var(--application-transparent-gray);
@@ -70,7 +71,6 @@
 		//filter: invert(1);
 		color: var(--application-light-color-option);
 	}
-	z-index: 4;
 }
 .audio-player {
 	display: none;
@@ -95,19 +95,19 @@
 	align-items: center;
 	justify-content: space-around;
 
+	height: 30px;
+	width: 150px;
 	@include css4 {
 		//border:1px solid var(--active-color-primary);
 		outline: 1px solid var(--active-color-primary);
 		background-color: var(--application-transparent-gray);
 	}
-	height: 30px;
-	width: 150px;
 }
 .speed-control .speed-item {
+	cursor: pointer;
 	@include css4 {
 		color: var(--application-light-color-option);
 	}
-	cursor: pointer;
 }
 .speed-control .speed-item:hover {
 	@include css4 {
@@ -141,12 +141,11 @@
 	height: 25px;
 	width: 100%;
 	z-index: 3;
+	transition: transform 200ms ease-in-out;
 	@include css4 {
 		background: var(--audio-player-gripper-background-color);
 		outline: 1px solid var(--menu-border-color);
 	}
-
-	transition: transform 200ms ease-in-out;
 	//transform: translateY(0);
 
 	//&.sub-footer-open {
@@ -163,7 +162,6 @@
 
 	&:before {
 		content: '';
-
 		filter: blur(15px);
 		position: absolute;
 		width: 100%;
@@ -278,12 +276,6 @@
 	}
 }
 .volume-slider {
-	@include css4 {
-		//border:1px solid var(--active-color-primary);
-		outline: 1px solid var(--active-color-primary);
-		background-color: var(--application-transparent-gray);
-	}
-
 	height: 25px;
 	position: absolute;
 	display: flex;
@@ -291,23 +283,28 @@
 	justify-content: center;
 	width: 175px;
 	margin-left: -75px;
+	@include css4 {
+		//border:1px solid var(--active-color-primary);
+		outline: 1px solid var(--active-color-primary);
+		background-color: var(--application-transparent-gray);
+	}
 }
 .volume-slider .tracker {
-	@include css4 {
-		background-color: var(--active-color-primary);
-	}
 	border-radius: 50%;
 	width: 15px;
 	height: 15px;
 	margin-top: -6px;
-}
-.volume-slider .fill {
-	height: 3px;
 	@include css4 {
 		background-color: var(--active-color-primary);
 	}
+}
+.volume-slider .fill {
+	height: 3px;
 	width: 100px;
 	border-radius: 5px;
+	@include css4 {
+		background-color: var(--active-color-primary);
+	}
 }
 .volume-slider .slider {
 	width: 80%;

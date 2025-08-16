@@ -1,15 +1,15 @@
 .audio-player-background {
+	position: fixed;
+	width: 100%;
+	bottom: 45px;
+	z-index: 1;
+	transition: transform 200ms ease-in-out;
 	@include css4 {
 		background-color: var(--audio-player-background);
 		color: var(--default-text-color);
 		border-bottom: 1px solid var(--menu-border-color);
 		border-top: 1px solid var(--menu-border-color);
 	}
-	position: fixed;
-	width: 100%;
-	bottom: 45px;
-	z-index: 1;
-	transition: transform 200ms ease-in-out;
 
 	&.scrolled-down {
 		transform: translateY(45px);
@@ -24,9 +24,6 @@
 	margin: 0 auto;
 }
 .audio-player-container {
-	@include css4 {
-		background-color: var(--audio-player-background);
-	}
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -38,6 +35,9 @@
 	transition:
 		height 400ms ease-out,
 		height 200ms ease-in;
+	@include css4 {
+		background-color: var(--audio-player-background);
+	}
 
 	&.closed {
 		overflow: hidden;

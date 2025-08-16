@@ -64,6 +64,7 @@ export default async ({
 							e.message,
 							' path: ',
 							path,
+							'err', e,
 						);  
 					}
 				});

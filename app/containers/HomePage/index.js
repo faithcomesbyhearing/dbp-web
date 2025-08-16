@@ -403,8 +403,21 @@ class HomePage extends React.PureComponent {
 			if (bibleFontAvailable) {
 				const bibleFont = await getFontFromBible(bibleId);
 				if (bibleFont) {
-					injectFont(bibleFont);
-					await applyFontFamilyToClass(bibleFont.name, MAIN_TEXT_WRAPPER_CLASS);
+					const fontLoaded = await injectFont(bibleFont);
+					if (fontLoaded) {
+						console.log("Font loaded successfully for Bible ID", bibleId); // eslint-disable-line no-console
+						await applyFontFamilyToClass(bibleFont.name, MAIN_TEXT_WRAPPER_CLASS);
+					} else {
+						// Font validation failed, use fallback
+						removeFontFamily(MAIN_TEXT_WRAPPER_CLASS);
+						if (process.env.NODE_ENV === 'development') {
+							console.warn(
+								'Custom font failed validation for Bible ID',
+								bibleId,
+								'using fallback font',
+							);  
+						}
+					}
 				}
 			} else {
 				removeFontFamily(MAIN_TEXT_WRAPPER_CLASS);
