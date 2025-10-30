@@ -25,7 +25,7 @@ function TermsAndConditions() {
 				<p>
 					<strong>Terms of Use</strong>
 				</p>
-				<p>Last Modified: January 1, 2019</p>
+				<p>Last Modified: October 30, 2025</p>
 				<p>
 					<strong>
 						Description of Services and Acceptance of Terms of Use{' '}
@@ -33,8 +33,8 @@ function TermsAndConditions() {
 				</p>
 				<p>
 					Welcome to the web site{' '}
-					<a href="http://www.bible.is.com">www.bible.is</a>
-					(the “Site”) which is operated by Hosanna/Faith Comes By Hearing
+					<a href="http://www.bible.is">live.bible.is</a>
+					 (the “Site”) which is operated by Hosanna/Faith Comes By Hearing
 					(“FCBH”, “we” or “us”). The services provided on the Site include
 					Bible content and related reference materials, and any other features,
 					content or applications offered from time to time by FCBH in
@@ -292,7 +292,7 @@ function TermsAndConditions() {
 				</p>
 				<p>
 					These Terms and our{' '}
-					<a href="https://www.bible.com/privacy">Privacy Policy</a> constitute
+					<a href="https://www.bible.is/privacy">Privacy Policy</a> constitute
 					the sole and entire agreement between you and FCBH with respect to
 					Bible.is and supersede all prior and contemporaneous understandings,
 					agreements, representations and warranties, both written and oral,
