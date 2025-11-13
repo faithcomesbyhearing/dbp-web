@@ -19,3 +19,7 @@ export const FILESET_SIZE_STORIES = 'S';
 
 export const FILESET_FILE_CODEC_OPUS = 'opus';
 export const FILESET_FILE_CODEC_MP3 = 'mp3';
+
+export const FILESET_MODE_TEXT = 'text';
+export const FILESET_MODE_AUDIO = 'audio';
+export const FILESET_MODE_VIDEO = 'video';

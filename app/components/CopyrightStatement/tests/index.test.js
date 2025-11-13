@@ -10,22 +10,22 @@ jest.mock('react-intl', () => ({
 }));
 
 const props = {
-	organizations: copyrights.newTestament.text.organizations,
-	testament: 'new_testament',
+	organizations: copyrights.text[0].organizations,
+	testament: copyrights.text[0].testament,
 	type: 'text',
 };
 
 describe('CopyrightStatement component', () => {
-	it('should match snapshot with valid new testament text props', () => {
+	it('should match snapshot with valid text props', () => {
 		const { container } = render(<CopyrightStatement {...props} />);
 		expect(container).toMatchSnapshot();
 	});
 
-	it('should match snapshot with valid new testament audio props', () => {
+	it('should match snapshot with valid audio props', () => {
 		const { container } = render(
 			<CopyrightStatement
-				organizations={copyrights.newTestament.audio.organizations}
-				testament="new_testament"
+				organizations={copyrights.audio[0].organizations}
+				testament={copyrights.audio[0].testament}
 				type="audio"
 			/>,
 		);

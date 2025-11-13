@@ -24,6 +24,21 @@ exports[`<VersionListSection /> Should match previous snapshot using data from a
       class="accordion-item"
     >
       <summary
+        class="accordion-title-style summary-no-marker top-level-title"
+      >
+        <button
+          class=""
+          title="Contemporary English Version®"
+          type="button"
+        >
+          Contemporary English Version®
+        </button>
+      </summary>
+    </details>
+    <details
+      class="accordion-item"
+    >
+      <summary
         class="accordion-title-style summary-no-marker"
       >
         <h4
