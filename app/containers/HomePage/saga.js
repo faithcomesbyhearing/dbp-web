@@ -31,7 +31,6 @@ import {
 	FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION,
 	FILESET_SIZE_OLD_TESTAMENT,
 	FILESET_SIZE_OLD_TESTAMENT_PORTION,
-	FILESET_SIZE_PORTION,
 } from '../../constants/bibleFileset';
 import {
 	ADD_HIGHLIGHTS,
@@ -43,7 +42,7 @@ import {
 	ADD_BOOKMARK_FAILURE,
 	CREATE_USER_WITH_SOCIAL_ACCOUNT,
 } from './constants';
-import { ntCodes, otCodes, codes } from './sagaUtils';
+import { codes } from './sagaUtils';
 
 export function* deleteHighlights({
 	ids,
@@ -938,6 +937,20 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 	}
 }
 
+// Removes duplicate copyright entries based on certain keys
+const deduplicateCopyrights = (
+	items,
+	keys = ['message', 'testament'],
+) => {
+	const seen = new Set();
+	return items.filter((item) => {
+		const key = keys.map((k) => item[k]).join('|');
+		if (seen.has(key)) return false;
+		seen.add(key);
+		return true;
+	});
+};
+
 export function* getCopyrightSaga({ filesetIds }) {
 	// TODO: Try to optimize at least a little bit
 	const filteredFilesetIds = uniqWith(
@@ -1031,103 +1044,35 @@ export function* getCopyrightSaga({ filesetIds }) {
 					: {},
 			) || [];
 
-		const cText = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_COMPLETE &&
-				(c.type === FILESET_TYPE_TEXT_PLAIN ||
-					c.type === FILESET_TYPE_TEXT_FORMAT ||
-					c.type === FILESET_TYPE_TEXT_JSON),
-		)[0];
-		const ntText = !cText
-			? copyrights.filter(
-					(c) =>
-						ntCodes[c.testament] &&
-						(c.type === FILESET_TYPE_TEXT_PLAIN ||
-							c.type === FILESET_TYPE_TEXT_FORMAT ||
-							c.type === FILESET_TYPE_TEXT_JSON),
-				)[0]
-			: {};
-		const otText = !cText
-			? copyrights.filter(
-					(c) =>
-						otCodes[c.testament] &&
-						(c.type === FILESET_TYPE_TEXT_PLAIN ||
-							c.type === FILESET_TYPE_TEXT_FORMAT ||
-							c.type === FILESET_TYPE_TEXT_JSON),
-				)[0]
-			: {};
-		const partialText = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_PORTION &&
-				(c.type === FILESET_TYPE_TEXT_PLAIN ||
-					c.type === FILESET_TYPE_TEXT_FORMAT ||
-					c.type === FILESET_TYPE_TEXT_JSON),
-		)[0];
+		// Defensive code — helper function to deduplicate copyrights by type, message, and testament.
+		// Since we retrieve copyrights by fileset, it’s possible to have multiple identical entries
+		// across different filesets. This function removes those duplicates.
+		// Currently, the copyright value does not depend on the testament (set_size_code),
+		// and we will not have different copyrights per fileset, since it depends on license groups.
+		// In general, we only need one copyright per mode (video, audio, text).
+		const audioTypes = deduplicateCopyrights(
+			copyrights.filter(
+				(c) =>
+					c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA,
+			),
+		);
 
-		const cAudio = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_COMPLETE &&
-				(c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
-		)[0];
-		const ntAudio = !cAudio
-			? copyrights.filter(
-					(c) =>
-						ntCodes[c.testament] &&
-						(c.type === FILESET_TYPE_AUDIO ||
-							c.type === FILESET_TYPE_AUDIO_DRAMA),
-				)[0]
-			: {};
-		const otAudio = !cAudio
-			? copyrights.filter(
-					(c) =>
-						otCodes[c.testament] &&
-						(c.type === FILESET_TYPE_AUDIO ||
-							c.type === FILESET_TYPE_AUDIO_DRAMA),
-				)[0]
-			: {};
-		const partialAudio = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_PORTION &&
-				(c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
-		)[0];
+		const textTypes = deduplicateCopyrights(
+			copyrights.filter(
+				(c) =>
+					c.type === FILESET_TYPE_TEXT_PLAIN ||
+					c.type === FILESET_TYPE_TEXT_FORMAT ||
+					c.type === FILESET_TYPE_TEXT_JSON,
+			),
+		);
+		const videoTypes = deduplicateCopyrights(
+			videoCopyright.filter((c) => c.type === FILESET_TYPE_VIDEO_STREAM),
+		);
 
-		const cVideo = videoCopyright.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_COMPLETE &&
-				c.type === FILESET_TYPE_VIDEO_STREAM,
-		)[0];
-		const ntVideo = !cVideo
-			? videoCopyright.filter(
-					(c) => ntCodes[c.testament] && c.type === FILESET_TYPE_VIDEO_STREAM,
-				)[0]
-			: {};
-		const otVideo = !cVideo
-			? videoCopyright.filter(
-					(c) => otCodes[c.testament] && c.type === FILESET_TYPE_VIDEO_STREAM,
-				)[0]
-			: {};
-		const partialVideo = videoCopyright.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_PORTION &&
-				c.type === FILESET_TYPE_VIDEO_STREAM,
-		)[0];
 		const copyrightObject = {
-			newTestament: {
-				audio: cAudio || ntAudio || partialAudio,
-				text: cText || ntText || partialText,
-				video: cVideo || ntVideo || partialVideo,
-			},
-			oldTestament: {
-				audio:
-					!(cAudio || ntAudio || partialAudio) &&
-					(cAudio || otAudio || partialAudio),
-				text:
-					!(cAudio || ntAudio || partialText) &&
-					(cText || otText || partialText),
-				video:
-					!(cVideo || ntVideo || partialVideo) &&
-					(cVideo || otVideo || partialVideo),
-			},
+			audio: audioTypes,
+			text: textTypes,
+			video: videoTypes,
 		};
 
 		yield put({ type: 'loadcopyright', copyrights: copyrightObject });

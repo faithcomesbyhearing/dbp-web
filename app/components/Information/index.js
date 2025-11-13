@@ -63,8 +63,7 @@ export class Information extends React.PureComponent {
 						style={{ maxHeight: this.state.height }}
 						className="copyrights-section"
 					>
-						<CopyrightSection copyrights={copyrights} prefix={'old'} />
-						<CopyrightSection copyrights={copyrights} prefix={'new'} />
+						<CopyrightSection copyrights={copyrights} />
 					</div>
 				</AnimateHeight>
 				<div className={'ministry-statement'}>

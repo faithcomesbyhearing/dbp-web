@@ -44,36 +44,6 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
               class="accordion-title-style summary-no-marker"
             >
               <h4
-                class="active-version"
-                title="English Standard Version®"
-              >
-                English Standard Version®
-              </h4>
-            </summary>
-            <div
-              class="accordion-body-style"
-            >
-              <button
-                class="version-item-button"
-                type="button"
-              >
-                Dramatized Version
-              </button>
-              <button
-                class="version-item-button"
-                type="button"
-              >
-                Non-Dramatized Version
-              </button>
-            </div>
-          </details>
-          <details
-            class="accordion-item"
-          >
-            <summary
-              class="accordion-title-style summary-no-marker"
-            >
-              <h4
                 class=""
                 title="King James Version"
               >
@@ -142,6 +112,51 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
         <div
           class="version-list-section"
         >
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style summary-no-marker top-level-title"
+            >
+              <button
+                class=""
+                title="Contemporary English Version®"
+                type="button"
+              >
+                Contemporary English Version®
+              </button>
+            </summary>
+          </details>
+          <details
+            class="accordion-item"
+          >
+            <summary
+              class="accordion-title-style summary-no-marker"
+            >
+              <h4
+                class="active-version"
+                title="English Standard Version®"
+              >
+                English Standard Version®
+              </h4>
+            </summary>
+            <div
+              class="accordion-body-style"
+            >
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Dramatized Version
+              </button>
+              <button
+                class="version-item-button"
+                type="button"
+              >
+                Non-Dramatized Version
+              </button>
+            </div>
+          </details>
           <details
             class="accordion-item"
           >
@@ -270,10 +285,10 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             >
               <button
                 class=""
-                title="Contemporary English Version®"
+                title="English - Christian Standard Bible "
                 type="button"
               >
-                Contemporary English Version®
+                English - Christian Standard Bible 
               </button>
             </summary>
           </details>
@@ -285,55 +300,10 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             >
               <button
                 class=""
-                title="Contemporary English Version - Native American"
+                title="English - The Listener’s Bible®: NIV Edition"
                 type="button"
               >
-                Contemporary English Version - Native American
-              </button>
-            </summary>
-          </details>
-          <details
-            class="accordion-item"
-          >
-            <summary
-              class="accordion-title-style summary-no-marker"
-            >
-              <h4
-                class=""
-                title="New Revised Standard Version"
-              >
-                New Revised Standard Version
-              </h4>
-            </summary>
-            <div
-              class="accordion-body-style"
-            >
-              <button
-                class="version-item-button"
-                type="button"
-              >
-                Dramatized Version
-              </button>
-              <button
-                class="version-item-button"
-                type="button"
-              >
-                Non-Dramatized Version
-              </button>
-            </div>
-          </details>
-          <details
-            class="accordion-item"
-          >
-            <summary
-              class="accordion-title-style summary-no-marker top-level-title"
-            >
-              <button
-                class=""
-                title="The Listener’s Bible®: NIV Edition"
-                type="button"
-              >
-                The Listener’s Bible®: NIV Edition
+                English - The Listener’s Bible®: NIV Edition
               </button>
             </summary>
           </details>
@@ -405,10 +375,10 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             >
               <button
                 class=""
-                title="Revised Version 1885"
+                title="English - Revised Version 1885"
                 type="button"
               >
-                Revised Version 1885
+                English - Revised Version 1885
               </button>
             </summary>
           </details>
@@ -420,10 +390,10 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             >
               <button
                 class=""
-                title="Tree of Life Version"
+                title="English - Tree of Life Version"
                 type="button"
               >
-                Tree of Life Version
+                English - Tree of Life Version
               </button>
             </summary>
           </details>
@@ -435,10 +405,10 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             >
               <button
                 class=""
-                title="World Messianic Version"
+                title="English - World Messianic Version"
                 type="button"
               >
-                World Messianic Version
+                English - World Messianic Version
               </button>
             </summary>
           </details>
@@ -450,10 +420,10 @@ exports[`<VersionList /> Should match previous snapshot 1`] = `
             >
               <button
                 class=""
-                title="Wycliffe Modern"
+                title="English - Wycliffe Modern"
                 type="button"
               >
-                Wycliffe Modern
+                English - Wycliffe Modern
               </button>
             </summary>
           </details>

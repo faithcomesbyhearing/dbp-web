@@ -51,3 +51,6 @@ app/utils/parsedCountries.json
 # Test codeBuild scripts locally
 codebuild_build.sh
 artifacts
+
+# Added to ignore CLAUDE files
+CLAUDE.md

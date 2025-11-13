@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import CopyrightStatement from '../CopyrightStatement';
+import {
+	FILESET_MODE_TEXT,
+	FILESET_MODE_AUDIO,
+	FILESET_MODE_VIDEO,
+} from '../../constants/bibleFileset';
 
 const copyrightMessage = (message) =>
 	message
@@ -11,72 +16,41 @@ const copyrightMessage = (message) =>
 			<br key={`${m}_cplinebreak`} />,
 		]);
 
-function CopyrightSection({ prefix, copyrights }) {
+function CopyrightSection({ copyrights }) {
+	const modes = [FILESET_MODE_TEXT, FILESET_MODE_AUDIO, FILESET_MODE_VIDEO];
+
 	return (
-		<div className={prefix === 'old' ? 'ot-copyright' : 'nt-copyright'}>
-			{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ||
-			get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
-				<div className={'cp-section'}>
-					{get(copyrights, [`${prefix}Testament`, 'audio', 'organizations']) ? (
-						<CopyrightStatement
-							organizations={get(copyrights, [
-								`${prefix}Testament`,
-								'audio',
-								'organizations',
-							])}
-							testament={`${prefix}_testament`}
-							type={'audio'}
-						/>
-					) : null}
-					{get(copyrights, [`${prefix}Testament`, 'audio', 'message']) ? (
-						<p>
-							{copyrightMessage(copyrights[`${prefix}Testament`].audio.message)}
-						</p>
-					) : null}
-				</div>
-			) : null}
-			{get(copyrights, [`${prefix}Testament`, 'text', 'organizations']) ||
-			get(copyrights, [`${prefix}Testament`, 'text', 'message']) ? (
-				<div className={'cp-section'}>
-					{get(copyrights, [`${prefix}Testament`, 'text', 'organizations']) ? (
-						<CopyrightStatement
-							organizations={get(copyrights, [
-								`${prefix}Testament`,
-								'text',
-								'organizations',
-							])}
-							testament={`${prefix}_testament`}
-							type={'text'}
-						/>
-					) : null}
-					{get(copyrights, [`${prefix}Testament`, 'text', 'message']) ? (
-						<p>
-							{copyrightMessage(copyrights[`${prefix}Testament`].text.message)}
-						</p>
-					) : null}
-				</div>
-			) : null}
-			{get(copyrights, [`${prefix}Testament`, 'video', 'organizations']) ||
-			get(copyrights, [`${prefix}Testament`, 'video', 'message']) ? (
-				<div className={'cp-section'}>
-					{get(copyrights, [`${prefix}Testament`, 'video', 'organizations']) ? (
-						<CopyrightStatement
-							organizations={get(copyrights, [
-								`${prefix}Testament`,
-								'video',
-								'organizations',
-							])}
-							testament={`${prefix}_testament`}
-							type={'video'}
-						/>
-					) : null}
-					{get(copyrights, [`${prefix}Testament`, 'video', 'message']) ? (
-						<p>
-							{copyrightMessage(copyrights[`${prefix}Testament`].video.message)}
-						</p>
-					) : null}
-				</div>
-			) : null}
+		<div className="copyright-content">
+			{modes.flatMap((mode) => {
+				if (!get(copyrights, [mode])) {
+					return [];
+				}
+				const copyrightsByMode = get(copyrights, [mode]);
+
+				return copyrightsByMode
+					.filter(
+						(copyrightData) =>
+							get(copyrightData, ['organizations']) ||
+							get(copyrightData, ['message']),
+					)
+					.map((copyrightData) => (
+						<div
+							className={'cp-section'}
+							key={`${mode}_${copyrightData.type}_${copyrightData.testament}_cp_section`}
+						>
+							{get(copyrightData, ['organizations']) ? (
+								<CopyrightStatement
+									organizations={copyrightData.organizations}
+									testament={copyrightData.testament}
+									type={mode}
+								/>
+							) : null}
+							{get(copyrightData, ['message']) ? (
+								<p>{copyrightMessage(copyrightData.message)}</p>
+							) : null}
+						</div>
+					));
+			})}
 		</div>
 	);
 }

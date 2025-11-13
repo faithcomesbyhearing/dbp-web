@@ -15,6 +15,8 @@ const codes = {
 	NTP: true,
 	OTNTP: true,
 	OTPNT: true,
+	NTOTP: true, // New Testament, Old Testament Portion
+	S: true, // Selection
 };
 
 const ntCodes = {

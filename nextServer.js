@@ -31,6 +31,64 @@ async function renderAndCache(req, res, pagePath, queryParams) {
 	app.render(req, res, pagePath, queryParams);
 }
 
+/**
+ * Retry an axios call with exponential backoff
+ * Retries on transient errors: ETIMEDOUT, ECONNRESET, ENOTFOUND
+ * @param {string} url - The URL to fetch
+ * @param {number} maxRetries - Maximum number of retry attempts (default: 3)
+ * @returns {Promise<object>} - Response data or empty data object on failure
+ */
+async function retryAxiosCallForRoot(url, maxRetries = 3) {
+	for (let attempt = 1; attempt <= maxRetries; attempt++) {
+		try {
+			if (process.env.NODE_ENV === 'development') {
+				/* eslint-disable no-console */
+				console.log(`Attempt ${attempt} for root route API: ${url}`);
+				/* eslint-enable no-console */
+			}
+			const response = await fetch.get(url, { timeout: 60000 });
+			return response.data;
+		} catch (error) {
+			if (process.env.NODE_ENV === 'development') {
+				/* eslint-disable no-console */
+				console.error(
+					`Attempt ${attempt} failed for root route API`,
+					error.message,
+					'code:',
+					error.code,
+				);
+				/* eslint-enable no-console */
+			}
+
+			// Only retry on transient network errors
+			const isTransientError =
+				error.code === 'ETIMEDOUT' ||
+				error.code === 'ECONNRESET' ||
+				error.code === 'ENOTFOUND';
+
+			if (attempt === maxRetries || !isTransientError) {
+				if (process.env.NODE_ENV === 'development') {
+					/* eslint-disable no-console */
+					console.error(
+						`Final error in root route API call: ${error.message}`,
+						'code:',
+						error.code,
+						'url:',
+						url,
+					);
+					/* eslint-enable no-console */
+				}
+				return { data: [] };
+			}
+
+			// Exponential backoff: wait 2s, 4s, 8s
+			await new Promise((resolve) =>
+				setTimeout(resolve, 2000 * Math.pow(2, attempt - 1)),
+			);
+		}
+	}
+}
+
 app
 	.prepare()
 	.then(() => {
@@ -55,33 +113,20 @@ app
 						return isoOneToThree[newLang];
 					})
 					.filter((lang) => !!lang);
-				languageIso = langArray[0];
+				// Ensure languageIso is never undefined - default to 'eng' if parsing fails
+				languageIso = langArray[0] || 'eng';
 			}
-			if (languageIso !== 'eng') {
-				const biblesData = await fetch
-					.get(
-						`${
-							process.env.BASE_API_ROUTE
-						}/bibles?language_code=${languageIso}&key=${
-							process.env.DBP_API_KEY
-						}&v=4&include_font=false`,
-					)
-					.then((body) => body.data)
-					.catch((err) => {
-						if (process.env.NODE_ENV === 'development') {
-							/* eslint-disable no-console */
-							console.error(
-								'Error in get initial props bible for language: ',
-								err,
-							);
-							/* eslint-enable no-console */
-						}
-						return { data: [] };
-					});
+			if (languageIso && languageIso !== 'eng') {
+				const url = `${
+					process.env.BASE_API_ROUTE
+				}/bibles?language_code=${languageIso}&key=${
+					process.env.DBP_API_KEY
+				}&v=4&include_font=false`;
+				const biblesData = await retryAxiosCallForRoot(url);
 				// Get list of bibles that match language
 				const biblesInLanguage = biblesData.data;
 				// Check for first bible
-				if (biblesInLanguage[0]) {
+				if (biblesInLanguage && biblesInLanguage[0]) {
 					const bibleId = biblesInLanguage[0].abbr;
 					redirectPath = `/bible/${bibleId}/MAT/1`;
 				}
