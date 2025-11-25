@@ -1,5 +1,5 @@
-import cachedFetch from './cachedFetch';
 import removeDuplicates from './removeDuplicateObjects';
+import universalFetch from './universalFetch';
 
 export default async ({ idsForBookMetadata }) => {
 	// idsForBookMetadata is an array of arrays
@@ -10,10 +10,11 @@ export default async ({ idsForBookMetadata }) => {
 	const bookMetaPromises = idsForBookMetadata.map(
 		async ([filesetType, filesetId]) => {
 			const hasVideo = filesetType === 'video_stream';
-			const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${
-				filesetId
-			}/books?v=4&key=${process.env.DBP_API_KEY}&fileset_type=${filesetType}`;
-			const res = await cachedFetch(url);
+			const res = await universalFetch.get(
+				`/bibles/filesets/${filesetId}/books`,
+				{ fileset_type: filesetType },
+			);
+
 			const books = res.data || [];
 
 			if (hasVideo) {

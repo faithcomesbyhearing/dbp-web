@@ -42,7 +42,10 @@ import messages from './messages';
 function TextSelection(props) {
 	const [filterText, setFilterText] = useState('');
 	const [fromCountry, setFromCountry] = useState(false);
-	const [prevTextselection, setPrevTextselection] = useState('');
+	// Initialize with the current props to avoid undefined on first render
+	const [prevTextselection, setPrevTextselection] = useState(
+		props.textselection || {},
+	);
 
 	const ref = useRef(null);
 

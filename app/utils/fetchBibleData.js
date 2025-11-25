@@ -1,9 +1,11 @@
 import axios from 'axios';
-import cachedFetch from './cachedFetch';
 import Bugsnag from './bugsnagClient';
+import universalFetch from './universalFetch';
 
 /**
  * Fetch Bible metadata by ID, with caching and error reporting.
+ *
+ * Uses the /api/proxy endpoint to keep the API key server-side only.
  *
  * @param {string} bibleId         The Bible identifier (e.g. "EN1ESV").
  * @param {object} [options]       Optional settings.
@@ -16,15 +18,12 @@ export async function fetchBibleData(bibleId, { includeFont = false } = {}) {
 		throw new Error('fetchBibleData: bibleId is required');
 	}
 
-	const baseUrl = process.env.BASE_API_ROUTE;
-	const apiKey = process.env.DBP_API_KEY;
-	const url =
-		`${baseUrl}/bibles/${encodeURIComponent(bibleId)}` +
-		`?key=${encodeURIComponent(apiKey)}` +
-		`&v=4&include_font=${includeFont}`;
-
 	try {
-		const { data } = await cachedFetch(url);
+		const { data } = await universalFetch.get(
+			`/bibles/${encodeURIComponent(bibleId)}`,
+			{ include_font: includeFont },
+		);
+
 		return data;
 	} catch (error) {
 		console.error(`fetchBibleData failed for ${bibleId}:`, error); // eslint-disable-line no-console

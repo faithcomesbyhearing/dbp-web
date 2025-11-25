@@ -19,7 +19,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { overrideCache } from '../app/utils/cachedFetch';
 import HomePage from '../app/containers/HomePage';
 import getinitialChapterData from '../app/utils/getInitialChapterData';
 import getValidFilesetsByBook from '../app/utils/getValidFilesetsByBook';
@@ -83,16 +82,6 @@ function AppContainer(props) {
 				REDUX_PERSIST.reducerKey,
 			);
 			localStorage.setItem('reducerVersion', REDUX_PERSIST.reducerVersion);
-		}
-		// If the page was served from the server then I need to cache the data for this route
-		if (props.isFromServer) {
-			props.fetchedUrls.forEach((url) => {
-				if (url.data.error || url.data.errors) {
-					overrideCache(url.href, {}, 1);
-				} else {
-					overrideCache(url.href, url.data);
-				}
-			});
 		}
 		// If undefined gets stored in local storage it cannot be parsed so I have to compare strings
 		if (props?.userProfile?.userId) {
@@ -698,9 +687,9 @@ AppContainer.getInitialProps = async (context) => {
 		activeLanguageName: bible.language,
 		textDirection: bible.alphabet ? bible.alphabet.direction : 'ltr',
 		activeFilesets: filesets,
-		defaultLanguageIso: bible.iso || 'eng',
-		defaultLanguageName: bible.language || 'English: USA',
-		defaultLanguageCode: bible.language_id || 17045,
+		defaultLanguageIso: bible?.iso || 'eng',
+		defaultLanguageName: bible?.language || 'English: USA',
+		defaultLanguageCode: bible?.language_id || 17045,
 		bibleFontAvailable: bible?.custom_font_required === true,
 		activeTextName: bible.vname || bible.name,
 		activeBookId: bookId.toUpperCase(),
@@ -719,7 +708,6 @@ AppContainer.getInitialProps = async (context) => {
 				token,
 			},
 		},
-		fetchedUrls: [],
 		triggerRedirect,
 	};
 };
@@ -729,7 +717,6 @@ AppContainer.propTypes = {
 	match: PropTypes.object,
 	userProfile: PropTypes.object,
 	chapterText: PropTypes.array,
-	fetchedUrls: PropTypes.array,
 	isFromServer: PropTypes.bool,
 	isIe: PropTypes.bool,
 	routeLocation: PropTypes.string,

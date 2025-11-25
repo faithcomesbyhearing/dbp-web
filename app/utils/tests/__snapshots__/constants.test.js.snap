@@ -1,3 +1,3 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Test contstants in utils should match old snapshot 1`] = `"{"DAEMON":"@@saga-injector/daemon","ONCE_TILL_UNMOUNT":"@@saga-injector/once-till-unmount","RESTART_ON_REMOUNT":"@@saga-injector/restart-on-remount"}"`;

@@ -4,7 +4,7 @@ import removeStoriesFilesets from '../../../app/utils/removeStoriesFilesets';
 import getBookMetaData from '../../../app/utils/getBookMetaData';
 import getValidFilesetsByBook from '../../../app/utils/getValidFilesetsByBook';
 
-import request from '../../utils/request';
+import apiProxy from '../../utils/apiProxy';
 import geFilesetsForBible from '../../utils/geFilesetsForBible';
 import { FILESET_TYPE_TEXT_PLAIN } from '../../constants/bibleFileset';
 import {
@@ -46,10 +46,9 @@ export function* getChapterForNote({ note }) {
 	const noteVerseStart = note.verse_start;
 
 	// TODO: The bibleId here is undefined a lot of the time, find where it gets passed in and fix the issue
-	const bibleUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${process.env.DBP_API_KEY}&v=4`;
 	// Need to get the bible filesets
 	try {
-		const response = yield call(request, bibleUrl);
+		const response = yield call(apiProxy.get, `/bibles/${bibleId}`);
 		const bibleFilesets = response.data.filesets
 			? geFilesetsForBible(response.data.filesets)
 			: [];
@@ -102,10 +101,12 @@ export function* getChapterForNote({ note }) {
 
 		if (hasText) {
 			const res = yield call(
-				request,
-				`${process.env.BASE_API_ROUTE}/bibles/filesets/${
-					activeFilesetId
-				}/${bookId}/${chapter}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}`,
+				apiProxy.get,
+				`/bibles/filesets/${activeFilesetId}/${bookId}/${chapter}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+				},
 			);
 
 			text = res.data;
@@ -136,19 +137,17 @@ export function* updateHighlight({
 	limit,
 	page,
 }) {
-	const requestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/users/${userId}/highlights/${id}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${
-		process.env.NOTES_PROJECT_ID
-	}&highlighted_color=${color}`;
-	const options = {
-		method: 'PUT',
-	};
-
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(
+			apiProxy.put,
+			`/users/${userId}/highlights/${id}`,
+			{},
+			{
+				pretty: true,
+				project_id: process.env.NOTES_PROJECT_ID,
+				highlighted_color: color,
+			},
+		);
 
 		if (response.meta && response.meta.success) {
 			yield fork(getHighlights, { userId, bible, book, chapter });
@@ -162,16 +161,13 @@ export function* updateHighlight({
 }
 
 export function* getUserHighlights({ userId, params }) {
-	const requestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/users/${userId}/highlights?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}&limit=${
-		params.limit
-	}&page=${params.page}`;
-
 	try {
-		const response = yield call(request, requestUrl);
+		const response = yield call(apiProxy.get, `/users/${userId}/highlights`, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+			limit: params.limit,
+			page: params.page,
+		});
 
 		if (response.data && response.meta) {
 			yield put({
@@ -190,21 +186,19 @@ export function* getUserHighlights({ userId, params }) {
 }
 
 export function* updateNote({ userId, data, noteId }) {
-	const requestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/users/${userId}/notes/${noteId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const urlWithData = Object.entries(data).reduce(
-		(acc, item) => acc.concat('&', item[0], '=', item[1]),
-		requestUrl,
-	);
-	const options = {
-		method: 'PUT',
+	const params = {
+		pretty: true,
+		project_id: process.env.NOTES_PROJECT_ID,
+		...data,
 	};
 
 	try {
-		const response = yield call(request, urlWithData, options);
+		const response = yield call(
+			apiProxy.put,
+			`/users/${userId}/notes/${noteId}`,
+			{},
+			params,
+		);
 
 		if (response.success) {
 			yield put({ type: ADD_NOTE_SUCCESS, response });
@@ -241,18 +235,13 @@ export function* deleteNote({
 	isBookmark,
 }) {
 	if (isBookmark) {
-		const requestUrl = `${
-			process.env.BASE_API_ROUTE
-		}/users/${userId}/bookmarks/${noteId}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&pretty&note_id=${noteId}&project_id=${process.env.NOTES_PROJECT_ID}`;
-		const options = {
-			method: 'DELETE',
-		};
-
 		try {
 			// Do not need the response since it will throw an error if the request was unsuccessful
-			yield call(request, requestUrl, options);
+			yield call(apiProxy.delete, `/users/${userId}/bookmarks/${noteId}`, {
+				pretty: true,
+				note_id: noteId,
+				project_id: process.env.NOTES_PROJECT_ID,
+			});
 
 			yield fork(getUserBookmarks, {
 				userId,
@@ -278,17 +267,16 @@ export function* deleteNote({
 			});
 		}
 	} else {
-		const requestUrl = `${
-			process.env.BASE_API_ROUTE
-		}/users/${userId}/notes/${noteId}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&pretty&note_id=${noteId}&project_id=${process.env.NOTES_PROJECT_ID}`;
-		const options = {
-			method: 'DELETE',
-		};
-
 		try {
-			const response = yield call(request, requestUrl, options);
+			const response = yield call(
+				apiProxy.delete,
+				`/users/${userId}/notes/${noteId}`,
+				{
+					pretty: true,
+					note_id: noteId,
+					project_id: process.env.NOTES_PROJECT_ID,
+				},
+			);
 
 			if (response.success) {
 				yield fork(getNotesForNotebook, {
@@ -320,16 +308,12 @@ export function* deleteNote({
 // Probably need a getBookmarks function
 export function* getNotesForChapter({ userId, params = {} }) {
 	// Need to adjust how I paginate the notes here and in other places as well
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}/notes?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const urlWithParams = Object.entries(params).reduce(
-		(acc, param) => acc.concat(`&${param[0]}=${param[1]}`),
-		requestUrl,
-	);
-
 	try {
-		const response = yield call(request, urlWithParams);
+		const response = yield call(apiProxy.get, `/users/${userId}/notes`, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+			...params,
+		});
 
 		yield put({
 			type: LOAD_USER_NOTES,
@@ -354,16 +338,12 @@ export function* getNotesForChapter({ userId, params = {} }) {
 
 export function* getNotesForNotebook({ userId, params = {} }) {
 	// Need to adjust how I paginate the notes here and in other places as well
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}/notes?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const urlWithParams = Object.entries(params).reduce(
-		(acc, param) => acc.concat(`&${param[0]}=${param[1]}`),
-		requestUrl,
-	);
-
 	try {
-		const response = yield call(request, urlWithParams);
+		const response = yield call(apiProxy.get, `/users/${userId}/notes`, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+			...params,
+		});
 
 		if (response.data && response.meta) {
 			yield put({
@@ -383,20 +363,19 @@ export function* getNotesForNotebook({ userId, params = {} }) {
 
 // Add bookmark is separate and is in the homepage saga file
 export function* addNote({ userId, data }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}/notes?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 
 	Object.entries(data).forEach((item) => formData.set(item[0], item[1]));
 
 	const options = {
 		body: formData,
-		method: 'POST',
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(apiProxy.post, `/users/${userId}/notes`, options, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+		});
 
 		if (
 			(response.meta && response.meta.success) ||
@@ -428,18 +407,12 @@ export function* addNote({ userId, data }) {
 }
 
 export function* getBookmarksForChapter({ userId, params = {} }) {
-	const requestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/users/${userId}/bookmarks?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const urlWithParams = Object.entries(params).reduce(
-		(acc, param) => acc.concat(`&${param[0]}=${param[1]}`),
-		requestUrl,
-	);
-
 	try {
-		const response = yield call(request, urlWithParams);
+		const response = yield call(apiProxy.get, `/users/${userId}/bookmarks`, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+			...params,
+		});
 
 		if (response.data) {
 			yield put({
@@ -467,18 +440,12 @@ export function* getBookmarksForChapter({ userId, params = {} }) {
 }
 
 export function* getUserBookmarks({ userId, params = {} }) {
-	const requestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/users/${userId}/bookmarks?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const urlWithParams = Object.entries(params).reduce(
-		(acc, param) => acc.concat(`&${param[0]}=${param[1]}`),
-		requestUrl,
-	);
-
 	try {
-		const response = yield call(request, urlWithParams);
+		const response = yield call(apiProxy.get, `/users/${userId}/bookmarks`, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+			...params,
+		});
 
 		if (response.data && response.meta) {
 			yield put({
@@ -497,15 +464,20 @@ export function* getUserBookmarks({ userId, params = {} }) {
 }
 
 export function* getHighlights({ bible, book, chapter, userId }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${
-		userId || 'no_user_id'
-	}/highlights?key=${process.env.DBP_API_KEY}&v=4&project_id=${
-		process.env.NOTES_PROJECT_ID
-	}&bible_id=${bible}&book_id=${book}&chapter=${chapter}&limit=1000`;
 	let highlights = [];
 
 	try {
-		const response = yield call(request, requestUrl);
+		const response = yield call(
+			apiProxy.get,
+			`/users/${userId || 'no_user_id'}/highlights`,
+			{
+				project_id: process.env.NOTES_PROJECT_ID,
+				bible_id: bible,
+				book_id: book,
+				chapter,
+				limit: 1000,
+			},
+		);
 
 		if (response.data) {
 			highlights = response.data;

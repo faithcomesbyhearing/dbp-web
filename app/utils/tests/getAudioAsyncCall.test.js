@@ -1,3 +1,4 @@
+import axios from 'axios';
 import getAudioAsyncCall from '../getAudioAsyncCall';
 import {
 	engesv,
@@ -10,6 +11,52 @@ import {
 	filesets7,
 	filesets8,
 } from '../testUtils/filesetsForAudioCall';
+
+/**
+ * Mock apiProxy using real API calls
+ * This fetches actual audio file paths from the DBP API and caches them
+ */
+jest.mock('../apiProxy', () => {
+	const realApiCache = new Map();
+
+	const mockApiProxy = {
+		get: jest.fn(async (endpoint, params = {}) => {
+			// Build cache key from endpoint and params
+			const queryString = new URLSearchParams(params).toString();
+			const cacheKey = `${endpoint}?${queryString}`;
+
+			// Return cached responses if available
+			if (realApiCache.has(cacheKey)) {
+				return realApiCache.get(cacheKey);
+			}
+
+			// Build request to real API
+			const baseUrl = process.env.BASE_API_ROUTE || 'https://api.digitalbibleplatform.com';
+			const apiKey = process.env.DBP_API_KEY;
+
+			// Build query string from params
+			const queryParams = new URLSearchParams(params);
+			queryParams.append('key', apiKey);
+			queryParams.append('v', '4');
+
+			const fullUrl = `${baseUrl}${endpoint}?${queryParams.toString()}`;
+
+			// Make real API call
+			const response = await axios.get(fullUrl);
+
+			// Cache the response - return object with data property to match apiProxy response format
+			const cachedResponse = { data: response.data };
+			realApiCache.set(cacheKey, cachedResponse.data);
+
+			return cachedResponse.data;
+		}),
+	};
+
+	return {
+		__esModule: true,
+		default: mockApiProxy,
+	};
+});
 
 const types = {
 	drama: 'audio_drama',
@@ -26,6 +73,7 @@ const types = {
 
 describe('Get audio async call utility function test', () => {
 	it('should return expected audio object with valid parameters', async () => {
+		jest.setTimeout(20000);
 		const result = await getAudioAsyncCall(engesv, 'MAT', 1, types.drama);
 
 		expect(result).toHaveProperty('type', 'loadaudio');

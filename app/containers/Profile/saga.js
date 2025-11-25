@@ -1,5 +1,5 @@
 import { takeLatest, call, all, put } from 'redux-saga/effects';
-import request from '../../utils/request';
+import apiProxy from '../../utils/apiProxy';
 import {
 	CHANGE_PICTURE,
 	LOGIN_ERROR,
@@ -27,9 +27,6 @@ export function* sendSignUpForm({
 	lastName,
 	wantsUpdates,
 }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const data = new FormData();
 
 	data.append('email', email);
@@ -41,12 +38,14 @@ export function* sendSignUpForm({
 	data.append('project_id', process.env.NOTES_PROJECT_ID);
 
 	const options = {
-		method: 'POST',
 		body: data,
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(apiProxy.post, '/users', options, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+		});
 
 		if (response.data) {
 			yield put({
@@ -73,21 +72,20 @@ export function* sendSignUpForm({
 }
 
 export function* sendLoginForm({ password, email, stay }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/login?key=${
-		process.env.DBP_API_KEY
-	}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 
 	formData.append('password', password);
 	formData.append('email', email);
 
 	const options = {
-		method: 'POST',
 		body: formData,
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(apiProxy.post, '/login', options, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+		});
 		if (response.error) {
 			yield put({ type: LOGIN_ERROR, message: response.error.message });
 		} else {
@@ -121,20 +119,18 @@ export function* sendLoginForm({ password, email, stay }) {
 }
 
 export function* updateEmail({ userId, email }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 
 	formData.append('email', email);
 
 	const options = {
-		method: 'PUT',
 		body: formData,
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(apiProxy.put, `/users/${userId}`, options, {
+			project_id: process.env.NOTES_PROJECT_ID,
+		});
 		yield put({ type: 'UPDATE_EMAIL_SUCCESS', response });
 	} catch (err) {
 		if (process.env.NODE_ENV === 'development') {
@@ -144,21 +140,19 @@ export function* updateEmail({ userId, email }) {
 }
 
 export function* updateUserInformation({ userId, profile }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 	Object.entries(profile).forEach(
 		(entry) => entry[1] && formData.set(entry[0], entry[1]),
 	);
 
 	const options = {
-		method: 'PUT',
 		body: formData,
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(apiProxy.put, `/users/${userId}`, options, {
+			project_id: process.env.NOTES_PROJECT_ID,
+		});
 		yield put({ type: 'UPDATE_EMAIL_SUCCESS', response });
 	} catch (err) {
 		if (process.env.NODE_ENV === 'development') {
@@ -172,21 +166,17 @@ export function* updateUserInformation({ userId, profile }) {
 // Extra Header: _method: PUT
 // Content Type: form-data
 export function* changePicture({ userId, avatar }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4`;
 	const requestData = new FormData();
 	requestData.append('avatar', avatar);
 	requestData.append('_method', 'PUT');
 
 	const requestOptions = {
-		method: 'POST',
 		_method: 'PUT',
 		body: requestData,
 	};
 
 	try {
-		const response = yield call(request, requestUrl, requestOptions);
+		const response = yield call(apiProxy.post, `/users/${userId}`, requestOptions);
 
 		if (response.success) {
 			// console.log('picture was saved successfully');
@@ -203,9 +193,6 @@ export function* changePicture({ userId, avatar }) {
 }
 
 export function* sendResetPassword({ password, userAccessToken, email }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/reset?key=${
-		process.env.DBP_API_KEY
-	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const formData = new FormData();
 	formData.append('email', email);
 	formData.append('project_id', process.env.NOTES_PROJECT_ID);
@@ -215,11 +202,17 @@ export function* sendResetPassword({ password, userAccessToken, email }) {
 
 	const options = {
 		body: formData,
-		method: 'POST',
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(
+			apiProxy.post,
+			'/users/password/reset',
+			options,
+			{
+				project_id: process.env.NOTES_PROJECT_ID,
+			},
+		);
 
 		yield put({
 			type: USER_LOGGED_IN,
@@ -242,9 +235,6 @@ export function* sendResetPassword({ password, userAccessToken, email }) {
 }
 
 export function* resetPassword({ email }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/password/email?key=${
-		process.env.DBP_API_KEY
-	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
 	const { href, protocol, hostname, pathname } = window.location;
 	const resetPath = href || `${protocol}//${hostname}${pathname}`;
 	// Probably want to somehow get the language of the currently active text or something to use here as a fallback
@@ -259,11 +249,17 @@ export function* resetPassword({ email }) {
 
 	const options = {
 		body: formData,
-		method: 'POST',
 	};
 
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(
+			apiProxy.post,
+			'/users/password/email',
+			options,
+			{
+				project_id: process.env.NOTES_PROJECT_ID,
+			},
+		);
 
 		if (response.error) {
 			yield put({
@@ -289,15 +285,10 @@ export function* resetPassword({ email }) {
 }
 
 export function* deleteUser({ userId }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${userId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
-	const options = {
-		method: 'DELETE',
-	};
-
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(apiProxy.delete, `/users/${userId}`, {
+			project_id: process.env.NOTES_PROJECT_ID,
+		});
 
 		yield put({ type: DELETE_USER_SUCCESS, response });
 	} catch (err) {
@@ -312,20 +303,16 @@ export function* deleteUser({ userId }) {
 }
 
 export function* socialMediaLogin({ driver }) {
-	let requestUrl = `${process.env.BASE_API_ROUTE}/login/${driver}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&project_id=${process.env.NOTES_PROJECT_ID}`;
+	const params = {
+		project_id: process.env.NOTES_PROJECT_ID,
+	};
 
 	if (process.env.NODE_ENV === 'development') {
-		requestUrl = `${process.env.BASE_API_ROUTE}/login/${driver}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&project_id=${process.env.NOTES_PROJECT_ID}&alt_url=${
-			process.env.NODE_ENV === 'development'
-		}`;
+		params.alt_url = process.env.NODE_ENV === 'development';
 	}
 
 	try {
-		const response = yield call(request, requestUrl);
+		const response = yield call(apiProxy.get, `/login/${driver}`, params);
 
 		if (response) {
 			yield put({ type: SOCIAL_MEDIA_LOGIN_SUCCESS, url: response });
