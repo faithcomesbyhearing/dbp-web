@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import request from '../../utils/request';
+import apiProxy from '../../utils/apiProxy';
 import {
 	GET_SEARCH_RESULTS,
 	LOAD_SEARCH_RESULTS,
@@ -9,14 +9,13 @@ import {
 // Todo: Switch to using fileset id for the search
 export function* getSearchResults({ bibleId, searchText }) {
 	const searchString = searchText.trim().replace(' ', '+');
-	const reqUrl = `${
-		process.env.BASE_API_ROUTE
-	}/search?fileset_id=${bibleId}&dam_id=${bibleId}&key=${
-		process.env.DBP_API_KEY
-	}&v=4&query=${searchString}`;
 
 	try {
-		const response = yield call(request, reqUrl);
+		const response = yield call(apiProxy.get, '/search', {
+			fileset_id: bibleId,
+			dam_id: bibleId,
+			query: searchString,
+		});
 		const searchResults = response.verses.data;
 
 		yield put({ type: LOAD_SEARCH_RESULTS, searchResults });

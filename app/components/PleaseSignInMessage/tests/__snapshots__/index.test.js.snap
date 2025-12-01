@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<PleaseSignInMessage /> Component Should match the previous snapshot 1`] = `
 <DocumentFragment>

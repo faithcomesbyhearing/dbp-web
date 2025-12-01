@@ -1,4 +1,5 @@
-import cachedFetch from './cachedFetch';
+import universalFetch from './universalFetch';
+
 import {
 	FILESET_TYPE_TEXT_FORMAT,
 	FILESET_TYPE_TEXT_JSON,
@@ -15,59 +16,60 @@ export default async ({
 	const bookId = lowerCaseBookId.toUpperCase();
 	// start promise for formatted text
 	const formattedPromises = formattedFilesetIds.map(async (id) => {
-		const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_FORMAT}`;
-		const res = await cachedFetch(url).catch((e) => {
-			if (process.env.NODE_ENV === 'development') {
-				console.log('Error in request for formatted fileset: ', e); // eslint-disable-line no-console
-			}
-		});
-		const path = res?.data[0]?.path;
+		const { data } = await universalFetch.get(
+			`/bibles/filesets/${id}`,
+			{
+				book_id: bookId,
+				chapter_id: chapter,
+				type: FILESET_TYPE_TEXT_FORMAT,
+			},
+		);
+		const path = data?.[0]?.path;
 		let text = '';
 		if (path) {
-			text = await cachedFetch(path)
-				.then((textRes) => textRes)
-				.catch((e) => {
-					if (process.env.NODE_ENV === 'development') {
-						console.log(
-							'Error fetching formatted text: ',
-							e.message,
-							' path: ',
-							path,
-						);  
-					}
-				});
+			try {
+				text = await universalFetch.get(path);
+			} catch (e) {
+				if (process.env.NODE_ENV === 'development') {
+					console.log(
+						'Error fetching formatted text: ',
+						e.message,
+						' path: ',
+						path,
+					);
+				}
+			}
 		}
 
 		return text || '';
 	});
 
 	const formattedJsonPromises = formattedJsonFilesetIds.map(async (id) => {
-		const url = `${process.env.BASE_API_ROUTE}/bibles/filesets/${id}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_JSON}`;
-		const res = await cachedFetch(url).catch((e) => {
-			if (process.env.NODE_ENV === 'development') {
-				console.log('Error in request for formatted JSON fileset: ', e); // eslint-disable-line no-console
-			}
-		});
-		const path = res?.data[0]?.path;
+		const { data } = await universalFetch.get(
+			`/bibles/filesets/${id}`,
+			{
+				book_id: bookId,
+				chapter_id: chapter,
+				type: FILESET_TYPE_TEXT_JSON,
+			},
+		);
+		const path = data?.[0]?.path;
 		let text = '';
 		if (path) {
-			text = await cachedFetch(path)
-				.then((textRes) => JSON.stringify(textRes))
-				.catch((e) => {
-					if (process.env.NODE_ENV === 'development') {
-						console.log(
-							'Error fetching formatted JSON text: ',
-							e.message,
-							' path: ',
-							path,
-							'err', e,
-						);  
-					}
-				});
+			try {
+				const textRes = await universalFetch.get(path);
+				text = JSON.stringify(textRes);
+			} catch (e) {
+				if (process.env.NODE_ENV === 'development') {
+					console.log(
+						'Error fetching formatted JSON text: ',
+						e.message,
+						' path: ',
+						path,
+						'err', e,
+					);
+				}
+			}
 		}
 
 		return text || '';
@@ -76,24 +78,10 @@ export default async ({
 	let plainTextJson = JSON.stringify({});
 	// start promise for plain text
 	const plainPromises = plainFilesetIds.map(async (id) => {
-		const url = `${
-			process.env.BASE_API_ROUTE
-		}/bibles/filesets/${id}/${bookId}/${chapter}?key=${
-			process.env.DBP_API_KEY
-		}&v=4`;
-		const res = await cachedFetch(url)
-			.then((json) => {
-				plainTextJson = JSON.stringify(json.data);
-				return json;
-			})
-			.catch((e) => {
-				if (process.env.NODE_ENV === 'development') {
-					console.error('Error in request for plain fileset: ', 'url', url, e); // eslint-disable-line no-console
-				}
-				return { data: [] };
-			});
-
-		return res ? res.data : [];
+		const { data } = await universalFetch.get(
+			`/bibles/filesets/${id}/${bookId}/${chapter}`,
+		);
+		return data || [];
 	});
 
 	let plainTextFound = false;

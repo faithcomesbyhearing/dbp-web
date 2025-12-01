@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`EditNote component should match snapshot of edit note when it was saved successfully 1`] = `
 <DocumentFragment>

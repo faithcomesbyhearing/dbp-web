@@ -17,7 +17,6 @@ function JesusFilmVideoPlayer({
 	hlsStream,
 	duration,
 	hasVideo,
-	apiKey, // inject via prop instead of hard-coding process.env
 	onError, // optional callback
 }) {
 	const videoRef = useRef(null);
@@ -72,7 +71,7 @@ function JesusFilmVideoPlayer({
 		const video = videoRef.current;
 		if (!video) return;
 
-		const srcWithKey = `${hlsStream}?key=${apiKey}&v=4`;
+		const srcWithKey = hlsStream;
 
 		if (Hls.isSupported()) {
 			const hls = new Hls();
@@ -102,7 +101,7 @@ function JesusFilmVideoPlayer({
 			video.removeEventListener('click', play);
 			video.removeEventListener('touchstart', play);
 		};
-	}, [hlsStream, apiKey, destroyHls]);
+	}, [hlsStream, destroyHls, play]);
 
 	// --- pause & cleanup on route change ---
 	useEffect(() => {
@@ -230,7 +229,6 @@ JesusFilmVideoPlayer.propTypes = {
 	hlsStream: PropTypes.string.isRequired,
 	duration: PropTypes.number.isRequired,
 	hasVideo: PropTypes.bool.isRequired,
-	apiKey: PropTypes.string.isRequired,
 	onError: PropTypes.func,
 };
 

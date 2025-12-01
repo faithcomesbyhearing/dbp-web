@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<MyNotes /> container should match snapshot with bookmarks active 1`] = `
 <DocumentFragment>

@@ -1,4 +1,4 @@
-import request from './request';
+import apiProxy from './apiProxy';
 import getUrl from './hrefLinkOrAsLink';
 import getBookMetaData from './getBookMetaData';
 import getFirstChapterReference from './getFirstChapterReference';
@@ -8,10 +8,10 @@ export const getVersionForLanguage = async ({
 	activeBookId,
 	activeChapter,
 }) => {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
-
 	try {
-		const response = await request(requestUrl);
+		const response = await apiProxy.get('/bibles', {
+			language_code: languageCode,
+		});
 		// Only need first index since there is only one reported bible in this source
 		const bible = response.data.map((bibleObject) => ({
 			...bibleObject,
