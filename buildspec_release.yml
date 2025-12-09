@@ -35,4 +35,8 @@ artifacts:
     - app/utils/isoOneToThree.json
     - app/utils/bookNameToId.json
     - app/utils/osisIdMap.json
+    - app/utils/parseM3U8.js
+    - app/utils/serverCachedFetch.js
+    - app/utils/apiEndpointConfig.js
+    - app/utils/retryableRequest.js
   name: $(AWS_REGION)-$(date +%Y-%m-%d)
