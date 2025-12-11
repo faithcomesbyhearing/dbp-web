@@ -1,16 +1,12 @@
-import request from './request';
+import apiProxy from './apiProxy';
 
 export default async (filesetId, bookId, chapter) => {
 	if (!filesetId) return false;
 
-	const reqUrl = `${
-		process.env.BASE_API_ROUTE
-	}/bibles/filesets/${filesetId}/books?key=${
-		process.env.DBP_API_KEY
-	}&fileset_type=video_stream&v=4`;
-
 	try {
-		const res = await request(reqUrl);
+		const res = await apiProxy.get(`/bibles/filesets/${filesetId}/books`, {
+			fileset_type: 'video_stream',
+		});
 
 		if (res.data) {
 			const hasVideo = !!res.data.filter(

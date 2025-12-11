@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<PlaybackRateSvg /> component tests Should match snapshot with 0.75 speed 1`] = `
 <DocumentFragment>

@@ -1,14 +1,13 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { GET_VIDEO_LIST, LOAD_VIDEO_LIST } from './constants';
-import request from '../../utils/request';
+import apiProxy from '../../utils/apiProxy';
 
 export function* getVideos({ filesetId = 'FALTBLP2DV', bookId = 'MRK' }) {
-	const requestUrl = `https://api.dbp4.org/bibles/filesets/${filesetId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&type=video_stream&bucket=dbp-vid&book_id=${bookId}`;
-
 	try {
-		const response = yield call(request, requestUrl);
+		const response = yield call(apiProxy.get, `/bibles/filesets/${filesetId}`, {
+			type: 'video_stream',
+			book_id: bookId,
+		});
 
 		if (response.data) {
 			yield put({ type: LOAD_VIDEO_LIST, videoList: response.data });

@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import request from './request';
+import apiProxy from './apiProxy';
 import {
 	FILESET_TYPE_AUDIO_DRAMA,
 	FILESET_TYPE_AUDIO,
@@ -79,17 +79,14 @@ export default async (filesets, bookId, chapter, audioType) => {
 
 	if (completeAudio.length) {
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				completeAudio,
-				[0, 'id'],
-			)}?key=${
-				process.env.DBP_API_KEY
-			}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(completeAudio, [
-				0,
-				'data',
-				'type',
-			])}`;
-			const response = await request(reqUrl);
+			const response = await apiProxy.get(
+				`/bibles/filesets/${get(completeAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(completeAudio, [0, 'data', 'type']),
+				},
+			);
 			audioReturnObject.audioPaths = [get(response, ['data', 0, 'path'])];
 			audioReturnObject.audioFilesetId = get(completeAudio, [0, 'id']);
 		} catch (error) {
@@ -105,17 +102,14 @@ export default async (filesets, bookId, chapter, audioType) => {
 	} else {
 		if (ntLength) {
 			try {
-				const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-					ntAudio,
-					[0, 'id'],
-				)}?key=${
-					process.env.DBP_API_KEY
-				}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(ntAudio, [
-					0,
-					'data',
-					'type',
-				])}`;
-				const response = await request(reqUrl);
+				const response = await apiProxy.get(
+					`/bibles/filesets/${get(ntAudio, [0, 'id'])}`,
+					{
+						book_id: bookId,
+						chapter_id: chapter,
+						type: get(ntAudio, [0, 'data', 'type']),
+					},
+				);
 				const audioPaths = [get(response, ['data', 0, 'path'])];
 				ntHasUrl = !!audioPaths[0];
 				audioReturnObject.audioPaths = audioPaths;
@@ -129,17 +123,14 @@ export default async (filesets, bookId, chapter, audioType) => {
 
 		if (otLength) {
 			try {
-				const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-					otAudio,
-					[0, 'id'],
-				)}?key=${
-					process.env.DBP_API_KEY
-				}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(otAudio, [
-					0,
-					'data',
-					'type',
-				])}`;
-				const response = await request(reqUrl);
+				const response = await apiProxy.get(
+					`/bibles/filesets/${get(otAudio, [0, 'id'])}`,
+					{
+						book_id: bookId,
+						chapter_id: chapter,
+						type: get(otAudio, [0, 'data', 'type']),
+					},
+				);
 				const audioPaths = [get(response, ['data', 0, 'path'])];
 				otHasUrl = !!audioPaths[0];
 				audioReturnObject.audioPaths = audioPaths;
@@ -156,17 +147,14 @@ export default async (filesets, bookId, chapter, audioType) => {
 		// return a list of all of the s3 file paths since a chapter could have v1-v5 and v20-v25
 		try {
 			// Need to iterate over each object here to see if I can find the right chapter
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				partialOtAudio,
-				[0, 'id'],
-			)}?key=${
-				process.env.DBP_API_KEY
-			}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(partialOtAudio, [
-				0,
-				'data',
-				'type',
-			])}`;
-			const response = await request(reqUrl);
+			const response = await apiProxy.get(
+				`/bibles/filesets/${get(partialOtAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(partialOtAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [];
 			if (response.data.length > 1) {
 				response.data.forEach((file) => audioPaths.push(file.path));
@@ -186,17 +174,14 @@ export default async (filesets, bookId, chapter, audioType) => {
 		// return a list of all of the s3 file paths since a chapter could have v1-v5 and v20-v25
 		try {
 			// Need to iterate over each object here to see if I can find the right chapter
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				partialNtAudio,
-				[0, 'id'],
-			)}?key=${
-				process.env.DBP_API_KEY
-			}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(partialNtAudio, [
-				0,
-				'data',
-				'type',
-			])}`;
-			const response = await request(reqUrl);
+			const response = await apiProxy.get(
+				`/bibles/filesets/${get(partialNtAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(partialNtAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [];
 			if (response.data.length > 1) {
 				response.data.forEach((file) => audioPaths.push(file.path));
@@ -222,16 +207,14 @@ export default async (filesets, bookId, chapter, audioType) => {
 		// return a list of all of the s3 file paths since a chapter could have v1-v5 and v20-v25
 		try {
 			// Need to iterate over each object here to see if I can find the right chapter
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				partialNtOtAudio,
-				[0, 'id'],
-			)}?key=${
-				process.env.DBP_API_KEY
-			}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				partialNtOtAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = await request(reqUrl);
+			const response = await apiProxy.get(
+				`/bibles/filesets/${get(partialNtOtAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(partialNtOtAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [];
 			if (response.data.length > 1) {
 				response.data.forEach((file) => audioPaths.push(file.path));

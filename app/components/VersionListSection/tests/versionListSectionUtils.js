@@ -1,4 +1,4 @@
-import request from '../../../utils/request';
+import apiProxy from '../../../utils/apiProxy';
 import geFilesetsForBible from '../../../utils/geFilesetsForBible';
 
 export function itemsParser(
@@ -76,46 +76,29 @@ export function filterFunction(bible) {
 }
 
 export async function getTexts({ languageCode }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${process.env.DBP_API_KEY}&language_code=${languageCode}&v=4`;
-	const videoRequestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${
-		process.env.DBP_API_KEY
-	}&language_code=${languageCode}&v=4`;
 	// Put logic here for determining what url to direct to when user chooses new version
 	// Benefits are that all the information can be gathered up front and behind a clear
 	// loading spinner
 	// Negatives are that the list of versions would take longer to load
 
 	try {
-		const response = await request(requestUrl);
-		const videoRes = await request(videoRequestUrl);
+		// Single API call instead of duplicate requests
+		const response = await apiProxy.get('/bibles', { language_code: languageCode });
+		const data = response.data || [];
 
-		const videoRecords = [];
+		// Process all bibles once
+		const processedBibles = data.map((bible) => ({
+			...bible,
+			filesets: bible.filesets ? geFilesetsForBible(bible.filesets) : [],
+		}));
 
-		videoRes.data.forEach((video) => {
-			const newVideo = { ...video };
-			if (newVideo.filesets) {
-				newVideo.filesets = geFilesetsForBible(newVideo.filesets);
-			}
-			videoRecords.push(newVideo);
-		});
-
-		// Some texts may have plain text in the database but no filesets
-		// This filters out all texts that don't have a fileset
-		const videos = videoRecords.filter(
-			(video) => video.abbr && video.language && video.language_id && video.iso,
+		// Filter for videos (have the required metadata properties)
+		const videos = processedBibles.filter(
+			(bible) => bible.abbr && bible.language && bible.language_id && bible.iso,
 		);
 
-		const textsRecords = [];
-
-		response.data.forEach((text) => {
-			const newText = { ...text };
-			if (newText.filesets) {
-				newText.filesets = geFilesetsForBible(newText.filesets);
-			}
-			textsRecords.push(newText);
-		});
-
-		const texts = textsRecords.filter(
+		// Filter for texts (have required fileset types)
+		const texts = processedBibles.filter(
 			(text) =>
 				text.iso &&
 				text.abbr &&

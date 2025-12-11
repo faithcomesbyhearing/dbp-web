@@ -1,7 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import request from '../app/utils/request';
+import axios from 'axios';
+import apiProxy from '../app/utils/apiProxy';
 import Bugsnag from '../app/utils/bugsnagClient';
 import isUserAgentInternetExplorer from '../app/utils/isUserAgentInternetExplorer';
 import parseCookie from '../app/utils/parseCookie';
@@ -93,9 +94,7 @@ function JesusFilm({ iso, routeLocation, hlsStream, theme, isIe, duration }) {
 				hlsStream={hlsStream}
 				duration={duration}
 				hasVideo
-				apiKey={process.env.DBP_API_KEY}
 				onError={() => {
-					 
 					alert(
 						'There was an error loading the video. Please try again later.',
 					);
@@ -132,30 +131,23 @@ JesusFilm.getInitialProps = async (context) => {
 	}
 
 	try {
-		// Data fetching
-		const jfResponse = await request(
-			`${process.env.BASE_API_ROUTE}/arclight/jesus-film/languages?key=${
-				process.env.DBP_API_KEY
-			}&v=4&iso=${iso}`,
-		);
+		// Data fetching using apiProxy
+		const jfResponse = await apiProxy.get('/arclight/jesus-film/languages', {
+			iso,
+		});
 
 		const arclightId = jfResponse[iso];
-		const videoObject = await request(
-			`${process.env.BASE_API_ROUTE}/arclight/jesus-film/chapters?key=${
-				process.env.DBP_API_KEY
-			}&v=4&arclight_id=${arclightId}`,
-		);
+		const videoObject = await apiProxy.get('/arclight/jesus-film/chapters', {
+			arclight_id: arclightId,
+		});
 
 		// Number from arclight is 7673792 so use that as a default
 		const duration = videoObject.duration_in_milliseconds
 			? videoObject.duration_in_milliseconds / 1000
 			: 7673792 / 1000;
 
-		const hlsStream = arclightId
-			? `${process.env.BASE_API_ROUTE}/arclight/jesus-film?key=${
-					process.env.DBP_API_KEY
-				}&v=4&arclight_id=${arclightId}`
-			: '';
+		// This is constructed server-side so the key is not exposed to the client
+		const hlsStream = arclightId ? apiProxy.buildProxyUrl(`/arclight/jesus-film?arclight_id=${arclightId}`) : '';
 
 		return {
 			routeLocation,
@@ -166,7 +158,6 @@ JesusFilm.getInitialProps = async (context) => {
 			isIe,
 		};
 	} catch (error) {
-		console.error('Error fetching Jesus Film data:', error);
 		if (axios.isAxiosError(error) && error.config) {
 			Bugsnag.notify(error, (event) => {
 				event.addMetadata('API Request', {

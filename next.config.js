@@ -48,7 +48,7 @@ module.exports = withBundleAnalyzer({
 		BASE_SITE_URL: process.env.BASE_SITE_URL || fallbackSiteUrl,
 		BUGSNAG_API_KEY: process.env.BUGSNAG_API_KEY,
 		CDN_STATIC_FILES: process.env.CDN_STATIC_FILES,
-		DBP_API_KEY: process.env.DBP_API_KEY,
+		// DBP_API_KEY removed - use /api/proxy instead to keep key server-side
 		FB_ACCESS: process.env.FB_ACCESS,
 		FB_APP_ID: process.env.FB_APP_ID,
 		GOOGLE_APP_ID: process.env.GOOGLE_APP_ID,

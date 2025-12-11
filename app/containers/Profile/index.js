@@ -142,7 +142,8 @@ export class Profile extends React.PureComponent {
 		if (typeof gapi !== 'undefined' && typeof auth2 !== 'undefined') {
 			auth2.signOut();
 		}
-		if (typeof FB !== 'undefined') {
+		// Facebook SDK requires HTTPS - only call on secure pages
+		if (typeof FB !== 'undefined' && window.location.protocol === 'https:') {
 			// Find the fb access code
 			FB.getLoginStatus(() => {
 				FB.logout(() => {});

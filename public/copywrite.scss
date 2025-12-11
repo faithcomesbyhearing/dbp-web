@@ -65,17 +65,14 @@
 		}
 	}
 	.copyrights-section {
-		//padding: 15px;
 		font-size: 10px;
 		margin: 15px auto 10px auto;
 		overflow-y: auto;
 		overflow-x: hidden;
 		max-height: 500px !important;
 
-		.nt-copyright,
-		.ot-copyright {
+		.copyright-content {
 			display: flex;
-			//flex-direction: row;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
@@ -85,11 +82,7 @@
 			.cp-section {
 				display: flex;
 				flex-direction: column;
-				//justify-content: space-between;
 				align-items: center;
-				//min-height: 250px;
-				//min-width: 280px;
-				//max-width: 500px;
 				width: 100%;
 				margin-top: 10px;
 				padding: 0 20px;

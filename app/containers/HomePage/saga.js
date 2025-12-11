@@ -4,7 +4,7 @@ import some from 'lodash/some';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
 import Router from 'next/router';
-import request from '../../utils/request';
+import apiProxy from '../../utils/apiProxy';
 import geFilesetsForBible from '../../utils/geFilesetsForBible';
 import {
 	getNotesForChapter,
@@ -31,7 +31,6 @@ import {
 	FILESET_SIZE_NEW_TESTAMENT_PORTION_OLD_TESTAMENT_PORTION,
 	FILESET_SIZE_OLD_TESTAMENT,
 	FILESET_SIZE_OLD_TESTAMENT_PORTION,
-	FILESET_SIZE_PORTION,
 } from '../../constants/bibleFileset';
 import {
 	ADD_HIGHLIGHTS,
@@ -43,7 +42,7 @@ import {
 	ADD_BOOKMARK_FAILURE,
 	CREATE_USER_WITH_SOCIAL_ACCOUNT,
 } from './constants';
-import { ntCodes, otCodes, codes } from './sagaUtils';
+import { codes } from './sagaUtils';
 
 export function* deleteHighlights({
 	ids,
@@ -54,17 +53,15 @@ export function* deleteHighlights({
 	limit,
 	page,
 }) {
-	const urls = ids.map(
-		(id) =>
-			`${process.env.BASE_API_ROUTE}/users/${userId}/highlights/${id}?key=${
-				process.env.DBP_API_KEY
-			}&v=4&pretty&project_id=${process.env.NOTES_PROJECT_ID}`,
+	const deleteRequests = ids.map((id) =>
+		// eslint-disable-next-line redux-saga/yield-effects
+		call(apiProxy.delete, `/users/${userId}/highlights/${id}`, {
+			pretty: true,
+			project_id: process.env.NOTES_PROJECT_ID,
+		}),
 	);
-	const options = {
-		method: 'DELETE',
-	};
 	try {
-		yield all(urls.map((url) => call(request, url, options)));
+		yield all(deleteRequests);
 		yield fork(getHighlights, { bible, book, chapter, userId });
 		yield fork(getUserHighlights, { userId, params: { limit, page } });
 	} catch (err) {
@@ -98,11 +95,6 @@ export function* initApplication(props) {
 }
 
 export function* addBookmark(props) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/users/${
-		props.data.user_id
-	}/bookmarks?key=${process.env.DBP_API_KEY}&v=4&pretty&project_id=${
-		process.env.NOTES_PROJECT_ID
-	}`;
 	const formData = new FormData();
 
 	Object.entries(props.data).forEach((item) => formData.set(item[0], item[1]));
@@ -110,10 +102,17 @@ export function* addBookmark(props) {
 
 	const options = {
 		body: formData,
-		method: 'POST',
 	};
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(
+			apiProxy.post,
+			`/users/${props.data.user_id}/bookmarks`,
+			options,
+			{
+				pretty: true,
+				project_id: process.env.NOTES_PROJECT_ID,
+			},
+		);
 		if (response) {
 			yield fork(getBookmarksForChapter, {
 				userId: props.data.user_id,
@@ -148,11 +147,8 @@ export function* addBookmark(props) {
 }
 
 export function* getBookMetadata({ bibleId }) {
-	const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}/book?key=${
-		process.env.DBP_API_KEY
-	}&v=4`;
 	try {
-		const response = yield call(request, reqUrl);
+		const response = yield call(apiProxy.get, `/bibles/${bibleId}/book`);
 		const testaments = response.data.reduce(
 			(a, c) => ({ ...a, [c.id]: c.book_testament }),
 			{},
@@ -178,13 +174,6 @@ export function* addHighlight({
 	color,
 	reference,
 }) {
-	const requestUrl = `${
-		process.env.BASE_API_ROUTE
-	}/users/${userId}/highlights?key=${
-		process.env.DBP_API_KEY
-	}&v=4&bible_id=${bible}&book_id=${book}&chapter=${chapter}&project_id=${
-		process.env.NOTES_PROJECT_ID
-	}&limit=1000`;
 	const formData = new FormData();
 	if (!userId || color === 'none') {
 		return;
@@ -205,17 +194,35 @@ export function* addHighlight({
 	formData.append('reference', reference);
 
 	const options = {
-		method: 'POST',
 		body: formData,
 	};
 	try {
-		const response = yield call(request, requestUrl, options);
+		const response = yield call(
+			apiProxy.post,
+			`/users/${userId}/highlights`,
+			options,
+			{
+				bible_id: bible,
+				book_id: book,
+				chapter,
+				project_id: process.env.NOTES_PROJECT_ID,
+				limit: 1000,
+			},
+		);
 		// Need to get the highlights here because they are not being returned
-		if (response.meta.success) {
+		if (response.meta && response.meta.success) {
 			yield call(getHighlights, { bible, book, chapter, userId });
 		} else if (response.error) {
 			if (process.env.NODE_ENV === 'development') {
 				console.error('Error creating highlight', response.error); // eslint-disable-line no-console
+			}
+		} else if (response.errors) {
+			if (process.env.NODE_ENV === 'development') {
+				console.error('Error creating highlight', response.errors); // eslint-disable-line no-console
+			}
+		} else if (!response.meta) {
+			if (process.env.NODE_ENV === 'development') {
+				console.error('Missing meta property in highlight creation response', response); // eslint-disable-line no-console
 			}
 		}
 	} catch (error) {
@@ -241,13 +248,12 @@ export function* getBibleFromUrl({
 	// Bible id
 	const bibleId = oldBibleId.toUpperCase();
 	const bookId = oldBookId.toUpperCase();
-	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles/${bibleId}?key=${
-		process.env.DBP_API_KEY
-	}&v=4&include_font=false`;
 
 	// Probably need to do stuff here to get the audio and text for this new bible
 	try {
-		const response = yield call(request, requestUrl);
+		const response = yield call(apiProxy.get, `/bibles/${bibleId}`, {
+			include_font: false,
+		});
 
 		if (response.data && Object.keys(response.data).length) {
 			// Creating new objects for each set of data needed to ensure I don't forget something
@@ -421,12 +427,15 @@ export function* getChapterFromUrl({
 						'',
 					) || bibleId;
 				if (filesetId) {
-					const reqUrl = `${
-						process.env.BASE_API_ROUTE
-					}/bibles/filesets/${filesetId}?key=${
-						process.env.DBP_API_KEY
-					}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_FORMAT}`; // hard coded since this only ever needs to get formatted text
-					const formattedChapterObject = yield call(request, reqUrl);
+					const formattedChapterObject = yield call(
+						apiProxy.get,
+						`/bibles/filesets/${filesetId}`,
+						{
+							book_id: bookId,
+							chapter_id: chapter,
+							type: FILESET_TYPE_TEXT_FORMAT,
+						},
+					);
 					const path = get(formattedChapterObject.data, [0, 'path']);
 					formattedText = yield path
 						? axios.get(path).then((res) => res.data)
@@ -450,12 +459,15 @@ export function* getChapterFromUrl({
 						'',
 					) || bibleId;
 				if (filesetId) {
-					const reqUrl = `${
-						process.env.BASE_API_ROUTE
-					}/bibles/filesets/${filesetId}?key=${
-						process.env.DBP_API_KEY
-					}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${FILESET_TYPE_TEXT_JSON}`; // hard coded since this only ever needs to get formatted text
-					const formattedChapterObject = yield call(request, reqUrl);
+					const formattedChapterObject = yield call(
+						apiProxy.get,
+						`/bibles/filesets/${filesetId}`,
+						{
+							book_id: bookId,
+							chapter_id: chapter,
+							type: FILESET_TYPE_TEXT_JSON,
+						},
+					);
 					const path = get(formattedChapterObject.data, [0, 'path']);
 					formattedJson = yield path
 						? axios.get(path).then((res) => res.data)
@@ -502,12 +514,14 @@ export function* getChapterFromUrl({
 				plainText = results.plainText;
 				plainTextFilesetId = results.plainTextFilesetId;
 			} else if (filesetId) {
-				const reqUrl = `${
-					process.env.BASE_API_ROUTE
-				}/bibles/filesets/${filesetId}/${bookId}/${chapter}?key=${
-					process.env.DBP_API_KEY
-				}&v=4&book_id=${bookId}&chapter_id=${chapter}`;
-				const res = yield call(request, reqUrl);
+				const res = yield call(
+					apiProxy.get,
+					`/bibles/filesets/${filesetId}/${bookId}/${chapter}`,
+					{
+						book_id: bookId,
+						chapter_id: chapter,
+					},
+				);
 				plainText = res.data;
 
 				plainTextFilesetId = plainText ? bibleId : '';
@@ -568,13 +582,14 @@ function* tryNext({ urls, index, bookId, chapter }) {
 	let plainText = [];
 	let plainTextFilesetId = '';
 	try {
-		const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${
-			urls[index]
-		}/${bookId}/${chapter}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&book_id=${bookId}&chapter_id=${chapter}`;
-
-		const res = yield call(request, reqUrl);
+		const res = yield call(
+			apiProxy.get,
+			`/bibles/filesets/${urls[index]}/${bookId}/${chapter}`,
+			{
+				book_id: bookId,
+				chapter_id: chapter,
+			},
+		);
 
 		plainText = res.data;
 		plainTextFilesetId = urls[index];
@@ -589,13 +604,14 @@ function* tryNext({ urls, index, bookId, chapter }) {
 		}
 
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${
-				urls[index + 1]
-			}/${bookId}/${chapter}?key=${
-				process.env.DBP_API_KEY
-			}&v=4&book_id=${bookId}&chapter_id=${chapter}`;
-
-			const res = yield call(request, reqUrl);
+			const res = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${urls[index + 1]}/${bookId}/${chapter}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+				},
+			);
 			plainText = res.data;
 
 			plainTextFilesetId = urls[index];
@@ -682,14 +698,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 
 	if (completeAudio.length) {
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				completeAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				completeAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(completeAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(completeAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [get(response, ['data', 0, 'path'])];
 			yield put({
 				type: 'loadaudio',
@@ -710,14 +727,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 		return;
 	} else if (ntLength && !otLength) {
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				ntAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				ntAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(ntAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(ntAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [get(response, ['data', 0, 'path'])];
 			ntHasUrl = !!audioPaths[0];
 			yield put({
@@ -738,14 +756,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 		}
 	} else if (otLength && !ntLength) {
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				otAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				otAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(otAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(otAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [get(response, ['data', 0, 'path'])];
 			otHasUrl = !!audioPaths[0];
 			yield put({
@@ -769,14 +788,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 		let otPath = '';
 
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				ntAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				ntAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(ntAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(ntAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [get(response, ['data', 0, 'path'])];
 			ntPath = audioPaths;
 		} catch (error) {
@@ -791,14 +811,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 			}
 		}
 		try {
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				otAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				otAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(otAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(otAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [get(response, ['data', 0, 'path'])];
 			otPath = audioPaths;
 		} catch (error) {
@@ -827,14 +848,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 		// return a list of all of the s3 file paths since a chapter could have v1-v5 and v20-v25
 		try {
 			// Need to iterate over each object here to see if I can find the right chapter
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				partialOtAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				partialOtAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(partialOtAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(partialOtAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [];
 			if (response.data.length > 1) {
 				response.data.forEach((file) => audioPaths.push(file.path));
@@ -863,14 +885,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 		// return a list of all of the s3 file paths since a chapter could have v1-v5 and v20-v25
 		try {
 			// Need to iterate over each object here to see if I can find the right chapter
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				partialNtAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				partialNtAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(partialNtAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(partialNtAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [];
 			if (response.data.length > 1) {
 				response.data.forEach((file) => audioPaths.push(file.path));
@@ -905,14 +928,15 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 		// return a list of all of the s3 file paths since a chapter could have v1-v5 and v20-v25
 		try {
 			// Need to iterate over each object here to see if I can find the right chapter
-			const reqUrl = `${process.env.BASE_API_ROUTE}/bibles/filesets/${get(
-				partialNtOtAudio,
-				[0, 'id'],
-			)}?key=${process.env.DBP_API_KEY}&v=4&book_id=${bookId}&chapter_id=${chapter}&type=${get(
-				partialNtOtAudio,
-				[0, 'data', 'type'],
-			)}`;
-			const response = yield call(request, reqUrl);
+			const response = yield call(
+				apiProxy.get,
+				`/bibles/filesets/${get(partialNtOtAudio, [0, 'id'])}`,
+				{
+					book_id: bookId,
+					chapter_id: chapter,
+					type: get(partialNtOtAudio, [0, 'data', 'type']),
+				},
+			);
 			const audioPaths = [];
 			if (response.data.length > 1) {
 				response.data.forEach((file) => audioPaths.push(file.path));
@@ -938,6 +962,20 @@ export function* getChapterAudio({ filesets, bookId, chapter }) {
 	}
 }
 
+// Removes duplicate copyright entries based on certain keys
+const deduplicateCopyrights = (
+	items,
+	keys = ['message', 'testament'],
+) => {
+	const seen = new Set();
+	return items.filter((item) => {
+		const key = keys.map((k) => item[k]).join('|');
+		if (seen.has(key)) return false;
+		seen.add(key);
+		return true;
+	});
+};
+
 export function* getCopyrightSaga({ filesetIds }) {
 	// TODO: Try to optimize at least a little bit
 	const filteredFilesetIds = uniqWith(
@@ -947,29 +985,29 @@ export function* getCopyrightSaga({ filesetIds }) {
 	const videoFileset = filesetIds.filter(
 		(f) => f.type === FILESET_TYPE_VIDEO_STREAM && codes[f.size],
 	)[0];
-	const reqUrls = [];
+	const copyrightRequests = [];
 
-	filteredFilesetIds.forEach(
-		(set) =>
-			set.type !== FILESET_TYPE_VIDEO_STREAM &&
-			reqUrls.push(
-				`${process.env.BASE_API_ROUTE}/bibles/filesets/${
-					set.id
-				}/copyright?key=${process.env.DBP_API_KEY}&v=4&type=${set.type}`,
-			),
-	);
+	filteredFilesetIds.forEach((set) => {
+		if (set.type !== FILESET_TYPE_VIDEO_STREAM) {
+			copyrightRequests.push(
+				// eslint-disable-next-line redux-saga/yield-effects
+				call(apiProxy.get, `/bibles/filesets/${set.id}/copyright`, {
+					type: set.type,
+				}),
+			);
+		}
+	});
 
 	try {
-		const response = yield all(reqUrls.map((url) => call(request, url)));
+		const response = yield all(copyrightRequests);
 		const vidRes = [];
 		if (videoFileset) {
 			const r = yield call(
-				request,
-				`${process.env.BASE_API_ROUTE}/bibles/filesets/${
-					videoFileset.id
-				}/copyright?key=${process.env.DBP_API_KEY}&v=4&type=${
-					videoFileset.type
-				}`,
+				apiProxy.get,
+				`/bibles/filesets/${videoFileset.id}/copyright`,
+				{
+					type: videoFileset.type,
+				},
 			);
 			vidRes.push(r);
 		}
@@ -1031,103 +1069,35 @@ export function* getCopyrightSaga({ filesetIds }) {
 					: {},
 			) || [];
 
-		const cText = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_COMPLETE &&
-				(c.type === FILESET_TYPE_TEXT_PLAIN ||
-					c.type === FILESET_TYPE_TEXT_FORMAT ||
-					c.type === FILESET_TYPE_TEXT_JSON),
-		)[0];
-		const ntText = !cText
-			? copyrights.filter(
-					(c) =>
-						ntCodes[c.testament] &&
-						(c.type === FILESET_TYPE_TEXT_PLAIN ||
-							c.type === FILESET_TYPE_TEXT_FORMAT ||
-							c.type === FILESET_TYPE_TEXT_JSON),
-				)[0]
-			: {};
-		const otText = !cText
-			? copyrights.filter(
-					(c) =>
-						otCodes[c.testament] &&
-						(c.type === FILESET_TYPE_TEXT_PLAIN ||
-							c.type === FILESET_TYPE_TEXT_FORMAT ||
-							c.type === FILESET_TYPE_TEXT_JSON),
-				)[0]
-			: {};
-		const partialText = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_PORTION &&
-				(c.type === FILESET_TYPE_TEXT_PLAIN ||
-					c.type === FILESET_TYPE_TEXT_FORMAT ||
-					c.type === FILESET_TYPE_TEXT_JSON),
-		)[0];
+		// Defensive code — helper function to deduplicate copyrights by type, message, and testament.
+		// Since we retrieve copyrights by fileset, it’s possible to have multiple identical entries
+		// across different filesets. This function removes those duplicates.
+		// Currently, the copyright value does not depend on the testament (set_size_code),
+		// and we will not have different copyrights per fileset, since it depends on license groups.
+		// In general, we only need one copyright per mode (video, audio, text).
+		const audioTypes = deduplicateCopyrights(
+			copyrights.filter(
+				(c) =>
+					c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA,
+			),
+		);
 
-		const cAudio = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_COMPLETE &&
-				(c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
-		)[0];
-		const ntAudio = !cAudio
-			? copyrights.filter(
-					(c) =>
-						ntCodes[c.testament] &&
-						(c.type === FILESET_TYPE_AUDIO ||
-							c.type === FILESET_TYPE_AUDIO_DRAMA),
-				)[0]
-			: {};
-		const otAudio = !cAudio
-			? copyrights.filter(
-					(c) =>
-						otCodes[c.testament] &&
-						(c.type === FILESET_TYPE_AUDIO ||
-							c.type === FILESET_TYPE_AUDIO_DRAMA),
-				)[0]
-			: {};
-		const partialAudio = copyrights.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_PORTION &&
-				(c.type === FILESET_TYPE_AUDIO || c.type === FILESET_TYPE_AUDIO_DRAMA),
-		)[0];
+		const textTypes = deduplicateCopyrights(
+			copyrights.filter(
+				(c) =>
+					c.type === FILESET_TYPE_TEXT_PLAIN ||
+					c.type === FILESET_TYPE_TEXT_FORMAT ||
+					c.type === FILESET_TYPE_TEXT_JSON,
+			),
+		);
+		const videoTypes = deduplicateCopyrights(
+			videoCopyright.filter((c) => c.type === FILESET_TYPE_VIDEO_STREAM),
+		);
 
-		const cVideo = videoCopyright.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_COMPLETE &&
-				c.type === FILESET_TYPE_VIDEO_STREAM,
-		)[0];
-		const ntVideo = !cVideo
-			? videoCopyright.filter(
-					(c) => ntCodes[c.testament] && c.type === FILESET_TYPE_VIDEO_STREAM,
-				)[0]
-			: {};
-		const otVideo = !cVideo
-			? videoCopyright.filter(
-					(c) => otCodes[c.testament] && c.type === FILESET_TYPE_VIDEO_STREAM,
-				)[0]
-			: {};
-		const partialVideo = videoCopyright.filter(
-			(c) =>
-				c.testament === FILESET_SIZE_PORTION &&
-				c.type === FILESET_TYPE_VIDEO_STREAM,
-		)[0];
 		const copyrightObject = {
-			newTestament: {
-				audio: cAudio || ntAudio || partialAudio,
-				text: cText || ntText || partialText,
-				video: cVideo || ntVideo || partialVideo,
-			},
-			oldTestament: {
-				audio:
-					!(cAudio || ntAudio || partialAudio) &&
-					(cAudio || otAudio || partialAudio),
-				text:
-					!(cAudio || ntAudio || partialText) &&
-					(cText || otText || partialText),
-				video:
-					!(cVideo || ntVideo || partialVideo) &&
-					(cVideo || otVideo || partialVideo),
-			},
+			audio: audioTypes,
+			text: textTypes,
+			video: videoTypes,
 		};
 
 		yield put({ type: 'loadcopyright', copyrights: copyrightObject });
@@ -1139,12 +1109,15 @@ export function* getCopyrightSaga({ filesetIds }) {
 }
 
 export function* createSocialUser({ provider }) {
-	const reqUrl = `${
-		process.env.BASE_API_ROUTE
-	}/login/${provider}?v=4&project_id=${process.env.NOTES_PROJECT_ID}&key=${process.env.DBP_API_KEY}${process.env.NODE_ENV === 'development' ? '&alt_url=true' : ''}`;
+	const params = {
+		project_id: process.env.NOTES_PROJECT_ID,
+	};
+	if (process.env.NODE_ENV === 'development') {
+		params.alt_url = true;
+	}
 
 	try {
-		const response = yield call(request, reqUrl);
+		const response = yield call(apiProxy.get, `/login/${provider}`, params);
 		if (response.data.redirect_url) {
 			// only let provider cookie be set for 15 minutes
 			const mins = 1000 * 60 * 15;

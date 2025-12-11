@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import isEqual from 'lodash/isEqual';
 import Router from 'next/router';
 import Hls from 'hls.js';
-import cachedFetch, { overrideCache } from '../../utils/cachedFetch';
+import apiProxy from '../../utils/apiProxy';
 import { openVideoPlayer, closeVideoPlayer, setHasVideo } from './actions';
 import SvgWrapper from '../../components/SvgWrapper';
 import VideoControls from '../../components/VideoControls';
@@ -132,19 +132,15 @@ class VideoPlayer extends React.PureComponent {
 	// If there ended up being video for the selected chapter get the actual stream
 	getVideos = async ({ filesetId, bookId, chapter }) => {
 		if (!filesetId) return;
-		const requestUrl = `${
-			process.env.BASE_API_ROUTE
-		}/bibles/filesets/${filesetId}?key=${
-			process.env.DBP_API_KEY
-		}&v=4&type=video_stream&book_id=${bookId}`;
+		const endpoint = `/bibles/filesets/${filesetId}`;
+		const params = {
+			type: 'video_stream',
+			book_id: bookId,
+		};
 
 		try {
-			// TODO: Profile to see how much time the caching actually saves here
-			const response = await cachedFetch(requestUrl);
-
+			const response = await apiProxy.get(endpoint, params);
 			if (response.data) {
-				overrideCache(requestUrl, response);
-
 				const videos = response.data.map((video, index) => ({
 					title: `${video.book_name} ${video.chapter_start}:${
 						video.verse_start
@@ -152,7 +148,7 @@ class VideoPlayer extends React.PureComponent {
 					id: `${video.book_id}_${video.chapter_start}_${video.verse_start}`,
 					chapterStart: video.chapter_start,
 					bookId: video.book_id,
-					source: video.path,
+					source: apiProxy.buildProxyUrl(apiProxy.extractFilepath(video.path)),
 					duration: video.duration || 300,
 					reference: `${video.chapter_start}:${
 						video.verse_end
@@ -411,9 +407,8 @@ class VideoPlayer extends React.PureComponent {
 		const { currentVideo, hlsSupported } = this.state;
 		if (!hlsSupported) {
 			if (this.videoRef.canPlayType('application/vnd.apple.mpegurl')) {
-				this.videoRef.src = `${currentVideo.source}?key=${
-					process.env.DBP_API_KEY
-				}&v=4`;
+				// Source already includes API key from getVideos
+				this.videoRef.src = currentVideo.source;
 				this.videoRef.addEventListener(
 					'timeupdate',
 					this.timeUpdateEventListener,
@@ -433,9 +428,8 @@ class VideoPlayer extends React.PureComponent {
 					// Make sure that there is a valid source
 					if (currentVideo.source) {
 						this.hls.attachMedia(this.videoRef);
-						this.hls.loadSource(
-							`${currentVideo.source}?key=${process.env.DBP_API_KEY}&v=4`,
-						);
+						// Source already includes API key from getVideos
+						this.hls.loadSource(currentVideo.source);
 						this.hls.media.addEventListener(
 							'timeupdate',
 							this.timeUpdateEventListener,
@@ -498,10 +492,8 @@ class VideoPlayer extends React.PureComponent {
 	playVideo = ({ thumbnailClick }) => {
 		const { currentVideo, hlsSupported } = this.state;
 		if (!hlsSupported) {
-			if (
-				this.videoRef.src ===
-				`${currentVideo.source}?key=${process.env.DBP_API_KEY}&v=4`
-			) {
+			// Source already includes API key from getVideos
+			if (this.videoRef.src === currentVideo.source) {
 				this.videoRef.play();
 				this.setState({ paused: false });
 				// if the sources didn't match then this is a new video and the hls stream needs to be updated
@@ -514,11 +506,8 @@ class VideoPlayer extends React.PureComponent {
 				// if the current video has a source (initial load may be an empty object)
 				if (currentVideo.source) {
 					// if there is already an hls stream and that streams url is equal to this videos source then play the video
-					if (
-						this.hls.media &&
-						this.hls.url ===
-							`${currentVideo.source}?key=${process.env.DBP_API_KEY}&v=4`
-					) {
+					// Source already includes API key from getVideos
+					if (this.hls.media && this.hls.url === currentVideo.source) {
 						this.hls.media.play();
 						this.setState({ paused: false });
 						// if the sources didn't match then this is a new video and the hls stream needs to be updated

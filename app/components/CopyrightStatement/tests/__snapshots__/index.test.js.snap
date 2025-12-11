@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`CopyrightStatement component should match snapshot with valid new testament audio props 1`] = `
+exports[`CopyrightStatement component should match snapshot with valid audio props 1`] = `
 <div>
   <h3>
     <span>
@@ -21,7 +21,7 @@ exports[`CopyrightStatement component should match snapshot with valid new testa
 </div>
 `;
 
-exports[`CopyrightStatement component should match snapshot with valid new testament text props 1`] = `
+exports[`CopyrightStatement component should match snapshot with valid text props 1`] = `
 <div>
   <h3>
     <span>

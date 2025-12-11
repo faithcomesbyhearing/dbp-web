@@ -12,12 +12,16 @@ const next = require('next');
 const compression = require('compression');
 const { LRUCache } = require('lru-cache');
 const fetch = require('axios');
+const Busboy = require('busboy');
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV === 'development';
 const bugsnag = require('./app/utils/bugsnagServer');
 const manifestJson = require('./public/manifest.json');
 const checkBookId = require('./app/utils/checkBookName');
 const isoOneToThree = require('./app/utils/isoOneToThree.json');
+const { isM3U8Content } = require('./app/utils/parseM3U8.js');
+const { serverCachedFetch } = require('./app/utils/serverCachedFetch.js');
+const { isEndpointNoCache } = require('./app/utils/apiEndpointConfig.js').default;
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -38,6 +42,178 @@ app
 
 		server.use(compression());
 
+		// Body parser middleware for JSON and URL-encoded requests
+		server.use(express.json());
+		server.use(express.urlencoded({ extended: true }));
+
+		// API Middleware - Injects API key server-side
+		// This prevents the API key from being exposed to the browser
+		server.use('/api', async (req, res) => {
+			try {
+				const { pathname, search } = new URL(
+					req.url,
+					`http://${req.headers.host}`,
+				);
+
+				// Extract the path after /api
+				const apiPath = pathname.replace(/^\/api/, '');
+
+				// Build the full API URL with the secret key (server-side only)
+				const apiKey = process.env.DBP_API_KEY;
+				const baseUrl = process.env.BASE_API_ROUTE;
+
+				if (!apiKey || !baseUrl) {
+					return res.status(fetch.HttpStatusCode.InternalServerError).json({
+						error: 'Server configuration error',
+						message: 'Missing API credentials',
+					});
+				}
+
+				// Clean up query parameters to avoid duplication
+				// Remove v=4 if it's already in the query string (browser shouldn't send it)
+				let cleanSearch = search;
+				if (cleanSearch) {
+					const params = new URLSearchParams(cleanSearch);
+					params.delete('v');
+					cleanSearch = params.toString();
+					cleanSearch = cleanSearch ? `?${cleanSearch}` : '';
+				}
+
+				// Append API key and version (v=4) server-side only
+				const separator = cleanSearch ? '&' : '?';
+				const fullUrl = `${baseUrl}${apiPath}${cleanSearch}${separator}key=${apiKey}&v=4`;
+
+				if (process.env.NODE_ENV === 'development') {
+					/* eslint-disable no-console */
+					console.log('[API Proxy] Forwarding to:', fullUrl);
+					/* eslint-enable no-console */
+				}
+
+				 // Prepare axios config based on HTTP method
+                const axiosConfig = {
+					method: req.method.toLowerCase(),
+					url: fullUrl,
+					headers: {
+						'User-Agent': req.headers['user-agent'] || 'Node.js API Proxy',
+						'Accept': req.headers.accept || 'application/json',
+						'key': apiKey,
+						'v': 4,
+					},
+                };
+        
+                // Handle request body for POST, PUT, PATCH requests
+                if (['post', 'put', 'patch'].includes(req.method.toLowerCase())) {
+					const contentType = req.headers['content-type'] || '';
+
+					if (contentType.includes('application/json')) {
+						// Forward JSON body
+						axiosConfig.data = req.body;
+						axiosConfig.headers['Content-Type'] = 'application/json';
+					} else if (contentType.includes('application/x-www-form-urlencoded')) {
+						// Forward URL-encoded form data
+						axiosConfig.data = req.body;
+						axiosConfig.headers['Content-Type'] = contentType;
+					} else if (contentType.includes('multipart/form-data')) {
+						// Parse multipart form data to extract fields and files
+						const fields = {};
+						const files = {};
+						const busboy = Busboy({ headers: req.headers });
+
+						// Parse form fields
+						busboy.on('field', (fieldname, val) => {
+							fields[fieldname] = val;
+						});
+
+						// Parse file uploads
+						busboy.on('file', (fieldname, file, info) => {
+							files[fieldname] = { file, info };
+						});
+
+						// When parsing is complete, forward the request
+						await new Promise((resolve, reject) => {
+							busboy.on('close', () => {
+								// Reconstruct FormData with extracted fields
+								const FormData = require('form-data');
+								const formData = new FormData();
+
+								// Add all fields to the new FormData
+								Object.entries(fields).forEach(([key, value]) => {
+									formData.append(key, value);
+								});
+
+								// Add all files to the new FormData
+								Object.entries(files).forEach(([key, { file, info }]) => {
+									formData.append(key, file, info.filename);
+								});
+
+								axiosConfig.data = formData;
+								// Merge form-data headers with axios config headers
+								Object.assign(axiosConfig.headers, formData.getHeaders());
+
+								resolve();
+							});
+
+							busboy.on('error', reject);
+							req.pipe(busboy);
+						});
+					}
+                }
+
+				let useCache = req.method.toUpperCase() === 'GET';
+
+				endpointConfig = isEndpointNoCache(req.path, req.method);
+				if (endpointConfig && useCache && endpointConfig.cacheable === false) {
+					useCache = false;
+				}
+
+				const response = await serverCachedFetch(axiosConfig, useCache);
+
+				if (useCache) {
+					const cacheTime = process.env.NODE_ENV === 'development' ? 1000 * 60 * 5 : 1000 * 60 * 60 * 24;
+					res.setHeader('Cache-Control', `public, max-age=${cacheTime}`);
+				}
+
+				// Forward appropriate headers from the API response
+				const contentType = response.headers['content-type'] || 'application/json';
+				const contentDisposition = response.headers['content-disposition'] || '';
+
+				res.setHeader('Content-Type', contentType);
+				res.setHeader('Content-Disposition', contentDisposition);
+
+				// Check if this is M3U8 playlist content
+				if (isM3U8Content(contentType)) {
+					// Return M3U8 as plain text, properly decoding escaped newlines
+					let m3u8Content = response.data;
+					// Convert escaped newlines to actual newlines if needed
+					if (typeof m3u8Content === 'string') {
+						m3u8Content = m3u8Content.replace(/\\n/g, '\n');
+					}
+					res.status(response.status).send(m3u8Content);
+				} else {
+					// Return the response data as JSON
+					res.status(response.status).json(response.data);
+				}
+			} catch (error) {
+				/* eslint-disable no-console */
+				if (process.env.NODE_ENV === 'development') {
+					console.error('[API Proxy Error]', error.message);
+				}
+				/* eslint-enable no-console */
+
+				// Return appropriate error status
+				const statusCode = error.response?.status || fetch.HttpStatusCode.InternalServerError;
+				const errorMessage =
+					error.response?.data?.message ||
+					error.message ||
+					'API request failed';
+
+				res.status(statusCode).json({
+					error: 'API proxy error',
+					message: errorMessage,
+				});
+			}
+		});
+
 		// TODO: Ask api team for the redirect for oauth be to /oauth instead of just /
 		// Then I can move all of the extra logic out of this route which is really gross
 		server.get('/', async (req, res) => {
@@ -55,35 +231,31 @@ app
 						return isoOneToThree[newLang];
 					})
 					.filter((lang) => !!lang);
-				languageIso = langArray[0];
+				// Ensure languageIso is never undefined - default to 'eng' if parsing fails
+				languageIso = langArray[0] || 'eng';
 			}
-			if (languageIso !== 'eng') {
-				const biblesData = await fetch
-					.get(
-						`${
-							process.env.BASE_API_ROUTE
-						}/bibles?language_code=${languageIso}&key=${
-							process.env.DBP_API_KEY
-						}&v=4&include_font=false`,
-					)
-					.then((body) => body.data)
-					.catch((err) => {
-						if (process.env.NODE_ENV === 'development') {
-							/* eslint-disable no-console */
-							console.error(
-								'Error in get initial props bible for language: ',
-								err,
-							);
-							/* eslint-enable no-console */
-						}
-						return { data: [] };
-					});
-				// Get list of bibles that match language
-				const biblesInLanguage = biblesData.data;
-				// Check for first bible
-				if (biblesInLanguage[0]) {
-					const bibleId = biblesInLanguage[0].abbr;
-					redirectPath = `/bible/${bibleId}/MAT/1`;
+			if (languageIso && languageIso !== 'eng') {
+				const url = `${
+					process.env.BASE_API_ROUTE
+				}/bibles?language_code=${languageIso}&key=${
+					process.env.DBP_API_KEY
+				}&v=4&include_font=false`;
+				try {
+					const response = await serverCachedFetch({ url }, true);
+					// Get list of bibles that match language
+					const biblesInLanguage = response.data?.data;
+					// Check for first bible
+					if (biblesInLanguage && biblesInLanguage[0]) {
+						const bibleId = biblesInLanguage[0].abbr;
+						redirectPath = `/bible/${bibleId}/MAT/1`;
+					}
+				} catch (error) {
+					if (process.env.NODE_ENV === 'development') {
+						/* eslint-disable no-console */
+						console.error('Error fetching bibles for language:', error.message);
+						/* eslint-enable no-console */
+					}
+					// Continue with default path on error
 				}
 			}
 
@@ -132,11 +304,11 @@ app
 			},
 		};
 		server.get('/sitemap.xml', (req, res) =>
-			res.status(200).sendFile('sitemap-index.xml', sitemapOptions),
+			res.status(fetch.HttpStatusCode.Ok).sendFile('sitemap-index.xml', sitemapOptions),
 		);
 		server.get('/robots.txt', (req, res) => {
 			res.set('Content-Type', 'text/plain');
-			res.status(200).send(`User-agent: Googlebot
+			res.status(fetch.HttpStatusCode.Ok).send(`User-agent: Googlebot
 Disallow:
 User-agent: Bingbot
 Disallow:
@@ -164,9 +336,9 @@ Disallow: /
 		server.get('/git/version', async (req, res) => {
 			cp.exec('git rev-parse HEAD', (err, stdout) => {
 				if (err) {
-					res.status(500).send('Could not get the revision head');
+					res.status(fetch.HttpStatusCode.InternalServerError).send('Could not get the revision head');
 				} else {
-					res.status(200).json({ head: stdout.replace('\n', '') });
+					res.status(fetch.HttpStatusCode.Ok).json({ head: stdout.replace('\n', '') });
 				}
 			});
 		});
@@ -178,14 +350,14 @@ Disallow: /
 				.catch(() => false);
 
 			if (ok) {
-				res.sendStatus(200);
+				res.sendStatus(fetch.HttpStatusCode.Ok);
 			} else {
-				res.sendStatus(500);
+				res.sendStatus(fetch.HttpStatusCode.InternalServerError);
 			}
 		});
 
 		server.get('/manifest.json', (req, res) =>
-			res.status(200).json(manifestJson),
+			res.status(fetch.HttpStatusCode.Ok).json(manifestJson),
 		);
 
 		server.get(/^\/dev-sitemap(.*)$/, (req, res) => {
@@ -197,12 +369,12 @@ Disallow: /
 			root: `${__dirname}/public/`,
 		};
 		server.get('/favicon.ico', (_, res) =>
-			res.status(200).sendFile('favicon.ico', faviconOptions),
+			res.status(fetch.HttpStatusCode.Ok).sendFile('favicon.ico', faviconOptions),
 		);
 
 		// Jesus Film Page
 		server.get('/jesus-film', (_, res) => {
-			res.redirect(302, '/jesus-film/eng');
+			res.redirect(fetch.HttpStatusCode.Found, '/jesus-film/eng');
 		});
 
 		server.get('/jesus-film/:iso', (req, res, nextP) => {

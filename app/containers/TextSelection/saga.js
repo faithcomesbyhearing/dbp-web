@@ -1,7 +1,6 @@
 import { all, takeLatest, call, fork, put } from 'redux-saga/effects';
-import cachedFetch from '../../utils/cachedFetch';
 import territoryCodes from '../../utils/territoryCodes.json';
-import request from '../../utils/request';
+import apiProxy from '../../utils/apiProxy';
 import geFilesetsForBible from '../../utils/geFilesetsForBible';
 
 import {
@@ -16,17 +15,13 @@ import {
 } from './constants';
 import { loadTexts, loadCountries, setLanguages } from './actions';
 
-const oneDay = 1000 * 60 * 60 * 24;
-
 export function* getCountries() {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/countries?key=${
-		process.env.DBP_API_KEY
-	}&v=4&has_filesets=true&include_languages=true`;
+	const requestUrl = `/countries?has_filesets=true&include_languages=true`;
 
 	try {
 		const countriesData = [];
 
-		const response = yield call(cachedFetch, requestUrl, {}, oneDay);
+		const response = yield call(apiProxy.get, requestUrl, {});
 		countriesData.push(...response.data);
 
 		let currentPage = response.meta.pagination.current_page;
@@ -39,7 +34,7 @@ export function* getCountries() {
 
 		const countryResponses = yield all(
 			countryRequestList.map((countryRequest) =>
-				call(cachedFetch, countryRequest, {}, oneDay),
+				call(apiProxy.get, countryRequest, {}),
 			),
 		);
 
@@ -86,14 +81,6 @@ export function* getCountries() {
 }
 
 export function* getTexts({ languageCode, languageIso }) {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/bibles?key=${
-		process.env.DBP_API_KEY
-	}&language_code=${languageCode}&v=4`;
-	const jesusFilmUrl = `${
-		process.env.BASE_API_ROUTE
-	}/arclight/jesus-film/languages?key=${
-		process.env.DBP_API_KEY
-	}&v=4&iso=${languageIso}`;
 	// Put logic here for determining what url to direct to when user chooses new version
 	// Benefits are that all the information can be gathered up front and behind a clear
 	// loading spinner
@@ -102,7 +89,11 @@ export function* getTexts({ languageCode, languageIso }) {
 	let jesusFilm;
 
 	try {
-		const jesusResponse = yield call(request, jesusFilmUrl);
+		const jesusResponse = yield call(
+			apiProxy.get,
+			'/arclight/jesus-film/languages',
+			{ iso: languageIso },
+		);
 
 		if (jesusResponse && jesusResponse[languageIso]) {
 			jesusFilm = {
@@ -132,7 +123,11 @@ export function* getTexts({ languageCode, languageIso }) {
 	}
 
 	try {
-		const response = yield call(request, requestUrl);
+		const response = yield call(
+			apiProxy.get,
+			'/bibles',
+			{ language_code: languageCode },
+		);
 		const texts = response.data
 			? response.data.map((resource) => ({
 					...resource,
@@ -171,14 +166,12 @@ export function* getTexts({ languageCode, languageIso }) {
 }
 
 export function* getLanguages() {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/languages?key=${
-		process.env.DBP_API_KEY
-	}&v=4&has_filesets=true`;
+	const requestUrl = `/languages?has_filesets=true`;
 
 	try {
 		const languages = [];
 
-		let response = yield call(cachedFetch, requestUrl, {}, oneDay);
+		let response = yield call(apiProxy.get, requestUrl, {});
 		languages.push(...response.data);
 
 		while (
@@ -186,7 +179,7 @@ export function* getLanguages() {
 			response.meta.pagination.total_pages
 		) {
 			const nextRequestUrl = `${requestUrl}&page=${response.meta.pagination.current_page + 1}`;
-			response = yield call(cachedFetch, nextRequestUrl, {}, oneDay);
+			response = yield call(apiProxy.get, nextRequestUrl, {});
 			languages.push(...response.data);
 		}
 
@@ -212,13 +205,11 @@ function sortLanguagesByVname(a, b) {
 }
 // Second call for the more robust language data
 export function* getLanguageAltNames() {
-	const requestUrl = `${process.env.BASE_API_ROUTE}/languages?key=${
-		process.env.DBP_API_KEY
-	}&v=4&has_filesets=true&include_alt_names=true`;
+	const requestUrl = `/languages?has_filesets=true&include_alt_names=true`;
 	try {
 		const languageData = [];
 
-		const response = yield call(cachedFetch, requestUrl, {}, oneDay);
+		const response = yield call(apiProxy.get, requestUrl, {});
 		languageData.push(...response.data);
 
 		let currentPage = response.meta.pagination.current_page;
@@ -231,7 +222,7 @@ export function* getLanguageAltNames() {
 
 		const languageResponses = yield all(
 			languageRequestList.map((languageRequest) =>
-				call(cachedFetch, languageRequest, {}, oneDay),
+				call(apiProxy.get, languageRequest, {}),
 			),
 		);
 
