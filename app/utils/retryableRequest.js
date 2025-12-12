@@ -3,7 +3,7 @@
  * Used by both server-side and client-side caching utilities
  */
 
-import axios from 'axios';
+const axios = require('axios');
 
 // Retry-able error codes
 const RETRYABLE_ERROR_CODES = ['ETIMEDOUT', 'ECONNRESET', 'ENOTFOUND'];
@@ -13,7 +13,7 @@ const RETRYABLE_ERROR_CODES = ['ETIMEDOUT', 'ECONNRESET', 'ENOTFOUND'];
  * @param {object} options - Additional axios options
  * @returns {object} - Complete axios config
  */
-export function getAxiosConfig(options = {}) {
+function getAxiosConfig(options = {}) {
 	return {
 		...options,
 		method: options.method || 'GET',
@@ -40,7 +40,7 @@ export function getAxiosConfig(options = {}) {
  * @param {Error} error - The axios error
  * @returns {boolean} - True if error is transient
  */
-export function isRetryableError(error) {
+function isRetryableError(error) {
 	return RETRYABLE_ERROR_CODES.includes(error.code);
 }
 
@@ -51,7 +51,7 @@ export function isRetryableError(error) {
  * @param {number} maxRetries - Maximum retry attempts (default: 3)
  * @returns {Promise<object>} - Full axios response object or throws error
  */
-export async function retryAxiosCall(options = {}, maxRetries = 3) {
+async function retryAxiosCall(options = {}, maxRetries = 3) {
 	const url = options.url || 'unknown';
 
 	for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -94,3 +94,9 @@ export async function retryAxiosCall(options = {}, maxRetries = 3) {
 		}
 	}
 }
+
+module.exports = {
+	getAxiosConfig,
+	isRetryableError,
+	retryAxiosCall,
+};

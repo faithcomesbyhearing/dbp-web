@@ -1,7 +1,6 @@
 // nextServer.js
 require('core-js');
 require('regenerator-runtime');
-const lscache = require('lscache');
 const dotenv = require('dotenv');
 if (process.env.NODE_ENV !== 'production') {
 	dotenv.config();
@@ -21,13 +20,13 @@ const checkBookId = require('./app/utils/checkBookName');
 const isoOneToThree = require('./app/utils/isoOneToThree.json');
 const { isM3U8Content } = require('./app/utils/parseM3U8.js');
 const { serverCachedFetch } = require('./app/utils/serverCachedFetch.js');
-const { isEndpointNoCache } = require('./app/utils/apiEndpointConfig.js').default;
+const { isEndpointNoCache } = require('./app/utils/apiEndpointConfig.js');
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const ssrCache = new LRUCache({
 	max: 1000,
-	maxAge: dev ? 1000 * 60 * 5 : 1000 * 60 * 60 * 24,
+	maxAge: process.env.NODE_ENV !== 'production' ? 1000 : 1000 * 60 * 60 * 24, // 1 second for development/newdata environments
 });
 
 async function renderAndCache(req, res, pagePath, queryParams) {
@@ -90,14 +89,15 @@ app
 				}
 
 				 // Prepare axios config based on HTTP method
+				// Use normalized headers to ensure consistent API responses for both SSR and client-side requests
                 const axiosConfig = {
 					method: req.method.toLowerCase(),
 					url: fullUrl,
 					headers: {
-						'User-Agent': req.headers['user-agent'] || 'Node.js API Proxy',
-						'Accept': req.headers.accept || 'application/json',
-						'key': apiKey,
-						'v': 4,
+						'User-Agent': 'Mozilla/5.0 (compatible; Node.js)',
+						'Accept': 'application/json, text/plain, */*',
+						'Accept-Encoding': 'gzip, deflate, br',
+						'Connection': 'keep-alive',
 					},
                 };
         
@@ -169,7 +169,7 @@ app
 				const response = await serverCachedFetch(axiosConfig, useCache);
 
 				if (useCache) {
-					const cacheTime = process.env.NODE_ENV === 'development' ? 1000 * 60 * 5 : 1000 * 60 * 60 * 24;
+					const cacheTime = process.env.NODE_ENV !== 'production' ? 1000 : 1000 * 60 * 60 * 24;
 					res.setHeader('Cache-Control', `public, max-age=${cacheTime}`);
 				}
 
@@ -280,7 +280,6 @@ app
 
 		server.get('/clean-the-cash', (req, res) => {
 			ssrCache.clear();
-			lscache.flush();
 			res.send('Cleaned the cache');
 		});
 

@@ -79,7 +79,7 @@ function isEndpointNoCache(path, method) {
 	return null;
 }
 
-export default {
+module.exports = {
 	ENDPOINT_CONFIG,
 	isEndpointNoCache,
 	matchesPattern,
