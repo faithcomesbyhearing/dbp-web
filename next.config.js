@@ -44,7 +44,7 @@ module.exports = withBundleAnalyzer({
 		forceSwcTransforms: true,
 	},
 	env: {
-		BASE_API_ROUTE: process.env.BASE_API_ROUTE,
+		// BASE_API_ROUTE removed - server-only, use runtime env var instead
 		BASE_SITE_URL: process.env.BASE_SITE_URL || fallbackSiteUrl,
 		BUGSNAG_API_KEY: process.env.BUGSNAG_API_KEY,
 		CDN_STATIC_FILES: process.env.CDN_STATIC_FILES,
