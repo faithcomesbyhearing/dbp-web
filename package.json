@@ -164,7 +164,7 @@
 		"jsdom": "26.1.0",
 		"lint-staged": "16.1.5",
 		"ngrok": "5.0.0-beta.2",
-		"plop": "4.0.1",
+		"plop": "4.0.4",
 		"prettier": "3.5.3",
 		"react-test-renderer": "19.2.0",
 		"redux-mock-store": "1.5.5",
