@@ -109,7 +109,7 @@
 		"@bugsnag/js": "8.6.0",
 		"@bugsnag/plugin-react": "8.6.0",
 		"@next/bundle-analyzer": "15.3.3",
-		"@reduxjs/toolkit": "2.8.2",
+		"@reduxjs/toolkit": "2.11.2",
 		"@xmldom/xmldom": "0.9.8",
 		"axios": "1.13.2",
 		"busboy": "1.6.0",
