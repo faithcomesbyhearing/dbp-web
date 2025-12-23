@@ -49,6 +49,10 @@ export default defineMessages({
 		id: 'app.containers.audioplayer.pauseTitle',
 		defaultMessage: 'Pause',
 	},
+	loadingPlaylistTitle: {
+		id: 'app.containers.audioplayer.loadingPlaylistTitle',
+		defaultMessage: 'Loading playlist...',
+	},
 	autoplayTitle: {
 		id: 'app.containers.audioplayer.autoplayTitle',
 		defaultMessage:
