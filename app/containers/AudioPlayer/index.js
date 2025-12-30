@@ -51,7 +51,7 @@ import getClassNamesForAudioBackground from '../../utils/getClassNamesForAudioBa
 import { setPlaybackRate, setVolume } from './actions';
 import PlaybackRateSvg from '../../components/PlaybackRateSvg';
 import NewChapterArrow from '../../components/NewChapterArrow';
-import { addFilesetQueryParams, isFileSet } from './helper';
+import { isFileSet } from './helper';
 
 /* disabled the above eslint config options because you can't add tracks to audio elements */
 
@@ -62,6 +62,7 @@ export class AudioPlayer extends React.Component {
 		this.state = {
 			playing: false,
 			loadingNextChapter: false,
+			loadingPlaylist: false,
 			speedControlState: false,
 			volumeSliderState: false,
 			elipsisState: false,
@@ -75,6 +76,9 @@ export class AudioPlayer extends React.Component {
 			clickedPlay: false,
 			wasPlaying: false,
 		};
+		// HLS instance and current source tracking
+		this.hls = null;
+		this.currentHlsSource = null;
 	}
 
 	componentDidMount() {
@@ -151,16 +155,27 @@ export class AudioPlayer extends React.Component {
 			this.setTextLoadingState({ state: false });
 		}
 		if (prevProps.audioSource !== this.props.audioSource) {
+			// Clean up HLS instance when source changes
+			if (this.hls && isFileSet(prevProps.audioSource)) {
+				this.hls.destroy();
+				this.hls = null;
+				this.currentHlsSource = null;
+			}
+
 			if (this.props.audioSource && !prevProps.audioSource) {
 				this.setAudioPlayerState(true);
 			}
 			if (this.props.audioSource) {
-				this.setState({ playing: false, loadingNextChapter: false });
+				this.setState({
+					playing: false,
+					loadingNextChapter: false,
+					loadingPlaylist: false,
+				});
 			} else if (
 				prevProps.audioPlayerState &&
 				(!this.props.audioSource || !this.props.hasAudio)
 			) {
-				this.setState({ playing: false }, () =>
+				this.setState({ playing: false, loadingPlaylist: false }, () =>
 					this.setAudioPlayerState(false),
 				);
 			}
@@ -230,6 +245,13 @@ export class AudioPlayer extends React.Component {
 	}
 
 	componentWillUnmount() {
+		// Clean up HLS instance
+		if (this.hls) {
+			this.hls.destroy();
+			this.hls = null;
+			this.currentHlsSource = null;
+		}
+
 		// Removing all the event listeners in the case that this component is unmounted
 		if (navigator?.userAgent && /iPhone|iPod|iPad/i.test(navigator.userAgent)) {
 			this.audioRef.removeEventListener(
@@ -441,17 +463,59 @@ export class AudioPlayer extends React.Component {
 		if (!audioSource) {
 			return;
 		}
-		const hls = new Hls();
-		const video = this.audioRef;
-		// bind them together
-		hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-			const parsedSource = addFilesetQueryParams(audioSource);
-			hls.loadSource(parsedSource);
+
+		const parsedSource = audioSource;
+		const audio = this.audioRef;
+
+		// If HLS is already initialized and source hasn't changed, just resume playback
+		if (this.hls && this.currentHlsSource === parsedSource) {
+			// Resume playback from current position
+			this.playFile(audio);
+			return;
+		}
+
+		// Show loading indicator when starting to load playlist
+		this.setState({ loadingPlaylist: true });
+
+		// Clean up existing HLS instance if source has changed
+		if (this.hls) {
+			this.hls.destroy();
+		}
+
+		// Create new HLS instance
+		this.hls = new Hls();
+		this.currentHlsSource = parsedSource;
+
+		// Track loading state with HLS events
+		this.hls.on(Hls.Events.MANIFEST_LOADING, () => {
+			this.setState({ loadingPlaylist: true });
 		});
-		hls.on(Hls.Events.MANIFEST_PARSED, () => {
-			this.playFile(video);
+
+		this.hls.on(Hls.Events.FRAG_LOADED, () => {
+			// First fragment loaded, ready to play
+			this.setState({ loadingPlaylist: false });
 		});
-		hls.attachMedia(video);
+
+		this.hls.on(Hls.Events.ERROR, (_event, data) => {
+			// Hide loading on error
+			this.setState({ loadingPlaylist: false });
+			if (data.fatal) {
+				if (process.env.NODE_ENV === 'development') {
+					console.error('HLS Error:', data); // eslint-disable-line no-console
+				}
+			}
+		});
+
+		// Bind HLS to audio element
+		this.hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+			this.hls.loadSource(parsedSource);
+		});
+
+		this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+			this.playFile(audio);
+		});
+
+		this.hls.attachMedia(audio);
 	}
 
 	playAudioOnSafari = () => {
@@ -630,22 +694,31 @@ export class AudioPlayer extends React.Component {
 		</div>
 	);
 
-	playIcon = () => (
-		<div
-			id={'play-audio'}
-			onClick={() => {
-				this.playAudio(this.props.audioSource);
-			}}
-			className={`icon-wrap ${
-				(this.state.loadingNextChapter || this.props.changingVersion) &&
-				'audio-player-play-disabled'
-			}`}
-			title={messages.playTitle.defaultMessage}
-		>
-			<SvgWrapper className="svgitem icon" svgid="play" />
-			<FormattedMessage {...messages.play} />
-		</div>
-	);
+	playIcon = () => {
+		const { loadingNextChapter, loadingPlaylist } = this.state;
+		const { changingVersion } = this.props;
+		const isLoading = loadingNextChapter || changingVersion || loadingPlaylist;
+
+		return (
+			<div
+				id={'play-audio'}
+				onClick={() => {
+					if (!isLoading) {
+						this.playAudio(this.props.audioSource);
+					}
+				}}
+				className={`icon-wrap ${isLoading && 'audio-player-play-disabled'}`}
+				title={
+					loadingPlaylist
+						? messages.loadingPlaylistTitle.defaultMessage
+						: messages.playTitle.defaultMessage
+				}
+			>
+				<SvgWrapper className="svgitem icon" svgid="play" />
+				<FormattedMessage {...messages.play} />
+			</div>
+		);
+	};
 
 	render() {
 		const {
@@ -842,8 +915,8 @@ export class AudioPlayer extends React.Component {
 					<video
 						ref={this.handleRef}
 						className="audio-player"
-						src={`${addFilesetQueryParams(source)}` || '_'}
-						data-src={`source-${addFilesetQueryParams(source)}-${source}`}
+						src={source || '_'}
+						data-src={`source-${source}`}
 					/>
 				</div>
 			</>

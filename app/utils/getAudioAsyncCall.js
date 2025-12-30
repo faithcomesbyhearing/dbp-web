@@ -230,5 +230,19 @@ export default async (filesets, bookId, chapter, audioType) => {
 		}
 	}
 
+	// Post-process audio paths: apply proxy transformation only to .m3u8 playlists
+	// Leave .mp3 files unchanged as they are direct CDN URLs
+	audioReturnObject.audioPaths = audioReturnObject.audioPaths.map((path) => {
+		if (!path) return path;
+
+		// Check if the path is a .m3u8 playlist file
+		if (path.toLowerCase().endsWith('.m3u8')) {
+			// Apply proxy transformation for playlists
+			return apiProxy.buildProxyUrl(apiProxy.extractFilepath(path));
+		}
+
+		return path;
+	});
+
 	return audioReturnObject;
 };
