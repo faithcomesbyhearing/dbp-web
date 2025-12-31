@@ -7,11 +7,12 @@
 
 const { LRUCache } = require('lru-cache');
 const { retryAxiosCall } = require('./retryableRequest.js');
+const { getCacheTTL, ENV } = require('./environmentConfig.js');
 
-// Server-side cache with 24hr TTL in prod, 5min in dev
+// Server-side cache with 5 minutes TTL in prod, 1 second for development/newdata environments
 const cache = new LRUCache({
 	max: 500,
-	ttl: process.env.NODE_ENV !== 'production' ? 1000 : 1000 * 60 * 60 * 24, // 1 second for development/newdata environments
+	ttl: getCacheTTL(),
 });
 
 /**
@@ -39,7 +40,7 @@ async function serverCachedFetch(options = {}, useCache = true) {
 		return response;
 	} catch (error) {
 		// If request fails, throw error
-		if (process.env.NODE_ENV === 'development') {
+		if (process.env.APP_ENV === ENV.DEVELOPMENT || process.env.APP_ENV === ENV.NEWDATA) {
 			// eslint-disable-next-line no-console
 			console.error('[API Error]', url, error.message);
 		}
