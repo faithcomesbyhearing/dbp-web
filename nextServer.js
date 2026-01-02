@@ -2,35 +2,34 @@
 require('core-js');
 require('regenerator-runtime');
 const dotenv = require('dotenv');
-if (process.env.NODE_ENV !== 'production') {
+const { ENV, getCacheTTL } = require('./app/utils/environmentConfig.js');
+if (process.env.NODE_ENV !== ENV.PRODUCTION) {
 	dotenv.config();
 }
 const cp = require('child_process');
 const express = require('express');
 const next = require('next');
 const compression = require('compression');
-const { LRUCache } = require('lru-cache');
 const fetch = require('axios');
 const Busboy = require('busboy');
 const port = process.env.PORT || 3000;
-const dev = process.env.NODE_ENV === 'development';
+const dev = process.env.NODE_ENV === ENV.DEVELOPMENT;
 const bugsnag = require('./app/utils/bugsnagServer');
 const manifestJson = require('./public/manifest.json');
 const checkBookId = require('./app/utils/checkBookName');
 const isoOneToThree = require('./app/utils/isoOneToThree.json');
 const { isM3U8Content } = require('./app/utils/parseM3U8.js');
-const { serverCachedFetch } = require('./app/utils/serverCachedFetch.js');
+const {
+	serverCachedFetch,
+	clearCache,
+} = require('./app/utils/serverCachedFetch.js');
 const { isEndpointNoCache } = require('./app/utils/apiEndpointConfig.js');
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const ssrCache = new LRUCache({
-	max: 1000,
-	maxAge: process.env.NODE_ENV !== 'production' ? 1000 : 1000 * 60 * 60 * 24, // 1 second for development/newdata environments
-});
-
 async function renderAndCache(req, res, pagePath, queryParams) {
-	// Stop caching individual routes as it is causing inconsistencies with the audio types
+	// Note: SSR route caching was disabled as it caused inconsistencies with audio types
+	// API caching is handled separately in serverCachedFetch.js
 	app.render(req, res, pagePath, queryParams);
 }
 
@@ -82,27 +81,27 @@ app
 				const separator = cleanSearch ? '&' : '?';
 				const fullUrl = `${baseUrl}${apiPath}${cleanSearch}${separator}key=${apiKey}&v=4`;
 
-				if (process.env.NODE_ENV === 'development') {
+				if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
 					/* eslint-disable no-console */
 					console.log('[API Proxy] Forwarding to:', fullUrl);
 					/* eslint-enable no-console */
 				}
 
-				 // Prepare axios config based on HTTP method
+				// Prepare axios config based on HTTP method
 				// Use normalized headers to ensure consistent API responses for both SSR and client-side requests
-                const axiosConfig = {
+				const axiosConfig = {
 					method: req.method.toLowerCase(),
 					url: fullUrl,
 					headers: {
 						'User-Agent': 'Mozilla/5.0 (compatible; Node.js)',
-						'Accept': 'application/json, text/plain, */*',
+						Accept: 'application/json, text/plain, */*',
 						'Accept-Encoding': 'gzip, deflate, br',
-						'Connection': 'keep-alive',
+						Connection: 'keep-alive',
 					},
-                };
-        
-                // Handle request body for POST, PUT, PATCH requests
-                if (['post', 'put', 'patch'].includes(req.method.toLowerCase())) {
+				};
+
+				// Handle request body for POST, PUT, PATCH requests
+				if (['post', 'put', 'patch'].includes(req.method.toLowerCase())) {
 					const contentType = req.headers['content-type'] || '';
 
 					if (contentType.includes('application/json')) {
@@ -157,7 +156,7 @@ app
 							req.pipe(busboy);
 						});
 					}
-                }
+				}
 
 				let useCache = req.method.toUpperCase() === 'GET';
 
@@ -169,7 +168,7 @@ app
 				const response = await serverCachedFetch(axiosConfig, useCache);
 
 				if (useCache) {
-					const cacheTime = process.env.NODE_ENV !== 'production' ? 1000 : 1000 * 60 * 60 * 24;
+					const cacheTime = Math.floor(getCacheTTL() / 1000); // Convert milliseconds to seconds for Cache-Control
 					res.setHeader('Cache-Control', `public, max-age=${cacheTime}`);
 				}
 
@@ -195,7 +194,10 @@ app
 				}
 			} catch (error) {
 				/* eslint-disable no-console */
-				if (process.env.NODE_ENV === 'development') {
+				if (
+					process.env.APP_ENV === ENV.DEVELOPMENT ||
+					process.env.APP_ENV === ENV.NEWDATA
+				) {
 					console.error('[API Proxy Error]', error.message);
 				}
 				/* eslint-enable no-console */
@@ -250,7 +252,10 @@ app
 						redirectPath = `/bible/${bibleId}/MAT/1`;
 					}
 				} catch (error) {
-					if (process.env.NODE_ENV === 'development') {
+					if (
+						process.env.APP_ENV === ENV.DEVELOPMENT ||
+						process.env.APP_ENV === ENV.NEWDATA
+					) {
 						/* eslint-disable no-console */
 						console.error('Error fetching bibles for language:', error.message);
 						/* eslint-enable no-console */
@@ -278,10 +283,17 @@ app
 			}
 		});
 
-		server.get('/clean-the-cash', (req, res) => {
-			ssrCache.clear();
-			res.send('Cleaned the cache');
-		});
+		// Cache clearing endpoint - only available in development/staging environments
+		// In production, cache is cleared automatically via TTL (24 hours)
+		if (
+			process.env.APP_ENV === ENV.DEVELOPMENT ||
+			process.env.APP_ENV === ENV.NEWDATA
+		) {
+			server.get('/clean-the-cash', (req, res) => {
+				clearCache(); // Clear API request cache
+				res.send('Cleaned the cache');
+			});
+		}
 
 		server.get('/oauth', (req, res) => {
 			const userString = Buffer.from(req.query.code, 'base64').toString(
@@ -526,11 +538,7 @@ Disallow: /
 		server.all(/^\/.*$/, (req, res) => handle(req, res));
 
 		server.listen(port, (err) => {
-			if (
-				err &&
-				(process.env.NODE_ENV === 'production' ||
-					process.env.NODE_ENV === 'staging')
-			) {
+			if (err && process.env.NODE_ENV === ENV.PRODUCTION) {
 				bugsnag.notify(err);
 			}
 			if (err) throw err;
@@ -543,7 +551,7 @@ Disallow: /
 			'------------------------^_^---*_*--$_$--------------------------------\n',
 			ex,
 		);
-		if (process.env.NODE_ENV !== 'development') {
+		if (process.env.NODE_ENV === ENV.PRODUCTION) {
 			bugsnag.notify(ex);
 		}
 		/* eslint-enable no-console */
