@@ -51,9 +51,7 @@ export const detectRTLFromVerses = (verses, sampleSize = 3) => {
  * @param {string} text - The text to analyze
  * @returns {string} - 'rtl' if text contains RTL characters, 'ltr' otherwise
  */
-export const getTextDirection = (text) => {
-	return detectRTLFromText(text) ? RTL : LTR;
-};
+export const getTextDirection = (text) => (detectRTLFromText(text) ? RTL : LTR);
 
 /**
  * Gets text direction from verse array
@@ -62,9 +60,8 @@ export const getTextDirection = (text) => {
  * @param {number} sampleSize - Number of verses to sample (default: 3)
  * @returns {string} - 'rtl' if verses contain RTL characters, 'ltr' otherwise
  */
-export const getTextDirectionFromVerses = (verses, sampleSize = 3) => {
-	return detectRTLFromVerses(verses, sampleSize) ? RTL : LTR;
-};
+export const getTextDirectionFromVerses = (verses, sampleSize = 3) =>
+	detectRTLFromVerses(verses, sampleSize) ? RTL : LTR;
 
 /**
  * Detects RTL from formatted JSON blocks by extracting and sampling text
@@ -103,7 +100,10 @@ export const detectRTLFromFormattedJson = (
  * @param {string|Array} textOrVerses - Text string or array of verses to analyze
  * @returns {string} - 'rtl' or 'ltr'
  */
-export const getTextDirectionWithFallback = (providedDirection, textOrVerses) => {
+export const getTextDirectionWithFallback = (
+	providedDirection,
+	textOrVerses,
+) => {
 	// If direction is already provided and not empty, use it
 	if (providedDirection && providedDirection.trim() !== '') {
 		return providedDirection;
