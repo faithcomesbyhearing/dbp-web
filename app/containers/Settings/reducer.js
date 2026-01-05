@@ -14,6 +14,7 @@ import {
 } from './constants';
 import { ACTIVE_TEXT_ID } from '../HomePage/constants';
 import { SET_VOLUME, SET_PLAYBACK_RATE } from '../AudioPlayer/constants';
+import { ENV } from '../../utils/environmentConfig';
 
 // Helper function to set a value at a specific path in an object.
 const getPath = (obj, keys, defaultValue = undefined) => {
@@ -145,10 +146,20 @@ function settingsReducer(state = initialState, action = { type: null }) {
 			// 2. (side‐effect) write cookies if running in the browser
 			if (typeof window !== 'undefined') {
 				if (action.exclusivePath) {
-					document.cookie = `bible_is_${action.exclusivePath.join('_')}=false;path=/`;
+					const exclusiveCookie = `bible_is_${action.exclusivePath.join('_')}=false;path=/`;
+					document.cookie = exclusiveCookie;
+					if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
+						console.log('[Settings Reducer] Writing exclusive cookie:', exclusiveCookie); // eslint-disable-line no-console
+					}
 				}
 
-				document.cookie = `bible_is_${action.path.join('_')}=${!currentValue};path=/`;
+				const mainCookie = `bible_is_${action.path.join('_')}=${!currentValue};path=/`;
+				document.cookie = mainCookie;
+				if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
+					console.log('[Settings Reducer] Writing cookie:', mainCookie); // eslint-disable-line no-console
+					console.log('[Settings Reducer] Path:', action.path); // eslint-disable-line no-console
+					console.log('[Settings Reducer] Old value:', currentValue, '→ New value:', !currentValue); // eslint-disable-line no-console
+				}
 			}
 
 			// 3. build up the new state by flipping the target,

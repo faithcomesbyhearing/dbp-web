@@ -42,7 +42,7 @@ export class Information extends React.PureComponent {
 		const { copyrights } = this.props;
 
 		return (
-			<section ref={this.setRef} className="information">
+			<section ref={this.setRef} className="information" dir="ltr">
 				<button
 					onClick={this.toggleCopyright}
 					className="information-toggle"

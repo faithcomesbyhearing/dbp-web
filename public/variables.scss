@@ -1,4 +1,6 @@
-@import '../theme_config/custom_theme_variables.scss';
+@use "sass:map";
+@use "sass:string";
+@use '../theme_config/custom_theme_variables.scss';
 
 // Breakpoints
 $small-bp: 291px;
@@ -42,96 +44,96 @@ $css4: true;
 $compatibility: true;
 //it is nessesary to define the variables in sass map instead of :root, for compatibility reasons.
 $variables: (
-	--text-selection-background: $text-selection-background,
+	--text-selection-background: custom_theme_variables.$text-selection-background,
 	--text-selection-accordion-title-background:
-		$text-selection-accordion-title-background,
+		custom_theme_variables.$text-selection-accordion-title-background,
 	--text-selection-accordion-body-background:
-		$text-selection-accordion-body-background,
+		custom_theme_variables.$text-selection-accordion-body-background,
 	--text-selection-tab-option-active-background:
-		$text-selection-tab-option-active-background,
-	--text-selection-tab-option-color: $text-selection-tab-option-color,
+		custom_theme_variables.$text-selection-tab-option-active-background,
+	--text-selection-tab-option-color: custom_theme_variables.$text-selection-tab-option-color,
 	--text-selection-tab-option-active-color:
-		$text-selection-tab-option-active-color,
+		custom_theme_variables.$text-selection-tab-option-active-color,
 	--text-selection-tab-option-active-border-color:
-		$text-selection-tab-option-active-border-color,
-	--book-dropdown-background-color: $book-dropdown-background-color,
+		custom_theme_variables.$text-selection-tab-option-active-border-color,
+	--book-dropdown-background-color: custom_theme_variables.$book-dropdown-background-color,
 	--book-dropdown-chapter-background-color:
-		$book-dropdown-chapter-background-color,
-	--book-dropdown-text-color: $book-dropdown-text-color,
+		custom_theme_variables.$book-dropdown-chapter-background-color,
+	--book-dropdown-text-color: custom_theme_variables.$book-dropdown-text-color,
 	--book-dropdown-section-background-color:
-		$book-dropdown-section-background-color,
-	--main-textarea-svg-color: $main-textarea-svg-color,
-	--main-textarea-svg-fill-color: $main-textarea-svg-fill-color,
+		custom_theme_variables.$book-dropdown-section-background-color,
+	--main-textarea-svg-color: custom_theme_variables.$main-textarea-svg-color,
+	--main-textarea-svg-fill-color: custom_theme_variables.$main-textarea-svg-fill-color,
 	--main-textarea-read-chapter-background:
-		$main-textarea-read-chapter-background,
-	--main-textarea-read-chapter-shadow: $main-textarea-read-chapter-shadow,
-	--main-textarea-read-chapter-active: $main-textarea-read-chapter-active,
-	--active-color-primary: $active-color-primary,
-	--active-color-secondary: $active-color-secondary,
-	--highlight-blue: $highlight-blue,
-	--highlight-pink: $highlight-pink,
-	--highlight-yellow: $highlight-yellow,
-	--highlight-green: $highlight-green,
-	--highlight-purple: $highlight-purple,
-	--disabled-input-option: $disabled-input-option,
-	--inactive-font-option: $inactive-font-option,
-	--dark-theme-primary: $dark-theme-primary,
-	--light-theme-primary: $light-theme-primary,
-	--default-theme-primary: $default-theme-primary,
-	--settings-text-color: $settings-text-color,
-	--theme-option-border: $theme-option-border,
-	--notebook-footer-background-color: $notebook-footer-background-color,
-	--notebook-title-date-color: $notebook-title-date-color,
-	--profile-forgot-password-color: $profile-forgot-password-color,
+		custom_theme_variables.$main-textarea-read-chapter-background,
+	--main-textarea-read-chapter-shadow: custom_theme_variables.$main-textarea-read-chapter-shadow,
+	--main-textarea-read-chapter-active: custom_theme_variables.$main-textarea-read-chapter-active,
+	--active-color-primary: custom_theme_variables.$active-color-primary,
+	--active-color-secondary: custom_theme_variables.$active-color-secondary,
+	--highlight-blue: custom_theme_variables.$highlight-blue,
+	--highlight-pink: custom_theme_variables.$highlight-pink,
+	--highlight-yellow: custom_theme_variables.$highlight-yellow,
+	--highlight-green: custom_theme_variables.$highlight-green,
+	--highlight-purple: custom_theme_variables.$highlight-purple,
+	--disabled-input-option: custom_theme_variables.$disabled-input-option,
+	--inactive-font-option: custom_theme_variables.$inactive-font-option,
+	--dark-theme-primary: custom_theme_variables.$dark-theme-primary,
+	--light-theme-primary: custom_theme_variables.$light-theme-primary,
+	--default-theme-primary: custom_theme_variables.$default-theme-primary,
+	--settings-text-color: custom_theme_variables.$settings-text-color,
+	--theme-option-border: custom_theme_variables.$theme-option-border,
+	--notebook-footer-background-color: custom_theme_variables.$notebook-footer-background-color,
+	--notebook-title-date-color: custom_theme_variables.$notebook-title-date-color,
+	--profile-forgot-password-color: custom_theme_variables.$profile-forgot-password-color,
 	--profile-login-signup-background-color:
-		$profile-login-signup-background-color,
+		custom_theme_variables.$profile-login-signup-background-color,
 	--profile-invalid-input-background-color:
-		$profile-invalid-input-background-color,
-	--context-menu-background-color: $context-menu-background-color,
-	--context-menu-svg-fill-color: $context-menu-svg-fill-color,
-	--context-menu-text-color: $context-menu-text-color,
+		custom_theme_variables.$profile-invalid-input-background-color,
+	--context-menu-background-color: custom_theme_variables.$context-menu-background-color,
+	--context-menu-svg-fill-color: custom_theme_variables.$context-menu-svg-fill-color,
+	--context-menu-text-color: custom_theme_variables.$context-menu-text-color,
 	--context-menu-highlight-active-background-color:
-		$context-menu-highlight-active-background-color,
-	--context-menu-hover-color: $context-menu-hover-color,
-	--audio-player-progress-bar-background: $audio-player-progress-bar-background,
-	--audio-player-handle-background: $audio-player-handle-background,
-	--audio-player-background: $audio-player-background,
+		custom_theme_variables.$context-menu-highlight-active-background-color,
+	--context-menu-hover-color: custom_theme_variables.$context-menu-hover-color,
+	--audio-player-progress-bar-background: custom_theme_variables.$audio-player-progress-bar-background,
+	--audio-player-handle-background: custom_theme_variables.$audio-player-handle-background,
+	--audio-player-background: custom_theme_variables.$audio-player-background,
 	--audio-player-gripper-background-color:
-		$audio-player-gripper-background-color,
-	--audio-player-gripper-before-color: $audio-player-gripper-before-color,
-	--menu-body-background-color: $menu-body-background-color,
-	--menu-background-color-opaque: $menu-background-color-opaque,
+		custom_theme_variables.$audio-player-gripper-background-color,
+	--audio-player-gripper-before-color: custom_theme_variables.$audio-player-gripper-before-color,
+	--menu-body-background-color: custom_theme_variables.$menu-body-background-color,
+	--menu-background-color-opaque: custom_theme_variables.$menu-background-color-opaque,
 	--menu-body-background-color-transparent:
-		$menu-body-background-color-transparent,
-	--menu-header-background-color: $menu-header-background-color,
-	--menu-border-color: $menu-border-color,
-	--menu-hover-state-background-color: $menu-hover-state-background-color,
-	--default-background-color: $default-background-color,
-	--default-header-background-color: $default-header-background-color,
-	--default-footer-background-color: $default-footer-background-color,
+		custom_theme_variables.$menu-body-background-color-transparent,
+	--menu-header-background-color: custom_theme_variables.$menu-header-background-color,
+	--menu-border-color: custom_theme_variables.$menu-border-color,
+	--menu-hover-state-background-color: custom_theme_variables.$menu-hover-state-background-color,
+	--default-background-color: custom_theme_variables.$default-background-color,
+	--default-header-background-color: custom_theme_variables.$default-header-background-color,
+	--default-footer-background-color: custom_theme_variables.$default-footer-background-color,
 	--default-header-background-transparent:
-		$default-header-background-transparent,
-	--default-text-color: $default-text-color,
-	--default-verse-number-color: $default-verse-number-color,
-	--before-after-border-color: $before-after-border-color,
-	--default-svg-fill-color: $default-svg-fill-color,
-	--default-input-placeholder-color: $default-input-placeholder-color,
-	--application-text-super-color: $application-text-super-color,
-	--application-loading-spinner-color: $application-loading-spinner-color,
+		custom_theme_variables.$default-header-background-transparent,
+	--default-text-color: custom_theme_variables.$default-text-color,
+	--default-verse-number-color: custom_theme_variables.$default-verse-number-color,
+	--before-after-border-color: custom_theme_variables.$before-after-border-color,
+	--default-svg-fill-color: custom_theme_variables.$default-svg-fill-color,
+	--default-input-placeholder-color: custom_theme_variables.$default-input-placeholder-color,
+	--application-text-super-color: custom_theme_variables.$application-text-super-color,
+	--application-loading-spinner-color: custom_theme_variables.$application-loading-spinner-color,
 	--default-header-background-color-transparent:
-		$default-header-background-color-transparent,
-	--application-input-caret-color: $application-input-caret-color,
-	--application-text-caret-color: $application-text-caret-color,
-	--application-transparent-gray: $application-transparent-gray,
-	--application-text-selection-color: $application-text-selection-color,
-	--application-text-container-color: $application-text-container-color,
-	--application-link-color: $application-link-color,
+		custom_theme_variables.$default-header-background-color-transparent,
+	--application-input-caret-color: custom_theme_variables.$application-input-caret-color,
+	--application-text-caret-color: custom_theme_variables.$application-text-caret-color,
+	--application-transparent-gray: custom_theme_variables.$application-transparent-gray,
+	--application-text-selection-color: custom_theme_variables.$application-text-selection-color,
+	--application-text-container-color: custom_theme_variables.$application-text-container-color,
+	--application-link-color: custom_theme_variables.$application-link-color,
 	--default-language-name-background-color-transparent:
-		$default-language-name-background-color-transparent,
-	--read-full-chapter: $read-full-chapter,
-	--video-player-background-color: $video-player-background-color,
-	--video-player-black-bar-color: $video-player-black-bar-color,
-	--video-player-films-svg-color: $video-player-films-svg-color,
+		custom_theme_variables.$default-language-name-background-color-transparent,
+	--read-full-chapter: custom_theme_variables.$read-full-chapter,
+	--video-player-background-color: custom_theme_variables.$video-player-background-color,
+	--video-player-black-bar-color: custom_theme_variables.$video-player-black-bar-color,
+	--video-player-films-svg-color: custom_theme_variables.$video-player-films-svg-color,
 );
 
 //Here we transfer the variables from the map to the :root element
@@ -146,9 +148,9 @@ $variables: (
 //this is the "magic" function
 @function var($variable) {
 	@if ($css4) {
-		@return unquote('var(' + $variable + ')');
+		@return string.unquote('var(' + $variable + ')');
 	} @else {
-		@return map-get($variables, $variable);
+		@return map.get($variables, $variable);
 	}
 }
 

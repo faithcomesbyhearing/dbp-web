@@ -4,6 +4,7 @@ exports[`<Information /> component tests should match default snapshot 1`] = `
 <div>
   <section
     class="information"
+    dir="ltr"
   >
     <button
       class="information-toggle"
@@ -270,6 +271,7 @@ exports[`<Information /> component tests should match snapshot with missing info
 <div>
   <section
     class="information"
+    dir="ltr"
   >
     <button
       class="information-toggle"
@@ -448,6 +450,7 @@ exports[`<Information /> component tests should match snapshot with missing orga
 <div>
   <section
     class="information"
+    dir="ltr"
   >
     <button
       class="information-toggle"

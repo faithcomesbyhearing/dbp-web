@@ -39,5 +39,6 @@ artifacts:
     - app/utils/apiEndpointConfig.js
     - app/utils/retryableRequest.js
     - app/utils/environmentConfig.js
+    - app/utils/rtlDetection.js
   discard-paths: no
   name: 'BibleIsWebsite-$CODEBUILD_BUILD_NUMBER'

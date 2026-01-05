@@ -1,3 +1,5 @@
+@use "variables";
+
 .footer-background {
 	display: flex;
 	justify-content: center;
@@ -9,8 +11,8 @@
 	bottom: 0;
 	//left: 0;
 	width: 100%;
-	@include css4 {
-		background: var(--default-header-background-color);
+	@include variables.css4 {
+		background: variables.var(--default-header-background-color);
 	}
 	transition: transform 200ms ease-in-out;
 
@@ -19,8 +21,8 @@
 	}
 }
 .footer-content {
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 	display: flex;
 	height: 45px;
@@ -39,14 +41,14 @@
 	position: relative;
 
 	&.active {
-		@include css4 {
-			background-color: var(--menu-hover-state-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--menu-hover-state-background-color);
 		}
 	}
 
 	&:hover {
-		@include css4 {
-			background-color: var(--menu-hover-state-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--menu-hover-state-background-color);
 		}
 	}
 
@@ -57,8 +59,8 @@
 		right: 0;
 		top: 2px;
 		content: '';
-		@include css4 {
-			background-color: var(--before-after-border-color);
+		@include variables.css4 {
+			background-color: variables.var(--before-after-border-color);
 		}
 	}
 
@@ -72,7 +74,7 @@
 	opacity: 0.65;
 }
 
-@media only screen and (min-width: $small-bp) {
+@media only screen and (min-width: variables.$small-bp) {
 	// Shrink padding to 5px
 	.footer-content {
 		width: 291px;
@@ -81,7 +83,7 @@
 	}
 }
 
-@media only screen and (min-width: $medium-bp) {
+@media only screen and (min-width: variables.$medium-bp) {
 	// padding left and right are 15px
 	.footer-content {
 		min-width: 405px;
@@ -90,5 +92,5 @@
 	}
 }
 
-@media only screen and (min-width: $large-bp) {
+@media only screen and (min-width: variables.$large-bp) {
 }

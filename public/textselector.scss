@@ -1,7 +1,9 @@
+@use "variables";
+
 // Chapter and Version Shared Styles
 .text-selection-section .active-header-name {
-	@include css4 {
-		color: var(--text-selection-active-item-color);
+	@include variables.css4 {
+		color: variables.var(--text-selection-active-item-color);
 	}
 	margin-left: 5px;
 }
@@ -50,9 +52,9 @@
 	right: 0;
 	min-width: 291px;
 	height: calc(100vh - 99px);
-	@include css4 {
-		background-color: var(--text-selection-background);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
+		color: variables.var(--default-text-color);
 	}
 	z-index: 3;
 
@@ -62,8 +64,8 @@
 		display: flex;
 		z-index: 2;
 		align-items: center;
-		@include css4 {
-			background-color: var(--text-selection-background);
+		@include variables.css4 {
+			background-color: variables.var(--text-selection-background);
 		}
 		.tab-option {
 			display: flex;
@@ -75,39 +77,39 @@
 			width: 33%;
 			cursor: pointer;
 
-			@include css4 {
-				border: 1px solid var(--text-selection-tab-option-color);
+			@include variables.css4 {
+				border: 1px solid variables.var(--text-selection-tab-option-color);
 			}
 
 			&:hover {
-				@include css4 {
-					background-color: var(--text-selection-tab-option-active-background);
-					color: var(--text-selection-tab-option-active-color);
+				@include variables.css4 {
+					background-color: variables.var(--text-selection-tab-option-active-background);
+					color: variables.var(--text-selection-tab-option-active-color);
 				}
 			}
 
 			&.active {
-				@include css4 {
-					background-color: var(--text-selection-tab-option-active-background);
-					color: var(--text-selection-tab-option-active-color);
+				@include variables.css4 {
+					background-color: variables.var(--text-selection-tab-option-active-background);
+					color: variables.var(--text-selection-tab-option-active-color);
 				}
 			}
 		}
 
 		.tab-option:first-child {
-			@include css4 {
-				border-top: 1px solid var(--text-selection-tab-option-color);
-				border-bottom: 1px solid var(--text-selection-tab-option-color);
-				border-left: 1px solid var(--text-selection-tab-option-color);
+			@include variables.css4 {
+				border-top: 1px solid variables.var(--text-selection-tab-option-color);
+				border-bottom: 1px solid variables.var(--text-selection-tab-option-color);
+				border-left: 1px solid variables.var(--text-selection-tab-option-color);
 				border-radius: 6px 0 0 6px;
 			}
 		}
 
 		.tab-option:last-child {
-			@include css4 {
-				border-top: 1px solid var(--text-selection-tab-option-color);
-				border-bottom: 1px solid var(--text-selection-tab-option-color);
-				border-right: 1px solid var(--text-selection-tab-option-color);
+			@include variables.css4 {
+				border-top: 1px solid variables.var(--text-selection-tab-option-color);
+				border-bottom: 1px solid variables.var(--text-selection-tab-option-color);
+				border-right: 1px solid variables.var(--text-selection-tab-option-color);
 				border-radius: 0 6px 6px 0;
 			}
 		}
@@ -126,16 +128,16 @@
 		.input-class {
 			margin-left: 25px;
 			margin-right: 25px;
-			@include css4 {
-				color: var(--default-text-color);
-				background-color: var(--text-selection-background);
+			@include variables.css4 {
+				color: variables.var(--default-text-color);
+				background-color: variables.var(--text-selection-background);
 			}
 		}
 	}
 
 	.country-placeholder {
-		@include css4 {
-			fill: var(--default-text-color);
+		@include variables.css4 {
+			fill: variables.var(--default-text-color);
 		}
 	}
 }
@@ -157,21 +159,21 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			@include css4 {
+			@include variables.css4 {
 				background: -webkit-linear-gradient(
 					to right,
-					var(--default-language-name-background-color-transparent) 80%,
-					var(--text-selection-background)
+					variables.var(--default-language-name-background-color-transparent) 80%,
+					variables.var(--text-selection-background)
 				);
 				background: -moz-linear-gradient(
 					to right,
-					var(--default-language-name-background-color-transparent) 80%,
-					var(--text-selection-background)
+					variables.var(--default-language-name-background-color-transparent) 80%,
+					variables.var(--text-selection-background)
 				);
 				background: linear-gradient(
 					to right,
-					var(--default-language-name-background-color-transparent) 80%,
-					var(--text-selection-background)
+					variables.var(--default-language-name-background-color-transparent) 80%,
+					variables.var(--text-selection-background)
 				);
 			}
 		}
@@ -182,15 +184,15 @@
 	margin-left: 5px;
 }
 .country-name:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 
 // Language Selection Styles
 .active-language-name {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .language-name {
@@ -209,42 +211,42 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			@include css4 {
+			@include variables.css4 {
 				background: -webkit-linear-gradient(
 					to right,
-					var(--default-language-name-background-color-transparent) 80%,
-					var(--text-selection-background)
+					variables.var(--default-language-name-background-color-transparent) 80%,
+					variables.var(--text-selection-background)
 				);
 				background: -moz-linear-gradient(
 					to right,
-					var(--default-language-name-background-color-transparent) 80%,
-					var(--text-selection-background)
+					variables.var(--default-language-name-background-color-transparent) 80%,
+					variables.var(--text-selection-background)
 				);
 				background: linear-gradient(
 					to right,
-					var(--default-language-name-background-color-transparent) 80%,
-					var(--text-selection-background)
+					variables.var(--default-language-name-background-color-transparent) 80%,
+					variables.var(--text-selection-background)
 				);
 			}
 		}
 	}
 }
 .language-name:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .active-language-name {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 	max-height: 50px;
 }
 // The relative input values are affecting this as well...
 .language-name-list {
-	@include css4 {
-		background-color: var(--text-selection-background);
-		color: var(--text-selection-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
+		color: variables.var(--text-selection-text-color);
 	}
 	font-size: 0.98em;
 	height: calc(100%);
@@ -259,9 +261,9 @@
 	}
 }
 .version-name-list {
-	@include css4 {
-		background-color: var(--text-selection-background);
-		color: var(--text-selection-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
+		color: variables.var(--text-selection-text-color);
 	}
 	font-size: 0.98em;
 	height: calc(100%);
@@ -284,8 +286,8 @@
 			text-align: center;
 			font-size: 12px;
 
-			@include css4 {
-				background-color: var(--text-selection-accordion-title-background);
+			@include variables.css4 {
+				background-color: variables.var(--text-selection-accordion-title-background);
 			}
 
 			&:hover {
@@ -293,8 +295,8 @@
 			}
 		}
 		.accordion-title-style {
-			@include css4 {
-				background-color: var(--text-selection-background);
+			@include variables.css4 {
+				background-color: variables.var(--text-selection-background);
 			}
 			&:last-child {
 				padding-bottom: 30px;
@@ -304,8 +306,8 @@
 
 			& .accordion__button[aria-expanded='true'] {
 				padding-bottom: 15px;
-				@include css4 {
-					color: var(--active-color-primary);
+				@include variables.css4 {
+					color: variables.var(--active-color-primary);
 				}
 			}
 
@@ -323,8 +325,8 @@
 					width: 100%;
 				}
 				&:hover {
-					@include css4 {
-						color: var(--active-color-primary);
+					@include variables.css4 {
+						color: variables.var(--active-color-primary);
 					}
 				}
 			}
@@ -347,9 +349,9 @@
 		}
 
 		.accordion-body-style {
-			@include css4 {
-				color: var(--text-selection-text-color);
-				background-color: var(--text-selection-accordion-body-background);
+			@include variables.css4 {
+				color: variables.var(--text-selection-text-color);
+				background-color: variables.var(--text-selection-accordion-body-background);
 			}
 			a {
 				display: inline-block;
@@ -357,8 +359,8 @@
 				width: 100%;
 
 				&:hover {
-					@include css4 {
-						color: var(--active-color-primary);
+					@include variables.css4 {
+						color: variables.var(--active-color-primary);
 					}
 				}
 			}
@@ -370,8 +372,8 @@
 		padding: 15px;
 		min-height: 50px;
 		margin: auto;
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 		display: flex;
 		align-items: center;
@@ -383,9 +385,9 @@
 	}
 }
 .country-name-list {
-	@include css4 {
-		background-color: var(--text-selection-background);
-		color: var(--text-selection-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
+		color: variables.var(--text-selection-text-color);
 	}
 	font-size: 0.98em;
 	height: calc(100%);
@@ -400,7 +402,7 @@
 }
 
 .active-version {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }

@@ -1,3 +1,5 @@
+@use "variables";
+
 .black-bar {
 	display: flex;
 	align-items: center;
@@ -13,8 +15,8 @@
 		cursor: pointer;
 	}
 
-	@include css4 {
-		background-color: var(--video-player-black-bar-color);
+	@include variables.css4 {
+		background-color: variables.var(--video-player-black-bar-color);
 	}
 
 	.gospel-films {
@@ -22,8 +24,8 @@
 		width: 30px;
 		margin-top: 13px;
 
-		@include css4 {
-			fill: var(--video-player-films-svg-color);
+		@include variables.css4 {
+			fill: variables.var(--video-player-films-svg-color);
 		}
 	}
 
@@ -31,8 +33,8 @@
 		height: 30px;
 		width: 30px;
 
-		@include css4 {
-			fill: var(--video-player-films-svg-color);
+		@include variables.css4 {
+			fill: variables.var(--video-player-films-svg-color);
 		}
 	}
 }
@@ -69,8 +71,8 @@
 		max-height: calc(100vh - 45px);
 		padding-top: 56px;
 
-		@include css4 {
-			background-color: var(--video-player-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--video-player-background-color);
 		}
 
 		.video-player {
@@ -112,8 +114,8 @@
 		// min-height: 175px;
 	}
 
-	@include css4 {
-		background-color: var(--video-player-background-color);
+	@include variables.css4 {
+		background-color: variables.var(--video-player-background-color);
 	}
 
 	.video-player {
@@ -273,9 +275,9 @@
 						align-items: center;
 						justify-content: center;
 
-						@include css4 {
-							outline: 1px solid var(--active-color-primary);
-							background-color: var(--application-transparent-gray);
+						@include variables.css4 {
+							outline: 1px solid variables.var(--active-color-primary);
+							background-color: variables.var(--application-transparent-gray);
 						}
 						background-color: #fff;
 
