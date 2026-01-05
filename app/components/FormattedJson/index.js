@@ -358,6 +358,7 @@ const RenderContentItem = React.memo(
 				key={key}
 				className={classes}
 				style={inlineStyle}
+				data-id={verseId}
 				data-verse-number={verseNumber}
 			>
 				{renderChildren()}
@@ -676,6 +677,7 @@ function FormattedJson({
 		handleNoteIconClickWrapper,
 		handleBookmarkIconClickWrapper,
 		handleFootnoteClickWrapper,
+		activeVerseInfo,
 	]);
 
 	return (

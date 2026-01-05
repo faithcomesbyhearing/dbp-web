@@ -166,4 +166,5 @@ describe('<PlainText />', () => {
 		const chapterElement = container.querySelector('.chapter');
 		expect(chapterElement).toBeInTheDocument();
 	});
+
 });

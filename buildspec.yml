@@ -27,8 +27,6 @@ artifacts:
     - package.json
     - next.config.js
     - appspec.yml
-    - env-config.js
-    - .babelrc.js
     - .gitignore
     - node_modules/**/*
     - app/utils/checkBookName.js
@@ -40,5 +38,7 @@ artifacts:
     - app/utils/serverCachedFetch.js
     - app/utils/apiEndpointConfig.js
     - app/utils/retryableRequest.js
+    - app/utils/environmentConfig.js
+    - app/utils/rtlDetection.js
   discard-paths: no
   name: 'BibleIsWebsite-$CODEBUILD_BUILD_NUMBER'

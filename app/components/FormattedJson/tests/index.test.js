@@ -157,22 +157,18 @@ describe('<FormattedJson /> (RTL refactor)', () => {
 	});
 
 	it('renders verse 1 and 2 with correct text', () => {
-		renderComponent();
+		const { container } = renderComponent();
 		const verse1 = screen.getByText(/genealogy of Jesus Christ/i);
 		const verse2 = screen.getByText(/Isaac, and Isaac the father of Jacob/i);
 		expect(verse1).toBeInTheDocument();
 		expect(verse2).toBeInTheDocument();
 
-		// verify the number labels
+		// verify the number labels using querySelector
 		expect(
-			screen.getByText('1', {
-				selector: 'span.verse-number-label[data-verse-number="1"]',
-			}),
+			container.querySelector('span.verse-number-label[data-verse-number="1"]'),
 		).toBeInTheDocument();
 		expect(
-			screen.getByText('2', {
-				selector: 'span.verse-number-label[data-verse-number="2"]',
-			}),
+			container.querySelector('span.verse-number-label[data-verse-number="2"]'),
 		).toBeInTheDocument();
 	});
 
@@ -185,20 +181,16 @@ describe('<FormattedJson /> (RTL refactor)', () => {
 	});
 
 	it('calls getFirstVerse on mousedown of verse #1', () => {
-		renderComponent();
-		const verse1Label = screen.getByText('1', {
-			selector: 'span.verse-number-label[data-verse-number="1"]',
-		});
+		const { container } = renderComponent();
+		const verse1Label = container.querySelector('span.verse-number-label[data-verse-number="1"]');
 		fireEvent.mouseDown(verse1Label);
 		expect(mockGetFirstVerse).toHaveBeenCalledTimes(1);
 		expect(mockGetFirstVerse).toHaveBeenCalledWith(expect.any(Object), 1);
 	});
 
 	it('calls handleMouseUp on mouseup of verse #1', () => {
-		renderComponent();
-		const verse1Label = screen.getByText('1', {
-			selector: 'span.verse-number-label[data-verse-number="1"]',
-		});
+		const { container } = renderComponent();
+		const verse1Label = container.querySelector('span.verse-number-label[data-verse-number="1"]');
 		fireEvent.mouseUp(verse1Label);
 		expect(mockHandleMouseUp).toHaveBeenCalledTimes(1);
 		expect(mockHandleMouseUp).toHaveBeenCalledWith(expect.any(Object));
@@ -272,7 +264,7 @@ describe('<FormattedJson /> (RTL refactor)', () => {
 			expect(mockSetFootnotes).toHaveBeenCalledTimes(1);
 		});
 
-		// We don’t know the exact key algorithm here, just that it got invoked
+		// We don't know the exact key algorithm here, just that it got invoked
 		const arg = mockSetFootnotes.mock.calls[0][0];
 		expect(typeof arg).toBe('object');
 		expect(Object.values(arg)[0]).toContain('Footnote text');

@@ -1,3 +1,5 @@
+@use "variables";
+
 .notes {
 	z-index: 1;
 	position: fixed;
@@ -5,16 +7,16 @@
 	right: 0;
 	height: calc(100% - 44px);
 	width: 320px;
-	@include css4 {
-		background-color: var(--menu-body-background-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--menu-body-background-color);
+		color: variables.var(--default-text-color);
 	}
 }
 .notes header {
 	position: relative;
-	@include css4 {
-		background-color: var(--menu-header-background-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--menu-header-background-color);
+		color: variables.var(--default-text-color);
 	}
 	text-align: center;
 	height: 54px;
@@ -53,8 +55,8 @@
 		margin-right: 15px;
 		width: 200px;
 
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 	}
 
@@ -65,18 +67,18 @@
 		font-size: 0.98em;
 	}
 	textarea::-webkit-input-placeholder {
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 	}
 	textarea::-moz-placeholder {
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 	}
 	textarea:-ms-input-placeholder {
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 	}
 	textarea:focus {
@@ -99,7 +101,7 @@
 	width: 100%;
 	align-items: center;
 
-	@include css4 {
+	@include variables.css4 {
 		background-color: inherit;
 	}
 
@@ -113,15 +115,15 @@
 		height: 54px;
 
 		&.active {
-			@include css4 {
-				background-color: var(--menu-background-color-opaque);
+			@include variables.css4 {
+				background-color: variables.var(--menu-background-color-opaque);
 			}
 		}
 
 		&:hover {
 			cursor: pointer;
-			@include css4 {
-				background-color: var(--menu-background-color-opaque);
+			@include variables.css4 {
+				background-color: variables.var(--menu-background-color-opaque);
 			}
 		}
 
@@ -139,22 +141,22 @@
 	outline: none;
 }
 .notes .top-bar .svg.active {
-	@include css4 {
-		fill: var(--active-color-primary);
+	@include variables.css4 {
+		fill: variables.var(--active-color-primary);
 	}
 	opacity: 1;
 }
 .notes .top-bar .svg {
 	opacity: 1;
 	cursor: pointer;
-	@include css4 {
-		fill: var(--default-text-color);
+	@include variables.css4 {
+		fill: variables.var(--default-text-color);
 	}
 	margin-left: 15px;
 }
 .notes .top-bar .text {
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 	margin-left: 15px;
 }
@@ -187,13 +189,13 @@
 
 		&:hover {
 			cursor: pointer;
-			@include css4 {
-				color: var(--active-color-primary);
+			@include variables.css4 {
+				color: variables.var(--active-color-primary);
 			}
 		}
 
-		@include css4 {
-			background-color: var(--menu-background-color-opaque);
+		@include variables.css4 {
+			background-color: variables.var(--menu-background-color-opaque);
 		}
 	}
 
@@ -214,14 +216,14 @@
 		.date {
 			font-size: 10px;
 			align-self: flex-start;
-			@include css4 {
-				color: var(--profile-forgot-password-color);
+			@include variables.css4 {
+				color: variables.var(--profile-forgot-password-color);
 			}
 		}
 
 		.title {
-			@include css4 {
-				color: var(--default-text-color);
+			@include variables.css4 {
+				color: variables.var(--default-text-color);
 			}
 			//margin-left:15px;
 			width: 100%;
@@ -245,23 +247,23 @@
 			//float: right;
 
 			&.failed {
-				@include css4 {
-					color: var(--application-error-color);
+				@include variables.css4 {
+					color: variables.var(--application-error-color);
 				}
 			}
 		}
 
 		.save-button:hover {
-			@include css4 {
-				color: var(--active-color-primary);
+			@include variables.css4 {
+				color: variables.var(--active-color-primary);
 			}
 		}
 
 		.saved-note {
 			font-style: italic;
 
-			@include css4 {
-				color: var(--active-color-primary);
+			@include variables.css4 {
+				color: variables.var(--active-color-primary);
 			}
 		}
 
@@ -275,8 +277,8 @@
 			//float: left;
 
 			&:hover {
-				@include css4 {
-					color: var(--active-color-primary);
+				@include variables.css4 {
+					color: variables.var(--active-color-primary);
 				}
 			}
 		}
@@ -307,8 +309,8 @@
 		}
 		//align-self: center;
 
-		@include css4 {
-			background-color: var(--notebook-footer-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--notebook-footer-background-color);
 		}
 	}
 }
@@ -322,8 +324,8 @@
 	padding: 15px;
 }
 .verse-dropdown .version-dropdown {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .verse-dropdown .svg {
@@ -337,8 +339,8 @@
 	cursor: pointer;
 }
 .verse-dropdown .text {
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 	margin-left: 15px;
 	flex-grow: 2;
@@ -359,8 +361,8 @@
 	cursor: pointer;
 }
 .add-verse .text {
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 	margin-left: 15px;
 	font-style: italic;
@@ -376,9 +378,9 @@
 	font-weight: 200;
 	flex-grow: 2;
 
-	@include css4 {
-		color: var(--default-text-color);
-		caret-color: var(--application-text-caret-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
+		caret-color: variables.var(--application-text-caret-color);
 	}
 }
 
@@ -387,17 +389,17 @@
 	height: 100px;
 	width: 320px;
 	display: flex;
-	@include css4 {
-		background-color: var(--menu-body-background-color);
-		border: 1px solid var(--active-color-primary);
+	@include variables.css4 {
+		background-color: variables.var(--menu-body-background-color);
+		border: 1px solid variables.var(--active-color-primary);
 	}
 }
 .add-verse-expanded .book-table {
 	width: 280px;
 }
 .add-verse-expanded .plus-expanded {
-	@include css4 {
-		background-color: var(--active-color-primary);
+	@include variables.css4 {
+		background-color: variables.var(--active-color-primary);
 		height: 100%;
 		width: 40px;
 	}
@@ -412,9 +414,9 @@
 
 .edit-notes .verse-text {
 	padding: 10px 15px;
-	@include css4 {
-		background-color: var(--notebook-footer-background-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--notebook-footer-background-color);
+		color: variables.var(--default-text-color);
 	}
 	max-height: 100px;
 	overflow-y: auto;
@@ -435,36 +437,36 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	@include css4 {
-		background-color: var(--active-color-primary);
+	@include variables.css4 {
+		background-color: variables.var(--active-color-primary);
 	}
 	width: 50px;
 	height: 50px;
 	cursor: pointer;
 }
 .searchbar ::-webkit-input-placeholder {
-	@include css4 {
-		color: var(--application-input-placeholder-color);
+	@include variables.css4 {
+		color: variables.var(--application-input-placeholder-color);
 	}
 }
 .searchbar ::-moz-placeholder {
-	@include css4 {
-		color: var(--application-input-placeholder-color);
+	@include variables.css4 {
+		color: variables.var(--application-input-placeholder-color);
 	}
 }
 .searchbar :-ms-input-placeholder {
-	@include css4 {
-		color: var(--application-input-placeholder-color);
+	@include variables.css4 {
+		color: variables.var(--application-input-placeholder-color);
 	}
 }
 .searchbar .search {
 	width: calc(100% - 50px);
 	border: none;
 	height: 50px;
-	@include css4 {
-		background-color: var(--application-input-background);
-		color: var(--default-text-color);
-		caret-color: var(--application-text-caret-color);
+	@include variables.css4 {
+		background-color: variables.var(--application-input-background);
+		color: variables.var(--default-text-color);
+		caret-color: variables.var(--application-text-caret-color);
 	}
 	font-size: 0.9em;
 	font-weight: 200;
@@ -497,8 +499,8 @@
 	overflow: hidden;
 	white-space: nowrap;
 	span.date {
-		@include css4 {
-			color: var(--notebook-title-date-color);
+		@include variables.css4 {
+			color: variables.var(--notebook-title-date-color);
 		}
 	}
 	&:after {
@@ -509,26 +511,26 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		@include css4 {
+		@include variables.css4 {
 			background: -webkit-linear-gradient(
 				to right,
-				var(--menu-body-background-color-transparent) 75%,
-				var(--menu-body-background-color)
+				variables.var(--menu-body-background-color-transparent) 75%,
+				variables.var(--menu-body-background-color)
 			);
 			background: -moz-linear-gradient(
 				to right,
-				var(--menu-body-background-color-transparent) 75%,
-				var(--menu-body-background-color)
+				variables.var(--menu-body-background-color-transparent) 75%,
+				variables.var(--menu-body-background-color)
 			);
 			background: linear-gradient(
 				to right,
-				var(--menu-body-background-color-transparent) 75%,
-				var(--menu-body-background-color)
+				variables.var(--menu-body-background-color-transparent) 75%,
+				variables.var(--menu-body-background-color)
 			);
 		}
 	}
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 }
 .list-item .title-text .text {
@@ -544,27 +546,27 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		@include css4 {
+		@include variables.css4 {
 			background: -webkit-linear-gradient(
 				to right,
-				var(--menu-body-background-color-transparent) 75%,
-				var(--menu-body-background-color)
+				variables.var(--menu-body-background-color-transparent) 75%,
+				variables.var(--menu-body-background-color)
 			);
 			background: -moz-linear-gradient(
 				to right,
-				var(--menu-body-background-color-transparent) 75%,
-				var(--menu-body-background-color)
+				variables.var(--menu-body-background-color-transparent) 75%,
+				variables.var(--menu-body-background-color)
 			);
 			background: linear-gradient(
 				to right,
-				var(--menu-body-background-color-transparent) 75%,
-				var(--menu-body-background-color)
+				variables.var(--menu-body-background-color-transparent) 75%,
+				variables.var(--menu-body-background-color)
 			);
 		}
 	}
 
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 }
 
@@ -572,8 +574,8 @@
 	display: flex;
 	align-items: center;
 	height: 50px;
-	@include css4 {
-		background-color: var(--notebook-footer-background-color);
+	@include variables.css4 {
+		background-color: variables.var(--notebook-footer-background-color);
 	}
 }
 .pagination {
@@ -591,13 +593,13 @@
 			margin-left: 15px;
 
 			&:hover {
-				@include css4 {
-					color: var(--active-color-primary);
+				@include variables.css4 {
+					color: variables.var(--active-color-primary);
 				}
 			}
 			&.active {
-				@include css4 {
-					color: var(--active-color-primary);
+				@include variables.css4 {
+					color: variables.var(--active-color-primary);
 				}
 			}
 		}
@@ -626,9 +628,9 @@
 }
 .page-size-selector .open {
 	display: flex;
-	@include css4 {
-		border: 1px solid var(--active-color-primary);
-		background-color: var(--menu-body-background-color);
+	@include variables.css4 {
+		border: 1px solid variables.var(--active-color-primary);
+		background-color: variables.var(--menu-body-background-color);
 	}
 	flex-direction: column;
 	align-items: center;
@@ -666,14 +668,14 @@
 }
 .page-size-selector .open div:hover {
 	opacity: 0.65;
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .page-size-selector .open div.active {
-	@include css4 {
-		fill: var(--active-color-primary);
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		fill: variables.var(--active-color-primary);
+		color: variables.var(--active-color-primary);
 	}
 }
 .page-size-selector .closed {
@@ -683,8 +685,8 @@
 .page-size-selector .per-page-toggle:hover {
 	opacity: 0.65;
 	cursor: pointer;
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 
@@ -696,8 +698,8 @@
 		justify-content: space-between;
 		height: 56px;
 
-		@include css4 {
-			background-color: var(--notebook-footer-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--notebook-footer-background-color);
 		}
 
 		.color-group {
@@ -710,8 +712,8 @@
 				width: 26px;
 				height: 26px;
 				border-radius: 50%;
-				@include css4 {
-					border: 1px solid var(--default-text-color);
+				@include variables.css4 {
+					border: 1px solid variables.var(--default-text-color);
 				}
 				cursor: pointer;
 			}
@@ -786,8 +788,8 @@
 				-moz-border-radius: 50%;
 				border-radius: 50%;
 
-				@include css4 {
-					border: 1px solid var(--default-text-color);
+				@include variables.css4 {
+					border: 1px solid variables.var(--default-text-color);
 				}
 			}
 		}

@@ -1,3 +1,6 @@
+@use "sass:string";
+@use "variables";
+
 *,
 *::after,
 *::before {
@@ -30,10 +33,10 @@ body {
 		'Noto Sans',
 		Helvetica,
 		sans serif;
-	@include css4 {
-		color: var(--default-text-color);
-		font-family: var(--application-font-family);
-		font-size: var(--application-menu-font-size);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
+		font-family: variables.var(--application-font-family);
+		font-size: variables.var(--application-menu-font-size);
 	}
 	margin: 0 auto;
 }
@@ -49,8 +52,8 @@ a {
 }
 //aside {position:absolute;top:0;right:0;}
 header {
-	@include css4 {
-		outline: 1px solid var(--menu-border-color);
+	@include variables.css4 {
+		outline: 1px solid variables.var(--menu-border-color);
 	}
 }
 main {
@@ -62,8 +65,8 @@ main {
 #__next {
 	max-width: calc(100vw);
 	width: calc(100%);
-	@include css4 {
-		background-color: var(--default-background-color);
+	@include variables.css4 {
+		background-color: variables.var(--default-background-color);
 	}
 }
 #__next > div {
@@ -72,9 +75,9 @@ main {
 }
 html #__next aside {
 	z-index: 11;
-	@include css4 {
-		outline: 1px solid var(--menu-border-color);
-		border-bottom: 1px solid var(--menu-border-color);
+	@include variables.css4 {
+		outline: 1px solid variables.var(--menu-border-color);
+		border-bottom: 1px solid variables.var(--menu-border-color);
 	}
 }
 
@@ -93,7 +96,7 @@ html #__next aside {
 	}
 }
 
-@media only screen and (max-width: $audio-player-bp) {
+@media only screen and (max-width: variables.$audio-player-bp) {
 	.text-container {
 		main {
 			z-index: 0;
@@ -209,31 +212,31 @@ img.loaded {
 
 // Google and Facebook color
 body .google {
-	background-color: $login-google-color;
+	background-color: variables.$login-google-color;
 	font-family: 'Roboto Medium', Roboto !important;
 }
 body .facebook {
-	background-color: $login-facebook-color;
+	background-color: variables.$login-facebook-color;
 	font-family:
 		-apple-system, BlinkMacSystemFont, 'San Fransisco', Roboto, 'Segoe UI' !important;
 }
 body .twitter {
-	background-color: $login-twitter-color;
+	background-color: variables.$login-twitter-color;
 	font-family: 'Helvetica Neue', 'San Fransisco', Roboto !important;
 }
 
 // Change Highlighting Color
 ::selection {
-	@include css4 {
-		background-color: var(--application-text-selection-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--application-text-selection-color);
+		color: variables.var(--default-text-color);
 	}
 }
 
 ::-moz-selection {
-	@include css4 {
-		background-color: var(--application-text-selection-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--application-text-selection-color);
+		color: variables.var(--default-text-color);
 	}
 }
 
@@ -247,22 +250,22 @@ input {
 	border: none;
 	font-size: 16px;
 
-	@include css4 {
-		border-bottom: 1px solid var(--default-text-color);
-		background-color: var(--menu-body-background-color);
-		caret-color: var(--application-text-caret-color);
+	@include variables.css4 {
+		border-bottom: 1px solid variables.var(--default-text-color);
+		background-color: variables.var(--menu-body-background-color);
+		caret-color: variables.var(--application-text-caret-color);
 
 		&::-webkit-input-placeholder {
-			color: var(--default-text-color);
+			color: variables.var(--default-text-color);
 			font-size: 16px;
 			opacity: 0.3;
 		}
 		&::-moz-placeholder {
-			color: var(--default-text-color);
+			color: variables.var(--default-text-color);
 			font-size: 16px;
 		}
 		&:-ms-input-placeholder {
-			color: var(--default-text-color);
+			color: variables.var(--default-text-color);
 			font-size: 16px;
 		}
 	}
@@ -308,8 +311,8 @@ input {
 	height: 16px;
 	background: transparent;
 	border-radius: 3px;
-	@include css4 {
-		border: 2px solid var(--default-text-color);
+	@include variables.css4 {
+		border: 2px solid variables.var(--default-text-color);
 	}
 }
 [type='checkbox']:checked + label:before {
@@ -364,8 +367,8 @@ span:focus {
 
 // font sizes
 h2 {
-	@include css4 {
-		font-size: unquote('calc(var(--application-menu-font-size) * 1.4)');
+	@include variables.css4 {
+		font-size: string.unquote('calc(var(--application-menu-font-size) * 1.4)');
 	}
 }
 
@@ -604,8 +607,8 @@ body .atlwdg-trigger.atlwdg-RIGHT {
 
 // Formatted Text Overrides
 body #__next main .v-num {
-	@include css4 {
-		color: var(--default-verse-number-color);
+	@include variables.css4 {
+		color: variables.var(--default-verse-number-color);
 	}
 }
 

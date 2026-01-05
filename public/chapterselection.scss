@@ -1,3 +1,5 @@
+@use "variables";
+
 .chapter-text-dropdown {
 	display: flex;
 	flex-direction: column;
@@ -8,9 +10,9 @@
 	min-width: 291px;
 	//left:calc(50% - 116px);
 	height: calc(100vh - 99px);
-	@include css4 {
-		background-color: var(--menu-body-background-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--menu-body-background-color);
+		color: variables.var(--default-text-color);
 	}
 	z-index: 3;
 
@@ -18,9 +20,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		@include css4 {
-			background: var(--menu-header-background-color);
-			color: var(--default-text-color);
+		@include variables.css4 {
+			background: variables.var(--menu-header-background-color);
+			color: variables.var(--default-text-color);
 		}
 		text-align: center;
 		height: 54px;
@@ -52,8 +54,8 @@
 		&:hover {
 			cursor: pointer;
 
-			@include css4 {
-				color: var(--active-color-primary);
+			@include variables.css4 {
+				color: variables.var(--active-color-primary);
 				background-color: #eee;
 			}
 		}
@@ -69,8 +71,8 @@
 		margin-bottom: 15px;
 		padding: 10px 15px 5px 15px;
 		clear: both;
-		@include css4 {
-			background-color: var(--text-selection-accordion-body-background);
+		@include variables.css4 {
+			background-color: variables.var(--text-selection-accordion-body-background);
 		}
 
 		&.inactive-book-chapters {
@@ -90,8 +92,8 @@
 				min-height: 50px;
 				height: 50px;
 				width: 100%;
-				@include css4 {
-					background-color: var(--text-selection-accordion-title-background);
+				@include variables.css4 {
+					background-color: variables.var(--text-selection-accordion-title-background);
 				}
 
 				&:hover {
@@ -99,8 +101,8 @@
 				}
 			}
 			.accordion-title-style {
-				@include css4 {
-					background-color: var(--text-selection-accordion-body-background);
+				@include variables.css4 {
+					background-color: variables.var(--text-selection-accordion-body-background);
 				}
 				&:last-child {
 					padding-bottom: 15px;
@@ -110,8 +112,8 @@
 
 				& .accordion__button[aria-expanded='true'] {
 					padding-bottom: 15px;
-					@include css4 {
-						color: var(--active-color-primary);
+					@include variables.css4 {
+						color: variables.var(--active-color-primary);
 					}
 				}
 
@@ -120,24 +122,24 @@
 				}
 
 				&:hover {
-					@include css4 {
-						color: var(--active-color-primary);
+					@include variables.css4 {
+						color: variables.var(--active-color-primary);
 					}
 				}
 			}
 
 			.accordion-body-style {
-				@include css4 {
-					color: var(--text-selection-text-color);
-					background-color: var(--text-selection-accordion-title-background);
+				@include variables.css4 {
+					color: variables.var(--text-selection-text-color);
+					background-color: variables.var(--text-selection-accordion-title-background);
 				}
 			}
 		}
 	}
 
 	.active-book {
-		@include css4 {
-			color: var(--active-color-primary);
+		@include variables.css4 {
+			color: variables.var(--active-color-primary);
 		}
 	}
 
@@ -168,12 +170,12 @@
 		h3 {
 			display: block;
 			width: 100%;
-			@include css4 {
-				background-color: var(--book-dropdown-section-background-color);
+			@include variables.css4 {
+				background-color: variables.var(--book-dropdown-section-background-color);
 			}
 		}
-		@include css4 {
-			background-color: var(--book-dropdown-section-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--book-dropdown-section-background-color);
 		}
 	}
 
@@ -195,28 +197,28 @@
 				margin: 0;
 				float: right;
 
-				@include css4 {
-					fill: var(--video-player-films-svg-color);
+				@include variables.css4 {
+					fill: variables.var(--video-player-films-svg-color);
 				}
 			}
 		}
 
 		h4:hover {
 			cursor: pointer;
-			@include css4 {
-				color: var(--active-color-secondary);
+			@include variables.css4 {
+				color: variables.var(--active-color-secondary);
 			}
 		}
 	}
 
 	.active-chapter {
-		@include css4 {
-			color: var(--active-color-primary);
+		@include variables.css4 {
+			color: variables.var(--active-color-primary);
 		}
 	}
 }
 
-@media only screen and (max-width: $chapter-dropdown-bp) {
+@media only screen and (max-width: variables.$chapter-dropdown-bp) {
 	.chapter-text-dropdown {
 		width: 291px;
 		position: fixed;

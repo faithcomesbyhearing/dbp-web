@@ -1,3 +1,5 @@
+@use "variables";
+
 .search-wrapper {
 	position: fixed;
 	z-index: 1;
@@ -30,9 +32,9 @@
 		text-transform: capitalize;
 	}
 
-	@include css4 {
-		background-color: var(--menu-body-background-color);
-		color: var(--settings-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--menu-body-background-color);
+		color: variables.var(--settings-text-color);
 	}
 
 	section {
@@ -49,9 +51,9 @@
 		//justify-content: flex-end;
 		padding: 15px;
 
-		@include css4 {
-			background-color: var(--menu-header-background-color);
-			color: var(--default-text-color);
+		@include variables.css4 {
+			background-color: variables.var(--menu-header-background-color);
+			color: variables.var(--default-text-color);
 		}
 
 		svg {
@@ -59,31 +61,31 @@
 		}
 		input {
 			flex-grow: 2;
-			@include css4 {
-				background-color: var(--menu-header-background-color);
+			@include variables.css4 {
+				background-color: variables.var(--menu-header-background-color);
 			}
 		}
 		.input-class {
 			margin-left: 25px;
 			margin-right: 25px;
 
-			@include css4 {
-				color: var(--default-text-color);
+			@include variables.css4 {
+				color: variables.var(--default-text-color);
 			}
 		}
 	}
 
 	.active {
-		@include css4 {
-			color: var(--active-color-primary);
+		@include variables.css4 {
+			color: variables.var(--active-color-primary);
 		}
 	}
 
 	.option:hover {
 		cursor: pointer;
 
-		@include css4 {
-			color: var(--active-color-primary);
+		@include variables.css4 {
+			color: variables.var(--active-color-primary);
 		}
 	}
 
@@ -95,8 +97,8 @@
 		display: flex;
 		align-items: center;
 
-		@include css4 {
-			background-color: var(--book-dropdown-section-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--book-dropdown-section-background-color);
 		}
 	}
 
@@ -136,8 +138,8 @@
 			&:hover {
 				cursor: pointer;
 
-				@include css4 {
-					color: var(--active-color-primary);
+				@include variables.css4 {
+					color: variables.var(--active-color-primary);
 				}
 			}
 		}
@@ -157,9 +159,9 @@
 				-webkit-user-select: none; /* for button */
 				-moz-user-select: none;
 				-ms-user-select: none;
-				@include css4 {
-					background-color: var(--menu-body-background-color);
-					color: var(--default-text-color);
+				@include variables.css4 {
+					background-color: variables.var(--menu-body-background-color);
+					color: variables.var(--default-text-color);
 				}
 			}
 			font-size: 100%;
@@ -186,8 +188,8 @@
 			h4 {
 				font-size: 16px;
 				a {
-					@include css4 {
-						color: var(--notebook-title-date-color);
+					@include variables.css4 {
+						color: variables.var(--notebook-title-date-color);
 					}
 					&:hover {
 						cursor: pointer;
@@ -202,8 +204,8 @@
 			}
 
 			.search-highlight {
-				@include css4 {
-					background-color: var(--application-text-selection-color);
+				@include variables.css4 {
+					background-color: variables.var(--application-text-selection-color);
 					color: #000;
 				}
 			}

@@ -64,4 +64,14 @@ describe('<Information /> component tests', () => {
 		// Ensure the icon no longer has the 'rotate' class
 		expect(icon).not.toHaveClass('rotate');
 	});
+
+	test('should always have LTR direction regardless of parent text direction', () => {
+		const { container } = render(<Information copyrights={copyrights} />);
+
+		// Get the section element (root of Information component)
+		const section = container.querySelector('section.information');
+
+		// Assert that it has dir="ltr" attribute
+		expect(section).toHaveAttribute('dir', 'ltr');
+	});
 });

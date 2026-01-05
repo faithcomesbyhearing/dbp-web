@@ -652,7 +652,7 @@ AppContainer.getInitialProps = async (context) => {
 				defaultLanguageName: bible?.language || 'English: USA',
 				defaultLanguageCode: bible?.language_id || 17045,
 				bibleFontAvailable: bible?.custom_font_required === true,
-				textDirection: bible?.alphabet ? bible?.alphabet.direction : 'ltr',
+				textDirection: bible?.alphabet ? bible?.alphabet.direction : '',
 				activeBookId: bookId.toUpperCase() || '',
 				userId,
 				isIe,

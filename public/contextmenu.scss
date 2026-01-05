@@ -1,3 +1,5 @@
+@use "variables";
+
 .context-menu {
 	width: 250px;
 	height: 166px;
@@ -6,8 +8,8 @@
 	border-radius: 6px;
 	color: #000;
 
-	@include css4 {
-		border: 2px solid var(--active-color-primary);
+	@include variables.css4 {
+		border: 2px solid variables.var(--active-color-primary);
 	}
 
 	svg {
@@ -65,8 +67,8 @@
 		}
 
 		&:nth-child(2).active {
-			@include css4 {
-				background-color: var(--context-menu-highlight-active-background-color);
+			@include variables.css4 {
+				background-color: variables.var(--context-menu-highlight-active-background-color);
 			}
 		}
 
@@ -79,8 +81,8 @@
 			fill: rgba(0, 0, 0, 0.65);
 			cursor: pointer;
 
-			@include css4 {
-				background-color: var(--context-menu-hover-color);
+			@include variables.css4 {
+				background-color: variables.var(--context-menu-hover-color);
 			}
 		}
 
@@ -150,8 +152,8 @@
 			cursor: pointer;
 
 			&:hover {
-				@include css4 {
-					background-color: var(--context-menu-hover-color);
+				@include variables.css4 {
+					background-color: variables.var(--context-menu-hover-color);
 				}
 			}
 		}
@@ -188,7 +190,7 @@
 				align-items: center;
 				color: #fff;
 				font-size: 10px;
-				background-color: $login-facebook-color;
+				background-color: variables.$login-facebook-color;
 				border-bottom-right-radius: 6px;
 				border-bottom-left-radius: 6px;
 			}
@@ -202,8 +204,8 @@
 		position: absolute;
 		top: 50px;
 		left: -62px;
-		@include css4 {
-			background-color: var(--context-menu-highlight-active-background-color);
+		@include variables.css4 {
+			background-color: variables.var(--context-menu-highlight-active-background-color);
 		}
 		z-index: 4;
 		border-top: 1px solid #ccc;
@@ -229,8 +231,8 @@
 				}
 
 				.green {
-					@include css4 {
-						background-color: var(--highlight-green);
+					@include variables.css4 {
+						background-color: variables.var(--highlight-green);
 					}
 
 					&:hover {
@@ -239,8 +241,8 @@
 				}
 
 				.pink {
-					@include css4 {
-						background-color: var(--highlight-pink);
+					@include variables.css4 {
+						background-color: variables.var(--highlight-pink);
 					}
 
 					&:hover {
@@ -249,8 +251,8 @@
 				}
 
 				.purple {
-					@include css4 {
-						background-color: var(--highlight-purple);
+					@include variables.css4 {
+						background-color: variables.var(--highlight-purple);
 					}
 
 					&:hover {
@@ -259,8 +261,8 @@
 				}
 
 				.blue {
-					@include css4 {
-						background-color: var(--highlight-blue);
+					@include variables.css4 {
+						background-color: variables.var(--highlight-blue);
 					}
 
 					&:hover {
@@ -269,8 +271,8 @@
 				}
 
 				.yellow {
-					@include css4 {
-						background-color: var(--highlight-yellow);
+					@include variables.css4 {
+						background-color: variables.var(--highlight-yellow);
 					}
 
 					&:hover {

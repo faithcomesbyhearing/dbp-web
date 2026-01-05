@@ -313,7 +313,8 @@ export function* getBibleFromUrl({
 					f.type === FILESET_TYPE_VIDEO_STREAM,
 			);
 
-			yield fork(getCopyrightSaga, { filesetIds: filesets });
+			// Requesting copyrights for the filesets
+			yield put({ type: GET_COPYRIGHTS, filesetIds: filesets });
 
 			const chapterData = yield call(getChapterFromUrl, {
 				filesets,
