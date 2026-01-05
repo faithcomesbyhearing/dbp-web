@@ -34,6 +34,7 @@ import {
 	getReference,
 	calcDistance,
 } from '../../utils/highlightingUtils';
+import { getTextDirectionWithFallback } from '../../utils/rtlDetection';
 import getFirstSelectedVerse from '../../utils/requiresDom/getFirstSelectedVerse';
 import getLastSelectedVerse from '../../utils/requiresDom/getLastSelectedVerse';
 import addHighlightUtil from '../../utils/requiresDom/addHighlight';
@@ -552,10 +553,22 @@ export class Verses extends React.PureComponent {
 			userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'];
 		const chapterAlt = text[0] && text[0].chapter_alt;
 
+		// Auto-detect text direction if not provided
+		// Priority: textDirection prop > detect from text array > default 'ltr'
+		const effectiveTextDirection = getTextDirectionWithFallback(
+			textDirection,
+			text,
+		);
+
+		const isPlainText =
+			readersMode ||
+			oneVersePerLine ||
+			(!formattedSource.main && !formattedJsonSource && !!text.length);
+
 		return (
 			<main
 				ref={this.setMainRef}
-				className={getClassNameForMain(textDirection, menuIsOpen)}
+				className={getClassNameForMain(effectiveTextDirection, menuIsOpen)}
 				onScroll={this.handleScrollOnMain}
 			>
 				{!formattedSource.main && !formattedJsonSource && !text.length && (
@@ -623,7 +636,7 @@ export class Verses extends React.PureComponent {
 							/>
 						)
 					))}
-				{!formattedSource.main && !formattedJsonSource && !!text.length && (
+				{isPlainText && (
 					<PlainText
 						initialText={text}
 						highlights={highlights}

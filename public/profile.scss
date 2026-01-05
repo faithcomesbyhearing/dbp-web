@@ -1,3 +1,5 @@
+@use "variables";
+
 // GLOBAL SETTINGS
 .profile {
 	z-index: 1;
@@ -6,9 +8,9 @@
 	left: 0;
 	height: calc(100% - 44px);
 	width: 320px;
-	@include css4 {
-		background: var(--menu-body-background-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background: variables.var(--menu-body-background-color);
+		color: variables.var(--default-text-color);
 	}
 
 	section {
@@ -47,9 +49,9 @@
 }
 .profile header {
 	position: relative;
-	@include css4 {
-		background: var(--menu-header-background-color);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background: variables.var(--menu-header-background-color);
+		color: variables.var(--default-text-color);
 	}
 	text-align: center;
 	padding: 15px;
@@ -79,14 +81,14 @@
 	overflow-x: hidden;
 }
 .profile .option:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 	cursor: pointer;
 }
 .profile .active {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 
@@ -105,18 +107,18 @@
 	color: transparent;
 }
 .profile ::-webkit-input-placeholder {
-	@include css4 {
-		color: var(--application-input-placeholder-color);
+	@include variables.css4 {
+		color: variables.var(--application-input-placeholder-color);
 	}
 }
 .profile ::-moz-placeholder {
-	@include css4 {
-		color: var(--application-input-placeholder-color);
+	@include variables.css4 {
+		color: variables.var(--application-input-placeholder-color);
 	}
 }
 .profile :-ms-input-placeholder {
-	@include css4 {
-		color: var(--application-input-placeholder-color);
+	@include variables.css4 {
+		color: variables.var(--application-input-placeholder-color);
 	}
 }
 
@@ -127,7 +129,7 @@
 	cursor: pointer;
 	height: 50px;
 	width: 100%;
-	background: $login-google-color;
+	background: variables.$login-google-color;
 	color: #000;
 	margin-top: 10px;
 }
@@ -137,7 +139,7 @@
 	cursor: pointer;
 	height: 50px;
 	width: 100%;
-	background: $login-facebook-color;
+	background: variables.$login-facebook-color;
 	color: #fff;
 	margin-top: 10px;
 }
@@ -155,8 +157,8 @@
 // Links
 .profile {
 	.link {
-		@include css4 {
-			color: var(--application-link-color);
+		@include variables.css4 {
+			color: variables.var(--application-link-color);
 		}
 		font-weight: 200;
 		margin-left: 15px;
@@ -176,8 +178,8 @@
 }
 
 .profile .sign-up-button .text:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 // Login or Sign up options
@@ -188,52 +190,52 @@
 }
 .profile .form-options .login {
 	margin: 10px 0 10px 10px;
-	@include css4 {
-		color: var(--settings-text-color);
+	@include variables.css4 {
+		color: variables.var(--settings-text-color);
 	}
 	cursor: pointer;
 }
 .profile .form-options .signup {
 	margin: 10px 10px 10px 0;
-	@include css4 {
-		color: var(--settings-text-color);
+	@include variables.css4 {
+		color: variables.var(--settings-text-color);
 	}
 	cursor: pointer;
 }
 .profile .form-options .active {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .profile .form-options .active {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .profile .form-options .login:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .profile .form-options .signup:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 
 // Disclaimer
 .profile .disclaimer {
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 }
 
 // Sign in
 .profile form {
 	//margin-top:-35px;
-	@include css4 {
-		background-color: var(--text-selection-background);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
+		color: variables.var(--default-text-color);
 	}
 
 	.sign-in-input {
@@ -259,9 +261,9 @@
 			background-color: inherit;
 			border: none;
 			font-size: 0.98em;
-			@include css4 {
-				background-color: var(--text-selection-background);
-				color: var(--default-text-color);
+			@include variables.css4 {
+				background-color: variables.var(--text-selection-background);
+				color: variables.var(--default-text-color);
 			}
 		}
 	}
@@ -282,13 +284,13 @@
 		margin-left: 25px;
 		margin-right: 25px;
 		width: 270px;
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 
 		&.error {
-			@include css4 {
-				background-color: var(--application-error-color);
+			@include variables.css4 {
+				background-color: variables.var(--application-error-color);
 			}
 		}
 	}
@@ -299,14 +301,14 @@
 	cursor: pointer;
 	width: 100%;
 	height: 50px;
-	@include css4 {
-		background-color: var(--text-selection-background);
-		color: var(--default-text-color);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
+		color: variables.var(--default-text-color);
 	}
 }
 .profile .sign-up-free {
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 }
 .profile .signup-error-message {
@@ -314,8 +316,8 @@
 	font-weight: 200;
 	padding: 0 15px 15px 30px;
 
-	@include css4 {
-		background-color: var(--text-selection-background);
+	@include variables.css4 {
+		background-color: variables.var(--text-selection-background);
 	}
 }
 .profile .sign-in-button {
@@ -323,8 +325,8 @@
 	align-items: center;
 	justify-content: flex-start;
 	width: 100%;
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 	}
 
 	.text {
@@ -337,18 +339,18 @@
 	.login-button {
 		font-size: 0.98em;
 		cursor: pointer;
-		@include css4 {
-			background-color: var(--text-selection-background);
+		@include variables.css4 {
+			background-color: variables.var(--text-selection-background);
 		}
 		margin-left: 83px;
 		border: none;
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 
 		&:hover {
-			@include css4 {
-				color: var(--active-color-primary);
+			@include variables.css4 {
+				color: variables.var(--active-color-primary);
 			}
 		}
 	}
@@ -384,8 +386,8 @@
 			width: 100%;
 			padding: 15px;
 			//height: 54px;
-			@include css4 {
-				background-color: var(--text-selection-background);
+			@include variables.css4 {
+				background-color: variables.var(--text-selection-background);
 			}
 
 			.text {
@@ -395,8 +397,8 @@
 				cursor: pointer;
 
 				&:hover {
-					@include css4 {
-						color: var(--active-color-primary);
+					@include variables.css4 {
+						color: variables.var(--active-color-primary);
 					}
 				}
 			}
@@ -405,13 +407,13 @@
 				background-color: inherit;
 				width: 290px;
 				margin: 0 0 0 0;
-				@include css4 {
-					color: var(--default-text-color);
+				@include variables.css4 {
+					color: variables.var(--default-text-color);
 				}
 
 				&.error {
-					@include css4 {
-						background-color: var(--application-error-color);
+					@include variables.css4 {
+						background-color: variables.var(--application-error-color);
 					}
 				}
 			}
@@ -435,8 +437,8 @@
 		margin-bottom: 15px;
 		margin-left: 15px;
 		font-size: 18px;
-		@include css4 {
-			color: var(--application-link-color);
+		@include variables.css4 {
+			color: variables.var(--application-link-color);
 		}
 	}
 	.message {

@@ -138,10 +138,6 @@ class HomePage extends React.PureComponent {
 			userSettings?.['toggleOptions']?.['redLetter']?.['active'],
 		);
 
-		this.timer = setTimeout(() => {
-			this.getCopyrights({ filesetIds: activeFilesets });
-		}, 100);
-
 		if (this.props.match.params.token) {
 			// Open Profile
 			this.toggleProfile();

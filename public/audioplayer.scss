@@ -1,14 +1,16 @@
+@use "variables";
+
 .audio-player-background {
 	position: fixed;
 	width: 100%;
 	bottom: 45px;
 	z-index: 1;
 	transition: transform 200ms ease-in-out;
-	@include css4 {
-		background-color: var(--audio-player-background);
-		color: var(--default-text-color);
-		border-bottom: 1px solid var(--menu-border-color);
-		border-top: 1px solid var(--menu-border-color);
+	@include variables.css4 {
+		background-color: variables.var(--audio-player-background);
+		color: variables.var(--default-text-color);
+		border-bottom: 1px solid variables.var(--menu-border-color);
+		border-top: 1px solid variables.var(--menu-border-color);
 	}
 
 	&.scrolled-down {
@@ -35,8 +37,8 @@
 	transition:
 		height 400ms ease-out,
 		height 200ms ease-in;
-	@include css4 {
-		background-color: var(--audio-player-background);
+	@include variables.css4 {
+		background-color: variables.var(--audio-player-background);
 	}
 
 	&.closed {
@@ -56,11 +58,11 @@
 //.audio-player-container .item:hover    {opacity:.65;}
 //.audio-player-container .svgitem:hover {opacity:.65;}
 .audio-player-container .item.active {
-	@include css4 {
-		border: 1px solid var(--active-color-primary);
-		border-top: 1px solid var(--application-transparent-gray);
-		background-color: var(--application-transparent-gray);
-		color: var(--application-light-color-option);
+	@include variables.css4 {
+		border: 1px solid variables.var(--active-color-primary);
+		border-top: 1px solid variables.var(--application-transparent-gray);
+		background-color: variables.var(--application-transparent-gray);
+		color: variables.var(--application-light-color-option);
 	}
 	z-index: 4;
 }
@@ -88,28 +90,28 @@
 	align-items: center;
 	justify-content: space-around;
 
-	@include css4 {
+	@include variables.css4 {
 		//border:1px solid var(--active-color-primary);
-		outline: 1px solid var(--active-color-primary);
-		background-color: var(--application-transparent-gray);
+		outline: 1px solid variables.var(--active-color-primary);
+		background-color: variables.var(--application-transparent-gray);
 	}
 	height: 30px;
 	width: 150px;
 }
 .speed-control .speed-item {
-	@include css4 {
-		color: var(--application-light-color-option);
+	@include variables.css4 {
+		color: variables.var(--application-light-color-option);
 	}
 	cursor: pointer;
 }
 .speed-control .speed-item:hover {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 .speed-control .speed-item.active {
-	@include css4 {
-		color: var(--active-color-primary);
+	@include variables.css4 {
+		color: variables.var(--active-color-primary);
 	}
 }
 
@@ -134,9 +136,9 @@
 	height: 25px;
 	width: 100%;
 	z-index: 1;
-	@include css4 {
-		background: var(--audio-player-gripper-background-color);
-		outline: 1px solid var(--menu-border-color);
+	@include variables.css4 {
+		background: variables.var(--audio-player-gripper-background-color);
+		outline: 1px solid variables.var(--menu-border-color);
 	}
 
 	transition:
@@ -160,13 +162,13 @@
 		height: 25px;
 		top: 0;
 		left: 0;
-		@include css4 {
-			background: var(--audio-player-gripper-before-color);
+		@include variables.css4 {
+			background: variables.var(--audio-player-gripper-before-color);
 		}
 	}
 
-	@include css4 {
-		color: var(--default-text-color);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
 		//background-color:var(--audioplayer-handle-background-color);
 		//filter: blur(2px);
 		//background: -webkit-linear-gradient(to bottom, transparent 2px, var(--audioplayer-handle-background-color));
@@ -178,8 +180,8 @@
 		// bottom: 45px;
 		transform: translateY(50px);
 
-		@include css4 {
-			border-bottom: 1px solid var(--menu-border-color);
+		@include variables.css4 {
+			border-bottom: 1px solid variables.var(--menu-border-color);
 		}
 	}
 }
@@ -277,10 +279,10 @@
 	}
 }
 .volume-slider {
-	@include css4 {
+	@include variables.css4 {
 		//border:1px solid var(--active-color-primary);
-		outline: 1px solid var(--active-color-primary);
-		background-color: var(--application-transparent-gray);
+		outline: 1px solid variables.var(--active-color-primary);
+		background-color: variables.var(--application-transparent-gray);
 	}
 
 	height: 25px;
@@ -292,8 +294,8 @@
 	margin-left: -75px;
 }
 .volume-slider .tracker {
-	@include css4 {
-		background-color: var(--active-color-primary);
+	@include variables.css4 {
+		background-color: variables.var(--active-color-primary);
 	}
 	border-radius: 50%;
 	width: 15px;
@@ -302,8 +304,8 @@
 }
 .volume-slider .fill {
 	height: 3px;
-	@include css4 {
-		background-color: var(--active-color-primary);
+	@include variables.css4 {
+		background-color: variables.var(--active-color-primary);
 	}
 	width: 100px;
 	border-radius: 5px;
@@ -328,8 +330,8 @@
 		left: 5px;
 		top: 17px;
 
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 	}
 
@@ -342,8 +344,8 @@
 		right: 9px;
 		top: 17px;
 
-		@include css4 {
-			color: var(--default-text-color);
+		@include variables.css4 {
+			color: variables.var(--default-text-color);
 		}
 	}
 
@@ -359,14 +361,14 @@
 		padding: 2.5px 5px;
 		cursor: pointer;
 
-		@include css4 {
-			border: 1px solid var(--default-text-color);
+		@include variables.css4 {
+			border: 1px solid variables.var(--default-text-color);
 
 			&:hover,
 			&:focus,
 			&.active {
-				color: var(--active-color-primary);
-				border-color: var(--active-color-primary);
+				color: variables.var(--active-color-primary);
+				border-color: variables.var(--active-color-primary);
 			}
 		}
 
@@ -401,10 +403,10 @@
 	width: 320px;
 	height: 115px;
 
-	@include css4 {
-		color: var(--default-text-color);
-		border: 1px solid var(--active-color-primary);
-		background-color: var(--application-transparent-gray);
+	@include variables.css4 {
+		color: variables.var(--default-text-color);
+		border: 1px solid variables.var(--active-color-primary);
+		background-color: variables.var(--application-transparent-gray);
 	}
 }
 
@@ -417,7 +419,7 @@
 	margin-left: 15px;
 }
 
-@media only screen and (max-width: $audio-player-bp) {
+@media only screen and (max-width: variables.$audio-player-bp) {
 	.audio-player-container {
 		flex-wrap: wrap;
 		height: 83px;

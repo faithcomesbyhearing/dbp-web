@@ -1,3 +1,5 @@
+@use "variables";
+
 .fade-enter {
 	opacity: 0.01;
 }
@@ -126,8 +128,8 @@
 	top: 0;
 }
 .loading-spinner .loading-spinner-child:before {
-	@include css4 {
-		background-color: var(--application-loading-spinner-color);
+	@include variables.css4 {
+		background-color: variables.var(--application-loading-spinner-color);
 	}
 	content: '';
 	display: block;

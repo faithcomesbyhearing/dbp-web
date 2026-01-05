@@ -35,7 +35,7 @@ const oneVerse = false;
 
 describe('PlainTextVerse Component', () => {
 	it('should render the component and display verse text', () => {
-		render(
+		const { container } = render(
 			<PlainTextVerse
 				onMouseUp={onMouseUp}
 				onMouseDown={onMouseDown}
@@ -50,7 +50,12 @@ describe('PlainTextVerse Component', () => {
 
 		// Check for IconsInText and verse text
 		expect(screen.getByText('mockIcons')).toBeInTheDocument();
-		expect(screen.getByText(verse.verse_text)).toBeInTheDocument();
+		// Verse text now includes directional marker, so check using container
+		const verseTextElement = container.querySelector(
+			'span[data-verseid="1"]:not(sup)',
+		);
+		expect(verseTextElement).toBeInTheDocument();
+		expect(verseTextElement.textContent).toContain(verse.verse_text);
 	});
 
 	it('should match the old snapshot', () => {
@@ -100,9 +105,15 @@ describe('PlainTextVerse Component', () => {
 		);
 
 		// Check if oneVerse prop is applied properly
-		expect(screen.getByText(verse.verse_text)).toBeInTheDocument();
 		expect(screen.getByText('mockIcons')).toBeInTheDocument();
+		// Verse text now includes directional marker, so check using container
+		const verseTextElement = container.querySelector(
+			'span[data-verseid="1"]:not(sup)',
+		);
+		expect(verseTextElement).toBeInTheDocument();
+		expect(verseTextElement.textContent).toContain(verse.verse_text);
 		// Check if <br /> is rendered when oneVerse is true
 		expect(container.querySelector('br')).toBeInTheDocument();
 	});
+
 });
