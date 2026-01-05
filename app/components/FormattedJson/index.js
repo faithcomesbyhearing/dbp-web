@@ -36,7 +36,6 @@ const RenderContentItem = React.memo(
 		onNoteClick,
 		onBookmarkClick,
 		onFootnoteClick,
-		fontSize,
 		blockIndex,
 		itemIndex, // Unique identifier for this item instance
 		activeVerseInfo,
@@ -344,7 +343,6 @@ const RenderContentItem = React.memo(
 						onNoteClick={onNoteClick}
 						onBookmarkClick={onBookmarkClick}
 						onFootnoteClick={onFootnoteClick}
-						fontSize={fontSize}
 						blockIndex={blockIndex} // Keep original blockIndex from parent
 						itemIndex={`${itemIndex}-${index}`} // Create nested itemIndex string
 					/>,
@@ -387,7 +385,6 @@ RenderContentItem.propTypes = {
 	onNoteClick: PropTypes.func,
 	onBookmarkClick: PropTypes.func,
 	onFootnoteClick: PropTypes.func,
-	fontSize: PropTypes.number,
 	blockIndex: PropTypes.number,
 	itemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	activeVerseInfo: PropTypes.object,
@@ -546,7 +543,6 @@ function FormattedJson({
 
 	const justifiedText =
 		userSettings?.toggleOptions?.justifiedText?.active || false;
-	const fontSize = userSettings?.toggleOptions?.readersFontScale?.active || 16;
 
 	const renderedBlocks = useMemo(() => {
 		// Ensure we have the JSON data structure expected
@@ -654,7 +650,6 @@ function FormattedJson({
 									onNoteClick={handleNoteIconClickWrapper}
 									onBookmarkClick={handleBookmarkIconClickWrapper}
 									onFootnoteClick={handleFootnoteClickWrapper}
-									fontSize={fontSize}
 									blockIndex={blockIndex}
 									itemIndex={itemIndex.toString()} // Ensure itemIndex is a string for key generation
 									activeVerseInfo={activeVerseInfo} // Pass active verse info if needed
@@ -669,7 +664,6 @@ function FormattedJson({
 		currentPlayingVerse,
 		currentSelectedVerse,
 		annotations,
-		fontSize,
 		bookCode,
 		chapterNumberFromJson,
 		handleVerseMouseDownWrapper,
@@ -683,7 +677,6 @@ function FormattedJson({
 	return (
 		<div
 			className={`chapter bible-chapter-view ${justifiedText ? 'justify' : ''}`}
-			style={fontSize ? { fontSize: `${fontSize}pt` } : {}}
 		>
 			{renderedBlocks}
 		</div>

@@ -6,24 +6,22 @@
  * Inspired by React Native styles and provided class mappings.
  */
 
-// --- Variables (Optional but recommended) ---
-$base-font-size: 16pt; // Example base font size (adjust as needed)
-$text-color: #333;
-$muted-text-color: #555;
+@use "variables";
+
+// --- Variables ---
+$text-color: variables.var(--application-text-container-color);
+// Muted text color: 55% opacity of the main text color (adaptive to light/dark themes)
+$muted-text-color-opacity: 0.55;
 $highlight-bg-color: #accef7; // User text selection
 $playing-bg-color: rgba(255, 255, 0, 0.15); // Faint yellow for playing verse
 $footnote-marker-color: blue;
-$words-of-jesus-color: red;
+$words-of-jesus-color: variables.var(--default-header-background-color);
 $base-line-height: 1.6;
 $base-margin: 0.75em; // Base vertical margin for blocks
 $indent-size: 1.5em; // Base indent size
 
 // --- Base Styling ---
 .bible-chapter-view {
-	font-size: $base-font-size; // Apply base font size here
-	line-height: $base-line-height;
-	color: $text-color;
-
 	// Justification Option
 	&.justify {
 		.verse-paragraph,
@@ -32,11 +30,6 @@ $indent-size: 1.5em; // Base indent size
 			text-align: justify;
 		}
 	}
-}
-
-.verse-content-item {
-	// Base styles for all rendered items (spans, divs, etc.)
-	// Most specific styling comes from the subtype classes below.
 }
 
 // --- Paragraphs & Text Blocks ---
@@ -244,16 +237,13 @@ $indent-size: 1.5em; // Base indent size
 	// Footnote quotations
 	font-style: italic;
 }
-.usfm-ft {
-	// Base footnote text (applied within footnote display, not here)
-	// Define base style for footnote content if needed
-}
 
 // --- Markers & Labels ---
 .verse-number-label {
 	// verses_label
 	font-weight: bold;
-	color: $muted-text-color;
+	color: $text-color;
+	opacity: $muted-text-color-opacity;
 	vertical-align: super;
 	font-size: 0.8em;
 	margin-right: 0.2em; // Space after number
@@ -290,7 +280,8 @@ $indent-size: 1.5em; // Base indent size
 	text-align: center;
 	margin-top: $base-margin;
 	margin-bottom: $base-margin * 1.5;
-	color: $muted-text-color;
+	color: $text-color;
+	opacity: $muted-text-color-opacity;
 }
 
 .verse-footnote-marker, // footnote
@@ -308,11 +299,6 @@ $indent-size: 1.5em; // Base indent size
 }
 
 // --- Functional Styles ---
-.verse-selectable {
-	// Base class for elements that can be part of verse interaction (clicking/selecting)
-	// Might not need specific styles itself, but useful as a hook.
-}
-
 .verse-playing {
 	// Style applied to spans/divs making up the currently playing verse
 	// Use a subtle background, avoiding interference with highlights
@@ -339,7 +325,8 @@ $indent-size: 1.5em; // Base indent size
 .verse-remark {
 	// remark
 	font-size: 0.8em;
-	color: $muted-text-color;
+	color: $text-color;
+	opacity: $muted-text-color-opacity;
 	margin-top: $base-margin * 2;
 	text-align: center; // Example styling
 }
