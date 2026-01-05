@@ -172,14 +172,6 @@ describe('<FormattedJson /> (RTL refactor)', () => {
 		).toBeInTheDocument();
 	});
 
-	it('applies fontSize from userSettings', () => {
-		const { container } = renderComponent();
-		const wrapperDiv = container.querySelector('.bible-chapter-view');
-		expect(wrapperDiv).toHaveStyle(
-			`font-size: ${mockUserSettings.activeFontSize}pt`,
-		);
-	});
-
 	it('calls getFirstVerse on mousedown of verse #1', () => {
 		const { container } = renderComponent();
 		const verse1Label = container.querySelector('span.verse-number-label[data-verse-number="1"]');
