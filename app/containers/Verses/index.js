@@ -38,6 +38,7 @@ import { getTextDirectionWithFallback } from '../../utils/rtlDetection';
 import getFirstSelectedVerse from '../../utils/requiresDom/getFirstSelectedVerse';
 import getLastSelectedVerse from '../../utils/requiresDom/getLastSelectedVerse';
 import addHighlightUtil from '../../utils/requiresDom/addHighlight';
+import extractChapterHeader from '../../utils/requiresDom/extractChapterHeader';
 import shareHighlightToFacebook from '../../utils/requiresDom/shareToFacebook';
 import { getClassNameForMain } from '../Text/textRenderUtils';
 // Actions
@@ -47,6 +48,7 @@ import {
 	deleteHighlights,
 	setChapterTextLoadingState,
 	addHighlight as addHighlightAction,
+	setTextDirection,
 } from '../HomePage/actions';
 import { addBookmark, setActiveChild } from '../Notes/actions';
 // Reducers
@@ -96,6 +98,20 @@ export class Verses extends React.PureComponent {
 		// May not need this anymore
 		this.window = window;
 		this.setState({ domMethodsAvailable: true });
+
+		const { textDirection } = this.props;
+		const { text } = this.props.textData;
+
+		const effectiveTextDirection = getTextDirectionWithFallback(
+			textDirection,
+			text,
+		);
+
+		// Only dispatch if the effective direction differs from the current direction
+		// and the text direction was auto-detected (not explicitly set)
+		if (effectiveTextDirection !== textDirection && text.length > 0) {
+			this.props.dispatch(setTextDirection(effectiveTextDirection));
+		}
 	}
 
 	componentDidUpdate(nextProps) {
@@ -112,6 +128,27 @@ export class Verses extends React.PureComponent {
 			!isEqual(nextProps.textData.text, this.props.textData.text)
 		) {
 			this.props.dispatch(setChapterTextLoadingState({ state: false }));
+		}
+
+		// Update text direction in Redux when auto-detected direction differs from stored value
+		// Only check when text data changes to avoid redundant calculations
+		const textChanged = !isEqual(
+			nextProps.textData.text,
+			this.props.textData.text,
+		);
+		if (textChanged) {
+			const { text } = this.props.textData;
+			const { textDirection } = this.props;
+			const effectiveTextDirection = getTextDirectionWithFallback(
+				textDirection,
+				text,
+			);
+
+			// Only dispatch if the effective direction differs from the current direction
+			// and the text direction was auto-detected (not explicitly set)
+			if (effectiveTextDirection !== textDirection && text.length > 0) {
+				this.props.dispatch(setTextDirection(effectiveTextDirection));
+			}
 		}
 	}
 
@@ -551,19 +588,31 @@ export class Verses extends React.PureComponent {
 			userSettings?.['toggleOptions']?.['readersMode']?.['active'];
 		const oneVersePerLine =
 			userSettings?.['toggleOptions']?.['oneVersePerLine']?.['active'];
-		const chapterAlt = text[0] && text[0].chapter_alt;
+		const chapterAlt = text?.[0]?.chapter_alt;
 
-		// Auto-detect text direction if not provided
-		// Priority: textDirection prop > detect from text array > default 'ltr'
-		const effectiveTextDirection = getTextDirectionWithFallback(
-			textDirection,
-			text,
-		);
+		// Use textDirection from Redux (updated by componentDidMount/componentDidUpdate)
+		// Fallback to 'ltr' if not set (shouldn't happen after mount)
+		const effectiveTextDirection = textDirection || 'ltr';
 
 		const isPlainText =
 			readersMode ||
 			oneVersePerLine ||
 			(!formattedSource.main && !formattedJsonSource && !!text.length);
+
+		let chapterHeader = '';
+
+		if (
+			(readersMode || oneVersePerLine) &&
+			(formattedJsonSource || formattedSource)
+		) {
+			chapterHeader = extractChapterHeader(
+				formattedJsonSource || formattedSource,
+			);
+		}
+
+		// Show chapter number title when in plain text mode (readers mode or one-verse-per-line) and text is available
+		const shouldShowChapterNumberTitle =
+			(readersMode || oneVersePerLine) && text.length > 0;
 
 		return (
 			<main
@@ -578,11 +627,13 @@ export class Verses extends React.PureComponent {
 						chapter={activeChapter}
 					/>
 				)}
-				{((formattedSource.main || !formattedJsonSource) &&
-					!readersMode &&
-					!oneVersePerLine) ||
-				text.length === 0 ||
-				(!readersMode && !oneVersePerLine) ? null : (
+				{chapterHeader && (
+					<div className="active-chapter-header">
+						<h1 className="chapter-header">{chapterHeader}</h1>
+					</div>
+				)}
+
+				{shouldShowChapterNumberTitle && (
 					<div className="active-chapter-title">
 						<h1 className="active-chapter-title">
 							{chapterAlt || activeChapter}

@@ -38,5 +38,4 @@ artifacts:
     - app/utils/apiEndpointConfig.js
     - app/utils/retryableRequest.js
     - app/utils/environmentConfig.js
-    - app/utils/rtlDetection.js
   name: $(AWS_REGION)-$(date +%Y-%m-%d)
