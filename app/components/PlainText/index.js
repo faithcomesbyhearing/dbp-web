@@ -60,7 +60,7 @@ class PlainText extends React.PureComponent {
 		} = this.props;
 		// Needs to be state eventually
 
-		const chapterAlt = initialText?.[0].chapter_alt;
+		const chapterAlt = initialText?.[0]?.chapter_alt;
 		const verseIsActive = activeVerseInfo.verse && activeVerseInfo.isPlain;
 		const activeVerse = activeVerseInfo.verse || 0;
 		const readersMode =

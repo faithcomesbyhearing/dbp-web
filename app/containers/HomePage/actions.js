@@ -41,6 +41,7 @@ import {
 	CREATE_USER_WITH_SOCIAL_ACCOUNT,
 	RESET_BOOKMARK_STATE,
 	CHANGING_VERSION,
+	SET_TEXT_DIRECTION,
 } from './constants';
 
 export const resetBookmarkState = (props) => ({
@@ -208,4 +209,9 @@ export const setActiveNotesView = (view) => ({
 export const changeVersion = (props) => ({
 	type: CHANGING_VERSION,
 	...props,
+});
+
+export const setTextDirection = (textDirection) => ({
+	type: SET_TEXT_DIRECTION,
+	textDirection,
 });
