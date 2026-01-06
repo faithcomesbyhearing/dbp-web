@@ -59,3 +59,4 @@ export const ADD_HIGHLIGHTS = 'app/HomePage/ADD_HIGHLIGHTS';
 export const TOGGLE_AUTOPLAY = 'app/HomePage/TOGGLE_AUTOPLAY';
 export const DELETE_HIGHLIGHTS = 'app/HomePage/DELETE_HIGHLIGHTS';
 export const CHANGE_VERSE = 'app/HomePage/CHANGE_VERSE';
+export const SET_TEXT_DIRECTION = 'app/HomePage/SET_TEXT_DIRECTION';

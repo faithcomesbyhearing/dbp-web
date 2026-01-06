@@ -41,6 +41,7 @@ import {
 	RESET_BOOKMARK_STATE,
 	ADD_BOOKMARK_SUCCESS,
 	ADD_BOOKMARK_FAILURE,
+	SET_TEXT_DIRECTION,
 } from './constants';
 
 const initialState = structuredClone({
@@ -277,6 +278,11 @@ function homePageReducer(state = initialState, action = { type: null }) {
 			return {
 				...state,
 				activeChapter: action.chapter,
+			};
+		case SET_TEXT_DIRECTION:
+			return {
+				...state,
+				textDirection: action.textDirection,
 			};
 		case ACTIVE_TEXT_ID:
 			return {
