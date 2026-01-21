@@ -126,7 +126,7 @@
 		"install": "0.13.0",
 		"intl": "1.2.5",
 		"invariant": "2.2.4",
-		"lodash": "4.17.21",
+		"lodash": "4.17.23",
 		"lru-cache": "11.2.4",
 		"match-sorter": "8.2.0",
 		"next": "15.5.9",
