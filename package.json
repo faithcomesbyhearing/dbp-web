@@ -147,7 +147,7 @@
 		"redux-saga": "1.4.2"
 	},
 	"devDependencies": {
-		"@babel/core": "7.28.5",
+		"@babel/core": "7.29.0",
 		"@eslint/js": "9.39.2",
 		"@fastify/pre-commit": "2.2.1",
 		"@swc/jest": "0.2.39",
