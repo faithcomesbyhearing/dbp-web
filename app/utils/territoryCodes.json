@@ -1,5 +1,4 @@
 {
-	"AG": true,
 	"AI": true,
 	"AN": true,
 	"AQ": true,
@@ -12,7 +11,6 @@
 	"CC": true,
 	"CK": true,
 	"CS": true,
-	"CV": true,
 	"CX": true,
 	"FK": true,
 	"FO": true,
@@ -28,7 +26,6 @@
 	"JE": true,
 	"KY": true,
 	"MF": true,
-	"MH": true,
 	"MO": true,
 	"MQ": true,
 	"MP": true,
@@ -39,20 +36,13 @@
 	"PF": true,
 	"PM": true,
 	"PN": true,
-	"SC": true,
 	"SH": true,
 	"SJ": true,
-	"SM": true,
-	"ST": true,
 	"SX": true,
 	"TC": true,
 	"TF": true,
 	"TK": true,
-	"TL": true,
-	"TT": true,
 	"UM": true,
-	"VC": true,
 	"VG": true,
-	"VI": true,
-	"WS": true
+	"VI": true
 }
