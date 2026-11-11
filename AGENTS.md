@@ -38,7 +38,9 @@ themselves). If a command fails for a reason outside your change, stop and repor
 
 - **The fast gate** is ESLint (warnings allowed, errors fail) and the Jest unit tests. **The full gate** adds the
   production build and the tamper check. Both run offline: the gate points every HTTP proxy variable at a closed local
-  port and uses placeholder values for the settings the tests and the build need (never a real key). The PR workflow
+  port, the unit tests load `scripts/no-network.cjs` (it refuses any connection that isn't to this machine), and
+  placeholder values stand in for the API key and route and the other settings the tests and build need, so a local
+  `.env` is never used. The PR workflow
   (`.github/workflows/gate.yml`) runs `scripts/gate fast` on every PR to `develop` or `master`.
 - **Don't run bare `npm test`.** Two suites (`app/utils/tests/getAudioAsyncCall.test.js` and
   `getInitialChapterData.test.js`) call the live production API from inside their mocks; the gate leaves them out
@@ -50,8 +52,9 @@ themselves). If a command fails for a reason outside your change, stop and repor
   existing test line (snapshots included) removed or changed; a test file deleted or renamed; an added block comment,
   early `return`, `if (false)` or `jest.mock` line in an existing test; a symlink; git's assume-unchanged or
   skip-worktree bit on a test, package or watched file, or a hidden edit under one; a change to a package script the
-  gate runs or to package.json's `jest` settings; and any change to `scripts/gate`, `scripts/check-test-rejects`, CI
-  files, `AGENTS.md`, `.claude/CLAUDE.md`, `.gitattributes`, `.gitignore`, `jest.setup.js`, `internals/testing/`,
+  gate runs or to package.json's `jest` settings; and any change to `scripts/gate`, `scripts/check-test-rejects`,
+  `scripts/no-network.cjs`, CI files, `.github/CODEOWNERS`, `AGENTS.md`, `.claude/CLAUDE.md`,
+  `.gitattributes`, `.gitignore`, `jest.setup.js`, `internals/testing/`,
   `internals/mocks/`, `eslint.config.mjs` or `.swcrc`. It doesn't say the edit was wrong; it makes a person look
   (class 2). Adding new tests passes.
 

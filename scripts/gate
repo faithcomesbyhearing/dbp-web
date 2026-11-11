@@ -16,8 +16,10 @@
 #
 # dbp-web: the steps never reach the network. The preflight below points every HTTP proxy variable at a closed local
 # port (Node's own http, https and fetch honour them through NODE_USE_ENV_PROXY), turns off Next.js telemetry and
-# npm's update checks, and sets placeholder values for the few settings the tests and the build need. No real key is
-# ever needed or read by the gate.
+# npm's update checks, and sets placeholder values for the few settings the tests and the build need. The unit step
+# also loads scripts/no-network.cjs, which refuses any socket that isn't to this machine (jsdom and axios ignore the
+# proxy variables), and sets a placeholder BASE_API_ROUTE and DBP_API_KEY, so a local .env's key and route are never
+# used. No real key is ever needed or read by the gate.
 set -u
 
 # dbp-web: test suites that call the live Bible Brain API from inside their mocks. The gate never runs them (it is
@@ -30,7 +32,7 @@ FAST_STEPS=(
   # "format|..."   not yet: the code base isn't Prettier-clean today, so a format check would fail on every run
   # "types|..."    none: the app is JavaScript
   "lint|npm run --silent lint"
-  "unit|GOOGLE_APP_ID=gate-placeholder GOOGLE_SECRET=gate-placeholder npm test --silent -- --ci --testPathIgnorePatterns /node_modules/ ${LIVE_API_SUITES[*]}"
+  "unit|NODE_OPTIONS=\"\$NODE_OPTIONS --require \$PWD/scripts/no-network.cjs\" BASE_API_ROUTE=http://127.0.0.1:9 DBP_API_KEY=test-key GOOGLE_APP_ID=gate-placeholder GOOGLE_SECRET=gate-placeholder npm test --silent -- --ci --testPathIgnorePatterns /node_modules/ ${LIVE_API_SUITES[*]}"
 )
 FULL_STEPS=(
   # "integration|..."  none: there are no integration or browser tests
@@ -45,9 +47,10 @@ FULL_STEPS=(
 TEST_PATHS='(^|/)(test|tests|__tests__)/|\.(test|spec)\.[cm]?[jt]sx?$|_test\.(go|dart|py)$|(^|/)test_[^/]*\.py$|(^|/)[^/]*\.Tests?/|(^|/)[^/]*Tests?\.(cs|java|kt)$'
 PACKAGE_FILES='(^|/)package\.json$'
 WATCHED='^(scripts/gate|\.pipelines/|azure-pipelines|\.github/workflows/|\.claude/|\.agents/|\.codex/|\.mcp\.json$)|(^|/)(AGENTS|AGENTS\.override|CLAUDE|CLAUDE\.local)\.md$|(^|/)\.gitattributes$|(^|/)\.gitignore$|(^|/)(vite|vitest|jest|playwright)\.config\.[cm]?[jt]s$|(^|/)tsconfig[^/]*\.json$|(^|/)\.npmrc$|(^|/)(pytest\.ini|conftest\.py|Directory\.Build\.(props|targets)|[^/]*\.runsettings)$'
-# dbp-web: Jest's setup files and mocks, the ESLint and SWC configs, and the wrong-fix check are watched too: an edit
+# dbp-web: Jest's setup files and mocks, the ESLint and SWC configs, the wrong-fix check, the socket guard and
+# CODEOWNERS are watched too: an edit
 # to any of them can switch tests or lint rules off for every file at once
-WATCHED+='|^(jest\.setup\.js|eslint\.config\.[cm]?js|\.swcrc|internals/(testing|mocks)/|scripts/check-test-rejects$)'
+WATCHED+='|^(jest\.setup\.js|eslint\.config\.[cm]?js|\.swcrc|internals/(testing|mocks)/|scripts/check-test-rejects$|scripts/no-network\.cjs$|\.github/CODEOWNERS$)'
 # Files git ignores are read too, because the test tools still run (and the package manager still reads) what an
 # ignore rule hides. IGNORED_SKIP names the dependency and build-output trees left out of that scan: each repo sets it
 # to the trees its tools generate (a tree that holds third-party tests would otherwise fail the gate for good). It is
@@ -145,6 +148,34 @@ hidden_edit() {
   else cur=$(git hash-object -- "$1" 2>/dev/null); fi
   [ "$cur" != "$sha" ]
 }
+# package.json, compared as data and not as text: the "jest" block and each package script the gate runs, read from
+# the base commit and from the working tree, keys sorted so key order alone is no change. A line-by-line scan of the
+# diff misses an edit inside a multi-line block (a setupFiles entry) and any Jest key it doesn't list. Prints one line
+# per part that differs; returns 1 when either side can't be read or parsed, so a failure fails the check.
+pkg_struct_diff() {
+  local base=$1 f=$2 btmp
+  btmp=$(mktemp) || { echo "tamper: no temp file"; return 1; }
+  if git cat-file -e "$base:$f" 2>/dev/null; then
+    git show "$base:$f" > "$btmp" 2>/dev/null || { echo "tamper: can't read $f at the base"; rm -f "$btmp"; return 1; }
+  else
+    echo '{}' > "$btmp"
+  fi
+  node -e '
+    const fs = require("fs");
+    const sort = (v) => Array.isArray(v) ? v.map(sort)
+      : v && typeof v === "object" ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, sort(v[k])])) : v;
+    const str = (v) => JSON.stringify(sort(v === undefined ? null : v));
+    const a = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+    const b = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+    if (str(a.jest) !== str(b.jest)) console.log("jest");
+    const names = ["test", "pretest", "posttest", "lint", "prelint", "lint:js", "lint:eslint", "build", "prebuild", "postbuild", "preinstall", "npmcheckversion"];
+    for (const n of names) if (str((a.scripts || {})[n]) !== str((b.scripts || {})[n])) console.log("script " + n);
+  ' "$btmp" "$f"
+  local rc=$?
+  rm -f "$btmp"
+  return $rc
+}
+
 tamper_check() {
   local base found=0 st f tmp diff cdiff hit out rc meta om nm tag
   local all=() deleted=() linked=() untracked=() ignored=() ignored_watched=() links=() hidden=() hiddenedit=() tests=() ctests=() pkgs=()
@@ -264,6 +295,18 @@ tamper_check() {
     if patch_lines +- <<<"$diff" | grep -E "$JEST_RE"; then
       echo "tamper: a Jest setting in package.json changed (which tests run, how they load or what passes)"; found=1
     fi
+    # dbp-web: the same two checks on the parsed file, which see an edit inside a multi-line block and any Jest key
+    for f in "${pkgs[@]}"; do
+      if ! out=$(pkg_struct_diff "$base" "$f"); then
+        printf '  %q\n%s\n' "$f" "$out"; echo "tamper: can't compare $f with the base"; return 1
+      fi
+      if grep -q -x jest <<<"$out"; then
+        printf '  %q\n' "$f"; echo "tamper: a Jest setting in package.json changed (which tests run, how they load or what passes)"; found=1
+      fi
+      if grep -q '^script ' <<<"$out"; then
+        printf '  %q\n%s\n' "$f" "$(grep '^script ' <<<"$out")"; echo "tamper: a package script the gate runs changed"; found=1
+      fi
+    done
   fi
   # new test and package files not yet added, and new ones git ignores: read as additions (a symlink is flagged above)
   for f in "${untracked[@]}"; do

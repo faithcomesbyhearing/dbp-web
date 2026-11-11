@@ -54,3 +54,5 @@ artifacts
 
 # Added to ignore CLAUDE files
 /CLAUDE.md
+CLAUDE.local.md
+.claude/settings.local.json
