@@ -1,0 +1,382 @@
+#!/usr/bin/env bash
+# scripts/gate: dbp-web's fast and full gates, from the station v0.3 gate template. dbp-web's changes to the template
+# are marked "dbp-web:". One script, run by people, by agents and by the PR workflow (.github/workflows/gate.yml), so
+# "green here" means "green there". It runs in Linux or WSL with Node 22. Changing this file is class 2.
+#
+#   scripts/gate fast [--json FILE]    ESLint and the Jest unit tests, offline (about 20 seconds), after each edit
+#   scripts/gate full [--json FILE]    fast, then the production build (offline) and the tamper check: before a PR
+#
+# Each step is "name|command". All steps run (an agent learns more from every failure at once); the exit code is
+# non-zero when any step failed, and 2 on a usage error or a missing toolchain. --json appends one result object per
+# run to FILE (the packet's evidence/gates.json); a failed write fails the gate. GATE_BASE sets the commit the tamper
+# check compares against (default: the merge base with origin/$GATE_TARGET, else origin/HEAD, else main). It is for
+# probes and for comparing with a chosen commit; evidence for a review is taken without it, and the result records
+# which base was used. dbp-web: GATE_TARGET names the branch the PR goes to (default develop; a hotfix to master
+# sets GATE_TARGET=master).
+#
+# dbp-web: the steps never reach the network. The preflight below points every HTTP proxy variable at a closed local
+# port (Node's own http, https and fetch honour them through NODE_USE_ENV_PROXY), turns off Next.js telemetry and
+# npm's update checks, and sets placeholder values for the few settings the tests and the build need. No real key is
+# ever needed or read by the gate.
+set -u
+
+# dbp-web: test suites that call the live Bible Brain API from inside their mocks. The gate never runs them (it is
+# offline, and test traffic to the production API is not allowed). Fixing them to use fixtures is a separate change.
+LIVE_API_SUITES=(
+  app/utils/tests/getAudioAsyncCall.test.js
+  app/utils/tests/getInitialChapterData.test.js
+)
+FAST_STEPS=(
+  # "format|..."   not yet: the code base isn't Prettier-clean today, so a format check would fail on every run
+  # "types|..."    none: the app is JavaScript
+  "lint|npm run --silent lint"
+  "unit|GOOGLE_APP_ID=gate-placeholder GOOGLE_SECRET=gate-placeholder npm test --silent -- --ci --testPathIgnorePatterns /node_modules/ ${LIVE_API_SUITES[*]}"
+)
+FULL_STEPS=(
+  # "integration|..."  none: there are no integration or browser tests
+  # "coverage|..."     not yet: package.json's 98% global coverage threshold doesn't hold today
+  "build|BUGSNAG_API_KEY=00000000000000000000000000000000 npm run --silent build"
+  "tamper|tamper_check"
+)
+
+# What the tamper check reads. Adjust the three path patterns to the repo's languages and tools; keep them narrow
+# enough that ordinary source files don't match. Test files: their skips and assertions are scanned. Package files:
+# the scripts the gate runs are scanned. Watched files: any change to one fails the gate, so a person sees it.
+TEST_PATHS='(^|/)(test|tests|__tests__)/|\.(test|spec)\.[cm]?[jt]sx?$|_test\.(go|dart|py)$|(^|/)test_[^/]*\.py$|(^|/)[^/]*\.Tests?/|(^|/)[^/]*Tests?\.(cs|java|kt)$'
+PACKAGE_FILES='(^|/)package\.json$'
+WATCHED='^(scripts/gate|\.pipelines/|azure-pipelines|\.github/workflows/|\.claude/|\.agents/|\.codex/|\.mcp\.json$)|(^|/)(AGENTS|AGENTS\.override|CLAUDE|CLAUDE\.local)\.md$|(^|/)\.gitattributes$|(^|/)\.gitignore$|(^|/)(vite|vitest|jest|playwright)\.config\.[cm]?[jt]s$|(^|/)tsconfig[^/]*\.json$|(^|/)\.npmrc$|(^|/)(pytest\.ini|conftest\.py|Directory\.Build\.(props|targets)|[^/]*\.runsettings)$'
+# dbp-web: Jest's setup files and mocks, the ESLint and SWC configs, and the wrong-fix check are watched too: an edit
+# to any of them can switch tests or lint rules off for every file at once
+WATCHED+='|^(jest\.setup\.js|eslint\.config\.[cm]?js|\.swcrc|internals/(testing|mocks)/|scripts/check-test-rejects$)'
+# Files git ignores are read too, because the test tools still run (and the package manager still reads) what an
+# ignore rule hides. IGNORED_SKIP names the dependency and build-output trees left out of that scan: each repo sets it
+# to the trees its tools generate (a tree that holds third-party tests would otherwise fail the gate for good). It is
+# deliberately not a build/ or dist/ pattern: test code emitted there is read. LOCAL_OK names the files that are
+# normally ignored and local to one person's tools: they don't fail the watched-file check when ignored.
+# dbp-web: .next/ (the Next.js build output the full gate writes) is added; no test code is emitted there.
+IGNORED_SKIP='(^|/)(node_modules|\.next|\.venv|venv|\.tox|site-packages|Pods|DerivedData|\.gradle|\.pub-cache|\.dart_tool|\.pytest_cache|\.mypy_cache|\.ruff_cache|\.idea)/'
+LOCAL_OK='(^|/)(\.claude/settings\.local\.json|CLAUDE\.local\.md)$'
+# skip, only, todo, skipIf, runIf and fails, called or chained (.only.each), or alone on a line (the tamper check also
+# reads an added hunk, or a whole new file, with each line trimmed and the lines joined, so a modifier split from its
+# call by a line break matches, and FOLD_END_RE adds a test-API modifier last in that text); a modifier spelled with a
+# Unicode escape in the name or as a bracketed string (describe['skip'](...)); the old-style x and f prefixes; a
+# skip or only in a test's options object ({ skip: true }); JUnit, NUnit and MSTest ignores; xUnit's Skip =; pytest's
+# skip and xfail; Go's t.Skip, Skipf and SkipNow; and --passWithNoTests
+SKIP_RE='(\.(skip|only|todo|skipIf|runIf|fails)[[:space:]]*[(.]|^[[:space:]]*\.(skip|only|todo|skipIf|runIf|fails)[[:space:]]*$|\.[[:space:]]*\\u|\[[[:space:]]*['"'"'"`](skip|only|todo|skipIf|runIf|fails)['"'"'"`][[:space:]]*\][[:space:]]*\(|\b(xit|xtest|xdescribe|fit|fdescribe)[[:space:]]*\(|\b(skip|only|todo|fails)[[:space:]]*:|@Ignore|@Disabled|\[Ignore|\[(Fact|Theory)[[:space:]]*\([^]]*Skip[[:space:]]*=|pytest\.mark\.(skip|xfail)|unittest\.skip|t\.Skip[[:alpha:]]*[[:space:]]*\(|\bskip[[:space:]]*\([[:space:]]*\)|--passWithNoTests)'
+FOLD_END_RE='\b(it|test|describe|suite|context|bench)\.(skip|only|todo|skipIf|runIf|fails)[[:space:]]*$'
+# Lines that, added to an existing test file, make a person look (the same way an edit to an existing line does): a
+# block comment opener or closer, a triple quote, an early return, if (false) or if (0), a line that is only a
+# backtick (a template literal opener or closer), and vi.mock, vi.doMock, jest.mock and jest.doMock calls. Any of
+# them can switch assertions off without removing a line; the lexer tricks that hide a comment from a scan (a regex
+# literal, an escaped quote) can't hide the characters themselves. New test files are exempt (they are read for skips).
+PERSON_RE='/\*|\*/|"""|^[[:space:]]*return\b|\bif[[:space:]]*\([[:space:]]*(false|0)[[:space:]]*\)|\bif[[:space:]]+(False|0)[[:space:]]*:|^[[:space:]]*`[[:space:]]*$|\b(vi|jest)\.(mock|doMock)[[:space:]]*\('
+PERSON_RE+="|'''"
+# the package scripts the gate's steps run; name every one your steps call
+# dbp-web: lint runs lint:js, which runs lint:eslint; npm ci runs preinstall, which runs npmcheckversion
+SCRIPT_RE='"(test|pretest|posttest|lint|prelint|lint:js|lint:eslint|build|prebuild|postbuild|preinstall|npmcheckversion)"[[:space:]]*:'
+# dbp-web: Jest's settings live in package.json's "jest" block; a change to a key that decides which tests run, how
+# they load or what counts as passing fails the gate like a changed script
+JEST_RE='"(jest|testRegex|testMatch|testPathIgnorePatterns|roots|modulePathIgnorePatterns|testEnvironment|setupFiles|setupFilesAfterEnv|transform|transformIgnorePatterns|moduleNameMapper|moduleDirectories|coverageThreshold|bail|passWithNoTests)"[[:space:]]*:'
+
+# Every git call below ignores refs/replace (a replace ref can swap the base commit or a blob for another) and any
+# file-system monitor hook (core.fsmonitor can report an edited file as unchanged).
+git() { command git --no-replace-objects -c core.fsmonitor=false "$@"; }
+HIDDEN_EDIT=0
+
+cd "$(git rev-parse --show-toplevel)" || exit 2
+
+# Reports edits that look like weakening the tests: a skip or .only added (in a changed file, in a new one not yet
+# added, or in a new one git ignores outside the IGNORED_SKIP trees: the test tools still run an ignored build/
+# folder; a modifier split from its call by a line break counts), any non-blank existing line of a test file removed
+# or changed (an assertion can span lines, so every such line is shown, not only the ones that look like assertions),
+# a block comment, triple-quoted string, early return, if (false), lone backtick or vi/jest mock line added to an
+# existing test file (a /* before assertions and a */ after them removes them without deleting a line; any such line
+# shows, a person checks it), a test file deleted or renamed away, a package script the gate runs changed, a symlink
+# added or retargeted (in the diff, or new and untracked or ignored: the test tools follow links the scan never
+# reads), a test, package or watched file whose git assume-unchanged or skip-worktree bit is set (git then hides its
+# edits from status and diff), any file with such a bit that exists on disk and differs from its index copy (a hidden
+# edit), or a gate, CI, agent instruction, agent settings, git attributes, .gitignore or test-runner config file
+# changed or added (an ignored one counts too, except the LOCAL_OK files). It fails the gate; a person decides whether
+# the edit was right (class 2). It reads test and package files only (reading every file would trip on its own
+# patterns); renames count as deletions; paths come NUL-separated and go back to git as literal pathspecs, so no file
+# name escapes; the patch is forced to plain text with a fixed hunk shape (no attributes, external diff, text
+# conversion, colour, inter-hunk context or diff algorithm from the git config or environment can hide a line); every
+# git call ignores refs/replace and any file-system monitor hook; the base must be an ancestor of the origin branch
+# when there is one; and a base, diff or read it can't get fails instead of passing.
+#
+# patch_lines SIGNS: the added (+), removed (-) or both (+-) content lines of a unified diff on stdin, headers skipped
+patch_lines() { awk -v s="$1" '/^diff --git /{h=1; next} /^@@/{h=0; next} !h && length($0) && index(s, substr($0,1,1)) {print}'; }
+tamper_diff() { git --literal-pathspecs diff --no-renames --no-ext-diff --no-textconv --text --no-color \
+  --src-prefix=a/ --dst-prefix=b/ --unified=0 --inter-hunk-context=0 --diff-algorithm=myers --indent-heuristic "$@"; }
+# fold_added: the added lines of each hunk of a unified diff on stdin, each trimmed and the lines joined, one line per
+# hunk, so a modifier and its call that a line break separates (it.only, then ('x', ...) on the next line; or it.,
+# then an indented only(...)) read as one
+fold_added() { LC_ALL=C awk 'function flush() { if (s != "") print s; s = "" }
+  /^diff --git /{flush(); h=1; next} /^@@/{flush(); h=0; next} h{next}
+  substr($0,1,1)=="+"{l = substr($0,2); gsub(/^[ \t]+|[ \t\r]+$/, "", l); s = s l} END{flush()}'; }
+# skip_scan FILE: skips and .only in a whole file, line by line (printed with line numbers), then with each line
+# trimmed and the lines joined (printed as the matching text; NUL bytes are stripped first, so one can't switch the pass off).
+# Exit 0 when found, 1 when not, 2 when it can't be read.
+skip_scan() {
+  local out rc ftmp
+  out=$(grep -a -E -i -n -e "$SKIP_RE" -- "$1" 2>&1); rc=$?
+  if [ $rc -ne 1 ]; then printf '%s\n' "$out"; return $rc; fi
+  ftmp=$(mktemp) || { echo "no temp file"; return 2; }
+  if ! { LC_ALL=C tr -d '\000' < "$1" | LC_ALL=C sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | LC_ALL=C tr -d '\r\n' > "$ftmp"; }; then echo "can't read $1"; rm -f "$ftmp"; return 2; fi
+  out=$(LC_ALL=C grep -a -E -i -o -e ".{0,40}(${SKIP_RE}|${FOLD_END_RE}).{0,40}" -- "$ftmp" 2>&1); rc=$?
+  rm -f "$ftmp"
+  [ $rc -eq 0 ] && printf '  (spans lines) %s\n' "$out"
+  [ $rc -eq 0 ] || [ $rc -eq 1 ] || printf '%s\n' "$out"
+  return $rc
+}
+# a symlink outside the dependency trees: not a link named exactly node_modules, and not one inside an IGNORED_SKIP
+# tree (a dependency tree links its own packages)
+is_loose_link() { [ -L "$1" ] || return 1; [[ ${1##*/} == node_modules ]] && return 1; [[ $1 =~ $IGNORED_SKIP ]] && return 1; return 0; }
+# hidden_edit PATH: 0 when the file on disk differs from its index copy (a path with an assume-unchanged or
+# skip-worktree bit: git status and diff don't show it); 1 when it matches or isn't on disk (outside a sparse cone)
+hidden_edit() {
+  local ent mode sha cur
+  [ -e "$1" ] || [ -L "$1" ] || return 1
+  ent=$(git --literal-pathspecs ls-files -s -z -- "$1" | tr '\0' '\n' | head -n 1)
+  [ -n "$ent" ] || return 1
+  read -r mode sha _ <<<"${ent%%$'\t'*}"
+  [ "$mode" = 160000 ] && return 1
+  if [ -L "$1" ]; then cur=$(printf '%s' "$(readlink "$1")" | git hash-object --stdin 2>/dev/null)
+  else cur=$(git hash-object -- "$1" 2>/dev/null); fi
+  [ "$cur" != "$sha" ]
+}
+tamper_check() {
+  local base found=0 st f tmp diff cdiff hit out rc meta om nm tag
+  local all=() deleted=() linked=() untracked=() ignored=() ignored_watched=() links=() hidden=() hiddenedit=() tests=() ctests=() pkgs=()
+  if [ -z "$BASE_SHA" ]; then
+    echo "tamper: no valid base (${BASE_REF:-none}); set GATE_BASE to a commit"; return 1
+  fi
+  base=$BASE_SHA
+  echo "tamper: base $BASE_SHA ($BASE_FROM)"
+  if [ -n "$ORIGIN_REF" ]; then
+    if ! git merge-base --is-ancestor "$base" "$ORIGIN_REF" 2>/dev/null; then
+      echo "tamper: the base $base is not an ancestor of $ORIGIN_REF (a base moved forward would hide the change); set GATE_BASE to a commit on it"; return 1
+    fi
+  else
+    echo "tamper: no origin branch to check the base against (the base is $base, from $BASE_FROM)"
+  fi
+  tmp=$(mktemp) || { echo "tamper: no temp file"; return 1; }
+  # --raw gives each path's old and new mode, so a symlink (mode 120000) added or retargeted shows
+  if ! git diff --no-renames --raw -z "$base" -- . > "$tmp"; then
+    echo "tamper: diff failed"; rm -f "$tmp"; return 1
+  fi
+  while IFS= read -r -d '' meta && IFS= read -r -d '' f; do
+    read -r om nm _ _ st <<<"${meta#:}"
+    all+=("$f"); [ "$st" = D ] && deleted+=("$f")
+    [ "$nm" = 120000 ] && linked+=("$f")
+    # a new committed test file is only new tests (its skips are read below); changed ones are checked for the
+    # comment, string and early-return lines a person looks at
+    if [ "$st" != A ] && [[ $f =~ $TEST_PATHS ]]; then ctests+=("$f"); fi
+  done < "$tmp"
+  # git diff doesn't see files that were never added, so new files in the working tree are listed too
+  if ! git ls-files --others --exclude-standard -z > "$tmp"; then
+    echo "tamper: listing new files failed"; rm -f "$tmp"; return 1
+  fi
+  while IFS= read -r -d '' f; do
+    untracked+=("$f"); if is_loose_link "$f"; then links+=("$f"); fi
+  done < "$tmp"
+  # files git ignores (a build/ folder, say) are still run by the test tools, so new ignored files are read like new
+  # ones: test and package files for skips, and config files by the watched-file check. The trees in IGNORED_SKIP are
+  # left out, and the normally-ignored local files in LOCAL_OK pass the watched-file check.
+  if ! git ls-files --others --ignored --exclude-standard -z > "$tmp"; then
+    echo "tamper: listing ignored new files failed"; rm -f "$tmp"; return 1
+  fi
+  while IFS= read -r -d '' f; do
+    if is_loose_link "$f"; then links+=("$f"); fi
+    [[ $f =~ $IGNORED_SKIP ]] && continue
+    if [[ $f =~ $WATCHED ]] && ! [[ $f =~ $LOCAL_OK ]]; then ignored_watched+=("$f"); fi
+    if [[ $f =~ $TEST_PATHS || $f =~ $PACKAGE_FILES ]]; then ignored+=("$f"); fi
+  done < "$tmp"
+  # tracked paths with the assume-unchanged (lowercase tag) or skip-worktree (S) bit: git hides their edits. A test,
+  # package or watched file with the bit fails; any file with it that is on disk and differs from its index copy is a
+  # hidden edit (paths outside a sparse checkout's cone aren't on disk and are skipped)
+  if ! git ls-files -v -z > "$tmp"; then
+    echo "tamper: listing index flags failed"; rm -f "$tmp"; return 1
+  fi
+  while IFS= read -r -d '' out; do
+    tag=${out:0:1}; f=${out:2}
+    if [[ $tag == [[:lower:]] || $tag == S ]]; then
+      if [[ $f =~ $TEST_PATHS || $f =~ $PACKAGE_FILES || $f =~ $WATCHED ]]; then hidden+=("$tag $f"); fi
+      if hidden_edit "$f"; then hiddenedit+=("$f"); fi
+    fi
+  done < "$tmp"
+  rm -f "$tmp"
+
+  hit=0; for f in "${all[@]}"; do if [[ $f =~ $WATCHED ]]; then printf '  %q\n' "$f"; hit=1; fi; done
+  [ $hit -eq 1 ] && { echo "tamper: a gate, CI, agent instruction or settings, or test config file changed (class 2: needs its review)"; found=1; }
+  hit=0; for f in "${untracked[@]}"; do if [[ $f =~ $WATCHED ]]; then printf '  %q\n' "$f"; hit=1; fi; done
+  [ $hit -eq 1 ] && { echo "tamper: a new gate, CI, agent instruction or config file, not yet committed (class 2)"; found=1; }
+  hit=0; for f in "${ignored_watched[@]}"; do printf '  %q\n' "$f"; hit=1; done
+  [ $hit -eq 1 ] && { echo "tamper: a gate, CI, agent instruction or config file that git ignores, which the tools may still read (class 2)"; found=1; }
+  hit=0; for f in "${deleted[@]}"; do if [[ $f =~ $TEST_PATHS ]]; then printf '  %q\n' "$f"; hit=1; fi; done
+  [ $hit -eq 1 ] && { echo "tamper: a test file was deleted or renamed"; found=1; }
+  hit=0; for f in "${linked[@]}"; do printf '  %q\n' "$f"; hit=1; done
+  [ $hit -eq 1 ] && { echo "tamper: a symlink was added or changed in the diff (the test tools follow it; the scan reads the link, not its target)"; found=1; }
+  hit=0; for f in "${links[@]}"; do printf '  %q\n' "$f"; hit=1; done
+  [ $hit -eq 1 ] && { echo "tamper: a new symlink, not yet committed, outside the dependency trees (the test tools follow it; the scan doesn't)"; found=1; }
+  hit=0; for f in "${hidden[@]}"; do printf '  %q\n' "$f"; hit=1; done
+  [ $hit -eq 1 ] && { echo "tamper: a test, package or watched file has git's assume-unchanged or skip-worktree bit set (git hides its edits)"; found=1; }
+  hit=0; for f in "${hiddenedit[@]}"; do printf '  %q\n' "$f"; hit=1; done
+  [ $hit -eq 1 ] && { echo "tamper: a hidden edit: a file with git's assume-unchanged or skip-worktree bit differs from its index copy (git status and diff don't show it)"; found=1; HIDDEN_EDIT=1; }
+
+  for f in "${all[@]}"; do
+    if [[ $f =~ $TEST_PATHS ]]; then tests+=("$f"); fi
+    if [[ $f =~ $PACKAGE_FILES ]]; then pkgs+=("$f"); fi
+  done
+  if [ ${#tests[@]} -gt 0 ]; then
+    if ! diff="$(tamper_diff "$base" -- "${tests[@]}" 2>&1)"; then
+      echo "tamper: diff failed: $diff"; return 1
+    fi
+    if patch_lines + <<<"$diff" | grep -E -i "$SKIP_RE"; then
+      echo "tamper: a test skip or .only was added"; found=1
+    elif fold_added <<<"$diff" | LC_ALL=C grep -E -i -o -e ".{0,40}(${SKIP_RE}|${FOLD_END_RE}).{0,40}" | sed 's/^/  (spans lines) /' | grep .; then
+      echo "tamper: a test skip or .only was added, split across lines"; found=1
+    fi
+    if patch_lines - <<<"$diff" | grep -v -E '^-[[:space:]]*$'; then
+      echo "tamper: an existing test line was removed or changed (an assertion or not: a person checks it)"; found=1
+    fi
+  fi
+  if [ ${#ctests[@]} -gt 0 ]; then
+    if ! cdiff="$(tamper_diff "$base" -- "${ctests[@]}" 2>&1)"; then
+      echo "tamper: diff failed: $cdiff"; return 1
+    fi
+    out=$(patch_lines + <<<"$cdiff" | sed 's/^+//' | grep -E -e "$PERSON_RE")
+    if [ -n "$out" ]; then
+      printf '%s\n' "$out" | sed 's/^/  + /'
+      echo "tamper: a person checks: a block comment or triple-quoted string added in an existing test file (or an early return, if (false), lone backtick or vi/jest mock line: each can switch assertions off)"; found=1
+    fi
+  fi
+  if [ ${#pkgs[@]} -gt 0 ]; then
+    if ! diff="$(tamper_diff "$base" -- "${pkgs[@]}" 2>&1)"; then
+      echo "tamper: diff failed: $diff"; return 1
+    fi
+    if patch_lines + <<<"$diff" | grep -E -i "$SKIP_RE"; then
+      echo "tamper: a skip flag was added to a package file"; found=1
+    fi
+    if patch_lines +- <<<"$diff" | grep -E "$SCRIPT_RE"; then
+      echo "tamper: a package script the gate runs changed"; found=1
+    fi
+    if patch_lines +- <<<"$diff" | grep -E "$JEST_RE"; then
+      echo "tamper: a Jest setting in package.json changed (which tests run, how they load or what passes)"; found=1
+    fi
+  fi
+  # new test and package files not yet added, and new ones git ignores: read as additions (a symlink is flagged above)
+  for f in "${untracked[@]}"; do
+    [[ $f =~ $TEST_PATHS || $f =~ $PACKAGE_FILES ]] || continue
+    [ -L "$f" ] && continue
+    out=$(skip_scan "$f"); rc=$?
+    if [ $rc -eq 0 ]; then printf '  %q\n%s\n' "$f" "$out"; echo "tamper: a skip or .only in a new file, not yet committed"; found=1
+    elif [ $rc -ne 1 ]; then printf '  %q\n' "$f"; echo "tamper: can't read a new file: $out"; return 1; fi
+  done
+  for f in "${ignored[@]}"; do
+    [ -L "$f" ] && continue
+    out=$(skip_scan "$f"); rc=$?
+    if [ $rc -eq 0 ]; then printf '  %q\n%s\n' "$f" "$out"; echo "tamper: a skip or .only in a new ignored file the test tools still run"; found=1
+    elif [ $rc -ne 1 ]; then printf '  %q\n' "$f"; echo "tamper: can't read a new ignored file: $out"; return 1; fi
+  done
+  return $found
+}
+
+# fast mode runs this part of the tamper check as a step: a hidden edit (a file with an assume-unchanged or
+# skip-worktree bit that is on disk and differs from its index copy) fails it and sets dirty in the evidence record
+fast_hidden_check() {
+  local tmp out tag f hit=0
+  tmp=$(mktemp) || { echo "gate: no temp file"; return 1; }
+  if ! git ls-files -v -z > "$tmp"; then echo "gate: listing index flags failed"; rm -f "$tmp"; return 1; fi
+  while IFS= read -r -d '' out; do
+    tag=${out:0:1}; f=${out:2}
+    if [[ $tag == [[:lower:]] || $tag == S ]] && hidden_edit "$f"; then printf '  %q\n' "$f"; hit=1; fi
+  done < "$tmp"
+  rm -f "$tmp"
+  [ $hit -eq 1 ] || return 0
+  echo "tamper: a hidden edit: a file with git's assume-unchanged or skip-worktree bit differs from its index copy (git status and diff don't show it)"
+  HIDDEN_EDIT=1; return 1
+}
+
+json_escape() { local s=${1//\\/\\\\}; s=${s//\"/\\\"}; s=${s//$'\n'/ }; printf '%s' "$s"; }
+
+run_steps() {
+  local gate=$1; shift
+  local failed=0 results="" sep="" entry name cmd start secs rc
+  for entry in "$@"; do
+    name=${entry%%|*}; cmd=${entry#*|}
+    start=$(date +%s)
+    printf '== %s: %s\n' "$gate" "$name"
+    if [ "$(type -t "$cmd")" = function ]; then "$cmd"; rc=$?; else bash -c "$cmd"; rc=$?; fi
+    secs=$(( $(date +%s) - start ))
+    if [ $rc -eq 0 ]; then printf '   PASS %s (%ss)\n' "$name" "$secs"; else printf '   FAIL %s (%ss, exit %s)\n' "$name" "$secs" "$rc"; failed=1; fi
+    results+="$sep{\"name\":\"$(json_escape "$name")\",\"result\":\"$([ $rc -eq 0 ] && echo pass || echo fail)\",\"seconds\":$secs,\"exit\":$rc}"
+    sep=","
+  done
+  LAST_RESULTS=$results
+  return $failed
+}
+
+mode=${1:-}; shift || true
+json=""
+usage() { echo "usage: scripts/gate fast|full [--json FILE]" >&2; exit 2; }
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --json) case "${2:-}" in ""|-*) usage;; esac; json=$2; shift 2;;
+    *) echo "unknown option $1" >&2; usage;;
+  esac
+done
+
+steps=()
+case "$mode" in
+  fast) [ ${#FAST_STEPS[@]} -gt 0 ] && steps=("${FAST_STEPS[@]}" "hidden edits|fast_hidden_check") ;;
+  full) steps=("${FAST_STEPS[@]}" "${FULL_STEPS[@]}") ;;
+  *) usage ;;
+esac
+if [ ${#steps[@]} -eq 0 ]; then echo "gate: no steps configured for '$mode' (fill FAST_STEPS in scripts/gate)" >&2; exit 2; fi
+
+# --- dbp-web preflight (begin) ---
+# Node 22 with npm (package.json's engines: node >=22 <23) and installed dependencies. A non-interactive shell (an
+# agent's, a job's) doesn't load nvm, so when the PATH falls short the gate loads nvm and asks it for Node 22; it never
+# installs. Then the steps are cut off from the network (see the header).
+node_ok() {
+  command -v npm >/dev/null 2>&1 || return 1
+  node -e 'process.exit(Number(process.versions.node.split(".")[0]) === 22 ? 0 : 1)' 2>/dev/null
+}
+setup_hint() { echo "gate: $1; see AGENTS.md, Commands" >&2; exit 2; }
+if ! node_ok; then
+  nvm_sh="${NVM_DIR:-$HOME/.nvm}/nvm.sh"
+  [ -s "$nvm_sh" ] || setup_hint "no Node 22 with npm on PATH, and no nvm at $nvm_sh"
+  set +u; . "$nvm_sh" >/dev/null 2>&1; nvm use 22 >/dev/null 2>&1; set -u   # nvm reads unset variables
+  node_ok || setup_hint "nvm has no Node 22 (nvm install 22)"
+fi
+[ -d node_modules ] || setup_hint "node_modules is missing (npm ci)"
+export HTTP_PROXY=http://127.0.0.1:9 HTTPS_PROXY=http://127.0.0.1:9 http_proxy=http://127.0.0.1:9 https_proxy=http://127.0.0.1:9
+export NO_PROXY=localhost,127.0.0.1 no_proxy=localhost,127.0.0.1 NODE_USE_ENV_PROXY=1
+export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--disable-warning=UNDICI-EHPA"
+export NEXT_TELEMETRY_DISABLED=1 npm_config_update_notifier=false npm_config_fund=false npm_config_audit=false
+# --- dbp-web preflight (end) ---
+
+# The tamper check's base, resolved once so the evidence records it. dbp-web: PRs go to develop, so the base is the
+# merge base with origin/develop (or origin/$GATE_TARGET), then origin/HEAD, then a local develop or main.
+GATE_TARGET=${GATE_TARGET:-develop}
+if [ -n "${GATE_BASE:-}" ]; then BASE_FROM=GATE_BASE; BASE_REF=$GATE_BASE
+else BASE_FROM=merge-base; BASE_REF=$(git merge-base HEAD "origin/$GATE_TARGET" 2>/dev/null || git merge-base HEAD origin/HEAD 2>/dev/null || git merge-base HEAD "$GATE_TARGET" 2>/dev/null || git merge-base HEAD main 2>/dev/null || true); fi
+BASE_SHA=""
+[ -n "$BASE_REF" ] && BASE_SHA=$(git rev-parse --verify --quiet --short "$BASE_REF^{commit}" 2>/dev/null || true)
+# the origin branch the base must lie on, when there is one (a local main moved forward would otherwise hide a change)
+ORIGIN_REF=""
+for r in "origin/$GATE_TARGET" origin/HEAD origin/main origin/master; do
+  if git rev-parse --verify --quiet "$r^{commit}" >/dev/null 2>&1; then ORIGIN_REF=$r; break; fi
+done
+
+run_steps "$mode" "${steps[@]}"; status=$?
+if [ -n "$json" ]; then
+  if ! { mkdir -p "$(dirname "$json")" && printf '{"gate":"%s","commit":"%s","base":"%s","base_from":"%s","dirty":%s,"at":"%s","result":"%s","steps":[%s]}\n' \
+      "$mode" "$(git rev-parse --short HEAD)" "$BASE_SHA" "$BASE_FROM" "$([ -n "$(git status --porcelain)" ] || [ "$HIDDEN_EDIT" = 1 ] && echo true || echo false)" \
+      "$(date -u +%FT%TZ)" "$([ $status -eq 0 ] && echo pass || echo fail)" "$LAST_RESULTS" >> "$json"; } 2>/dev/null; then
+    echo "gate: could not write evidence to $json" >&2; status=1
+  fi
+fi
+[ $status -eq 0 ] && echo "gate $mode: PASS" || echo "gate $mode: FAIL"
+exit $status
