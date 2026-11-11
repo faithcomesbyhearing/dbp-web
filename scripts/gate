@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scripts/gate: dbp-web's fast and full gates, from the station v0.3 gate template. dbp-web's changes to the template
+# scripts/gate: dbp-web's fast and full gates, from a shared gate template (v0.3). dbp-web's changes to the template
 # are marked "dbp-web:". One script, run by people, by agents and by the PR workflow (.github/workflows/gate.yml), so
 # "green here" means "green there". It runs in Linux or WSL with Node 22. Changing this file is class 2.
 #

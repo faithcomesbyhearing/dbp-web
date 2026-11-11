@@ -1,5 +1,5 @@
 <!--
-  From the station v0.3 AGENTS.md template. Keep it under about 150 lines: exact commands and prohibitions change agent
+  From a shared AGENTS.md template (v0.3). Keep it under about 150 lines: exact commands and prohibitions change agent
   behaviour; long prose only adds cost. Changing this file is a class 2 change. Every command below was run as written
   on a clean worktree of develop (Node 22.23, npm 10.9, WSL2 Ubuntu 24.04); the times are from those runs.
 -->
