@@ -51,7 +51,7 @@ themselves). If a command fails for a reason outside your change, stop and repor
   early `return`, `if (false)` or `jest.mock` line in an existing test; a symlink; git's assume-unchanged or
   skip-worktree bit on a test, package or watched file, or a hidden edit under one; a change to a package script the
   gate runs or to package.json's `jest` settings; and any change to `scripts/gate`, `scripts/check-test-rejects`, CI
-  files, `AGENTS.md`, `CLAUDE.md`, `.gitattributes`, `.gitignore`, `jest.setup.js`, `internals/testing/`,
+  files, `AGENTS.md`, `.claude/CLAUDE.md`, `.gitattributes`, `.gitignore`, `jest.setup.js`, `internals/testing/`,
   `internals/mocks/`, `eslint.config.mjs` or `.swcrc`. It doesn't say the edit was wrong; it makes a person look
   (class 2). Adding new tests passes.
 
