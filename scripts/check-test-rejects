@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# scripts/check-test-rejects: the wrong-fix check. Does a test reject a plausible wrong fix?
+#
+#   scripts/check-test-rejects <test file> <wrong-fix patch>
+#
+# It makes a throwaway worktree of HEAD, brings in the working tree's tracked changes and the test file (which may be
+# new and not yet committed), and runs that one test file twice: first on the code as it stands, where it must pass,
+# then with the wrong-fix patch applied, where it must fail. Exit 0 when the test rejects the wrong fix; 1 when it
+# doesn't (it passes with the wrong fix, or it fails on the code as it stands); 2 on a usage or setup error. The patch
+# must change code, not tests. Like scripts/gate it never reaches the network, and it never touches your working tree.
+# Changing this file is class 2.
+set -u
+git() { command git --no-replace-objects -c core.fsmonitor=false "$@"; }
+usage() { echo "usage: scripts/check-test-rejects <test file> <wrong-fix patch>" >&2; exit 2; }
+[ $# -eq 2 ] || usage
+abs() { case $1 in /*) printf '%s' "$1";; *) printf '%s/%s' "$PWD" "$1";; esac; }
+TEST_ABS=$(abs "$1"); PATCH_ABS=$(abs "$2")
+[ -f "$TEST_ABS" ] || { echo "check: no test file at $1" >&2; exit 2; }
+[ -f "$PATCH_ABS" ] || { echo "check: no patch at $2" >&2; exit 2; }
+ROOT=$(git rev-parse --show-toplevel) || exit 2
+TEST_REL=$(realpath --relative-to="$ROOT" "$TEST_ABS")
+case $TEST_REL in ../*) echo "check: $1 is outside this repo" >&2; exit 2;; esac
+[[ $TEST_REL =~ (^|/)tests/.*\.test\.js$ ]] || { echo "check: $TEST_REL isn't a Jest test here (tests/**/*.test.js)" >&2; exit 2; }
+
+# the patch must change code, not tests: a wrong fix that edits the test proves nothing
+if ! touched=$(git apply --numstat -z "$PATCH_ABS" 2>&1 | tr '\0' '\n' | awk -F'\t' 'NF >= 3 {print $3}'); then
+  echo "check: can't read the patch" >&2; exit 2
+fi
+[ -n "$touched" ] || { echo "check: the patch changes no files" >&2; exit 2; }
+if grep -E '(^|/)(tests|__tests__|__snapshots__)/|\.(test|spec)\.[cm]?[jt]sx?$' <<<"$touched"; then
+  echo "check: the wrong fix must change code, not tests (the paths above)" >&2; exit 2
+fi
+
+cd "$ROOT" || exit 2
+# Node 22 and the offline settings, as in scripts/gate's preflight
+node_ok() { command -v npm >/dev/null 2>&1 && node -e 'process.exit(Number(process.versions.node.split(".")[0]) === 22 ? 0 : 1)' 2>/dev/null; }
+if ! node_ok; then
+  nvm_sh="${NVM_DIR:-$HOME/.nvm}/nvm.sh"
+  [ -s "$nvm_sh" ] || { echo "check: no Node 22 with npm, and no nvm" >&2; exit 2; }
+  set +u; . "$nvm_sh" >/dev/null 2>&1; nvm use 22 >/dev/null 2>&1; set -u
+  node_ok || { echo "check: nvm has no Node 22 (nvm install 22)" >&2; exit 2; }
+fi
+[ -d node_modules ] || { echo "check: node_modules is missing (npm ci)" >&2; exit 2; }
+export HTTP_PROXY=http://127.0.0.1:9 HTTPS_PROXY=http://127.0.0.1:9 http_proxy=http://127.0.0.1:9 https_proxy=http://127.0.0.1:9
+export NO_PROXY=localhost,127.0.0.1 no_proxy=localhost,127.0.0.1 NODE_USE_ENV_PROXY=1
+export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--disable-warning=UNDICI-EHPA"
+export npm_config_update_notifier=false npm_config_fund=false npm_config_audit=false
+export GOOGLE_APP_ID=gate-placeholder GOOGLE_SECRET=gate-placeholder
+
+TMP=$(mktemp -d "${TMPDIR:-/tmp}/check-test-rejects-XXXXXX") || exit 2
+TREE=$TMP/tree
+cleanup() { git worktree remove --force "$TREE" >/dev/null 2>&1; rm -rf "$TMP"; git worktree prune >/dev/null 2>&1; }
+trap cleanup EXIT
+git worktree add --detach -q "$TREE" HEAD || { echo "check: can't make a temporary worktree" >&2; exit 2; }
+# the code as it stands: HEAD plus the working tree's tracked changes, then the test file itself
+if ! git diff --binary HEAD > "$TMP/wip.patch"; then echo "check: can't read the working tree's changes" >&2; exit 2; fi
+if [ -s "$TMP/wip.patch" ] && ! (cd "$TREE" && git apply --whitespace=nowarn "$TMP/wip.patch"); then
+  echo "check: can't copy the working tree's changes into the temporary worktree" >&2; exit 2
+fi
+mkdir -p "$TREE/$(dirname "$TEST_REL")" && cp "$TEST_ABS" "$TREE/$TEST_REL" || exit 2
+ln -s "$ROOT/node_modules" "$TREE/node_modules" || exit 2
+
+run_test() { (cd "$TREE" && npm test --silent -- --ci --runTestsByPath "$TEST_REL") > "$TMP/$1.log" 2>&1; }
+
+echo "== 1. $TEST_REL on the code as it stands (must pass)"
+if ! run_test before; then
+  tail -n 40 "$TMP/before.log"
+  echo "check: NOT SHOWN: the test fails on the code as it stands, so it can't show it rejects anything"; exit 1
+fi
+echo "   passes"
+echo "== 2. the wrong fix: $(tr '\n' ' ' <<<"$touched")"
+if ! (cd "$TREE" && git apply --whitespace=nowarn "$PATCH_ABS"); then
+  echo "check: the wrong-fix patch doesn't apply to the code as it stands" >&2; exit 2
+fi
+echo "== 3. $TEST_REL with the wrong fix (must fail)"
+if run_test after; then
+  echo "check: NOT REJECTED: the test passes with the wrong fix; it needs an assertion that this fix breaks"; exit 1
+fi
+grep -E '^\s+(✕|●)' "$TMP/after.log" | head -n 10
+echo "check: REJECTED: the test fails with the wrong fix, as it should"
+exit 0
