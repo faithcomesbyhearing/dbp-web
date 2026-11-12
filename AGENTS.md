@@ -110,6 +110,8 @@ PRs stay small: about 200 to 400 changed lines.
 ## Rules and stop rules
 
 - **Never** approve, merge, push to `master`, deploy, or change data anywhere. People merge.
+- **Never run `npm run build:sass`**: it ends in an `aws s3 sync` to a production bucket. The gate never calls it
+  (its build step is `npm run build`, which is `next build` only).
 - **Never** weaken, skip or delete a test, or edit `scripts/gate`, CI files or this file, to make a check pass.
 - **Never** read, print, log or commit a secret, token, key or connection string, or an internal host, path, ticket id
   or person's details.
