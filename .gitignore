@@ -53,4 +53,6 @@ codebuild_build.sh
 artifacts
 
 # Added to ignore CLAUDE files
-CLAUDE.md
+/CLAUDE.md
+CLAUDE.local.md
+.claude/settings.local.json
