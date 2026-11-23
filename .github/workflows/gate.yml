@@ -1,0 +1,33 @@
+# The gate's fast mode (ESLint and the Jest unit tests, offline) on every pull request to develop or master.
+# A check only: it reads the code, uses no secrets and never builds for, deploys to or touches any environment.
+# Changing this file is class 2 (see AGENTS.md).
+name: gate
+
+on:
+  pull_request:
+    branches: [develop, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    name: scripts/gate fast
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Fast gate
+        run: scripts/gate fast
